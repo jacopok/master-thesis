@@ -53,7 +53,7 @@ The system is currently being improved by having it reconstruct only the residua
 The resulting model must be evaluated in terms of both speed and accuracy.
 Regarding the former, proper benchmarking will begin at a later stage, but the results obtained by \textcite[]{schmidtMachineLearningGravitational2020} indicate the possibility of obtaining a speedup of one to two orders of magnitude from the Effective One Body waveforms. 
 
-Preliminary results with this approach indicate the possibility of the model reconstructing EOB waveforms parametrized by the mass ratio \(q\) and the two tidal deformabilities \(\Lambda_1\) and \(\Lambda_2 \) with a maximal unfaithfulness\footnote{The unfaithfulness is defined as follows: 
+Regarding the latter, preliminary results indicate the possibility of the model reconstructing EOB waveforms with three parameters (the mass ratio \(q\) and the two tidal deformabilities \(\Lambda_1\) and \(\Lambda_2 \)) with a maximal unfaithfulness\footnote{The unfaithfulness is defined as follows: 
 %
 \begin{align}
 \mathcal{F} [h_1 , h_2 ] = 1 - \max_{t_0, \phi_0 } \frac{(h_1 | h_2 )}{\sqrt{(h_1 | h_2 ) (h_2 | h_2 )}}
@@ -63,9 +63,14 @@ Preliminary results with this approach indicate the possibility of the model rec
 \end{align}
 %
 where the maximum is evaluated over all possible starting times \(t_0 \) and phases \(\phi_0 \) for the waveforms. The product we define between waveforms is known as the Wiener product, and it also appears when computing the signal-to-noise ratio, as well as in the calculation of the likelihood for parameter estimation. 
-} of the order of \(\mathcal{F} \simeq \num{e-3}\), which is comparable to the unfaithfulness of the EOB waveform compared to the Numerical Relativity ones (\(\mathcal{F} \simeq \num{2.5e-3}\) \cite[]{nagarTimedomainEffectiveonebodyGravitational2018}).
+} of the order of \(\mathcal{F} \simeq \num{e-3}\).
+This is comparable to the unfaithfulness of the EOB waveform compared to the Numerical Relativity ones (\(\mathcal{F} \simeq \num{2.5e-3}\) \cite[]{nagarTimedomainEffectiveonebodyGravitational2018}).
 
-This indicates that it is possible for this system to become a part of a gravitational wave data analysis pipeline without the loss of a great deal of accuracy. 
+This indicates that it is possible for this system to become a part of a gravitational wave data analysis pipeline, enabling a significant speedup at the cost a small, tolerable loss in accuracy.
+
+% Waveforms are needed for both parameter estimation and modelled signal searches
+
+Possible applications go even beyond the current LIGO-Virgo network: when Einstein Telescope comes online, it will be able to reach much lower frequencies, and therefore detect a waveform for a very long time; the evaluation times of current models do not scale well into this regime, needing several seconds for a single waveform for an initial frequency of \(5 \divisionsymbol \SI{10}{Hz}\) \cite[fig.\ 2]{gambaFastFaithfulFrequencydomain2020}. 
 
 \printbibliography
 
