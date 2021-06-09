@@ -1,0 +1,83 @@
+% \pdfminorversion=4
+\documentclass{beamer}
+\input{header.tex}
+\usetheme{Rochester}
+% \usepackage[scaled]{helvet} % ss
+
+\usepackage[
+backend=biber,
+style=authoryear,
+sorting=nyt,
+urldate=iso8601,
+url=false,
+isbn=false,
+doi=false
+]{biblatex}
+
+\title{Machine Learning Gravitational Waveforms for Binary Neutron Star mergers}
+\author{Jacopo Tissino}
+\date{2021-06-10}
+
+\addbibresource{../notes/Masters_thesis.bib}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{GW170817: the first BNS merger detection}
+    \begin{columns}
+        
+    \begin{column}{0.5\textwidth}
+    \includegraphics[width=\textwidth]{figures/836px-GW170817_spectrograms.svg.png}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+    Time-frequency representation of the chirping waveform
+    (\cite[]{abbottGW170817ObservationGravitational2017}).
+
+    BNS waveforms are much longer than BBH ones.
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Frequency domain waveforms: amplitude}
+
+    \centering
+    \includegraphics[width=.9\textwidth]{figures/amplitude_random.pdf}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Frequency domain waveforms: phase}
+
+    \centering
+    \includegraphics[width=.9\textwidth]{figures/phase_random_semilog.pdf}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Reconstruction with PCA}
+    
+    \centering
+    \includegraphics[width=.9\textwidth]{figures/reconstruction_errors_PCA.pdf}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Technologies}
+    
+    \begin{itemize}
+	\item Python wrapper for \texttt{TEOBResumS} for EOB waveform generation;
+	\item \texttt{python} with standard scientific libraries (\texttt{numpy}, \texttt{scipy}, \texttt{matplotlib}) and \texttt{pycbc};
+	\item Neural Network implemented with \texttt{scikit-learn}, hyperparameters optimized with \texttt{optuna};
+	\item automated testing with \texttt{pytest} and \texttt{hypothesis}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Bibliography}
+    
+    \printbibliography
+\end{frame}
+
+
+\end{document}
