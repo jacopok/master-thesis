@@ -20,6 +20,7 @@ doi=false
 
 \addbibresource{../notes/Masters_thesis.bib}
 
+
 \begin{document}
 
 \frame{\titlepage}
@@ -36,9 +37,51 @@ doi=false
     Time-frequency representation of the chirping waveform
     (\cite[]{abbottGW170817ObservationGravitational2017}).
 
-    BNS waveforms are much longer than BBH ones.
+    BNS waveforms are much longer than BBH ones: they only depend on \(t/M \) (or \(fM\)), where \(M = m_1 + m_2 \) is the total mass.
     \end{column}
     \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{GW data analysis}
+    
+    \begin{itemize}
+        \item Signal from detector: \(s(t) = h(t) + n(t)\), with noise PSD \(S_n (f)\);
+        \item Theoretical waveforms \(h_\theta (t)\):
+        \begin{itemize}
+            \item Numerical Relativity;
+            \item Effective One Body;
+            \item Post-Newtonian;
+        \end{itemize}
+        \item Signal searches;
+        \item Parameter estimation and model comparison.
+    \end{itemize}
+
+The parameters \(\theta \) are divided into 
+\begin{itemize}
+    \item intrinsic ones: masses \(m_i\), spins \(\vec{\chi}_i\), tidal deformabilities \(\Lambda_i\);
+    \item extrinsic ones: luminosity distance \(D_L\), source inclination \(\iota \), sky position \((\alpha , \delta )\), polarization angle \(\psi \), reference time \(t_0 \) and phase \(\phi_0 \).
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{The Wiener distance}
+    
+    The likelihood used in parameter estimation reads (\cite[]{maggioreGravitationalWavesVolume2007}): 
+    %
+    \begin{align}
+    \Lambda (s | \theta ) \propto \exp( (h_\theta | s) - \frac{1}{2} (h_\theta | h_\theta ))
+    \,,
+    \end{align}
+    %
+    where \((a | b)\) is the Wiener product: 
+    %
+    \begin{align}
+    (a | b) = 4 \Re \int_{0}^{\infty } \frac{\widetilde{a}^{*}(f) \widetilde{b} (f)}{S_n (f)} \dd{f}
+    \,.
+    \end{align}
+    
+    We need a fast way to compute accurate theoretical waveforms \(h_\theta \) in the frequency domain! Typical EOB evaluation times are \(\sim \SI{100}{ms}\) for \(f_0 = \SI{20}{Hz}\), \(\sim \SI{1}{s}\) for \(f_0 = \SI{10}{Hz}\). 
 \end{frame}
 
 \begin{frame}
@@ -56,10 +99,44 @@ doi=false
 \end{frame}
 
 \begin{frame}
+    \frametitle{\texttt{MLGW\_BNS}}
+    
+    A fast generator of frequency-domain waveforms, currently varying the mass ratio \(q\) and the tidal deformabilities \(\Lambda_1 \), \(\Lambda_2 \).
+    
+    \begin{itemize}
+        \item A training dataset is generated: residuals of Effective One Body waveforms from the corresponding Post-Newtonian ones;
+        \item dimensionality is reduced through Principal Component Analysis;
+        \item a feed-forward Neural Network learns the map from the parameters to the principal components: \(\theta \to \qty{\text{PC}_i}_i\).
+    \end{itemize}
+    
+    Reconstruction accuracy is evaluated through a distance induced by the Wiener product: 
+    %
+    \begin{align}
+    \mathcal{F}[a, b] = 1 - \max_{t_0 , \phi_0 } \frac{(a|b)}{\sqrt{(a|a)(b|b)}}
+    \,.
+    \end{align}
+
+\end{frame}
+
+\begin{frame}
     \frametitle{Reconstruction with PCA}
     
     \centering
     \includegraphics[width=.9\textwidth]{figures/reconstruction_errors_PCA.pdf}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Reconstruction with \texttt{MLGW\_BNS}: mismatches}
+    
+    \centering
+    \includegraphics[width=.95\textwidth]{figures/three_param_residuals.pdf}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Reconstruction with \texttt{MLGW\_BNS}: time domain}
+    
+    \centering
+    \includegraphics[width=.95\textwidth]{figures/td_comparison.pdf}
 \end{frame}
 
 \begin{frame}
