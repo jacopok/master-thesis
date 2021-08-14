@@ -5,11 +5,11 @@
 
 \subsection{Principal Component Analysis} \label{sec:principal-component-analysis}
 
-After downsampling, a waveform used by \mb is described by several hundred points.
+After downsampling, a waveform used by \mb \ is described by several hundred points.
 It is convenient to reduce this number in order for the neural network to be faster.
 We are able to do so by making use of the fact that the components of the high-dimensional vector representing the waveform are correlated. 
 
-The technique of \ac{PCA} is quite general, so let us describe it in general terms, and then apply it to our specific problem.
+The technique of \ac{PCA} is quite general,\footnote{The utility and relative simplicity of this technique might make one think it quite old, while in fact it was developed only in 1901 by Karl Pearson \cite[]{pearsonLIIILinesPlanes1901,manlyMultivariateStatisticalMethods2017}, ànd it started to see wider use once availability of computers became widespread.} so let us describe it in general terms, and then apply it to our specific problem.
 
 \subsubsection{General method}
 
@@ -68,12 +68,97 @@ which is precisely the quantity we wanted to maximize: therefore, the best one-d
 If we make the further observation that the covariance matrix is symmetric and positive definite, and can therefore be orthogonally diagonalized, we are almost done: we can generalize to arbitrary \(k\) moving one vector at a time. 
 To find the second vector to span the subspace we can restrict ourselves to the subspace \(w^{\perp}\) and apply the same procedure as before, this tells us that the optimal two-dimensional subspace is the span of the first two eigenvectors of the covariance matrix, and so on. 
 
+In order to perform a reduction onto a \(k\)-dimensional subspace, then, we need to calculate the unit eigenvectors \(\{ w_i\}_{i=0}^{k-1}\) corresponding to the \(k\) largest eigenvalues;
+we can understand these as the columns of a \(D \times k\) matrix \(V\), which we can then use to construct the projection matrix onto the \(k\)-dimensional subspace.
+
+In terms of the \(D\)-dimensional coordinates, the projection matrix is \(V V^{\top}\): its application to a vector \(y\) can be written as 
+%
+\begin{align}
+P_k (y) = V V^{\top} y = \left[\begin{array}{ccc}
+w_1  & \cdots & w_k
+\end{array}\right] 
+\left[\begin{array}{c}
+w_1  \\ 
+\vdots \\ 
+w_k
+\end{array}\right]
+y 
+= \sum _{i=0}^{k-1}
+(w_i \cdot y) w_i \in \mathbb{R}^{D}
+\,.
+\end{align}
+
+For the purpose of dimensionality reduction, however, we are not interested in this projection, which still yields a \(D\)-dimensional vector: this vector lies in a \(k\)-dimensional subspace, therefore we  express it with only \(k\) coordinates, by computing \(V^{\top} y \in \mathbb{R}^{k}\). 
+
+If the 
+
 If we approach the problem by diagonalizing the covariance matrix \(C\), the computational complexity in the worst case scenario is \(\order{D^3}\), since it involves the diagonalization of a \(D \times D\) matrix.
 
-\subsubsection{\ac{PCA} for waveforms}
+\subsubsection{PCA for waveforms}
 
+After downsampling and computing the residuals from the \ac{PN} waveform, we are left with a waveform described by a vector of a few hundred points for the amplitude and similarly for the phase. 
 
+It would be possible to perform \ac{PCA} separately for these two vectors; however if we combine them into a single one we can exploit any existing correlation between the amplitude and phase residuals. 
+In the worst case scenario --- amplitude and phase residuals being completely uncorrelated --- this procedure will perform exactly like separating the \ac{PCA} into two. 
+So, we want to combine amplitude and phase residuals into a single vector. 
+
+A simple way to do so is to simply ``append'' one vector to the other, and therefore consider the waveform as a vector in \(\mathbb{R}^{D_A + D_\varphi }\). 
+There is an issue with this procedure: \ac{PCA} optimizes Euclidean distance, so the scaling of the amplitude and phase residuals becomes relevant. 
+Fortunately, this carries no physical meaning: because of the way we have defined the residuals [INSERT REF], it is equivalent to a change in the basis for the logarithm. 
+
+Heuristically, we want the typical scale of the phase residuals to roughly match that of the amplitude residuals. 
+This can be simply achieved by multiplying either part of the vector by a constant, which can be tuned in order to optimize the reconstruction error. 
+It was found that, after using natural logarithms for the amplitude residuals, dividing the phase residuals by roughly \(200\) yields the best results.
+
+[INSERT FIGURE FOR PCA RECONSTRUCTION ACCURACY]
 
 \subsection{Neural Networks} \label{sec:neural-network}
+
+After the reduction of dimensionality through \ac{PCA}, we are left with the task of approximating the map between the parameters of the system generating the waveform, \(\theta _i\), and the \(k\) principal components. 
+
+In the work of \textcite[]{schmidtMachineLearningGravitational2020} this was accomplished through a Mixture of Experts model, which amounts to a fit to a polynomial expression of the parameters; here instead we reconstruct the function with a neural network. 
+
+\acsp{NN} are known to be able to approximate arbitrary functions \cite[]{nielsenNeuralNetworksDeep2015}, and in practice they are quite versatile and usually not prone to overfitting. 
+In the next section we will describe the architecture of a multi-layer perceptron regressor, the kind of network used by \mb.
+
+\subsubsection{Multi-layer perceptrons}
+
+This architecture is built in order to solve the problem of reconstructing a map from an input, in \(x_i \in \mathbb{R}^{n}\), to an output in \(y_i \in \mathbb{R}^{k}\).
+
+We introduce a \emph{hidden layer} between the input and the output. 
+This consists of a certain number \(m\) of ``neurons'', which can be more or less activated as a function of the inputs.
+Specifically, the \(j\)-th neuron in the hidden layer will have an activation level given by the expression: 
+%
+\begin{align} \label{eq:nn-one-layer}
+z_j = \sigma \qty( w^{(1)}_{ji} x_i + b^{(1)}_j)
+\,,
+\end{align}
+%
+where \(\sigma \colon \mathbb{R} \to \mathbb{R}\) is called the \emph{activation function}, while the parameters \(w^{(1)}_{ji}\) and \(b^{(1)}_j\) are respectively called the \emph{weights} and the \emph{bias} (for the first hidden layer). 
+
+We shall discuss the reasons one might have for choosing different activation functions later; for now let us say that it is typically differentiable almost everywhere, and it achieves low values for low inputs and high values for high inputs.
+A common choice, for example, is a logistic sigmoid in the form \(\sigma (z) = (1 + e^{-z})^{-1}\). 
+
+The weights and biases of the network are free parameters, real numbers which will need to be tuned by the training process. 
+
+Once the network has computed the activations \(z_j\) for our single hidden layer, it can compute the activations for the output: in this last stage we use no activation function, and the output of the network is simply 
+%
+\begin{align}
+y_\ell = w^{(2)}_{\ell j} z_j + b^{(2)}_{\ell} 
+= w^{(2)}_{\ell j} \sigma \qty( w^{(1)}_{ji} x_i + b^{(1)}_j ) + b^{(2)}_{\ell}
+\,.
+\end{align}
+
+In the end, therefore, the number of free parameters of the network is \(nm + m\) for the first layer and \(mk + k\) for the second, so \(m + k + m (n+k)\) in total.
+
+Adding more layers is not conceptually different, it only amounts to applying the procedure described by equation \ref{eq:nn-one-layer} again to the result of the first layer, and so on; each time we use the activation function, except for the output layer.
+
+The activation function is crucial for our network to be able to capture nonlinearities: if we were to remove it, with any number of layers the network would still be a linear function of the inputs. 
+
+The implementation we use for \mb \ is the one provided by \texttt{scikit-learn} \cite[]{pedregosaScikitlearnMachineLearning2011}. 
+
+\subsubsection{Training}
+
+The network captures 
 
 \end{document}
