@@ -159,6 +159,100 @@ The implementation we use for \mb \ is the one provided by \texttt{scikit-learn}
 
 \subsubsection{Training}
 
-The network captures 
+The network is able to reconstruct our function as long as the weights and biases are appropriately set: how do we train it to ensure this? 
+
+We need to assign a loss function to the output of the network.
+Here, simplicity trumps accuracy --- the ``true'' error we might like to work with is given by the Wiener distance among waveforms reconstructed from their PCA components, but in order to efficiently train the network we need something easier to compute.
+The typical error chosen is quadratic in the Euclidean distance, since its analytical derivative is easy to compute: 
+%
+\begin{align} \label{eq:quadratic-loss}
+\text{error}(y) \propto \sum _{\text{training data}} 
+\norm{y _{\text{predicted}} - y _{\text{true}}}^2
+\,.
+\end{align}
+
+We also add an error term in the form \(\alpha \norm{W}^2\), where \(\alpha \) is a non-negative hyperparameter (typically chosen to be small) and \(\norm{W}^2\) is the L2 norm of the weight tensor: this term is known as a ``regularizer'', it penalizes complex models.
+The parameter \(\alpha \) is optimized in the hyperparameter training procedure, and its prior distribution is taken to be a log-uniform one between \(\num{e-7}\) and \(\num{e-5}\). 
+
+We are then using the Euclidean distance among the \(y\)s (which for us will be PCA component vectors) as a measure of the performance of the network; this works well enough, but we can make an improvement by noticing that the first PCA components are responsible for more of the variance (and thus more of the distance) between data points. 
+Therefore, we can improve the performance by having the network learn the distance among the rescaled 
+%
+\begin{align}
+\text{PC}_i \lambda_i^{\kappa }
+\,,
+\end{align}
+%
+where \(\lambda _i\) are the eigenvalues corresponding to the principal components, while \(\kappa > 0\) is a hyperparameter.
+The prior distribution for \(\kappa \) is a log-uniform one between \(\num{e-3}\) and \(1\). 
+
+\subsubsection{Backpropagation}
+
+Once we have our cost function, we need a rule to change the weights \(w_{ij}^{l}\) and biases \(b_{j}^{l}\) of our network\footnote{We have added an index \(l\) for the layer: so, \(w_{ij}^{l}\) is the weight that the \(j\)-th neuron in the \(l\)-th layer gives to input \(i\).} according to the variation of the cost function. 
+We would like to implement some sort of gradient descent algorithm, updating weights and biases by
+%
+\begin{align} \label{eq:gradient-descent-basic}
+\Delta w_{ij}^{l} = - \eta \pdv{C}{w_{ij}^{l}} 
+\qquad \text{and} \qquad
+\Delta b_{j}^{l} = - \eta \pdv{C}{b_{j}^{l}}
+\,,
+\end{align}
+%
+where \(\eta \) is called the \emph{learning rate}. 
+
+So, we need to compute the gradients \(\pdv*{C}{w_{ij}^{l}}\) and \(\pdv*{C}{b_{j}^{l}}\). 
+The first idea one might have to do so is to approximate them to first order, doing something like 
+%
+\begin{align}
+\pdv{C}{w_{ij}^{l}} \approx \frac{C(w + \epsilon e_{ij}^{l}) - C (w)}{\epsilon }
+\,,
+\end{align}
+%
+where \(w\) is the full weight tensor, while \(\epsilon e_{ij}^{l}\) represents a small increment to that particular weight, \(e\) being a ``unit tensor''.
+
+This strategy turns out to be unfeasible because of its computational complexity: the computation of the cost requires a full pass-through of the network, requiring at least \(M\) floating point operations (additions or multiplications) where \(M\) is the number of free parameters. 
+This would need to be done to compute the update of each of these parameters, so the number of operations needed to perform a single step of the gradient descent for the full network would be at least \(M^2\).
+
+The backpropagation algorithm is a clever idea which allows us to compute the gradient with only a forward pass through the network followed by a backward pass, exploiting the chain rule and the way the weight matrices affect each other iteratively. 
+
+The algorithm can be summarized by the following equations \cite[chapter 2]{nielsenNeuralNetworksDeep2015}: 
+%
+\begin{align}
+\pdv{C}{w_{jk}^{l}} &= a_{k}^{l-1} \delta^{l}_{j}  \\
+\pdv{C}{b_{j}^{l}} &= \delta^{l}_{j}  \\
+\delta^{l}_{j} &= \qty(\sum _{i} w^{l+1}_{ij} \delta^{l+1}_i) \sigma' (z^{l}_j)  \\
+\delta^{L}_j &= \pdv{C}{a_j^{L}}
+\,,
+\end{align}
+%
+where \(a^{l}_{j} = w^{l}_{ji} z_i + b_j^{l}\) is the activation for the \(j\)-th neuron of layer \(l\), while \(z^{l}_j = \sigma (a^{l}_{j})\) is the output of the activation function for \(a_{j}^{l}\).
+
+It is important to note that the backpropagation equations are written without the Einstein summation convention: ``\(x_j = y_j z_j\)'' means that the \(j\)-th component of the vector \(x\) is calculated by multiplying the \(j\)-th components of the vectors \(y\) and \(z\). 
+This means that we are not computing matrix products, but instead the element-wise Hadamard product. 
+
+Working backwards, the last equation tells us how to compute the error corresponding to the output layer, denoted with \(L\). We can compute the derivative of the cost function with respect to the activation analytically if, for example, we are using a simple quadratic cost function as described in equation \ref{eq:quadratic-loss}.\footnote{The expression in \cite[]{nielsenNeuralNetworksDeep2015} differs from this one since he applies the activation function to the last layer, which one should do for a classification algorithm but not for a regression algorithm.}
+
+The second-to-last equation tells us how to compute the error \(\delta^{l}_{j}\) of a layer if we know the error of the following layer. 
+It is an application of the chain rule. 
+We compute the \(\delta^{l}_{j}\) iteratively going backwards through the network, and having done so we can recover the derivative of the cost with respect to the weights and biases by combining the error \(\delta^{l}_{j}\) with the activations of each layer, \(a^{l-1}_{k}\), as described by the first two equations. 
+
+\subsubsection{Stochastic gradient descent}
+
+The method for gradient descent described by equation \ref{eq:gradient-descent-basic} is still slow if we try to compute the gradient of the cost function by using all the training data we have. 
+It turns out to be more efficient to compute the gradient by only looking at a single example or a small batch of them, chosen randomly: this idea is known as \emph{stochastic gradient descent}. 
+
+This typically allows for much faster convergence of the training process.
+
+The algorithm used for the training of the network in \mb \ is Adam \cite{kingmaAdamMethodStochastic2017,ruderOverviewGradientDescent2016}, short for ``Adaptive Moment Estimation'', as implemented in \texttt{scikit-learn} \cite[]{pedregosaScikitlearnMachineLearning2011}. 
+
+The general idea of this algorithm is, first, to not move directly in the direction of the gradient, but instead to keep a running, exponentially weighted average of it, and move in \emph{that} direction. 
+An example where we can imagine this could be useful is if the cost function landscape exhibits a ``canyon'', with a low slope in a long and narrow central region and steep walls. 
+A direct move in the direction of the gradient might mean we ``bounce'' between the walls a lot without being able to settle in the middle, while averaging allows the direction of our movement to be smoothed and perhaps fall in the middle region. 
+
+The second aspect is to make the step-size adaptive, as opposed to it being strictly proportional to the gradient.
+A ``signal-to-noise ratio'' is estimated through the square of the gradient, and it is used to scale the step based on how confident we might be in it being meaningful or not. 
+
+\subsection{Hyperparameter optimization}
+
+\cite[]{akibaOptunaNextgenerationHyperparameter2019}. 
 
 \end{document}
