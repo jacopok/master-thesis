@@ -253,6 +253,60 @@ A ``signal-to-noise ratio'' is estimated through the square of the gradient, and
 
 \subsection{Hyperparameter optimization}
 
-\cite[]{akibaOptunaNextgenerationHyperparameter2019}. 
+Our network will depend on several hyperparameters, such as the number and size of the layers or the learning rate; we want to get as close as possible to the optimal choice of these for the reconstruction of the function mapping the binary system parameters to the principal components to be fast as well as accurate.
+
+This optimization is accomplished through a \ac{MOTPE}, as described in \textcite[]{ozakiMultiobjectiveTreestructuredParzen2020} and as implemented through the Optuna API \cite[]{akibaOptunaNextgenerationHyperparameter2019}.
+
+Here we will summarize the mechanism through which a single objective \ac{TPE} works, as originally described in \textcite[section 4]{bergstraAlgorithmsHyperParameterOptimization2011}, since
+the generalization to the multi-objective case \cite[]{ozakiMultiobjectiveTreestructuredParzen2020} is rather mathematically involved. 
+
+We can abstract away the neural network as a function \(f\) which, after being given a set of hyperparameters \(\vec{x}\), outputs a cost \(y\), which we want to minimize.
+The evaluation of \(f\) is quite costly: it involves the training of the network and a full evaluation of its performance (in our case, the reconstruction of the waveforms and a computation of the Wiener distance to their true counterparts).  
+
+So, we want to find a value of \(\vec{x}\) which minimizes \(y\) with as few evaluations of \(f\) as possible. 
+The parameters \(\vec{x}\) will be given certain prior distributions initially, from which their values will be drawn randomly. 
+Let us then suppose we already have a set of observations \(\qty{(\vec{x}_i, y_i)}_i\), and we want to find the best possible new value of \(\vec{x}\). 
+
+We choose a certain quantile level \(\gamma\), say \(15 \%\), and select a fraction \(\gamma \) of the best observations we have. This allows us to find a \(y^{*}\) such that \(\mathbb{P}(y < y^{*}) = \gamma \).  
+
+Then, we approximate the probability density \(p(\vec{x} | y)\) as follows: 
+%
+\begin{align}
+p(\vec{x} | y) = 
+\begin{cases}
+    \ell (\vec{x}) & y < y^{*} \\
+    g (\vec{x}) & y \geq y^{*} 
+\,.
+\end{cases}
+\end{align}
+%
+
+We are condensing the \(y\)-dependence onto a binary choice between ``good'' observations, 
+modelled by \(\ell (\vec{x})\), and ``bad'' observations, modelled by \(g(\vec{x})\). 
+These two functions can then be estimated by making use of the observations we have in the \(y < y^{*}\) and \(y \geq y^{*}\) cases. 
+
+This, crucially, allows us to calculate the \textbf{expected improvement} associated with a certain parameter set \(\vec{x}\): 
+%
+\begin{align}
+\text{EI}_{y^{*}} (\vec{x}) &= \int_{- \infty }^{\infty } \max \qty(y^{*} - y, 0 ) p(y | \vec{x}) \dd{y}
+\marginnote{There is no improvement if \(y > y^{*}\).}  \\
+&= \int_{- \infty }^{y^{*}} (y^{*}- y) p(y | \vec{x}) \dd{y}  \\
+&= \int_{- \infty }^{y^{*}} (y^{*}- y) \underbrace{p(\vec{x} | y)}_{= \ell(\vec{x})} p(y) \frac{1}{p(\vec{x})} \dd{y}  
+\marginnote{Used \(p(x, y) = p(x | y) p (y) = p(y| x) p(x)\).}\\
+&=  \frac{\ell(\vec{x})}{\gamma \ell (\vec{x}) + (1 - \gamma ) g(\vec{x})} \underbrace{\int_{- \infty}^{y^{*}} (y^{*} - y) p(y)  \dd{y}}_{\text{independent of \(\vec{x}\)}}  \marginnote{Expanded \(p(\vec{x})\) as \(\int p(x|y) p(y)\dd{y}\) and split the \(\ell\) and \(g\) cases.}\\
+&\propto \frac{1}{\gamma + (1 - \gamma ) \frac{g(\vec{x})}{\ell(\vec{x})}}
+\,,
+\end{align}
+%
+where the term we neglected can be interpreted as the average improvement over all choices of \(\vec{x}\), which we hope is large but which we cannot affect with a good choice of \(\vec{x}\). 
+
+What this tells us is the rather intuitive fact that we want to select points which are favored by the ``good'' distribution \(\ell\) and not by the ``bad'' distribution \(g\), so that \(g / \ell\) is small, which means that the expected improvement will be large. 
+The formula also says that we should prefer smaller values of \(\gamma \), but it does not take into account the fact that we need a reasonably large selection of points in order to properly model \(\ell(\vec{x})\) without a large error. 
+The balance among these two contrasting desires will dictate our choice of \(\gamma \). 
+
+Once we are able to compute the expected improvement, the task is simple: we just need to generate a selection of points \(\vec{x}_i\) from the distribution \(\ell (\vec{x})\), evaluate their expected improvement (or just \(g/\ell\), really) and pick the one with the largest expected improvement as the one for which to evaluate the \ac{NN}. 
+
+The one aspect still missing in the algorithm is how to estimate a probability distribution from a small set of samples, and how to calculate a new sample from it. 
+There are different ways to do so; the one implemented in the \ac{TPE} algorithm fits Gaussian Mixture Model to estimate \(\ell(\vec{x})\) and \(g(\vec{x})\) \cite[section 5]{bergstraMakingScienceModel2013}. 
 
 \end{document}

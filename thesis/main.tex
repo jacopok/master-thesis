@@ -6,7 +6,8 @@
 backend=biber,
 style=alphabetic,
 sorting=nyt,
-urldate=iso8601
+urldate=iso8601,
+block=ragged
 ]{biblatex}
 
 \addbibresource{../notes/Masters_thesis.bib}
@@ -28,7 +29,10 @@ urldate=iso8601
 
 \subfile{mlgw_bns}
 
-\printbibliography
+\Urlmuskip=0mu plus 1mu\relax
+
+\appendix
+\section{Acronyms}
 
 \begin{acronym}
 \acro{EOB}{effective one-body}
@@ -37,6 +41,10 @@ urldate=iso8601
 \acro{PCA}{principal component analysis}
 \acro{BNS}{binary neutron star}
 \acro{NN}{neural network}
+\acro{MOTPE}{multi-objective tree-structured Parzen estimator}
+\acro{TPE}{tree-structured Parzen estimator}
 \end{acronym}
+
+\printbibliography
 
 \end{document}
