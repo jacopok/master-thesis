@@ -3,6 +3,119 @@
 
 \section{Gravitational Wave theory}
 
+\subsection{Linearized gravity}
+
+The simplest way to discuss gravitational radiation is to consider linearized gravity on a flat Minkowskian background (with no sources, for now). 
+
+We give a brief overview, roughly following the path taken by \textcite{carrollSpacetimeGeometryIntroduction2019}.
+[NOT TRUE FIND BETTER SOURCE]
+ 
+This means that we assume that our spacetime admits a reference frame for which the metric is in the form 
+%
+\begin{align}
+g_{\mu \nu } = \eta_{\mu \nu } + h_{\mu \nu }
+\,,
+\end{align}
+%
+where the value of the components \(h_{\mu \nu }\) is small enough that we can work to first order in them. 
+Any equation in this section includes an implicit ``\(+ \order{h^2}\)''.
+We work in this \emph{global inertial frame}. 
+
+In order to study the evolution of the perturbation \(h_{\mu \nu }\) we need to solve the Einstein Field Equations for it to linear order. 
+In a vacuum, they can be written as 
+%
+\begin{align}
+G_{\mu \nu } &= R_{\mu \nu} - \frac{1}{2} \eta_{\mu \nu } R  = 0 \\
+R_{\mu \nu } &= g^{\alpha \beta } R_{\alpha \mu \beta  \nu }   \\
+R &= g^{\mu \nu } R_{\mu \nu }
+\,,
+\end{align}
+%
+where \(R_{\alpha \mu \beta \nu } \sim \partial \Gamma + \Gamma \Gamma \) is the Riemann tensor, which is written in terms of derivatives and squares of Christoffel symbols \(\Gamma \): 
+%
+\begin{align}
+\Gamma^{\rho }_{\mu \nu } 
+&= \frac{1}{2} g^{\rho \lambda } 
+\qty( \partial_{\mu } g_{\nu \lambda } + \partial_{\nu } g_{\lambda \mu } - \partial_{\lambda } g_{\mu \nu }) \\
+&= \frac{1}{2} \eta ^{\rho \lambda } 
+\qty( \partial_{\mu } h_{\nu \lambda } + \partial_{\nu } h_{\lambda \mu } - \partial_{\lambda } h_{\mu \nu }) 
+\marginnote{We use the fact that \(\partial \eta = 0\), and keep only linear order terms.}
+\,.
+\end{align}
+
+Since the Christoffel symbols are of first order in the perturbation, the term \(\Gamma \Gamma \) in the Riemann tensor is of second order and can be neglected. 
+Therefore, the relevant components are 
+%
+\begin{align}
+R_{\mu \nu \rho \sigma } = 2\eta_{\mu \lambda } \Gamma^{\lambda }_{\nu [\sigma , \rho ]}  = h_{\mu [\sigma , \rho] \nu } 
+- h_{\nu [\sigma , \rho ] \mu  }
+\,,
+\end{align}
+%
+which gives us the following expression for the Ricci tensor: 
+%
+\begin{align}
+R_{\mu \nu } = \frac{1}{2}
+\qty( 
+    h^{\sigma }{}_{\mu, \sigma \nu  } +
+    h^{\sigma }{}_{\nu , \sigma \mu } - 
+    h_{, \mu \nu  } -  
+    \square h_{\mu \nu } 
+)
+\,,
+\end{align}
+%
+where \(h = \eta^{\mu \nu } h_{\mu \nu }\) is the trace of the perturbation (computed with respect to the flat metric), while \(\square = \eta^{\mu \nu } \partial_{\mu } \partial_{\nu }\) is the flat space d'Alambertian. 
+
+This, in turn, allows us to write out the Einstein tensor: 
+%
+\begin{align}
+G_{\mu \nu } = \frac{1}{2} \qty(
+    h^{\sigma }{}_{\mu, \sigma \nu  } +
+    h^{\sigma }{}_{\nu , \sigma \mu } - 
+    h_{, \mu \nu  } -  
+    \square h_{\mu \nu } -
+    \eta_{\mu \nu } h^{\rho \lambda }{}_{, \rho \lambda } + \eta_{\mu \nu } \square h
+)
+\,.
+\end{align}
+
+This can be greatly simplified with two steps:
+first, we change variable from the perturbation \(h_{\mu \nu }\) to the \emph{trace-reversed} perturbation \(\overline{h}_{\mu \nu } = h_{\mu \nu } - \eta_{\mu \nu } h / 2\) --- the name comes from the fact that \(\eta^{\mu \nu } \overline{h}_{\mu \nu } = - h\).
+
+This substitution allows us to write the Einstein tensor as 
+%
+\begin{align}
+G_{\mu \nu } = - \frac{1}{2} \square \overline{h}_{\mu \nu } +  \overline{h}_{\alpha (\mu , \nu )}{}^{\alpha } 
+- \frac{1}{2} \eta_{\mu \nu } \overline{h}_{\alpha \beta }{}^{, \alpha \beta }
+\,.
+\end{align}
+
+We will shortly show that it is possible, as a \emph{gauge choice}, to set the divergence of the trace-reversed perturbation to zero: \(\partial^{\mu } \overline{h}_{\mu \nu }= 0\). The gauge imposed by this choice is called the \emph{Hilbert Gauge}, which in terms of the regular perturbation reads 
+%
+\begin{align}
+\partial_{\mu } h^{\mu \nu } - \frac{1}{2} \partial^{\nu } h = 0
+\,.
+\end{align}
+
+With this choice the Einstein tensor becomes simply 
+%
+\begin{align}
+G_{\mu \nu } = - \frac{1}{2} \square \overline{h}_{\mu \nu }
+\,,
+\end{align}
+%
+so the general form of the Einstein equations to linear order will be 
+%
+\begin{align}
+\square \overline{h}_{\mu \nu }= - 16 \pi G T_{\mu \nu }
+\,.
+\end{align}
+
+\subsubsection{Gauge fixing}
+
+The theory of General Relativity is constructed to be invariant under smooth changes of coordinates: under a map in the form \(x \to x' = x' (x)\) (where \(x'(x)\) is a diffeomorphism\footnote{In the physics parlance this property is known as ``diffeomorphism invariance'', while a mathematician would call the kinds of transformations considered ``isometries''.}).
+
 
 
 \end{document}

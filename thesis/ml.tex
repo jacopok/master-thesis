@@ -258,7 +258,7 @@ Our network will depend on several hyperparameters, such as the number and size 
 This optimization is accomplished through a \ac{MOTPE}, as described in \textcite[]{ozakiMultiobjectiveTreestructuredParzen2020} and as implemented through the Optuna API \cite[]{akibaOptunaNextgenerationHyperparameter2019}.
 
 Here we will summarize the mechanism through which a single objective \ac{TPE} works, as originally described in \textcite[section 4]{bergstraAlgorithmsHyperParameterOptimization2011}, since
-the generalization to the multi-objective case \cite[]{ozakiMultiobjectiveTreestructuredParzen2020} is rather mathematically involved. 
+the generalization to the multi-objective case \cite[]{ozakiMultiobjectiveTreestructuredParzen2020} is rather mathematically involved but not conceptually dissimilar from the single-objective case. 
 
 We can abstract away the neural network as a function \(f\) which, after being given a set of hyperparameters \(\vec{x}\), outputs a cost \(y\), which we want to minimize.
 The evaluation of \(f\) is quite costly: it involves the training of the network and a full evaluation of its performance (in our case, the reconstruction of the waveforms and a computation of the Wiener distance to their true counterparts).  
@@ -267,7 +267,7 @@ So, we want to find a value of \(\vec{x}\) which minimizes \(y\) with as few eva
 The parameters \(\vec{x}\) will be given certain prior distributions initially, from which their values will be drawn randomly. 
 Let us then suppose we already have a set of observations \(\qty{(\vec{x}_i, y_i)}_i\), and we want to find the best possible new value of \(\vec{x}\). 
 
-We choose a certain quantile level \(\gamma\), say \(15 \%\), and select a fraction \(\gamma \) of the best observations we have. This allows us to find a \(y^{*}\) such that \(\mathbb{P}(y < y^{*}) = \gamma \).  
+We choose a certain quantile \(\gamma\), say \(15 \%\), and select a fraction \(\gamma \) of the best observations we have. This allows us to find a \(y^{*}\) such that \(\mathbb{P}(y < y^{*}) = \gamma \).  
 
 Then, we approximate the probability density \(p(\vec{x} | y)\) as follows: 
 %
