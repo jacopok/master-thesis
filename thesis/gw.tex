@@ -1,14 +1,13 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
-\section{Gravitational Wave theory}
+\section{Gravitational wave theory}
 
 \subsection{Linearized gravity}
 
 The simplest way to discuss gravitational radiation is to consider linearized gravity on a flat Minkowskian background (with no sources, for now). 
 
-We give a brief overview, roughly following the path taken by \textcite{carrollSpacetimeGeometryIntroduction2019}.
-[NOT TRUE FIND BETTER SOURCE]
+We give a brief overview, roughly following the path taken by \textcite[chapter 1]{maggioreGravitationalWavesVolume2007}.
  
 This means that we assume that our spacetime admits a reference frame for which the metric is in the form 
 %
@@ -91,10 +90,10 @@ G_{\mu \nu } = - \frac{1}{2} \square \overline{h}_{\mu \nu } +  \overline{h}_{\a
 \,.
 \end{align}
 
-We will shortly show that it is possible, as a \emph{gauge choice}, to set the divergence of the trace-reversed perturbation to zero: \(\partial^{\mu } \overline{h}_{\mu \nu }= 0\). The gauge imposed by this choice is called the \emph{Hilbert Gauge}, which in terms of the regular perturbation reads 
+We will shortly show that it is possible, as a \emph{gauge choice}, to set the divergence of the trace-reversed perturbation to zero: \(\partial^{\mu } \overline{h}_{\mu \nu }= 0\) (see section \ref{sec:gauge-fixing}). The gauge imposed by this choice is called the \emph{Hilbert Gauge},\footnote{Despite the name, this choice was first suggested by De Sitter to Einstein \cite{kennefickTravelingSpeedThought2007}, who had been previously trying to impose the gauge \(\abs{g}= 1\) \cite[page 688]{1916SPAW.......688E}.} which in terms of the regular perturbation reads 
 %
-\begin{align}
-\partial_{\mu } h^{\mu \nu } - \frac{1}{2} \partial^{\nu } h = 0
+\begin{align} \label{eq:hilbert-gauge}
+\partial^{\mu } h_{\mu \nu } - \frac{1}{2} \partial_{\nu } h = 0
 \,.
 \end{align}
 
@@ -107,14 +106,173 @@ G_{\mu \nu } = - \frac{1}{2} \square \overline{h}_{\mu \nu }
 %
 so the general form of the Einstein equations to linear order will be 
 %
-\begin{align}
-\square \overline{h}_{\mu \nu }= - 16 \pi G T_{\mu \nu }
+%
+\boxalign{
+\begin{align} \label{eq:wave-equation-einstein}
+\square \overline{h}_{\mu \nu }= - 16 \pi G \eval{T_{\mu \nu }}_{\text{linear}}
+\,,
+\end{align}}
+%
+where the stress-energy tensor is computed up to first order in the metric perturbation.
+
+\subsubsection{Transformations of the perturbation}
+
+The theory of General Relativity is constructed to be invariant under smooth changes of coordinates: under a map in the form \(x \to x' = x' (x)\) (where \(x'(x)\) is a diffeomorphism\footnote{In the physics parlance this property is known as ``diffeomorphism invariance'', while a mathematician would call the kinds of transformations considered ``isometries'', since we ask that they preserve the metric structure of the manifold.}).
+
+Under such a coordinate transformation the metric transforms like any \((0, 2)\) tensor:
+%
+\begin{align} \label{eq:metric-transformation-general}
+g_{\alpha \beta }' ( x' ) = \pdv{x^{ \mu }}{x^{\prime \alpha }} 
+\pdv{x^{ \nu }}{x^{\prime \beta }} 
+g_{\mu \nu } ( x)
 \,.
 \end{align}
 
-\subsubsection{Gauge fixing}
+A general transformation of this kind may break the condition that \(g = \eta + h\) where \(h\) is small, so in order to preserve our framework we restrict ourselves to a small class of transformations. 
 
-The theory of General Relativity is constructed to be invariant under smooth changes of coordinates: under a map in the form \(x \to x' = x' (x)\) (where \(x'(x)\) is a diffeomorphism\footnote{In the physics parlance this property is known as ``diffeomorphism invariance'', while a mathematician would call the kinds of transformations considered ``isometries''.}).
+One possibility is to consider infinitesimal transformations in the form 
+%
+\begin{align}
+x^{\mu } \to x^{\prime \mu } = x^{\mu } + \xi^{\mu } (x)
+\,,
+\end{align}
+%
+where \(\xi^{\mu }\) is a vector field such that \(\abs{\partial_{\mu } \xi_{\nu }}\) is small --- specifically, the condition to impose is that the first order in \(\partial_{\mu } \xi_{\nu }\) should match the first order in \(h_{\mu \nu }\). 
+
+This condition is all we need in order to write the transformation law for the perturbation: the full equation reads
+%
+\begin{align}
+\eta_{\mu \nu } ' + h_{\mu \nu }' \approx 
+\qty(\delta^{\alpha }_{\mu } - \partial^{\alpha } \xi_\mu ) 
+\qty(\delta^{\beta  }_{\nu  } - \partial^{\beta  } \xi_\nu  ) 
+\qty(\eta_{\alpha \beta } + h_{\mu \nu })
+\marginnote{Used \(1 / (1+x) = 1-x + \order{x^2}\).}
+\,,
+\end{align}
+%
+so the zeroth order contribution is \(\eta'_{\mu \nu } = \eta_{\mu \nu }\), while the first order one is 
+%
+
+%
+\boxalign{
+\begin{align} \label{eq:perturbation-transformation-infinitesimal}
+h^{\prime }_{\mu \nu } = h_{\mu \nu } - 2 \partial_{(\mu } \xi_{\nu )}
+\,,
+\end{align}}
+%
+which is our transformation law for the metric perturbation. 
+
+We will also need a transformation law for the trace-reversed perturbation \(\overline{h}_{\mu \nu }\): the trace transforms as \(h' \to h - 2 \partial_{\mu } \xi^{\mu }\), therefore the required law is 
+%
+\begin{align} \label{eq:perturbation-transformation-infinitesimal-tracereversed}
+\overline{h}'_{\mu \nu } = \overline{h}_{\mu \nu } - 2 \partial_{(\mu } \xi_{\nu )} + \eta_{\mu \nu } \partial_{\alpha } \xi^{\alpha }
+\,,
+\end{align}
+%
+
+
+A second class of transformations is a subset of Lorentz boosts and rotations: substituting \(\pdv*{x^{\mu }}{x^{\prime \nu }} = \Lambda_\nu{}^{\mu }\) into the transformation law \eqref{eq:metric-transformation-general} we find that the flat metric is unchanged, while 
+%
+\begin{align}
+h^{\prime }_{\mu \nu } ( x') = \Lambda_{\mu }{}^{\alpha }
+\Lambda_{\nu }{}^{\beta } h_{\alpha \beta }
+\,,
+\end{align}
+%
+which may remain in the class of small metric perturbations: this is not guaranteed, but it is true for a certain subset of boosts and for all rotations \cite[]{maggioreGravitationalWavesVolume2007}. 
+
+Finally, the perturbation is invariant under shifts in the form \(x^{\prime \mu }= x^{\mu } + a^{\mu }\). 
+
+\subsubsection{Gauge fixing} \label{sec:gauge-fixing}
+
+Now that we know how the perturbation \(h_{\mu \nu }\) transforms under an infinitesimal transformation, we can use this to impose the condition we want --- specifically, the Hilbert gauge \eqref{eq:hilbert-gauge}.
+
+The way to show that this is possible is to write out the way \(\partial^{\mu } \overline{h}_{\mu \nu }\) transforms for an arbitrary choice of \(\xi \), and to see that with an appropriate choice of \(\xi \) we can always map it to zero. 
+The transformation reads 
+%
+\begin{align}
+\partial^{\mu } \overline{h}_{\mu \nu }' &= 
+\partial^{\mu } \qty(h_{\mu \nu } - 2 \partial_{(\mu } \xi_{\nu )}) - \frac{1}{2} \partial_{\nu } \qty(\eta^{\alpha \beta } \qty(h_{\alpha \beta } - 2 \partial_{(\alpha } \xi_{\beta )}))  \\
+&= \partial^{\mu } \overline{h}_{\mu \nu } - \square \xi_{\nu } - \partial_{\nu } \qty(\partial^{\mu } \xi_{\mu }) + \partial_{\nu } \qty(\partial^{\mu } \xi_{\mu })  \\
+&= \partial^{\mu } \overline{h}_{\mu \nu } - \square \xi_{\nu }
+\,. 
+\end{align}
+
+Therefore, from any starting gauge we must only find a \(\xi_{\nu }\) such that \(\partial^{\mu } \overline{h}_{\mu \nu } = \square \xi_{\nu }\), and we will be in the correct gauge. 
+This can always be done, since the D'Alambert equation \(\square f = g\) can always be solved for \(f\) --- if we needed to compute \(\xi_{\nu }\) explicitly (which we typically do not) we could use the Green's function \(G(z)\) for the operator, defined by \(\square G(z) = \delta^{(4)} (z)\). 
+
+While the equation is solvable, the solution is not unique: if we were to define an ``inverse'' of the D'Alambertian it would not be a function but a one-to-many relation. 
+Specifically, while keeping fixed the value of \(\square \xi_{\nu }\) we can add any function \(\zeta_\nu \) to \(\xi _\nu  \) as long as \(\square \zeta _\nu = 0 \). 
+A trivial example is \(\zeta _\nu = \const\), but other wave-like choices are of more interest. 
+
+These still induce a transformation on \(h_{\mu \nu }\) according to the usual law \eqref{eq:perturbation-transformation-infinitesimal}, and they can be used to further specify the form of the gravitational radiation. 
+
+In terms of \textbf{degrees of freedom}, the full perturbation \(h_{\mu \nu }\) starts with 10 as any symmetric 4D, rank-2 tensor; the four Hilbert gauge conditions \eqref{eq:hilbert-gauge} reduce them to 6, while the four residual gauge conditions will allow us to reduce them to 2. 
+
+Doing so in full generality is not useful for us, let us instead fix the residual gauge in the specific context of a plane wave solution to the wave equation \(\square \overline{h}_{\mu \nu } = 0\).
+
+\subsubsection{Plane gravitational waves}
+
+From an analogy to electromagnetic theory it seems reasonable to work with an ansatz in the form 
+%
+\begin{align}
+\overline{h}_{\mu \nu } = A_{\mu \nu } e^{i k_\alpha x^{\alpha }}
+\,,
+\end{align}
+%
+where \(A_{\mu \nu }\) is a constant symmetric tensor.
+
+Imposing the wave equation sets \(k_{\alpha } k^{\alpha } = 0\), and the Hilbert gauge \eqref{eq:hilbert-gauge} condition can be written as \(A_{\mu \nu } k^{\mu } = 0\), where \(A = \eta^{\mu \nu } A_{\mu \nu }\). 
+
+In this framework we can impose the residual gauge condition explicitly: a function which satisfies \(\square \zeta_{\mu } = 0\) is \(\zeta_{\mu } = B_{\mu } \exp(i d_\alpha x^{\alpha })\), where \(d_\alpha \) is a null vector (\(d_\alpha d^{\alpha } = 0\)) while \(B_\mu \) is a generic constant vector.
+
+In these terms, the transformation equation \eqref{eq:perturbation-transformation-infinitesimal-tracereversed} reads 
+%
+\begin{align}
+\overline{h}_{\mu \nu } &\to \overline{h}_{\mu \nu } + \qty(- 2 i B_{(\mu } d_{\nu )}  + i \eta_{\mu \nu } B_{\beta } d^{\beta } ) e^{i d_\alpha x^{\alpha }} \\
+A_{\mu \nu } e^{i k_\alpha x^{\alpha }} &\to A_{\mu \nu } e^{i k_\alpha x^{\alpha }} + \qty(-2 i B_{(\mu } d_{\nu )} + i \eta_{\mu \nu } B_{\beta } d^{\beta }) e^{i d_\alpha x^{\alpha }} 
+\,.
+\end{align}
+
+This tells us that if we set the vector \(d_{\alpha }\) to be equal to \(k_\alpha \) the amplitude \(A_{\mu \nu }\) will transform according to the algebraic system
+%
+\begin{align}
+A_{\mu \nu } \to A_{\mu \nu } - 2 i B_{(\mu } k_{\nu )}
+\,,
+\end{align}
+%
+which allows us to impose four conditions on \(A_{\mu \nu }\), one for each of the free components of \(B_{\mu }\). 
+It is customary to choose \(A = 0 = A_{0 i }\): these are known together as the \textbf{Transverse-Traceless} gauge. 
+
+The condition \(A = 0\) also means that \(h = 0 = \overline{h}\): thus, form this point onward we can stop distinguishing between \(h_{\mu \nu }\) and  \(\overline{h}_{\mu \nu }\), and for simplicity's sake we write the former. 
+
+If we orient our axes such that \(\vec{k} = k^{i}\) is along the \(\hat{z}\) direction (which means \(k^{\mu } = (k, 0, 0, k)^{\top}\)) the conditions can be written as 
+\begin{enumerate}
+    \item Hilbert gauge + traceless: \(A_{\mu 0}+ A_{\mu 3} = 0\);
+    \item traceless: \(A = - A_{00} + A_{11} + A_{22} + A_{33} = 0 \);
+    \item transverse: \(A_{0i} = 0\). 
+\end{enumerate}
+
+The Hilbert gauge combined with the transverse conditions show that \(A_{00} = 0\) as well, followed by \(A_{13} = 0\), \(A_{23} = 0\) and \(A_{33} = 0\). 
+
+Finally, the traceless condition imposes \(A_{11} = - A_{22} \).
+These conditions tell us that the plane gravitational wave must have the form 
+%
+
+%
+\boxalign{
+\begin{align}
+h_{\mu \nu }(x) = \left[\begin{array}{cccc}
+0 & 0 & 0 & 0 \\ 
+0 & h_+ & h_\times  & 0 \\ 
+0 & h_\times  & - h_+ & 0 \\ 
+0 & 0 & 0 & 0
+\end{array}\right]
+\exp(i k_{\alpha } x^{ \alpha })
+\,,
+\end{align}}
+%
+where \(h_+ = A_{11} \) and \(h_\times = A_{12} \). 
 
 
 
