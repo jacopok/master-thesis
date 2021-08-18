@@ -19,11 +19,12 @@ ys = np.sin(thetas)
 ts = np.linspace(0, 1, num=20)
 
 size = 3e-1
+sizer = size / np.sqrt(2)
 polarizations = {
     '$h_+$': [(0, 0), size, 0],
     '$h_\\times$': [(0, 1), 0, size],
-    '$h_R$': [(1, 0), size, size * 1j],
-    '$h_L$': [(1, 1), size, -size * 1j],
+    '$h_R$': [(1, 0), sizer, sizer * 1j],
+    '$h_L$': [(1, 1), sizer, -sizer * 1j],
 }
 
 fig, axs = plt.subplots(2, 2, sharex=True, sharey=True, gridspec_kw={'wspace':-.5, 'hspace':0.25})
@@ -47,6 +48,6 @@ for k, v in polarizations.items():
 
 plt.tight_layout()
 fig.set_dpi(150)
-fig.savefig('polarizations.pdf')
+fig.savefig('polarizations.pdf', bbox_inches = 'tight')
 
 # %%

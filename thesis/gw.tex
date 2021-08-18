@@ -311,10 +311,65 @@ Therefore, the temporal component of the acceleration is \(a^{0} \propto \ddot{h
 a^{i} = \frac{1}{2} \ddot{h}^{i}_{j} \xi^{j}
 \,.
 \end{align}
-%
 
+These equations can be explicitly solved, and \(a^{i}\) can be interpreted as \(\ddot{s}^{i}\) for some notion of ``position'' of the points; note however that this is \emph{not} coordinate position, but instead it denotes the changing distance between the points, which are stationary in the TT-gauge coordinates. 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/polarizations}
+\caption{Polarizations of gravitational waves. Time evolution is represented though transparency: darker ellipses correspond to later points in time. The magnitude of the GW effect is \(30\%\) of the radius of the ellipse. The four cases are: \(h_+\) only is nonzero, \(h_\times \) only is nonzero; \(h_\times = i h_+\) for the right polarization \(h_R\), \(h_\times = - i h_+\) for the left polarization \(h_L\); in the latter two cases the magnitude of both is also divided by \(\sqrt{2}\) for normalization. We stress that in the TT gauge the ellipses do not represent changes in coordinate position but only in distance among points. The code generating this figure is available \href{https://github.com/jacopok/master-thesis/blob/main/thesis/figures/polarizations.py}{here}.}
+\label{fig:polarizations}
+\end{figure}
+
+The positions of points at a fixed position (\(x\), \(y\), \(z\)) change (up to a phase) according to the expression 
+%
+\begin{align}
+x (t) &= x(t=0) \qty(1 + h_+ e^{i \omega t}) + y(t=0) h_\times  e^{i \omega t} \\
+y (t) &= y(t=0) \qty(1 - h_+ e^{i \omega t}) + x(t=0) h_\times  e^{i \omega t} 
+\,,
+\end{align}
+%
+which is shown graphically in figure \ref{fig:polarizations} for four configurations: only \(h_+\) or \(h_\times \) being nonzero, or only \(h_R \propto h_+ + i h_\times \) or \(h_L \propto h_+ - i h_\times \) being nonzero. 
+The last two are called \emph{circular polarizations}.  
 
 \subsection{The quadrupole formula}
+
+The lowest order contribution to the generation of gravitational waves can be calculated starting from the linearized Einstein equation \eqref{eq:wave-equation-einstein}. 
+The Green's function method for the inversion of the D'Alambertian is a common technique: if we can find a function \(G(z)\) such that \(\square G(z) = \delta^{(4)} (z)\), then we can do the following manipulation (denoting the gravitational constant as \(G_N\) for clarity): 
+%
+\begin{align}
+\square_x \overline{h}_{\mu \nu} (x) &= - 16 \pi G_N T_{\mu \nu } (x)  \\
+&= - 16 \pi G_N \int \dd[4]{y} T_{\mu \nu }(y) \delta^{(4)} (x-y)  \\
+&= - 16 \pi G_N \int \dd[4]{y} T_{\mu \nu }(y) \square_x G(x-y)  \\
+&= \square_x \qty(- 16 \pi G_N \int \dd[4]{y} T_{\mu \nu }(y) G(x-y))  
+\marginnote{Removing the D'Alambertian is valid insamuch as it will give us \emph{a} solution for the wave equation, which will not be unique:  \(\square f = \square g\) does not imply \(f = g\), but the reverse is true.} 
+\\
+\overline{h}_{\mu \nu } &= -16 \pi G_N \int \dd[4]{y} T_{\mu \nu }(y) G(x-y)  
+\\
+&= 4 G_N \int \dd[3]{y} T_{\mu \nu }(x^{0} - \abs{\vec{x} - \vec{y}}, \vec{y}) \frac{1}{\abs{\vec{x} - \vec{y}}}
+\,,
+\end{align}
+%
+where in the last step we introduced the explicit expression for the Green's function of the D'Alambertian: \(G(z) = -[z^{0}>0] / 4 \pi \abs{\vec{z}}\)\footnote{The square bracket here is the Iverson bracket \cite{knuthTwoNotesNotation1992}, which maps a boolean expression to 1 (if true) or 0 (if false); in this context it is thus equivalent to the Heaviside Theta \([z^{0}>0] = \Theta (z^{0})\).} \cite[eq.\ 3.6]{maggioreGravitationalWavesVolume2007}. 
+
+We then have a formula for the trace-reversed perturbation, and it can be shown \cite[page 10]{maggioreGravitationalWavesVolume2007} that far from the source we can recover the TT gauge perturbation by projecting this equation thanks to a tensor \(\Lambda_{ij, kl} (\hat{n})\): 
+%
+\begin{align}
+h_{ij}^{TT} (t, \vec{x}) = 4G_N \Lambda_{ij, kl}(\hat{n}) \int \frac{\dd[3]{y}}{\abs{\vec{x} - \vec{y}}} T_{kl} \qty(t - \abs{\vec{x} - \vec{y}}, \vec{y}) 
+\,,
+\end{align}
+%
+where the tensor \(\Lambda \) is constructed to be a fully traceless, fully transverse projector for 2-tensors: 
+%
+\begin{align}
+\Lambda_{ij, kl} = P_{ik} P_{jl}- \frac{1}{2} P_{ij} P_{kl} 
+\qquad \text{where} \qquad
+P_{ ij} = \delta_{ij} - n_i n_j   
+\,.
+\end{align}
+
+This equation uses the stress-energy tensor as computed without considering self-gravity (this is the meaning of ``linear'' in the linear wave equation \eqref{eq:wave-equation-einstein}); thus it is only a good approximation in the case of objects whose typical scale \(R\) is much larger, than, say, their Schwarzschild radius \(2GM\). 
+The problem with this assumption is that it fails to hold precisely for the sources which we are most interested in since, as we shall see, they give out some of the most easily detectable gravitational radiation: binary compact objects near coalescence. 
 
 
 
