@@ -5,7 +5,7 @@
 
 \subsection{Linearized gravity}
 
-The simplest way to discuss gravitational radiation is to consider linearized gravity on a flat Minkowskian background (with no sources, for now). 
+The simplest way to discuss gravitational radiation is to consider linearized gravity on a flat Minkowskian background. 
 
 We give a brief overview, roughly following the path taken by \textcite[chapter 1]{maggioreGravitationalWavesVolume2007}.
  
@@ -261,7 +261,7 @@ These conditions tell us that the plane gravitational wave must have the form
 
 %
 \boxalign{
-\begin{align}
+\begin{align} \label{eq:TT-gauge-gw}
 h_{\mu \nu }(x) = \left[\begin{array}{cccc}
 0 & 0 & 0 & 0 \\ 
 0 & h_+ & h_\times  & 0 \\ 
@@ -273,6 +273,48 @@ h_{\mu \nu }(x) = \left[\begin{array}{cccc}
 \end{align}}
 %
 where \(h_+ = A_{11} \) and \(h_\times = A_{12} \). 
+
+\subsubsection{Effect on test masses}
+
+The TT gauge we defined has the rather peculiar characteristic of ``moving with the wave'', so that the position of any observer initially at rest (so, such that \(u^{\mu } (\tau = 0 ) = (1, \vec{0})^{\top}\)) is unchanged: the geodesic equation evaluated at \(\tau = 0\) reads
+%
+\begin{align}
+\eval{\dv[2]{x^{\mu }}{\tau}}_{\tau = 0} + \eval{\Gamma^{\mu }_{\nu \rho } u^{\nu } u^{\rho }}_{\tau = 0} &= 0   \\
+\eval{\dv[2]{x^{\mu }}{\tau}}_{\tau = 0} &= - \Gamma^{\mu }_{00} = 0 
+\,,
+\end{align}
+%
+since the Christoffel symbols computed \(\Gamma^{\mu }_{00}\) with the TT gauge perturbation \eqref{eq:TT-gauge-gw} all vanish: \(\Gamma^{\mu }_{00} = \eta^{\mu \nu } \qty( 2 g_{\nu 0,0} - g_{00, \nu }) / 2 =  0\).
+
+Does this mean that gravitational waves are merely an artefact, and have no effect on particles? 
+No, since while in the TT gauge the \emph{positions} of the points do not change, the \emph{distance} among them does.
+
+In order to understand this effect we can make use of the geodesic equation \cite[section 3.10]{carrollSpacetimeGeometryIntroduction2019}, which states that the acceleration experienced between two geodesics whose four-velocities are both approximately \(u^{\mu }\), separated by a vector \(\xi ^{\mu }\),\footnote{There is a technical note to be made here: in GR the notion of a vector between two points in the manifold is meaningless, however we can get around this problem by considering a one-parameter family of geodesics, and identifying the separation vector between them to be the tangent vector associated to the parameter.} is 
+%
+\begin{align}
+a^{\mu } = R^{\mu }_{\nu \rho \sigma } u^{\nu } u^{\rho } \xi^{\sigma }
+\,.
+\end{align}
+
+Let us consider the same geodesics as before, whose four-velocity is uniformly \(u^{\mu } \equiv \qty(1, \vec{0})^{\top}\): the acceleration will then be given by the matrix product \(R^{\mu }_{00\sigma } \xi^{\sigma }\). 
+
+These components of the Riemann tensor read \cite[eq.\ 7.106]{carrollSpacetimeGeometryIntroduction2019}: 
+%
+\begin{align}
+R^{\mu }_{00 \sigma } = \frac{1}{2} \ddot{h}^{\mu }_{\sigma }
+\,.
+\end{align}
+
+Therefore, the temporal component of the acceleration is \(a^{0} \propto \ddot{h}^{0}_{\sigma } = 0 \), while the spatial components read 
+%
+\begin{align}
+a^{i} = \frac{1}{2} \ddot{h}^{i}_{j} \xi^{j}
+\,.
+\end{align}
+%
+
+
+\subsection{The quadrupole formula}
 
 
 
