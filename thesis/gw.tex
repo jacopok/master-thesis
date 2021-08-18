@@ -242,7 +242,7 @@ A_{\mu \nu } \to A_{\mu \nu } - 2 i B_{(\mu } k_{\nu )}
 \end{align}
 %
 which allows us to impose four conditions on \(A_{\mu \nu }\), one for each of the free components of \(B_{\mu }\). 
-It is customary to choose \(A = 0 = A_{0 i }\): these are known together as the \textbf{Transverse-Traceless} gauge. 
+It is customary to choose \(A = 0 = A_{0 i }\): these are known together as the \ac{TT} gauge. 
 
 The condition \(A = 0\) also means that \(h = 0 = \overline{h}\): thus, form this point onward we can stop distinguishing between \(h_{\mu \nu }\) and  \(\overline{h}_{\mu \nu }\), and for simplicity's sake we write the former. 
 
@@ -276,7 +276,7 @@ where \(h_+ = A_{11} \) and \(h_\times = A_{12} \).
 
 \subsubsection{Effect on test masses}
 
-The TT gauge we defined has the rather peculiar characteristic of ``moving with the wave'', so that the position of any observer initially at rest (so, such that \(u^{\mu } (\tau = 0 ) = (1, \vec{0})^{\top}\)) is unchanged: the geodesic equation evaluated at \(\tau = 0\) reads
+The \ac{TT} gauge we defined has the rather peculiar characteristic of ``moving with the wave'', so that the position of any observer initially at rest (so, such that \(u^{\mu } (\tau = 0 ) = (1, \vec{0})^{\top}\)) is unchanged: the geodesic equation evaluated at \(\tau = 0\) reads
 %
 \begin{align}
 \eval{\dv[2]{x^{\mu }}{\tau}}_{\tau = 0} + \eval{\Gamma^{\mu }_{\nu \rho } u^{\nu } u^{\rho }}_{\tau = 0} &= 0   \\
@@ -284,10 +284,10 @@ The TT gauge we defined has the rather peculiar characteristic of ``moving with 
 \,,
 \end{align}
 %
-since the Christoffel symbols computed \(\Gamma^{\mu }_{00}\) with the TT gauge perturbation \eqref{eq:TT-gauge-gw} all vanish: \(\Gamma^{\mu }_{00} = \eta^{\mu \nu } \qty( 2 g_{\nu 0,0} - g_{00, \nu }) / 2 =  0\).
+since the Christoffel symbols computed \(\Gamma^{\mu }_{00}\) with the \ac{TT} gauge perturbation \eqref{eq:TT-gauge-gw} all vanish: \(\Gamma^{\mu }_{00} = \eta^{\mu \nu } \qty( 2 g_{\nu 0,0} - g_{00, \nu }) / 2 =  0\).
 
 Does this mean that gravitational waves are merely an artefact, and have no effect on particles? 
-No, since while in the TT gauge the \emph{positions} of the points do not change, the \emph{distance} among them does.
+No, since while in the \ac{TT} gauge the \emph{positions} of the points do not change, the \emph{distance} among them does.
 
 In order to understand this effect we can make use of the geodesic equation \cite[section 3.10]{carrollSpacetimeGeometryIntroduction2019}, which states that the acceleration experienced between two geodesics whose four-velocities are both approximately \(u^{\mu }\), separated by a vector \(\xi ^{\mu }\),\footnote{There is a technical note to be made here: in GR the notion of a vector between two points in the manifold is meaningless, however we can get around this problem by considering a one-parameter family of geodesics, and identifying the separation vector between them to be the tangent vector associated to the parameter.} is 
 %
@@ -312,12 +312,12 @@ a^{i} = \frac{1}{2} \ddot{h}^{i}_{j} \xi^{j}
 \,.
 \end{align}
 
-These equations can be explicitly solved, and \(a^{i}\) can be interpreted as \(\ddot{s}^{i}\) for some notion of ``position'' of the points; note however that this is \emph{not} coordinate position, but instead it denotes the changing distance between the points, which are stationary in the TT-gauge coordinates. 
+These equations can be explicitly solved, and \(a^{i}\) can be interpreted as \(\ddot{s}^{i}\) for some notion of ``position'' of the points; note however that this is \emph{not} coordinate position, but instead it denotes the changing distance between the points, which are stationary in the \ac{TT}-gauge coordinates. 
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.7\textwidth]{figures/polarizations}
-\caption{Polarizations of gravitational waves. Time evolution is represented though transparency: darker ellipses correspond to later points in time. The four cases are described in the text. We stress that in the TT gauge the ellipses do not represent changes in coordinate position but only in distance among points. In all cases the starting configuration is circular. The code generating this figure is available \href{https://github.com/jacopok/master-thesis/blob/main/thesis/figures/polarizations.py}{here}.}
+\caption{Polarizations of gravitational waves. Time evolution is represented though transparency: darker ellipses correspond to later points in time. The four cases are described in the text. We stress that in the \ac{TT} gauge the ellipses do not represent changes in coordinate position but only in distance among points. In all cases the starting configuration is circular. The code generating this figure is available \href{https://github.com/jacopok/master-thesis/blob/main/thesis/figures/polarizations.py}{here}.}
 \label{fig:polarizations}
 \end{figure}
 
@@ -352,7 +352,7 @@ The Green's function method for the inversion of the D'Alambertian is a common t
 %
 where in the last step we introduced the explicit expression for the Green's function of the D'Alambertian: \(G(z) = -[z^{0}>0] / 4 \pi \abs{\vec{z}}\)\footnote{The square bracket here is the Iverson bracket \cite{knuthTwoNotesNotation1992}, which maps a boolean expression to 1 (if true) or 0 (if false); in this context it is thus equivalent to the Heaviside Theta: \([z^{0}>0] = \Theta (z^{0})\).} \cite[eq.\ 3.6]{maggioreGravitationalWavesVolume2007}. 
 
-We then have a formula for the trace-reversed perturbation, and it can be shown \cite[page 10]{maggioreGravitationalWavesVolume2007} that far from the source we can recover the TT gauge perturbation by projecting this equation thanks to a tensor \(\Lambda_{ij, kl} (\hat{n})\): 
+We then have a formula for the trace-reversed perturbation, and it can be shown \cite[page 10]{maggioreGravitationalWavesVolume2007} that far from the source we can recover the \ac{TT} gauge perturbation by projecting this equation thanks to a tensor \(\Lambda_{ij, kl} (\hat{n})\): 
 %
 \begin{align}
 h_{ij}^{TT} (t, \vec{x}) = 4G_N \Lambda_{ij, kl}(\hat{n}) \int \frac{\dd[3]{y}}{\abs{\vec{x} - \vec{y}}} T_{kl} \qty(t - \abs{\vec{x} - \vec{y}}, \vec{y}) 

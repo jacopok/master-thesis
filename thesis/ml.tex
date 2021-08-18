@@ -174,7 +174,7 @@ The typical error chosen is quadratic in the Euclidean distance, since its analy
 We also add an error term in the form \(\alpha \norm{W}^2\), where \(\alpha \) is a non-negative hyperparameter (typically chosen to be small) and \(\norm{W}^2\) is the L2 norm of the weight tensor: this term is known as a ``regularizer'', it penalizes complex models.
 The parameter \(\alpha \) is optimized in the hyperparameter training procedure, and its prior distribution is taken to be a log-uniform one between \(\num{e-7}\) and \(\num{e-5}\). 
 
-We are then using the Euclidean distance among the \(y\)s (which for us will be PCA component vectors) as a measure of the performance of the network; this works well enough, but we can make an improvement by noticing that the first PCA components are responsible for more of the variance (and thus more of the distance) between data points. 
+We are then using the Euclidean distance among the \(y\)s (which for us will be \ac{PCA} component vectors) as a measure of the performance of the network; this works well enough, but we can make an improvement by noticing that the first PCA components are responsible for more of the variance (and thus more of the distance) between data points. 
 Therefore, we can improve the performance by having the network learn the distance among the rescaled 
 %
 \begin{align}
