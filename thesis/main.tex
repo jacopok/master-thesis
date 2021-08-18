@@ -20,9 +20,10 @@ block=ragged
 \begin{document}
 
 \maketitle
-% \tableofcontents
 
 \subfile{abstract}
+
+\tableofcontents
 
 \subfile{gw}
 
@@ -30,12 +31,11 @@ block=ragged
 
 \subfile{mlgw_bns}
 
-\Urlmuskip=0mu plus 1mu\relax
-
 \appendix
 \section{Acronyms}
 
 \begin{acronym}
+\acro{GW}{gravitational wave}
 \acro{EOB}{effective one-body}
 \acro{NR}{numerical relativity}
 \acro{PN}{post-Newtonian}
@@ -44,6 +44,7 @@ block=ragged
 \acro{NN}{neural network}
 \acro{MOTPE}{multi-objective tree-structured Parzen estimator}
 \acro{TPE}{tree-structured Parzen estimator}
+\acro{mb}[\texttt{mlgw\_bns}]{machine learning gravitational waves from binary neutron stars}
 \end{acronym}
 
 \printbibliography
