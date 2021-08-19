@@ -623,6 +623,13 @@ If these conditions hold, then in the computation of the transform
 \,
 \end{align}
 %
-the exponential term will be quickly oscillating, and therefore destructively interfering, almost everywhere; while near the time in which  \(\omega = \dot{\Phi}\) it will be 
+the exponential term will be quickly oscillating, and therefore destructively interfering, almost everywhere; while near the time in which  \(\omega = \dot{\Phi}\) it will have a positive contribution. 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/spa}
+\caption{Visualization of the idea behind \ac{SPA}. In the upper plot we show a typical waveform for a \ac{CBC} together with a sinusoid corresponding to the ones used in the computation of the Fourier transform. The lower plot shows a windowed Fourier-like integral, in the form \(\int h(t) \cos(\omega t) e^{-(t-t_0 )^2 / \sigma^2} \dd{t}\) for some window width \(\sigma \), as well as the window. It can be clearly seen that in the regions where there is a frequency mismatch the contribution vanishes.}
+\label{fig:spa}
+\end{figure}
 
 \end{document}

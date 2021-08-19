@@ -14,21 +14,28 @@ rc('text.latex', preamble=r'''\usepackage{amsmath}
 N = 20000
 T = 50
 periods = 400
+sigma = 1500
 
 tau = np.linspace(100, periods*T, num=N)
 
 phi = -tau ** (5 / 8)
 
+omega = 1 / T
+
+phidot = np.gradient(phi, tau)
+
+t0 = tau[np.searchsorted(phidot, -omega)]
+
 A = tau ** (-1 / 4)
 
 h = A * np.cos(phi)
 
-sinus = .1 * np.cos(tau / T + np.pi)
+sinus = .1 * np.cos(tau/T + np.pi)
 
 select_taus = tau[::100]
 
 integrals = [
-    sum(sinus * h * np.exp(-(tau - t)**2 / 1500**2))**2
+    sum(sinus * h * np.exp(-(tau - t)**2 / sigma**2))**2
     for t in select_taus
 ]
 
@@ -40,6 +47,11 @@ axs[0].plot(tau, sinus, c='black', ls=':', lw=.4, label='Fourier transform contr
 axs[0].legend()
 
 axs[1].plot(select_taus, integrals, c='black', label='Local integral contribution')
+
+axs[1].plot(tau, 60 * np.exp(-(tau - t0)** 2 / sigma ** 2), label='Window', c='black', ls=":")
+axs[1].plot(tau, 60 * np.exp(-(tau - t0 - 6000)** 2 / sigma ** 2), c='black', ls=":")
+axs[1].plot(tau, 60 * np.exp(-(tau - t0 + 6000)** 2 / sigma ** 2), c='black', ls=":")
+axs[1].axvline(t0, c='black', ls='--', label='$\\dot{\\Phi} = \\omega$')
 
 axs[1].legend(loc='upper left')
 
