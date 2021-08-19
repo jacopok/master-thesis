@@ -3,6 +3,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+from matplotlib import rc
+rc('font',**{'family':'serif','serif':['Palatino']})
+rc('text', usetex=True)
+rc('text.latex', preamble=r'''\usepackage{amsmath}
+          \usepackage{physics}
+          \usepackage{siunitx}
+          ''')
+
 def evolve(t, x, y, h_p, h_c):
     expon = np.exp(1j * t * 2 * np.pi) / 2
     
