@@ -452,7 +452,15 @@ M_{kl}(t-r) = \int \dd[3]{y} T_{00}(t -r, \vec{y}) y_k y_l
 \,.
 \end{align}
 
-since this expression only depends on the trace-free part of the moment \(M\) we can write it as a function of the traceless \textbf{quadrupole moment} \(Q_{kl} = M_{kl} - \delta_{kl} M_{nn} / 3\). This gives rise to the quadrupole formula 
+since this expression only depends on the trace-free part of the moment \(M\) we can write it as a function of the traceless \textbf{quadrupole moment} 
+%
+\begin{align} \label{eq:quadrupole}
+Q_{kl} = M_{kl} - \delta_{kl} M_{nn} / 3
+= \int \dd[3]{y} \rho (t, \vec{y}) \qty(y^{i } y^{j} - \frac{1}{2} \delta^{ij} y^2)
+\,.
+\end{align}
+
+This gives rise to the quadrupole formula 
 %
 \boxalign{
 \begin{align} \label{eq:quadrupole-formula}
@@ -628,7 +636,7 @@ In practice, one will typically analyze the output from a detector in batches, a
 Therefore, it is relevant to see how the Fourier-domain waveform responds to a time and phase shift: what is the transform of \(f(t-t_0 ) e^{i \varphi_0} \)? It comes out to be 
 %
 \begin{align}
-\int_{\mathbb{R}} f(t-t_0 ) e^{i \varphi_0 } e^{i \omega t} \dd{t}  = e^{i \omega t_0 + i \varphi_0} \int_{\mathbb{R}} f(t-t_0 ) e^{i \omega (t-t_0 )} \dd{(t-t_0 )}
+\int_{\mathbb{R}} f(t-t_0 ) e^{i \varphi_0 } e^{i \omega t} \dd{t}  = e^{i \omega t_0 + i \varphi_0} \underbrace{\int_{\mathbb{R}} f(t-t_0 ) e^{i \omega (t-t_0 )} \dd{(t-t_0 )}}_{\widetilde{f}(\omega )}
 \,,
 \end{align}
 %
@@ -642,7 +650,64 @@ Also, the polarization of the gravitational waves can have an arbitrary angle wi
 
 \subsubsection{Masses and mass ratio}
 
-The waveform to the lowest order we described only depends on the chirp mass \(\mathcal{M}_c\), but as we will see later at higher order there appears a dependence on the
+The waveform to the lowest order we described only depends on the chirp mass \(\mathcal{M}_c\), but as we will see later at higher order there appears a dependence on the ratio of the two masses: \(q = m_1 / m_2 \), where \(m_i\) are the masses of the two compact objects. 
+It is customary to fix one of the two masses to always be the largest, therefore constraining \(q \lesseqgtr 1\); we choose the convention \(q \geq 1\).
+
+A possible parametrization for the two masses is \((\mathcal{M}_c, q)\), another is \((M, q)\): these are equivalent, but in the following work we will typically use the latter because of the aforementioned scaling property of the waveforms: we conventionally work with respect to the dimensionless frequency \(Mf\) and the dimensionless time \(t / M\) in order to have one less parameter. 
+
+\subsubsection{Spin}
+
+Compact objects can spin, and the spin of each of the two is a vector with three different components. 
+These vectors \(\vec{S}_i\) have units of angular momentum, but they are typically rescaled as 
+%
+\begin{align}
+\vec{\chi}_i = \frac{c\vec{S}_i}{G m_i} \in [-1, 1] 
+\ \text{in magnitude}
+\,.
+\end{align}
+
+The constraint of \(\abs{\chi_i} < 1\) can be approached by realistic models of \acsp{BH}, while realistic models of \acsp{NS} typically are constrained to spin much less, at the most \(\abs{\chi _i} \lesssim 0.7\) \cite[]{loSPINPARAMETERUNIFORMLY2011}.
+This constraint is hard to experimentally verify since one is faced with the degeneracy between the components \(\chi_{z,i}\) aligned with the direction of the angular momentum and the mass ratio \(q\); in the analysis of the merger GW170807 two sets of prior distributions for the spins were used, \(\abs{\chi } < 0.05\) and \(\abs{\chi } < 0.89\), for this reason \cite[]{abbottGW170817ObservationGravitational2017}. We have theoretical reasons to believe that the low-spins priors might correspond to a more physically meaningful scenario, but the degeneracy means that the high-spin case is not experimentally excluded, so we must still consider it a possibility.
+
+\subsubsection{Tidal polarizability of neutron stars}
+
+If our compact objects are not black holes, they might be able to deform. The astrophysically motivated scenario we think of is that of neutron stars, but the following characterization can also apply to any extended compact objects. For concreteness' sake, we will refer to \acsp{NS}. 
+
+This is a complicated process, but we can try to capture its most significant part by limiting ourselves to the quadrupole order of the deformation of the star. 
+The discussion of this effect is clearest in the Newtonian context, but it can be generalized to \ac{GR} \cite[section 14.4.1]{maggioreGravitationalWavesVolume2018}.
+
+Tidal effects are described by the tidal tensor \(\mathcal{E}_{ij} = - U_{, ij}\), the traceless\footnote{This tidal tensor describes the effect of one star's gravitational field on the other, so its source is not where we compute it, which is a convoluted way of saying that it should be taken to be a solution of \(\nabla^2 U = 4 \pi \rho \) in vacuum: therefore, \(\nabla^2 U = - \Tr[\mathcal{E}_{ij}] = 0\).} Hessian of the Newtonian potential \(U\). In the weak-field relativistic case, this corresponds to part of the Riemann tensor: \(\mathcal{E}_{ij} = c^2R_{0i0j}\). 
+
+We can describe the effects on the deformed star of such a tidal stress by looking at its quadrupole moment \(Q_{ij}\) \eqref{eq:quadrupole}.
+To linear order and neglecting any time dependence, we will have the relation 
+%
+\begin{align}
+\mathcal{E}_{ij} = - \lambda Q_{ij}
+\,.
+\end{align}
+
+\todo[inline]{find better explanation for minus sign here and in def of tidal tensor}
+
+This parameter \(\lambda \) describes the deformability of the star; if it is smaller the star deforms less in response to tidal perturbations. 
+In practice the parameter used is not \(\lambda \) but two ways to rescale it: the \(l=2\) (quadrupole) \textbf{Love number} 
+%
+\begin{align}
+k_2 = \frac{3}{2} \frac{G \lambda }{R^{5}}
+\,,
+\end{align}
+%
+where \(R\) is the radius of the deformed \ac{NS}, or the \textbf{tidal deformability} 
+%
+\begin{align}
+\Lambda = \frac{2}{3} k_2 \qty(\frac{Rc^2}{Gm})^{5} 
+\,,
+\end{align}
+%
+where \(m\) is the mass of the deformed \ac{NS}. 
+
+The Love number is useful since it is an expansion parameter for the gravitational field of the deformed \ac{NS}. This field has contributions from both its quadrupole moment, which is due to the tidal deformation from the other star, and from the gravitational field of the other star which we can expand in terms of the tidal field around the center of the deformed star: \(U _{\text{ext}} \approx - \mathcal{E}_{ij} x_{i} x_{j} / 2\). 
+
+The 
 
 \subsection{Data analysis}
 
