@@ -1,0 +1,141 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\appendix
+\section{The Stationary Phase Approximation} \label{sec:spa}
+
+We can apply \ac{SPA} to approximate the Fourier transform of an oscillatory function \(f(t) = A(t) e^{-i \Phi (t)}\) as long as 
+\begin{enumerate}
+    \item \(\Phi (t)\) is monotonic;
+    \item the evolution of the phase, \(\dot{\Phi}\), is slowly changing: \(\ddot{\Phi} \ll \dot{\Phi}^2\);
+    \item the amplitude \(A(t)\) is slowly changing.
+\end{enumerate}
+
+\todo[inline]{These seem like the right conditions intuitively, but are they correct?}
+
+If these conditions hold, then in the computation of the transform 
+%
+\begin{align}
+\widetilde{f}(\omega ) = \int_{- \infty }^{\infty } \dd{t} A(t) e^{- i \Phi (t) + i \omega t}
+\,
+\end{align}
+%
+the exponential term will be quickly oscillating, and therefore destructively interfering, almost everywhere; while near the time in which  \(\omega = \dot{\Phi}\) it will have a positive contribution. 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/spa}
+\caption{Visualization of the idea behind \ac{SPA}. In the upper plot we show a typical waveform for a \ac{CBC} together with a sinusoid corresponding to the ones used in the computation of the Fourier transform. The lower plot shows a windowed Fourier-like integral, in the form \(\int h(t) \cos(\omega t) e^{-(t-t_0 )^2 / \sigma^2} \dd{t}\) for some window width \(\sigma \), as well as the window. It can be clearly seen that in the regions where there is a frequency mismatch the contribution vanishes.}
+\label{fig:spa}
+\end{figure}
+
+With this in mind, we can approximate the integral: specifically, looking at the local integral contribution to the integral in figure \ref{fig:spa} we can see that it approaches a Gaussian, which suggests expanding the argument of the exponential to second order around its stationary point, 
+%
+\begin{align}
+- i \Phi (t) + i \omega t \approx \eval{\qty(-i \Phi (t) + i \omega t)}_{t_s} - \frac{i}{2} \eval{\ddot{\Phi}}_{t_s} (t-t_s)^2
+\,,
+\end{align}
+%
+where the stationary time \(t_s\) is precisely the one such that \(\dot{\Phi} (t_s) = \omega \) (which means that the linear term of the expansion vanishes). 
+
+The Fourier integral then looks like 
+%
+\begin{align}
+\widetilde{f}(\omega ) \approx \int_{-\infty }^{\infty } \dd{t} A(t) \exp(-i \Phi (t_s) + i \omega t_s) \exp(- \frac{i}{2} \ddot{\Phi} (t-t_s)^2)
+\,,
+\end{align}
+%
+so the \(t\)-dependent part of the integral looks like the product of the amplitude and a ``complex Gaussian''. There is an analytic formula for a complex Gaussian integral 
+%
+\begin{align}
+\int e^{i \alpha x^2} \dd{x} = \sqrt{\frac{\pi i}{\alpha }}
+\,,
+\end{align}
+%
+however, in order to apply it, we need to approximate the amplitude as constant: \(A(t) \approx A(t_s)\). This will be valid as long as the variation of the amplitude is small compared to the width of the Gaussian we are integrating it against, which is \(\sigma = 1 / \sqrt{\ddot{\Phi}}\), so a condition we might write is \(\dot{A} / A \lesssim 1/ \sqrt{\ddot{\Phi}}\).
+
+If this is the case, we can write the Fourier integral as 
+%
+\begin{align}
+\widetilde{f}(\omega ) &\approx A(t_s) e^{- i \Phi (t_s) + i \omega t_s} \sqrt{\frac{- 2 \pi i}{\ddot{\Phi}}}   \\
+\abs{\widetilde{f}(\omega )} &\approx A(t_s (\omega )) \sqrt{\frac{2 \pi }{\ddot{\Phi} (t_s (\omega ))}}  \\
+\angle \widetilde{f}(\omega ) &\approx - \Phi (t_s (\omega )) + \omega t_s (\omega ) - \frac{\pi}{4}
+\,,
+\end{align}
+%
+where the \(- \pi /4\) comes from the \(\sqrt{-i}\). 
+
+We want to apply this to the specific case of \(A\) and \(\Phi \) being given by polynomial expressions like the formulas describing quadrupole emission: \eqref{eq:amplitude-quadrupole-emission} and \eqref{eq:phase-quadrupole-emission}; for simplicity, let us write these as 
+%
+\begin{align}
+\Phi (t) = K_\Phi (- t)^{\alpha }
+\qquad \text{and} \qquad
+A(t) = K_A (-t)^{\beta }
+\,,
+\end{align}
+%
+where the reason for writing \((-t)\) is that the aforementioned equations are written in terms of the time until merger \(\tau \) --- \(t = -\tau \) is increasing and equal to 0 at the merger.
+We do not specify the polarization, the argument will apply for both. 
+The true values for the exponents in the quadrupole approximation are \(\alpha = 5/8\) and \(\beta = -1/4\). 
+
+The first thing to do is to find \(t_s(\omega )\): it is given by 
+%
+\begin{align}
+\omega &= \dot{\Phi} = \alpha K_\Phi (-t_s)^{\alpha -1}   \\
+t_S &= - \qty( \frac{\omega }{\alpha  K_\Phi })^{1/(\alpha -1)}
+\,.
+\end{align}
+
+The other quantities we need to compute are: 
+%
+\begin{align}
+A(t_s) &= K_A \qty(\frac{\omega  }{\alpha  K_\Phi })^{\beta / (\alpha-1 )}  \\
+\Phi(t_s) &= K_\Phi \qty(\frac{\omega }{\alpha  K_\Phi })^{\alpha / (\alpha-1 )}  \\ 
+\ddot{\Phi}(t_s) &= K_\Phi \alpha (\alpha -1) (-t_s)^{\alpha - 2} 
+= - K_\Phi \alpha (\alpha -1) \qty(\frac{\omega }{\alpha  K_\Phi })^{(\alpha -2) / ( \alpha -1)}  
+\,,
+\end{align}
+%
+therefore the phase reads 
+%
+\begin{align}
+\angle \widetilde{f}(\omega ) &= - K_\Phi \qty(\frac{\omega }{\alpha  K_\Phi })^{\alpha / (\alpha-1 )} 
+- \omega \qty(\frac{\omega }{\alpha  K_\Phi })^{1/\alpha } - \frac{\pi}{4}  \\
+&= - \qty(\frac{\omega^{\alpha }}{K_\Phi } \qty(\alpha^{-\alpha } + \alpha^{-1}))^{1 / (\alpha - 1)}  - \frac{\pi}{4}
+\,,
+\end{align}
+%
+while the amplitude reads 
+%
+\begin{align}
+\abs{\widetilde{f}(\omega )} &= K_A \qty(\frac{\omega }{\alpha K_\Phi })^{\beta / (\alpha-1 )} \sqrt{2 \pi } \underbrace{\qty(K_\Phi \alpha (\alpha -1) \qty(\frac{\omega }{\alpha  K_\Phi })^{(\alpha -2) / ( \alpha -1)})^{-1/2}}_{1 / \sqrt{\ddot{\Phi}}}   \\
+&= K_A 
+(\alpha K_\Phi)^{\frac{\beta - 1/2}{\alpha -1}}
+\omega^{\frac{\beta - (\alpha - 2) / 2}{\alpha -1}}
+\sqrt{ \frac{2\pi}{\alpha -1} }
+\,.
+\end{align}
+
+The last complication is the fact that the phase appears in the expression for the waveform \eqref{eq:amplitude-quadrupole-emission} not with a complex exponential, but instead with a cosine or a sine: this is not a problem, we just need to use the relations \(\cos x = (e^{ix}+e^{-ix}) / 2\) and \(\sin x = (e^{ix}- e^{-ix}) / 2i\). 
+The factor of \(i\) in the sine will correspond to a \(\pi /2\) phase difference between the two polarizations, while the average of the two different exponentials will correspond to an amplitude reduction of a factor 2 if we restrict ourselves to positive frequencies.\footnote{Since the Fourier transform is linear the two exponentials can be treated separately. The transform of a real signal is fully encoded by its positive-frequency components; in order for the integral not to vanish in the Gaussian approximation there needs to be a stationary point; the phase of the \ac{GW} signal is strictly monotonic. These three assumptions lead to the fact that only one of the two exponentials will give a nonzero contribution while the other will have no stationary point, so only the division by 2 will matter in the average.}
+
+Substituting the values for \(\alpha \), \(\beta \), \(K_\Phi \) and \(K_A\) we get the following expressions \cite[eqs.\ 4.34--37]{maggioreGravitationalWavesVolume2007}, written in terms of \(f = \omega / 2\pi \): 
+%
+\begin{align} \label{eq:spa-waveforms}
+\widetilde{h}_{+}(f) &= \frac{1}{\pi^{2/3}} \sqrt{ \frac{5}{24}} 
+\frac{c}{r} \qty( \frac{G \mathcal{M}_c}{c^3})^{5/6} f^{-7/6} 
+\exp(\frac{3i}{4} \qty(\frac{G \mathcal{M}_c}{c^3} 8 \pi f)^{-5/3} - i \frac{\pi}{4})
+\qty( \frac{1 + \cos^2\iota }{2}) 
+\\
+\widetilde{h}_{+}(f) &= \frac{1}{\pi^{2/3}} \sqrt{ \frac{5}{24}} 
+\frac{c}{r} \qty( \frac{G \mathcal{M}_c}{c^3})^{5/6} f^{-7/6} 
+\exp(\frac{3i}{4} \qty(\frac{G \mathcal{M}_c}{c^3} 8 \pi f)^{-5/3} + i \frac{\pi}{4})
+\cos \iota 
+\,.
+\end{align}
+
+The frequency dependence of the amplitude comes out to be \(\abs{\widetilde{f}(\omega )} \propto \omega^{-7/6} \propto f^{-7/6}\):  it might be surprising to see that this is decreasing while the chirping waveform rises in amplitude! 
+The reason for this fact is that each portion of the Fourier integral is weighted not only by the amplitude of the envelope \(A(t)\) but also by the time the waveform ``spends'' in that frequency region, which decreases with time. 
+These two effects compete, but \(A \sim \tau^{-1/4}\) while the time spent in the frequency region is measured by \(1/ \sqrt{\ddot{\Phi}} \sim 1/ \sqrt{\tau^{-11/8}} = \tau^{+11/16}\), so the latter wins: \(\abs{\widetilde{h}(f)} \sim \tau^{7/16} \propto \omega^{-7/6}\). 
+
+\end{document}

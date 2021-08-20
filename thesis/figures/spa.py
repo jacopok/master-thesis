@@ -42,7 +42,7 @@ integrals = [
 fig, axs = plt.subplots(2, 1, sharex=True)
 
 axs[0].plot(tau, h, c='black', lw=.4, label='Waveform')
-axs[0].plot(tau, sinus, c='black', ls=':', lw=.4, label='Fourier transform contribution')
+axs[0].plot(tau, sinus, c='black', ls=':', lw=.4, label='Fourier component')
 
 axs[0].legend()
 
@@ -66,4 +66,7 @@ axs[1].set_xlabel('Decreasing $\\tau$')
 
 plt.tight_layout()
 fig.savefig('spa.pdf', dpi=500)
+# %%
+
+plt.plot(-tau, phi)
 # %%

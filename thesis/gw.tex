@@ -546,7 +546,7 @@ It is a rather good approximation for the early stages of the inspiral, as we sh
 
 The last expression we wrote for the amplitude of the emission reintroduces factors of \(c\), is expressed in terms of the emission frequency \(f _{\text{gw}} = \omega _{\text{gw}} / 2 \pi = \Omega / \pi \) and of the \emph{chirp mass}
 %
-\begin{align}
+\begin{align} \label{eq:chirp-mass}
 \mathcal{M}_c = \frac{(m_1 m_2 )^{3/5}}{(m_1 + m_2 )^{1/5}} = \nu^{3/5} M 
 \qquad \text{where} \qquad
 \nu = \frac{\mu}{M}
@@ -593,43 +593,59 @@ This result turns out to hold in general, not only at the linear, quadrupole lev
 
 This expression for \(f _{\text{gw}}\) can be substituted into the gravitational waveforms \eqref{eq:binary-waveform-1}; we must also update the phase term, since \(2 \Omega t\) is the phase for a uniformly circular orbit: we will want to use integrate the angular velocity, to find 
 %
-\begin{align}
-\Phi (t) = \int^{t} \omega _{\text{gw}}(\widetilde{t}) \dd{\widetilde{t}} = 2 \int^{t} \Omega (\widetilde{t}) \dd{\widetilde{t}}
+\begin{align} \label{eq:phase-quadrupole-emission}
+\Phi (t) &= \int^{t} \omega _{\text{gw}}(\widetilde{t}) \dd{\widetilde{t}} = 2 \int^{t} \Omega (\widetilde{t}) \dd{\widetilde{t}}  \\
+&= -2 \qty(\frac{5 G \mathcal{M}_c}{c^3})^{-5/8} \tau^{-5/8} + \const
 \,.
 \end{align}
 
 In terms of this, the amplitude in the two polarizations will read \cite[eqs.\ 4.31--32]{maggioreGravitationalWavesVolume2007}
 %
-\begin{align}
+\begin{align} \label{eq:amplitude-quadrupole-emission}
 h_{+} (t) &= \frac{1}{r} \qty(\frac{G \mathcal{M}_c}{c^2})^{5/4} \qty( \frac{5}{c \tau })^{1/4} \qty(\frac{1 + \cos^2\iota }{2}) \cos \Phi (t) \\
 h_{ \times } (t) &= \frac{1}{r} \qty(\frac{G \mathcal{M}_c}{c^2})^{5/4} \qty( \frac{5}{c \tau })^{1/4} \cos \iota  \sin \Phi (t) 
 \,.
 \end{align}
 
-Before moving onward, we must briefly discuss a technical issue: in order to find an analytic expression for the Fourier transform of these quantities, we will need to use a technique known as \ac{SPA}. 
+As we will discuss, it is convenient to have expressions for the Fourier transforms of these. An analytic computation of the integrals is intractable, but we can make use of a technique known as \ac{SPA}, which is discussed in detail in appendix \ref{sec:spa}. 
+The final expressions for the Fourier-domain waveforms are equations \eqref{eq:spa-waveforms}. 
 
-\subsubsection{The Stationary Phase Approximation}
+\subsubsection{Parameters for a \ac{CBC} waveform}
 
-We can apply \ac{SPA} to approximate the Fourier transform of an oscillatory function \(f(t) = A(t) e^{-i \Phi (t)}\) as long as 
+The waveform we wrote explicitly depends on: 
 \begin{enumerate}
-    \item \(\Phi (t)\) is monotonic;
-    \item the evolution of the phase, \(\dot{\Phi}\), is slowly changing: \(\ddot{\Phi} \ll \dot{\Phi}^2\). 
+    \item the chirp mass \(\mathcal{M}_c\), defined in \eqref{eq:chirp-mass};
+    \item the distance \(r\), which in a more general cosmological context should be replaced by the \emph{luminosity distance} \(D_L\);
+    \item the inclination \(\iota \), which is the angle between the observation direction and the total angular momentum of the system.
 \end{enumerate}
 
-If these conditions hold, then in the computation of the transform 
+These are only some of the parameters which must be considered when discussing a \ac{CBC}. We will now discuss the full set of parameters which can be used to fully describe the binary system generating the waveform \cite[eq.\ 21]{breschiTtBajesBayesian2021}. 
+
+\subsubsection{Arrival time and initial phase}
+
+The time at which any given waveform arrives at Earth is arbitrary, as is the global phase of the waveform. 
+In practice, one will typically analyze the output from a detector in batches, and in each of these the analysis will be performed in Fourier space. 
+Therefore, it is relevant to see how the Fourier-domain waveform responds to a time and phase shift: what is the transform of \(f(t-t_0 ) e^{i \varphi_0} \)? It comes out to be 
 %
 \begin{align}
-\widetilde{f}(\omega ) = \int_{- \infty }^{\infty } \dd{t} A(t) e^{- i \Phi (t) + i \omega t}
-\,
+\int_{\mathbb{R}} f(t-t_0 ) e^{i \varphi_0 } e^{i \omega t} \dd{t}  = e^{i \omega t_0 + i \varphi_0} \int_{\mathbb{R}} f(t-t_0 ) e^{i \omega (t-t_0 )} \dd{(t-t_0 )}
+\,,
 \end{align}
 %
-the exponential term will be quickly oscillating, and therefore destructively interfering, almost everywhere; while near the time in which  \(\omega = \dot{\Phi}\) it will have a positive contribution. 
+so a time shift corresponds to the addition of a linear term to the phase, while the phase can be directly moved from the time to the frequency domain. 
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figures/spa}
-\caption{Visualization of the idea behind \ac{SPA}. In the upper plot we show a typical waveform for a \ac{CBC} together with a sinusoid corresponding to the ones used in the computation of the Fourier transform. The lower plot shows a windowed Fourier-like integral, in the form \(\int h(t) \cos(\omega t) e^{-(t-t_0 )^2 / \sigma^2} \dd{t}\) for some window width \(\sigma \), as well as the window. It can be clearly seen that in the regions where there is a frequency mismatch the contribution vanishes.}
-\label{fig:spa}
-\end{figure}
+\subsubsection{Sky position and polarization}
+
+The wave will be coming from a sky position, which we can describe with respect to a given coordinate system through two angles; it is convenient to use right ascension \(\alpha \) and declination \(\delta \). 
+Also, the polarization of the gravitational waves can have an arbitrary angle with respect to the observation direction: we denote this angle as \(\psi \). 
+% One might wonder whether this parameter will be fully degenerate with the initial phase \(\phi_0\) and thus unmeasurable, but it can in fact be measured if we have a network of detectors whose response functions to either polarization are different. 
+
+\subsubsection{Masses and mass ratio}
+
+The waveform to the lowest order we described only depends on the chirp mass \(\mathcal{M}_c\), but as we will see later at higher order there appears a dependence on the
+
+\subsection{Data analysis}
+
+
 
 \end{document}
