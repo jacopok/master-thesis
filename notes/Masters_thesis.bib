@@ -208,6 +208,7 @@
 }
 
 @online{breschiTtBajesBayesian2021,
+  ids = {matteobreschiBajesBayesianInference2021},
   title = {\$\{\textbackslash tt Bajes\}\$: {{Bayesian}} Inference of Multimessenger Astrophysical Data, Methods and Application to Gravitational-Waves},
   shorttitle = {\$\{\textbackslash tt Bajes\}\$},
   author = {Breschi, Matteo and Gamba, Rossella and Bernuzzi, Sebastiano},
@@ -219,8 +220,8 @@
   urldate = {2021-05-03},
   abstract = {We present \$\{\textbackslash tt bajes\}\$, a parallel and lightweight framework for Bayesian inference of multimessenger transients. \$\{\textbackslash tt bajes\}\$ is a Python modular package with minimal dependencies on external libraries adaptable to the majority of the Bayesian models and to various sampling methods. We describe the general workflow and the parameter estimation pipeline for compact-binary-coalescence gravitational-wave transients. The latter is validated against injections of binary black hole and binary neutron star waveforms, including confidence interval tests that demonstrates the inference is well-calibrated. Binary neutron star postmerger injections are also studied using a network of five detectors made of LIGO, Virgo, KAGRA and Einstein Telescope. Postmerger signals will be detectable for sources at \$\{\textbackslash lesssim\}80\textbackslash,\$Mpc, with Einstein Telescope contributing over 90\textbackslash\% of the total signal-to-noise ratio. As a full scale application, we re-analyze the GWTC-1 black hole transients using the effective-one-body \$\{\textbackslash tt TEOBResumS\}\$ approximant, and reproduce selected results with other approximants. \$\{\textbackslash tt bajes\}\$ inferences are consistent with previous results; the direct comparison of \$\{\textbackslash tt bajes\}\$ and \$\{\textbackslash tt bilby\}\$ analyses of GW150914 shows a maximum Jensen-Shannon divergence of \$5.2\{\textbackslash times\}10\^\{-4\}\$. GW170817 is re-analyzed using \$\{\textbackslash tt TaylorF2\}\$ with 5.5PN point-mass and 7.5PN tides, \$\{\textbackslash tt TEOBResumSPA\}\$, and \$\{\textbackslash tt IMRPhenomPv2\textbackslash\_NRTidal\}\$ with different cutoff-frequencies of \$1024\textbackslash,\$Hz and \$2048\textbackslash,\$Hz. We find that the former choice minimizes systematics on the reduced tidal parameter, while a larger amount of tidal information is gained with the latter choice. \$\{\textbackslash tt bajes\}\$ can perform these analyses in about 1\textasciitilde day using 128 CPUs.},
   archiveprefix = {arXiv},
-  keywords = {Astrophysics - High Energy Astrophysical Phenomena,General Relativity and Quantum Cosmology},
-  file = {/home/jacopo/zotero/storage/5D8EJ2GD/Breschi et al_2021_$ -tt bajes $.pdf;/home/jacopo/zotero/storage/Y69TFRRG/2102.html}
+  keywords = {Astrophysics - High Energy Astrophysical Phenomena,Bayesian inference,General Relativity and Quantum Cosmology,Gravitational-waves},
+  file = {/home/jacopo/zotero/storage/5D8EJ2GD/Breschi et al_2021_$ -tt bajes $.pdf;/home/jacopo/zotero/storage/D3J9ZR6D/4476594.html;/home/jacopo/zotero/storage/Y69TFRRG/2102.html}
 }
 
 @article{buonannoComparisonPostNewtonianTemplates2009,
@@ -523,6 +524,20 @@
   file = {/home/jacopo/zotero/storage/CPIQW3ZN/Gourgoulhon - 2011 - An introduction to the theory of rotating relativi.pdf;/home/jacopo/zotero/storage/QWNNJN2T/1003.html}
 }
 
+@book{gradshteinTableIntegralsSeries2007,
+  title = {Table of Integrals, Series, and Products},
+  author = {Gradshteĭn, I. S. and Ryzhik, I. M. and Jeffrey, Alan},
+  date = {2007},
+  edition = {7th ed},
+  publisher = {{Academic Press}},
+  location = {{Amsterdam ; Boston}},
+  isbn = {978-0-12-373637-6},
+  langid = {english},
+  pagetotal = {1171},
+  keywords = {Mathematics,Tables},
+  file = {/home/jacopo/zotero/storage/7DNQGF4U/Gradshteĭn et al. - 2007 - Table of integrals, series, and products.pdf}
+}
+
 @article{hindererTidalLoveNumbers2008,
   title = {Tidal {{Love Numbers}} of {{Neutron Stars}}},
   author = {Hinderer, Tanja},
@@ -767,20 +782,6 @@
   pagetotal = {253},
   keywords = {Multivariate analysis},
   file = {/home/jacopo/zotero/storage/FK6JKT5N/Manly and Navarro Alberto - 2017 - Multivariate statistical methods a primer.pdf}
-}
-
-@article{matteobreschiBajesBayesianInference2021,
-  title = {Bajes: {{Bayesian}} Inference of Multimessenger Astrophysical Data, Methods and Application to Gravitational-Waves},
-  shorttitle = {Bajes},
-  author = {Matteo Breschi and Rossella Gamba and Sebastiano Bernuzzi},
-  date = {2021-01-29},
-  doi = {10.5281/zenodo.4476594},
-  url = {https://zenodo.org/record/4476594#.YJA4nqIzaV4},
-  urldate = {2021-05-03},
-  abstract = {We release the posterior samples (and the related configuration files~for~reproducibility) coming from the~analyses of gravitational-wave (GW) triggers presented in GWTC-1 [1] estimated with TEOBResumS~model~[2] using the Bajes pipeline [3]. Bajes [baɪɛs]~is a Python package developed at Friedrich-Schiller-Universtaet Jena that aims to~provide a simple, complete and reliableimplementation capable to robustly perform Bayesian inference on arbitrary sets of data, with specific functionalities for multimessenger astrophysics. The Bajes software can be downloaded from~Github~and installed using the standard Python setuptools routine (see documentation). The presented~data contain .zip repositories for every analyzed GW events.~Each repository stores the following objects: config.ini :~the configuration file~employed to execute the job; posterior.dat :~ASCII file containing the posterior samples (sorted by increasing likelihood), with~the following columns: m\_chirp :~chirp mass, detector-frame [solar masses] m\_ratio :~mass ratio [greater or equal to 1] m\_chirp\_source :~chirp mass, source-frame [solar masses] m\_1\_source :~primary mass component, source-frame [solar masses] m\_2\_source :~secondary~mass component, source-frame [solar masses] s\_1\_z : primary (dimensionless) spin z-component (aligned to orbital angular momentum) s\_2\_z : secondary~(dimensionless) spin z-component (aligned to orbital angular momentum) chi\_eff : effective spin parameter~ lum\_distance : luminosity distance [Mpc] inclination : inclination angle [rad] right\_ascension : right ascension angle [rad] declination : declination angle [rad] Two additional columns are included for GW170817 with the tidal deformabilities, lambda\_1 and lambda\_2 [1] LIGO Scientific and Virgo Collaboration,~GWTC-1: A Gravitational-Wave Transient Catalog of Compact Binary Mergers Observed by LIGO and Virgo during the First and Second Observing Runs,~Phys.Rev.X~9~(2019)~3,~031040, arXiv:1811.12907~[astro-ph.HE] [2] A. Nagar et al.,~Time-domain effective-one-body gravitational waveforms for coalescing compact binaries with nonprecessing spins, tides and self-spin effects,~Phys.Rev.D~98~(2018)~10,~104052,~arXiv:1806.01772~[gr-qc] [3] M. Breschi~et al., Bajes:~Bayesian inference of multimessenger astrophysical data, methods and application to gravitational-waves, related paper (2021)},
-  langid = {english},
-  keywords = {Bayesian inference,Gravitational-waves},
-  file = {/home/jacopo/zotero/storage/D3J9ZR6D/4476594.html}
 }
 
 @online{mcginnGeneralisedGravitationalBurst2021,
@@ -1347,6 +1348,14 @@
   archiveprefix = {arXiv},
   keywords = {Physics - History and Philosophy of Physics},
   file = {/home/jacopo/zotero/storage/SKSEWCAT/Weinstein_2016_Einstein's Discovery of Gravitational Waves 1916-1918.pdf;/home/jacopo/zotero/storage/R2SVBB8Z/1602.html}
+}
+
+@article{whelanGeometryGravitationalWave,
+  title = {The {{Geometry}} of {{Gravitational Wave Detection}}},
+  author = {Whelan, John T},
+  pages = {15},
+  langid = {english},
+  file = {/home/jacopo/zotero/storage/H5I3P2HT/Whelan - The Geometry of Gravitational Wave Detection.pdf}
 }
 
 @article{zdeborovaUnderstandingDeepLearning2020,
