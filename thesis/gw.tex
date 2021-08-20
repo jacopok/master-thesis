@@ -629,7 +629,7 @@ The waveform we wrote explicitly depends on:
 
 These are only some of the parameters which must be considered when discussing a \ac{CBC}. We will now discuss the full set of parameters which can be used to fully describe the binary system generating the waveform \cite[eq.\ 21]{breschiTtBajesBayesian2021}. 
 
-\subsubsection{Arrival time and initial phase}
+\paragraph{Arrival time and initial phase}
 
 The time at which any given waveform arrives at Earth is arbitrary, as is the global phase of the waveform. 
 In practice, one will typically analyze the output from a detector in batches, and in each of these the analysis will be performed in Fourier space. 
@@ -642,20 +642,20 @@ Therefore, it is relevant to see how the Fourier-domain waveform responds to a t
 %
 so a time shift corresponds to the addition of a linear term to the phase, while the phase can be directly moved from the time to the frequency domain. 
 
-\subsubsection{Sky position and polarization}
+\paragraph{Sky position and polarization}
 
 The wave will be coming from a sky position, which we can describe with respect to a given coordinate system through two angles; it is convenient to use right ascension \(\alpha \) and declination \(\delta \). 
 Also, the polarization of the gravitational waves can have an arbitrary angle with respect to the observation direction: we denote this angle as \(\psi \). 
 % One might wonder whether this parameter will be fully degenerate with the initial phase \(\phi_0\) and thus unmeasurable, but it can in fact be measured if we have a network of detectors whose response functions to either polarization are different. 
 
-\subsubsection{Masses and mass ratio}
+\paragraph{Masses and mass ratio}
 
 The waveform to the lowest order we described only depends on the chirp mass \(\mathcal{M}_c\), but as we will see later at higher order there appears a dependence on the ratio of the two masses: \(q = m_1 / m_2 \), where \(m_i\) are the masses of the two compact objects. 
 It is customary to fix one of the two masses to always be the largest, therefore constraining \(q \lesseqgtr 1\); we choose the convention \(q \geq 1\).
 
 A possible parametrization for the two masses is \((\mathcal{M}_c, q)\), another is \((M, q)\): these are equivalent, but in the following work we will typically use the latter because of the aforementioned scaling property of the waveforms: we conventionally work with respect to the dimensionless frequency \(Mf\) and the dimensionless time \(t / M\) in order to have one less parameter. 
 
-\subsubsection{Spin}
+\paragraph{Spin}
 
 Compact objects can spin, and the spin of each of the two is a vector with three different components. 
 These vectors \(\vec{S}_i\) have units of angular momentum, but they are typically rescaled as 
@@ -669,7 +669,7 @@ These vectors \(\vec{S}_i\) have units of angular momentum, but they are typical
 The constraint of \(\abs{\chi_i} < 1\) can be approached by realistic models of \acsp{BH}, while realistic models of \acsp{NS} typically are constrained to spin much less, at the most \(\abs{\chi _i} \lesssim 0.7\) \cite[]{loSPINPARAMETERUNIFORMLY2011}.
 This constraint is hard to experimentally verify since one is faced with the degeneracy between the components \(\chi_{z,i}\) aligned with the direction of the angular momentum and the mass ratio \(q\); in the analysis of the merger GW170807 two sets of prior distributions for the spins were used, \(\abs{\chi } < 0.05\) and \(\abs{\chi } < 0.89\), for this reason \cite[]{abbottGW170817ObservationGravitational2017}. We have theoretical reasons to believe that the low-spins priors might correspond to a more physically meaningful scenario, but the degeneracy means that the high-spin case is not experimentally excluded, so we must still consider it a possibility.
 
-\subsubsection{Tidal polarizability of neutron stars}
+\paragraph{Tidal polarizability of neutron stars}
 
 If our compact objects are not black holes, they might be able to deform. The astrophysically motivated scenario we think of is that of neutron stars, but the following characterization can also apply to any extended compact objects. For concreteness' sake, we will refer to \acsp{NS}. 
 
@@ -704,10 +704,37 @@ where \(R\) is the radius of the deformed \ac{NS}, or the \textbf{tidal deformab
 \end{align}
 %
 where \(m\) is the mass of the deformed \ac{NS}. 
+The value of these parameters depends on the specific equation of state used in the model; \(k_2\) is typically of the order of \(10^{-1}\), and in the expression for \(\Lambda \) we have a fifth power of the \emph{compactness} \(\sigma = R c^2 / Gm\) of the \ac{NS} --- this is expected to be a small number, but larger than 3,\footnote{A limit on the maximum redshift of radiation from the surface of a \ac{NS} was calculated by \textcite{lindblomLimitsGravitationalRedshift1984} under the assumptions of causality and stability for the nuclear matter, which is equivalent to a compactness limit of \(\sigma \geq 2.83\) \cite{lattimerNeutronStarObservations2007}. } so its fifth power will be of order \(10^{3 \divisionsymbol 4}\). This means that the deformability \(\Lambda \) will typically be of the order \(10^{2 \divisionsymbol 3}\). 
 
 The Love number is useful since it is an expansion parameter for the gravitational field of the deformed \ac{NS}. This field has contributions from both its quadrupole moment, which is due to the tidal deformation from the other star, and from the gravitational field of the other star which we can expand in terms of the tidal field around the center of the deformed star: \(U _{\text{ext}} \approx - \mathcal{E}_{ij} x_{i} x_{j} / 2\). 
 
-The 
+The gravitational field of the deformed star also changes under the effect of the deformation: including the first term in its expansion, which depends on the quadrupole moment, the potential reads  
+%
+\begin{align}
+U _{\text{int}} \approx \frac{Gm}{r} + \frac{3G}{2r^3} \frac{x_i}{r} \frac{x_j}{r} Q_{ij}
+\,,
+\end{align}
+%
+where \(r = \abs{x}\) is the radius from the center of the deformed star.
+
+We can then see that under the assumption of linear dependence of the quadrupole on the tidal tensor the two potentials can be added (since we are still in the realm of linear theory):\footnote{A technical fact to remember here is that the expansions do not naturally match: the expansion of the internal potential is in orders of \(1/r\), while the expansion of the external one is in orders of \(r\). } 
+%
+\begin{align}
+U \approx \frac{Gm}{r} - \frac{1}{2} \mathcal{E}_{ij} x_i x_j \qty[1 + 2 k_2 (R / r)^{5}]
+\,.
+\end{align}
+
+The meaning of \(\Lambda \) is less immediate ---  the first correction to the phasing of the waveform which appears is \cites[eq.\ 14.231]{maggioreGravitationalWavesVolume2018}{flanaganConstrainingNeutronStar2008}
+%
+\begin{align}
+\Delta \Psi^{\text{tidal}}_{\text{5PN}} = - \frac{117}{256} \frac{m^2}{m_1 m_2 } \widetilde{\Lambda } \qty(\frac{v}{c})^{5} 
+\qquad \text{where} \qquad
+\widetilde{\Lambda} = \frac{16}{13} \frac{(m_1 + 12m_2 ) m_1^{4} \Lambda_1 + (m_2 + 12 m_1 ) m_2^{4} \Lambda_2 }{(m_1 +m_2 )^{5}}
+\,.
+\end{align}
+
+The parameter \(\widetilde{\Lambda}\), which depends on the tidal deformabilities of the two stars \(\Lambda_{1, 2}\), is called the \emph{reduced tidal parameter}. 
+
 
 \subsection{Data analysis}
 
