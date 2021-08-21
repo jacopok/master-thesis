@@ -57,5 +57,33 @@ for k, v in polarizations.items():
 plt.tight_layout()
 fig.set_dpi(150)
 fig.savefig('polarizations.pdf', bbox_inches = 'tight')
+plt.close()
 
+# %%
+
+size_sm = 4e-1
+polarizations_sm = {
+    # 'h_p': [size_sm, 0],
+    'h_c': [0, size_sm],
+}
+
+ts_sm = np.linspace(0, 5, num=20*5)
+
+for pol, v in polarizations_sm.items():
+
+    h_p, h_c = v
+    for i, t in enumerate(ts_sm):
+        
+        plt.plot(*evolve(t, xs, ys, h_p, h_c),
+                c='black',
+                lw=1
+            )
+        plt.gca().set_aspect('equal')
+        plt.xticks([])
+        plt.yticks([])
+        plt.gca().set_axis_off()
+
+        plt.tight_layout()
+        plt.savefig(f'small_polarizations/{pol}-{i}.png')
+        plt.close()
 # %%

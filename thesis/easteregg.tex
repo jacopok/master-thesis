@@ -1,0 +1,28 @@
+\usepackage{ifthen}
+\usepackage{pgffor}
+\usepackage[
+    placement=top,
+    angle=0,
+    color=black!40,
+    scale=.2,
+    hshift=1300,
+    vshift=-100
+]{background}
+\backgroundsetup{contents=\includegraphics{figures/small_polarizations/h_c-\thepage.png}}
+
+
+% \newcounter{pagenumber}
+
+% \foreach \pagenumber in {3,...,10}{
+%     \AddEverypageHook{
+%         \ifthenelse{\equal{\arabic{pagenumber}}{\arabic{page}}}
+%         {
+%             \backgroundsetup{
+%                 contents=\includegraphics{figures/small_polarizations/h_c-\value{page}.png}
+%             }
+%         }
+%         {
+%             \NoBgThispage
+%         }
+%     \BgMaterial}
+% }
