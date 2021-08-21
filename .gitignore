@@ -1,3 +1,4 @@
 **/*.synctex.gz
 **/*.pdf
 !thesis/main.pdf
+thesis/figures/small_polarizations/*
