@@ -800,7 +800,55 @@ h(t) = D_{ij} h_{ij}
 \end{align}
 %
 where \(D_{ij}\) is known as the \emph{detector tensor}. 
-We want to apply this expression to the generic expression for a gravitational wave \eqref{eq:generic-gw}; however 
+We want to apply this expression to the generic one for a gravitational wave \eqref{eq:generic-gw}, which we can simplify by
+\begin{enumerate}
+    \item removing the integral in \(\dd[2]{\hat{n}}\): in the case of a \ac{CBC} this is an excellent approximation;
+    \item removing the dependence on \(\vec{x}\): this is called the \emph{short-arm} approximation, which is warranted by the fact that our detectors have arms with lengths \(L \sim \SI{3}{km}\) and are most sensitive for \ac{GW} frequencies of \(f \sim \SI{100}{Hz}\), while the frequencies corresponding to \(L\) are \(f \sim
+     \SI{100}{kHz}\).\footnote{It is actually possible to not use this approximation, and in fact it is advisable not to: modern interferometers use power recycling techniques, which allow for the effective length of the arms to be much longer than their physical one. In fact, the optimal detection strategy for any given \ac{GW} frequency is to have a detector whose arms are a quarter of the \ac{GW} wavelength long \cite[eq.\ 9.33]{maggioreGravitationalWavesVolume2007} --- this balances the effect of the deformation due to the \ac{GW} changing sign during the time of flight of any specific photon with the ``stacking'' effect of the photon taking a longer path through the deformed space.}
+\end{enumerate}
+
+This leads to the following expression for the observed signal:
+%
+\begin{align}
+h(t) &= \sum _{\text{pol}= +, \times } \underbrace{D^{ij} e_{ij}(\hat{n}, \psi )}_{F _{\text{pol}}}  \underbrace{\int_{- \infty }^{\infty } \dd{f} \widetilde{h} _{\text{pol}} e^{-2 \pi i f t}}_{h _{\text{pol}}(t)}  \\
+&= F_+ h_+ (t) + F_\times h_\times (t)
+\,.
+\end{align}
+
+The \emph{detector pattern functions} \(F_+\) can be computed explicitly; for a Michelson-Morley interferometer they read 
+%
+\begin{align}
+F_{+} &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \cos 2 \psi - \cos \theta \sin 2 \phi \sin 2 \psi   \\
+F_{+} &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \sin 2 \psi + \cos \theta \sin 2 \phi \cos 2 \psi  
+\,,
+\end{align}
+%
+where \(\theta \), \(\phi \) are the two angles describing the direction the \ac{GW} is coming from in a frame aligned with the axes of the detector --- they will depend on the sky position of the source (\(\alpha \), \(\delta \)) as well as the orientation of the detector in space (which depends on well-known parameters such as its latitude, the orientation of the earth at each time and so on).
+
+\subsection{Matched filtering}
+
+We have seen how the \ac{GW} signal will look to our detector: \(h(t)\), but in practical experiments what we will measure will be in the form \(s(t) = h(t) + n(t)\), and typically the magnitude of the noise timeseries \(n(t)\) will be much larger than the magnitude of the signal. 
+
+This poses an issue both for the detection of a signal and for the analysis of a signal which has been identified as such. 
+The technique we will describe here, matched filtering, has applications in both branches of \ac{GW} data analysis.
+
+The idea is to define a \emph{filter}, a linear map from the signal timeseries to \(\mathbb{R}\), in such a way that its value is low if there is no signal, and it is high if there is a signal of a certain shape. 
+In general, such a function can be expressed as 
+%
+\begin{align}
+s(t) \to \hat{s} \int \dd{t} s(t) K(t)
+\,
+\end{align}
+%
+for some filter function \(K(t)\), which we can select arbitrarily.
+How can we determine the best choice of \(K\)?
+We want to maximize the \emph{distinguishability} between true signals and random noise, which we can quantify through the \ac{SNR}: 
+%
+\begin{align}
+\text{SNR} = 
+\,,
+\end{align}
+%
 
 
 \end{document}

@@ -63,20 +63,28 @@ plt.close()
 
 size_sm = 4e-1
 polarizations_sm = {
-    # 'h_p': [size_sm, 0],
-    'h_c': [0, size_sm],
+    'h_p': [size_sm, 0, 0],
+    'h_c': [0, size_sm, 1],
 }
 
-ts_sm = np.linspace(0, 5, num=20*5)
+ts_sm = np.linspace(0, 4, num=50)
+from tqdm import tqdm
 
 for pol, v in polarizations_sm.items():
 
-    h_p, h_c = v
-    for i, t in enumerate(ts_sm):
+    h_p, h_c, to_add = v
+    for i, t in tqdm(enumerate(ts_sm)):
         
         plt.plot(*evolve(t, xs, ys, h_p, h_c),
                 c='black',
-                lw=1
+                lw=4,
+                alpha=1
+            )
+        plt.plot(*evolve(1/2, xs, ys, h_p, h_c),
+                alpha=0.
+            )
+        plt.plot(*evolve(0, xs, ys, h_p, h_c),
+                alpha=0.
             )
         plt.gca().set_aspect('equal')
         plt.xticks([])
@@ -84,6 +92,6 @@ for pol, v in polarizations_sm.items():
         plt.gca().set_axis_off()
 
         plt.tight_layout()
-        plt.savefig(f'small_polarizations/{pol}-{i}.png')
+        plt.savefig(f'small_polarizations/{pol}-{2*i+to_add}.png')
         plt.close()
 # %%

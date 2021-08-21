@@ -1,28 +1,31 @@
 \usepackage{ifthen}
 \usepackage{pgffor}
 \usepackage[
-    placement=top,
+    placement=bottom,
     angle=0,
     color=black!40,
-    scale=.2,
-    hshift=1300,
-    vshift=-100
+    scale=.15,
+    % hshift=1380,
+    hshift=-194,
+    vshift=250
 ]{background}
-\backgroundsetup{contents=\includegraphics{figures/small_polarizations/h_c-\thepage.png}}
+
+% only h_c on every page
+
+% \backgroundsetup{contents=\includegraphics{figures/small_polarizations/h_c-\thepage.png}}
 
 
-% \newcounter{pagenumber}
-
-% \foreach \pagenumber in {3,...,10}{
-%     \AddEverypageHook{
-%         \ifthenelse{\equal{\arabic{pagenumber}}{\arabic{page}}}
-%         {
-%             \backgroundsetup{
-%                 contents=\includegraphics{figures/small_polarizations/h_c-\value{page}.png}
-%             }
-%         }
-%         {
-%             \NoBgThispage
-%         }
-%     \BgMaterial}
-% }
+% alternating h_p and h_c
+\AddEverypageHook{
+    \ifthenelse{\isodd{\value{page}}}
+    {
+        \backgroundsetup{
+            contents=\includegraphics{figures/small_polarizations/h_c-\thepage.png}
+        }
+    }
+    {
+        \backgroundsetup{
+            contents=\includegraphics{figures/small_polarizations/h_p-\thepage.png}
+        }
+    }
+\BgMaterial}
