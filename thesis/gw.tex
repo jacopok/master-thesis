@@ -827,7 +827,7 @@ where \(\theta \), \(\phi \) are the two angles describing the direction the \ac
 
 \subsection{Matched filtering}
 
-We have seen how the \ac{GW} signal will look to our detector: \(h(t)\), but in practical experiments what we will measure will be in the form \(s(t) = h(t) + n(t)\), and typically the magnitude of the noise timeseries \(n(t)\) will be much larger than the magnitude of the signal. 
+We have seen how the \ac{GW} signal will look to our detector: \(h(t)\), but in practical experiments what we will measure will be in the form \(s(t) = h(t) + n(t)\),\footnote{The ``noise'' described here is not actually what is measured: the output of the detector is not \(h(t)\) but it is a linear function of it --- even without accounting for the technical details of the measurement, the quantity measured is the intensity of the light at the dark fringe of the detector, not directly \(h\).} and typically the magnitude of the noise timeseries \(n(t)\) will be much larger than the magnitude of the signal. 
 
 This poses an issue both for the detection of a signal and for the analysis of a signal which has been identified as such. 
 The technique we will describe here, matched filtering, has applications in both branches of \ac{GW} data analysis.
@@ -836,19 +836,39 @@ The idea is to define a \emph{filter}, a linear map from the signal timeseries t
 In general, such a function can be expressed as 
 %
 \begin{align}
-s(t) \to \hat{s} \int \dd{t} s(t) K(t)
+s(t) \to \hat{s} = \int \dd{t} s(t) K(t)
 \,
 \end{align}
 %
 for some filter function \(K(t)\), which we can select arbitrarily.
 How can we determine the best choice of \(K\)?
-We want to maximize the \emph{distinguishability} between true signals and random noise, which we can quantify through the \ac{SNR}: 
+We want to maximize the \emph{distinguishability} between true signals and random noise, which we can quantify through the \ac{SNR}:\footnote{Properly speaking, this quantifies the distinguishability only under the assumption of zero-mean noise, otherwise we could make it arbitrarily large by adding a constant to \(s(t)\).}
 %
 \begin{align}
-\text{SNR} = 
+\text{SNR} = \frac{\mathbb{E}(\hat{s} | \text{presence of \(h\)}) }{\sqrt{\var{\hat{s} | \text{absence of \(h\)}}}} = \frac{S}{N}
 \,,
 \end{align}
 %
+where we compute the root of a variance for \(N\) since if there is only noise we expect \(\hat{s} = \int \dd{t} n(t) K(t)\) to be a random variable.
 
+In order to properly express this, let us discuss our assumptions about the statistical properties of the noise: the simplest noise we can characterize is 
+\begin{enumerate}
+    \item stationary: its statistical properties are unchanging in time. This is not true in real detectors, but if the variation is slow enough one can work with ``local'' properties, on the scale of hours or days.
+    \item zero-mean: \(\expval{n(t)} =0\).
+    \item uncorrelated in Fourier space: this can be stated simultaneously with the definition of the variance of each Fourier component, which is expressed through the single sided\footnote{The distinction between the single- and double-sided \ac{PSD} depends on whether we want to use negative frequencies in the integral to recover the variance at each time or not: 
+    %
+    \begin{align}
+    \expval{n^2(t)} 
+    = \int_{0}^{\infty } \dd{f} S_n(f)^{\text{single-sided}}
+    = \int_{-\infty }^{\infty } \dd{f} S_n(f)^{\text{double-sided}}
+    \,.
+    \end{align}
+    
+    Since the noise is real-valued, these two are simply related by \(S_n^{\text{single-sided}} = S_n^{\text{double-sided}}/2\).
+    } \textbf{power spectral density} \(\expval{\widetilde{n}^{*}(f ) n(f )} = \delta (f - f' ) S_n(f ) / 2\). 
+    \item Gaussian: each Fourier component is normally distributed around zero, with a variance described by the \ac{PSD}.
+\end{enumerate}
+
+The \ac{PSD}, as defined, has the dimension of an inverse frequency; since it describes a variance it is often useful to discuss its square root, the \emph{spectral strain sensitivity} \(\sqrt{S_n}\), with dimensions \(1/ \sqrt{ \SI{}{Hz}}\). 
 
 \end{document}
