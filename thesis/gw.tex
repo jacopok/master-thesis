@@ -289,14 +289,14 @@ since the Christoffel symbols computed \(\Gamma^{\mu }_{00}\) with the \ac{TT} g
 Does this mean that gravitational waves are merely an artefact, and have no effect on particles? 
 No, since while in the \ac{TT} gauge the \emph{positions} of the points do not change, the \emph{distance} among them does.
 
-In order to understand this effect we can make use of the geodesic equation \cite[section 3.10]{carrollSpacetimeGeometryIntroduction2019}, which states that the acceleration experienced between two geodesics whose four-velocities are both approximately \(u^{\mu }\), separated by a vector \(\xi ^{\mu }\),\footnote{There is a technical note to be made here: in GR the notion of a vector between two points in the manifold is meaningless, however we can get around this problem by considering a one-parameter family of geodesics, and identifying the separation vector between them to be the tangent vector associated to the parameter.} is 
+In order to understand this effect we can make use of the geodesic deviation equation \cite[section 3.10]{carrollSpacetimeGeometryIntroduction2019}, which states that if we take two geodesics whose four-velocities are both approximately \(u^{\mu }\), separated by a short vector \(\xi ^{\mu }\),\footnote{There is a technical note to be made here: in GR the notion of a vector between two points in the manifold is meaningless, however we can get around this problem by considering a one-parameter family of geodesics, and identifying the separation vector between them to be the tangent vector associated to the parameter.} they might diverge or converge, and the evolution of \(\xi^{\mu }\) will be described by
 %
 \begin{align}
-a^{\mu } = R^{\mu }_{\nu \rho \sigma } u^{\nu } u^{\rho } \xi^{\sigma }
+\ddot{\xi}^{\mu } = R^{\mu }_{\nu \rho \sigma } u^{\nu } u^{\rho } \xi^{\sigma }
 \,.
 \end{align}
 
-Let us consider the same geodesics as before, whose four-velocity is uniformly \(u^{\mu } \equiv \qty(1, \vec{0})^{\top}\): the acceleration will then be given by the matrix product \(R^{\mu }_{00\sigma } \xi^{\sigma }\). 
+Let us consider the same geodesics as before, whose four-velocity is uniformly \(u^{\mu } \equiv \qty(1, \vec{0})^{\top}\): the ``acceleration'' will then be given by the matrix product \(R^{\mu }_{00\sigma } \xi^{\sigma }\). 
 
 These components of the Riemann tensor read \cite[eq.\ 7.106]{carrollSpacetimeGeometryIntroduction2019}: 
 %
@@ -305,14 +305,18 @@ R^{\mu }_{00 \sigma } = \frac{1}{2} \ddot{h}^{\mu }_{\sigma }
 \,.
 \end{align}
 
-Therefore, the temporal component of the acceleration is \(a^{0} \propto \ddot{h}^{0}_{\sigma } = 0 \), while the spatial components read 
+Therefore, the temporal component of the acceleration is \(\ddot{\xi}^{0} \propto \ddot{h}^{0}_{\sigma } = 0 \), while the spatial components read 
 %
-\begin{align}
-a^{i} = \frac{1}{2} \ddot{h}^{i}_{j} \xi^{j}
+\begin{align} \label{eq:tidal-acceleration-TT-gauge}
+\ddot{\xi}
+^{i} = \frac{1}{2} \ddot{h}^{i}_{j} \xi^{j}
 \,.
 \end{align}
 
-These equations can be explicitly solved, and \(a^{i}\) can be interpreted as \(\ddot{s}^{i}\) for some notion of ``position'' of the points; note however that this is \emph{not} coordinate position, but instead it denotes the changing distance between the points, which are stationary in the \ac{TT}-gauge coordinates. 
+These equations can then be explicitly solved.
+It is important to remark that \(\ddot{\xi }^{i}\) is \emph{not} coordinate acceleration: the points are \emph{stationary} in the \ac{TT} gauge coordinates, but the distance among them changes.
+Intuitively, we can interpret this as due to our carefully constructed gauge choice, which was determined through residual gauge, so it satisfied a wave equation \(\square \zeta _\mu =0 \): it precisely oscillates with the wave, allowing the position of any point to not change (to linear order). 
+Fortunately \acsp{GW} are physical, so they must still manifest regardless of our gauge, and they do so through the distortion of distances as described here.
 
 \begin{figure}[ht]
 \centering
@@ -330,7 +334,18 @@ y (t) &= y(t=0) \qty(1 - h_+ e^{i \omega t}) + x(t=0) h_\times  e^{i \omega t}
 \end{align}
 %
 which is shown graphically in figure \ref{fig:polarizations} for four configurations: only \(h_+\) or \(h_\times \) being nonzero, or only \(h_R \propto h_+ + i h_\times \) or \(h_L \propto h_+ - i h_\times \) being nonzero. 
-The last two are called \emph{circular polarizations}.  
+The last two are called \emph{circular polarizations}.
+
+This description is not the one an experimentalist might use: if we need to consider the noise due to other sources of gravitation, it is convenient to move from the \ac{TT} gauge to the \emph{proper detector frame}, in which the metric is expanded around a fiducial point of our detector --- for instance, around the beam-splitter in an interferometer.
+In such a frame, it can be shown that the effect of \acsp{GW} can be described as a Newtonian force on points a certain distance away from it --- for instance, the mirrors of the interferometer. This comes in at second order in the distance, and it is given by \cite[eq.\ 1.96]{maggioreGravitationalWavesVolume2007}
+%
+\begin{align}
+F_{i} = \frac{m}{2} \ddot{h}_{ij}^{TT} \xi^{j}
+\,,
+\end{align}
+%
+which unsurprisingly closely mirrors the ac{TT} gauge variation of the distance: the physically measurable effect must be independent of gauge choice. 
+The reason the \ac{TT} gauge perturbation appears here as well is that the Riemann tensor, which is used in these computations, is \emph{invariant} (a stronger condition than covariant! the values of the components are actually unchanged) under gauge transformations. 
 
 \subsubsection{The quadrupole formula}
 
@@ -648,6 +663,44 @@ The wave will be coming from a sky position, which we can describe with respect 
 Also, the polarization of the gravitational waves can have an arbitrary angle with respect to the observation direction: we denote this angle as \(\psi \). 
 % One might wonder whether this parameter will be fully degenerate with the initial phase \(\phi_0\) and thus unmeasurable, but it can in fact be measured if we have a network of detectors whose response functions to either polarization are different. 
 
+In more technical terms, a general waveform arriving our detector will be a superposition of \acsp{GW} in the TT gauge \eqref{eq:TT-gauge-gw} with varying \(\alpha \), \(\delta \), \(\psi \) as well as different frequencies; we can write it as \cite[eq.\ 1.58]{maggioreGravitationalWavesVolume2007}
+%
+\begin{align} \label{eq:generic-gw}
+h_{ab} (t, \vec{x}) &= \sum _{\text{pol} = +, \times }
+\int_{- \infty  }^{\infty } \dd{f} \int \dd[2]{\hat{n}} \widetilde{h}_{\text{pol}} (f, \hat{n}) e^{\text{pol}}_{ab}(\hat{n}, \psi ) e^{-2 \pi i f (t - \hat{n}\cdot \vec{x} / c )} 
+\,,
+\end{align}
+%
+where \(\hat{n} = \hat{n} (\alpha , \delta )\) is the vector describing the propagation direction of a specific component --- in the context of a \ac{CBC} the distribution of the \(e^{\text{pol}}_{ab}(\hat{n}, \psi )\) will include a Dirac delta centered on the position of the source in the sky, this more general expression can be useful, for example, in the context of \ac{SGWB}. 
+
+The tensors \(e_{ab}\) are basis tensors: in a frame where \(\hat{n}\) and \(\psi \) are chosen such that the \(+\) polarization stretches the \(x\) and \(y\) axes, they read 
+%
+\begin{align}
+e_{ij}^{+} (\hat{n}=\hat{z}, \psi =0) &= u_i u_j - v_i v_j = \left[\begin{array}{ccc}
+1 & 0 & 0 \\ 
+0 & -1 & 0 \\ 
+0 & 0 & 0
+\end{array}\right]  \\
+e_{ij}^{ \times } (\hat{n}=\hat{z}, \psi = 0) &= u_i v_j + v_i u_j = \left[\begin{array}{ccc}
+0 & 1 & 0 \\ 
+1 & 0 & 0 \\ 
+0 & 0 & 0
+\end{array}\right]
+\,,
+\end{align}
+%
+where \(u\) and \(v\) are two unit vectors defining the polarization direction; they are always chosen to be orthogonal, so fixing the angle \(\psi \) is enough to determine them both once we give \(\hat{n}\). 
+
+The aforementioned expansion glosses over a technical issue: the three-dimensional Fourier transform of the \ac{TT} gauge waveform is in the form \(h_{ij}(x) \sim \int \dd[3]{k} A_{ij}(k) e^{ikx}\), so in order to write it like we did we need to define 
+%
+\begin{align}
+\frac{f^2}{c^3} A_{ij} (f, \hat{n}) = \sum _{\text{pol}= +, \times }
+\widetilde{h}_{\text{pol}} (f, \hat{n}) e^{\text{pol}}_{ij}(\hat{n})
+\,,
+\end{align}
+%
+where we reparametrized the wavevector \(\vec{k}\) through frequency \(f\) and direction \(\hat{n}\), and exploited the decomposition \(\dd[3]{k} = k^2 \dd{k} \dd[2]{\hat{n}}\).
+
 \paragraph{Masses and mass ratio}
 
 The waveform to the lowest order we described only depends on the chirp mass \(\mathcal{M}_c\), but as we will see later at higher order there appears a dependence on the ratio of the two masses: \(q = m_1 / m_2 \), where \(m_i\) are the masses of the two compact objects. 
@@ -657,7 +710,7 @@ A possible parametrization for the two masses is \((\mathcal{M}_c, q)\), another
 
 \paragraph{Spin}
 
-Compact objects can spin, and the spin of each of the two is a vector with three different components. 
+Compact objects can spin, and the spin of each of the two is a vector with three independent components. 
 These vectors \(\vec{S}_i\) have units of angular momentum, but they are typically rescaled as 
 %
 \begin{align}
@@ -724,7 +777,7 @@ U \approx \frac{Gm}{r} - \frac{1}{2} \mathcal{E}_{ij} x_i x_j \qty[1 + 2 k_2 (R 
 \,.
 \end{align}
 
-The meaning of \(\Lambda \) is less immediate ---  the first correction to the phasing of the waveform which appears is \cites[eq.\ 14.231]{maggioreGravitationalWavesVolume2018}{flanaganConstrainingNeutronStar2008}
+The meaning of \(\Lambda \) is less immediate ---  the first correction to the phasing of the waveform which appears is\footnote{The meaning of the \ac{PN} expansion and of the expansion in orders of \(v/c\) will be discussed in [SEC]. } \cites[eq.\ 14.231]{maggioreGravitationalWavesVolume2018}{flanaganConstrainingNeutronStar2008}
 %
 \begin{align}
 \Delta \Psi^{\text{tidal}}_{\text{5PN}} = - \frac{117}{256} \frac{m^2}{m_1 m_2 } \widetilde{\Lambda } \qty(\frac{v}{c})^{5} 
@@ -735,9 +788,19 @@ The meaning of \(\Lambda \) is less immediate ---  the first correction to the p
 
 The parameter \(\widetilde{\Lambda}\), which depends on the tidal deformabilities of the two stars \(\Lambda_{1, 2}\), is called the \emph{reduced tidal parameter}. 
 
+\subsection{Interferometers and data analysis}
 
-\subsection{Data analysis}
+Having seen how a gravitational waveform from a \ac{CBC} might look to lowest order, we move to a discussion of the detection of these waveforms with interferometric techniques. 
 
+The response of any detector to a \ac{GW} is a\footnote{Current interferometric detectors have a single scalar response because of their Michelson-Morley design with arms at \SI{90}{\degree}; planned detector such as the Einstein Telescope will exhibit multiple scalar inputs \cite[section 5.3.2]{etscienceteamEinsteinGravitationalWave2011}. The following analysis still applies, each scalar input can be treated analogously; having multiple (from one multi-output detector or from a network) is incredibly beneficial for the accuracy of measurements.} scalar output, which will be in the form 
+%
+\begin{align}
+h(t) = D_{ij} h_{ij}
+\,,
+\end{align}
+%
+where \(D_{ij}\) is known as the \emph{detector tensor}. 
+We want to apply this expression to the generic expression for a gravitational wave \eqref{eq:generic-gw}; however 
 
 
 \end{document}
