@@ -2,3 +2,4 @@
 **/*.pdf
 !thesis/main.pdf
 thesis/figures/small_polarizations/*
+thesis/figures/GW170817_strain.hdf5
