@@ -1,9 +1,5 @@
 **/*.synctex.gz
 **/*.pdf
 !thesis/main.pdf
-<<<<<<< HEAD
-thesis/figures/small_polarizations/*
 thesis/figures/H-H1_GWOSC_4KHZ_R1-1187006835-4096.hdf5
-=======
 thesis/figures/small_polarizations/*
->>>>>>> 1c60f50814633886e0a2e899d589000c73b1d2e6
