@@ -960,10 +960,19 @@ In other words, the best way to find a signal buried in noise is to scale the Fo
 An alternative way to write the same expression is through the concept of \emph{whitening}: if \(S_n(f)\) is known, we can transform any signal \(a(t)\) into 
 %
 \begin{align}
-a_w(t) \qquad \text{such that} \qquad \widetilde{a}_w (f) = \frac{\widetilde{a}(f)}{\sqrt{S_n(f)}}
+a_w(t) \qquad \text{such that} \qquad \widetilde{a}_w (f) = \frac{\widetilde{a}(f)}{\sqrt{S_n(f) / 2}}
 \,.
 \end{align}
 
 In other words, we are mapping a signal into another signal where all the noise Fourier components are uniformly scaled: white noise. 
+
+In terms of the whitened signals, the Wiener product just reads 
+%
+\begin{align}
+(a_w | b_w) = 2 \Re \int_{0}^{\infty } \dd{f} a_w^{*} (f) b_w^{*}(f) = \int_{- \infty }^{\infty } \dd{t} a(t) b(t)
+\,.
+\end{align}
+
+
 
 \end{document}
