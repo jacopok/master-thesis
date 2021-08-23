@@ -788,6 +788,9 @@ The meaning of \(\Lambda \) is less immediate ---  the first correction to the p
 
 The parameter \(\widetilde{\Lambda}\), which depends on the tidal deformabilities of the two stars \(\Lambda_{1, 2}\), is called the \emph{reduced tidal parameter}. 
 
+One would expect to see \(\Lambda = 0\) for black holes, and this is true in the nonspinning case; on the other hand, Kerr black holes can exhibit small but nonvanishing deformability. \textcite{letiecSpinningBlackHoles2021} recently showed that, for example, \acsp{BH} with dimensionless spins of the order \(\chi \sim 0.1\) can exhibit Love numbers on the order of \(k_\ell \sim \num{2e-3}\), around two orders of magnitude less than \ac{NS} values. 
+The effect this will have on \ac{GW} emission is yet to be determined, but one can suspect it will be small.
+
 \paragraph{Eccentricity}
 
 A general binary system will have a nonvanishing eccentricity \(e \in [0, 1)\), such that the two semiaxes of the ellipse read \cite[eqs.\ 4.51]{maggioreGravitationalWavesVolume2007}
@@ -837,13 +840,24 @@ which can be (nontrivially) analytically solved, yielding the result shown in fi
 It can be clearly seen that eccentricity decreases as the semimajor axis decreases.
 Typical astrophysical binaries need to shrink by several orders of magnitude before merging --- the notorious pulsar in a binary system detected by \textcite{hulseDiscoveryPulsarBinary1975} has a semimajor axis of \(a \approx \SI{2e9}{m}\) and an eccentricity of \(e \approx 0.617\), while the frequency of the \acsp{GW} it emits is \(f _{\text{gw}} = 2 / P \approx \SI{7e-5}{Hz}\) \cite{taylorNewTestGeneral1982}. 
 
-If we were to wait until this reached a frequency range where next generation ground-based detectors might hope to detect it, \(f \sim \SI{10}{Hz}\), we would expect to see s(using Kepler's third law \(a^3 f^2 = \const\)) a reduction of semimajor axis by a factor \(\sim 2700\): it would go off-scale in figure \ref{fig:eccentricity}, so we would expect to basically have \(e \approx 0\). 
+If we were to wait until this reached a frequency range where next generation ground-based detectors might hope to detect it, \(f \sim \SI{10}{Hz}\), we would expect to see (using Kepler's third law \(a^3 f^2 = \const\)) a reduction of semimajor axis by a factor \(\sim 2700\): it would go off-scale in figure \ref{fig:eccentricity}, so we would expect to basically have \(e \approx 0\). 
 One can then see that this holds for a very wide range of possible values of \(e\). 
 
-This is the reason why eccentricity is often not considered in \ac{GW} modelling, while it is of crucial importance in astrophysical population studies, since eccentricity has a large effect on the emitted power (enhancing it) in the early stages of the inspiral.
+This is the reason why eccentricity is often not considered in \ac{GW} modelling, while it is of crucial importance in astrophysical population studies, since it has a large effect on the emitted power (enhancing it) in the early stages of the inspiral.
 
-Eccentric binaries are by no means excluded by this line of argument; there are astrophysical contexts in which they might be generated with high eccentricities combined with already small radii.
-Eccentric binary \ac{GW} models do exist \cite{favataConstrainingOrbitalEccentricity2021}, and ignoring eccentricities may lead to bias in parameter estimation. 
+Eccentric binaries are by no means excluded by this line of argument; there are astrophysical contexts in which they might be generated with high eccentricities combined with already small radii, which would allow \(e > 0\) to be detectable even in the \ac{LIGO}-Virgo band.
+Eccentric binary \ac{GW} models do exist \cite{favataConstrainingOrbitalEccentricity2021}, and ignoring eccentricities may lead to bias in parameter estimation.\footnote{It is interesting to note that these models reach into ``relativistic territory'', and therefore must also include effects such as periastron precession --- a good resource on these, based on \cite{favataGravitationalwaveMemoryEccentric2011}, is the \href{Sounds of Spacetime}{https://www.soundsofspacetime.org/elliptical-binaries.html} website, which also provides audio renditions of the waveforms.}
+
+\paragraph{Summary}
+
+The parameter vector \(\vec{\theta}\) describing a binary sysem can be divided into internal and external parameters as 
+%
+\begin{align}
+\vec{\theta} = (\underbrace{M, q, \vec{\chi}_1, \vec{\chi}_2, \Lambda_1, \Lambda_2,}_{\theta _{\text{int}}} \underbrace{D_L, \iota, \alpha, \delta, \psi, t_0, \phi_0 }_{\theta _{\text{ext}}})
+\,,
+\end{align}
+%
+where the dependence of the waveform on the external parameters is well-understood and easy to analytically calculate, while the dependence on the internal parameters (barring \(M\)) is complicated.
 
 \subsection{Interferometers and data analysis}
 
@@ -882,7 +896,7 @@ F_{+} &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \sin 2 \psi + \cos \th
 %
 where \(\theta \), \(\phi \) are the two angles describing the direction the \ac{GW} is coming from in a frame aligned with the axes of the detector --- they will depend on the sky position of the source (\(\alpha \), \(\delta \)) as well as the orientation of the detector in space (which depends on well-known parameters such as its latitude, the orientation of the earth at each time and so on).
 
-\subsection{Matched filtering}
+\subsubsection{Matched filtering}
 
 We have seen how the \ac{GW} signal will look to our detector: \(h(t)\), but in practical experiments what we will measure will be in the form \(s(t) = h(t) + n(t)\),\footnote{The ``noise'' described here is not actually what is measured: the output of the detector is not \(h(t)\) but it is a linear function of it --- even without accounting for the technical details of the measurement, the quantity measured is the intensity of the light at the dark fringe of the detector, not directly \(h\).} and typically the magnitude of the noise timeseries \(n(t)\) will be much larger than the magnitude of the signal. 
 
@@ -930,12 +944,12 @@ The \ac{PSD}, as defined, has the dimension of an inverse frequency; since it de
 
 With these assumptions, we can write the \ac{SNR}, moving to Fourier space, as \cite[eq.\ 7.45]{maggioreGravitationalWavesVolume2007}
 %
-\begin{align}
+\begin{align} \label{eq:snr}
 \frac{S}{N} = \frac{\int_{\mathbb{R}} \dd{f} \widetilde{h}(f) \widetilde{K}^{*}(f) }{\sqrt{\int_{\mathbb{R}} \dd{f} (S_n(f) / 2) \abs{\widetilde{K}(f)}^2}} = \frac{(u|h)}{\sqrt{(u|u)}}
 \,,
 \end{align}
 %
-where we defined the \textbf{Wiener product} between two real-valued signals \(a\) and \(b\) as the Fourier-space expression
+where we defined the \textbf{Wiener product} between two real-valued signals \(a\) and \(b\) as the Fourier-space expression \cites{finnDetectionMeasurementGravitational1992}[eq.\ 7.46]{maggioreGravitationalWavesVolume2007}
 %
 \begin{align}
 (a | b) = 4 \Re \int_{0}^{\infty } \dd{f} \frac{ \widetilde{a}^{*} (f) b(f)}{S_n(f)}
@@ -969,7 +983,85 @@ In other words, we are mapping a signal into another signal where all the noise 
 In terms of the whitened signals, the Wiener product just reads 
 %
 \begin{align}
-(a_w | b_w) = 2 \Re \int_{0}^{\infty } \dd{f} a_w^{*} (f) b_w(f) = \int_{- \infty }^{\infty } \dd{t} a(t) b(t)
+(a|b) = (a_w | b_w)_w = 2 \Re \int_{0}^{\infty } \dd{f} \widetilde{a}_w^{*} (f) \widetilde{b}_w(f) = \int_{- \infty }^{\infty } \dd{t} a_w(t) b_w(t)
+\,,
+\end{align}
+%
+so it can also be computed in the time domain.
+
+\paragraph{Optimal \ac{SNR}}
+
+The expression for the \ac{SNR}, if we are using the optimal filter, is then (in terms of an arbitrary constant \(C\)):
+%
+\begin{align}
+\text{optimal \ac{SNR}} = \frac{(Ch | h)}{\sqrt{(Ch|Ch)}} = \sqrt{(h|h)} 
+= 4 \int_{0}^{\infty } \dd{f} \frac{\abs{\widetilde{h}(f)}^2}{S_n(f)}
+\,.
+\end{align}
+
+Amplitude strain profiles, as well as Fourier transforms of signals, are often plotted with log-scales: in order to have an intuition for this quantity we can reframe it as 
+%
+\begin{align}
+\text{optimal \ac{SNR}} &=
+\int_{- \infty }^{\infty } \dd{\log f}  \frac{h_c^2 (f)}{h_n^2(f)}  
+\marginnote{Used \(\dd{\log f} = \dd{f} / f\).}\\
+h_c (f) &= 2 f \abs{\widetilde{h}(f)}  \\
+h_n (f) &= \sqrt{f S_n(f)}
+\,,
+\end{align}
+%
+where the quantities \(h_c\) and \(h_n\) are called the \textbf{characteristic strains} of signal and noise \cite[eqs.\ 17--19]{mooreGravitationalwaveSensitivityCurves2015}. 
+They are both dimensionless, the way this integral is expressed allows us to integrate ``by eye'': if we plot log-characteristic strain against log-frequency, the positive area between \(h_c\) and \(h_n\) will be proportional to the optimal \ac{SNR}. 
+
+Alternatively, we can define an ``amplitude signal strain spectral density'': 
+%
+\begin{align}
+\sqrt{S_h (f)} = 2 \sqrt{f} \abs{\widetilde{h}(f)}
+\,,
+\end{align}
+%
+which is comparable to \(\sqrt{S_n(f)}\), in the sense that it also has units of \SI{}{Hz^{-1/2}}.
+
+\subsubsection{Parameter inference}
+
+Modern data analysis techniques for \ac{GW} signals are Bayesian by necessity: we need to extract estimates for the parameters generating a signal of which we only have one measurement. 
+
+The quantity we want to extract from our analysis is the \textbf{posterior probability density function} \(\mathbb{P}(\vec{\theta} | s)\), where \(\vec{\theta}\) is the parameter vector while \(s\) represents the data from the detector. 
+If we integrate it in a certain hyper-volume \(\Omega \), we get \(\int_{\Omega } \dd[n]{\vec{\theta}} \mathbb{P}(\vec{\theta} | s)\): the answer to the question ``given the data we measured, what is the probability that the parameters of the system were contained in the region \(\Omega \)?''
+
+The way we write these probabilities is a compactification of notation: 
+after the ``given'' symbol we should also always ideally include all the other assumptions about the signal, the noise, and the way they are combined into \(s = h + n\). We will always leave this implicit, but we understand that the probabilities calculated will always be model-dependent. 
+
+A Bayesian approach starts by applying Bayes' theorem: 
+%
+\begin{align}
+\underbrace{\mathbb{P}(\vec{\theta}| s )}_{\text{posterior}} = \frac{\mathbb{P}(s | \vec{\theta}) \mathbb{P}(\vec{\theta})}{\mathbb{P}(s)}
+\propto \underbrace{\mathbb{P}(s | \vec{\theta})}_{\text{likelihood}} \underbrace{\mathbb{P}(\vec{\theta})}_{\text{prior}}
+\,,
+\end{align}
+%
+where the reason we can neglect the dependence on \(\mathbb{P}(s)\) is that it is a constant: since probability density functions are normalized to have unit integral over the whole space, we can worry about normalization in the end. 
+Also, there are techniques to explore the posterior probability density space (such as \ac{MH} sampling) which can use an unnormalized version of the posterior.
+
+The prior, which encodes our prior belief about the potential values of the parameters, is often chosen to be uninformative,\footnote{This does not necessarily mean ``uniform'': there is a method, known as Jeffrey's prior, which allows one to maximize the ``ignorance'' about a parameter once a likelihood is given, through what is basically an argument for reparametrization invariance. For example, an uninformative prior on the mean of a Gaussian is uniform, while an uninformative prior on its standard deviation is log-uniform.} so that we do not introduce bias in the analysis. 
+In certain cases it might be warranted to use biased priors: for example, the analysis for GW170817 offers results based on a low-spin and a high-spin prior \cite{abbottGW170817ObservationGravitational2017}: the first is theoretically motivated and might be more meaningful, but the second is still allowed by the data. 
+
+The second ingredient is the likelihood \(\mathbb{P}(s | \vec{\theta})\): this is where signal modelling comes in, since the likelihood needs t include the way the theoretical signal \(h_\theta (t)\) depends on the parameters. 
+
+What is the probability of observing \(s = h_\theta + n\) if we fix \(\theta \)? The theoretical signal \(h_\theta \) can be computed and is thereafter fixed, so this amounts to the probability of observing a certain realization of the noise: under the assumption of Gaussianity, this will read 
+%
+\begin{align}
+\mathbb{P}(h_\theta + n | \vec{\theta}) 
+&\propto 
+\exp(- \frac{(n|n)}{2}) 
+= \exp( - \frac{(s-h_\theta | s-h_\theta )}{2} )
+= \exp(
+     (s | h_\theta ) 
+     - \frac{(s|s)}{2} 
+     - \frac{(h_\theta |h_\theta )}{2}
+     )  \\
+&\propto \exp( (s | h_\theta ) - 
+\frac{(h_\theta | h_\theta )}{2})
 \,.
 \end{align}
 

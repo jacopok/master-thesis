@@ -48,7 +48,7 @@ ax2.set_xlabel('Orbital aspect ratio')
 plt.savefig('eccentricity.pdf', dpi=150)
 
 # %%
-plt.plot(e, np.sqrt(1-e**2), c='black')
+plt.plot(es, np.sqrt(1-es**2), c='black')
 plt.yscale('log')
 plt.xscale('logit')
 plt.xlabel('$e$, logit scale')
