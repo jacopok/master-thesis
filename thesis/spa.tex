@@ -4,14 +4,14 @@
 \appendix
 \section{The Stationary Phase Approximation} \label{sec:spa}
 
-We can apply \ac{SPA} to approximate the Fourier transform of an oscillatory function \(f(t) = A(t) e^{-i \Phi (t)}\) as long as 
+We can apply \ac{SPA} to approximate the Fourier transform of an oscillatory function \(f(t) = A(t) e^{-i \Phi (t)}\) as long as \cite{chassande-mottinStationaryPhaseApproximation1998}
 \begin{enumerate}
-    \item \(\Phi (t)\) is monotonic;
-    \item the evolution of the phase, \(\dot{\Phi}\), is slowly changing: \(\ddot{\Phi} \ll \dot{\Phi}^2\);
-    \item the amplitude \(A(t)\) is slowly changing.
+    \item \(\Phi (t)\) and \(\dot{\Phi}\) are monotonic;
+    \item the amplitude \(A(t)\) is slowly changing compared to the phase: \(\abs{\dot{A} / A} \ll \abs{\dot{\Phi}}\);
+    \item the phase derivative is slowly varying: \(\abs{\ddot{\Phi}} \ll \dot{\Phi}^2 \).
 \end{enumerate}
 
-\todo[inline]{These seem like the right conditions intuitively, but are they correct?}
+% \todo[inline]{These seem like the right conditions intuitively, but are they correct?}
 
 If these conditions hold, then in the computation of the transform 
 %
@@ -52,7 +52,8 @@ so the \(t\)-dependent part of the integral looks like the product of the amplit
 \,,
 \end{align}
 %
-however, in order to apply it, we need to approximate the amplitude as constant: \(A(t) \approx A(t_s)\). This will be valid as long as the variation of the amplitude is small compared to the width of the Gaussian we are integrating it against, which is \(\sigma = 1 / \sqrt{\ddot{\Phi}}\), so a condition we might write is \(\dot{A} / A \lesssim 1/ \sqrt{\ddot{\Phi}}\).
+however, in order to apply it, we need to approximate the amplitude as constant: \(A(t) \approx A(t_s)\). This will be valid as long as the variation of the amplitude is small in the width of the Gaussian we are integrating it against, which is \(\sigma = 1 / \sqrt{\ddot{\Phi}}\), so a condition we might write is \((\dot{A} / A) (1/\sqrt{\abs{\ddot{\Phi}}}) \ll 1\). 
+Notice that the combination of the conditions we imposed at the beginning ensures this.
 
 If this is the case, we can write the Fourier integral as 
 %

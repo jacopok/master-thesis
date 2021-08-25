@@ -1054,8 +1054,8 @@ What is the probability of observing \(s = h_\theta + n\) if we fix \(\theta \)?
 \mathbb{P}(h_\theta + n | \vec{\theta}) 
 &\propto 
 \exp(- \frac{(n|n)}{2}) 
-= \exp( - \frac{(s-h_\theta | s-h_\theta )}{2} )
-= \exp(
+= \exp( - \frac{(s-h_\theta | s-h_\theta )}{2} )  \\
+&\propto \exp(
      (s | h_\theta ) 
      - \frac{(s|s)}{2} 
      - \frac{(h_\theta |h_\theta )}{2}
