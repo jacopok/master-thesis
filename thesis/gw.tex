@@ -423,7 +423,7 @@ T_{kl} (t-r + \vec{y} \cdot \hat{n}, \vec{y}) \approx T_{kl} (t-r, \vec{y}) + \v
 \,.
 \end{align}
 
-This allows us to write the resulting wave as 
+This allows us to write the resulting wave as a multipole expansion:
 %
 \begin{align} \label{eq:gw-expansion-moments-stess-tensor}
 h_{ij}^{TT} (t, \vec{x}) &= \frac{4G_N}{r} \Lambda_{ij, kl} \qty(S_{kl} + \sum_{L=1}^{\infty } \frac{1}{L!} \partial_{t}^{L} S_{kl | i_1 \dots i_L} n_{i_1} \dots n_{i_L})
@@ -516,7 +516,7 @@ Each time derivative will roughly correspond to multiplication by a factor \(\Om
 The power can then be estimated as 
 %
 \begin{align} \label{eq:energy-emission-estimate}
-\dv{E}{t} \sim \frac{G_N}{5 c^{5}} v^{6} \frac{M^2}{R^2} 
+- \dv{E}{t} \sim \frac{G_N}{5 c^{5}} v^{6} \frac{M^2}{R^2} 
 = \underbrace{\frac{1}{5} \frac{c^{5}}{G_N}}_{\sim\SI{e52}{W}} \qty( \frac{v}{c})^{6} \qty( \frac{G_NM}{c^2 R})^2
 \,,
 \end{align}
@@ -1022,8 +1022,6 @@ Alternatively, we can define an ``amplitude signal strain spectral density'':
 %
 which is comparable to \(\sqrt{S_n(f)}\), in the sense that it also has units of \SI{}{Hz^{-1/2}}.
 
-\subsubsection{Matched filtering: finding the signal}
-
 \subsubsection{Parameter inference: studying the signal}
 
 Modern data analysis techniques for \ac{GW} signals are Bayesian by necessity: we need to extract estimates for the parameters generating a signal of which we only have one measurement. 
@@ -1123,7 +1121,7 @@ Several algorithms implement \ac{MCMC} sampling; a common choice is the Metropol
 \end{algorithmic}
 \end{algorithm}
 
-This random walk will eventually converge to the 
+This random walk will eventually converge to the true distribution mathematically; there are several heuristics which can be used to check whether this is actually happening, such as measuring the autocorrelation of the chain, or running several chains starting at different points and checking that they ``mix'' appropriately. 
 
 \subsection{Higher order waveforms}
 
@@ -1132,12 +1130,25 @@ This has been verified in practice by the fact by the binary systems we detected
 
 The quadrupole approximation, as well as the linearization of gravity, breaks down in the case we are interested in: what to do? 
 
-It is useful to distinguish 
-
-One option we have is to estimate waveforms by running full \ac{NR} simulations.
-This is useful but extremely computationally expensive. 
+In the following sections we will discuss the main strategies\footnote{One strategy which is not particularly relevant in this work but which is useful in other contexts is the gravitational self-force approach \cite{waldIntroductionGravitationalSelfForce2009}, in which one works in orders of \(m_1 / m_2\), by making successive corrections to geodesic motion in a fixed background. This is not applicable to neutron stars, whose mass ratios are never extreme, but it is useful to discuss \ac{EMRI}.} used to model \ac{CBC} waveforms during all of their stages, from the Newtonian inspiral to the merger to the ringdown. 
 
 \subsubsection{Post-Newtonian}
+
+The assumptions which we made in order to derive the quadrupole formula for the emission of gravitational radiation \eqref{eq:quadrupole-formula} were to consider a non-compact, slow-moving source (\(v \ll c\)), on a flat background. 
+
+One might wish to expand the equations of motion in orders of \(v / c\), and this is the idea behind the \ac{PN} expansion, but there are technical difficulties associated with this. 
+In terms of notation, a \(n\)PN expansion will be up to order \((v/c)^{2n}\) in this work.
+
+The strength of the gravitational field scales with the ratio of the Schwarzschild radius of an object to the distance between the objects, so as the system becomes relativistic in speed the gravity also becomes strong. 
+
+After computing the \(n\)PN equations of motion we will need to compute the appropriate number of terms in the multipole expansion \eqref{eq:gw-expansion-moments-stess-tensor}. 
+
+\acsp{GW} of low order source higher-order ones, as well as back-reacting and subtracting energy from the source. 
+This effect comes about at the 2.5PN order: equating the emitted power estimated in equation \eqref{eq:energy-emission-estimate} to the derivative of the energy (which by the virial theorem has the same magnitude as the kinetic energy) \(\dot{E} = - M v \dot{v}\) we find  \(\dot{v} \propto (v/c)^{5}\). 
+
+We can expand the retarded-time argument of the stress-energy tensor, \(t - r/c\), around \(r = 0\); this, however, is only valid if we are relatively near the source and breaks down if we try to extend the result to the ``radiation zone'' where our detector lies --- we need to treat that aspect separately. 
+
+% The idea of a \ac{PN} expansion is to 
 
 \subsubsection{Effective One Body}
 
