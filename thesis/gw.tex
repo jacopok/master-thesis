@@ -605,14 +605,14 @@ The divergence itself is unphysical since, besides corresponding to a breakdown 
 Nevertheless, the moment of divergence happens close enough to the actual merger of the objects, therefore it is useful to call it \(t_c\) and to define a time coordinate as \(\tau = t_c - t\).
 In terms of this, the solution to the equation reads 
 %
-\begin{align}
+\begin{align} \label{eq:gw-frequency-0PN}
 f _{\text{gw}} (t) = \frac{\omega _{\text{gw}} (t)}{2 \pi } = \frac{1}{2 \pi }\qty( \frac{ 3 K \tau }{8})^{-3/8} = \frac{1}{\pi } \qty(\frac{ 5}{256 \tau })^{3/8} \qty(\frac{G \mathcal{M}_c}{c^3})^{-5/8}
 \,.
 \end{align}
 
 At this point we can notice an interesting scaling property: if we map \(f _{\text{gw}} \to \alpha f _{\text{gw}}\), \(\tau \to \tau / \alpha \) and \(\mathcal{M}_c \to \mathcal{M}_c / \alpha \) (or, specifically, we divide each mass by \(\alpha \)) the equation still holds! 
-This result turns out to hold in general, not only at the linear, quadrupole level. 
-[FIND CITATION FOR THIS STATEMENT]
+This result turns out to hold in general, not only at the linear, quadrupole level.
+% [FIND CITATION FOR THIS STATEMENT]
 
 This expression for \(f _{\text{gw}}\) can be substituted into the gravitational waveforms \eqref{eq:binary-waveform-1}; we must also update the phase term, since \(2 \Omega t\) is the phase for a uniformly circular orbit: we will want to use integrate the angular velocity, to find 
 %
@@ -722,6 +722,12 @@ These vectors \(\vec{S}_i\) have units of angular momentum, but they are typical
 The constraint of \(\abs{\chi_i} < 1\) can be approached by realistic models of \acsp{BH}, while realistic models of \acsp{NS} typically are constrained to spin much less, at the most \(\abs{\chi _i} \lesssim 0.7\) \cite{loSPINPARAMETERUNIFORMLY2011}.
 This constraint is hard to experimentally verify since one is faced with the degeneracy between the components \(\chi_{z,i}\) aligned with the direction of the angular momentum and the mass ratio \(q\); in the analysis of the merger GW170807 two sets of prior distributions for the spins were used, \(\abs{\chi } < 0.05\) and \(\abs{\chi } < 0.89\), for this reason \cite{abbottGW170817ObservationGravitational2017}. We have theoretical reasons to believe that the low-spins priors might correspond to a more physically meaningful scenario, but the degeneracy means that the high-spin case is not experimentally excluded, so we must still consider it a possibility.
 
+The qualitative effect of spin is due to both spin-orbit and spin-spin interactions. 
+
+In the simplest spin-aligned case, \(\vec{\chi}_i \propto \vec{L} \), the effect is to make the interaction less attractive (when the spins are aligned, \(\vec{\chi}_1 \cdot \vec{\chi}_2 > 0\)) or to make it more attractive in the alternate case. 
+
+The dynamics when the spins are not aligned are significantly more complicated, since the spins precess and give rise to modulations of the amplitude. 
+
 \paragraph{Tidal polarizability of neutron stars}
 
 If our compact objects are not black holes, they might be able to deform. The astrophysically motivated scenario we think of is that of neutron stars, but the following characterization can also apply to any extended compact objects. For concreteness' sake, we will refer to \acsp{NS}. 
@@ -729,7 +735,7 @@ If our compact objects are not black holes, they might be able to deform. The as
 This is a complicated process, but we can try to capture its most significant part by limiting ourselves to the quadrupole order of the deformation of the star. 
 The discussion of this effect is clearest in the Newtonian context, but it can be generalized to \ac{GR} \cite[section 14.4.1]{maggioreGravitationalWavesVolume2018}.
 
-Tidal effects are described by the tidal tensor \(\mathcal{E}_{ij} = - U_{, ij}\), the traceless\footnote{This tidal tensor describes the effect of one star's gravitational field on the other, so its source is not where we compute it, which is a convoluted way of saying that it should be taken to be a solution of \(\nabla^2 U = 4 \pi \rho \) in vacuum: therefore, \(\nabla^2 U = - \Tr[\mathcal{E}_{ij}] = 0\).} Hessian of the Newtonian potential \(U\). In the weak-field relativistic case, this corresponds to part of the Riemann tensor: \(\mathcal{E}_{ij} = c^2R_{0i0j}\). 
+Tidal effects are described by the tidal tensor \(\mathcal{E}_{ij} = - \partial_{i} \partial_{j} U\), the traceless\footnote{This tidal tensor describes the effect of one star's gravitational field on the other, so its source is not where we compute it, which is a convoluted way of saying that it should be taken to be a solution of \(\nabla^2 U = 4 \pi \rho \) in vacuum: therefore, \(\nabla^2 U = - \Tr[\mathcal{E}_{ij}] = 0\).} Hessian of the Newtonian potential \(U\). In the weak-field relativistic case, this corresponds to part of the Riemann tensor: \(\mathcal{E}_{ij} = c^2R_{0i0j}\). 
 
 We can describe the effects on the deformed star of such a tidal stress by looking at its quadrupole moment \(Q_{ij}\) \eqref{eq:quadrupole}.
 To linear order and neglecting any time dependence, we will have the relation 
@@ -739,7 +745,7 @@ To linear order and neglecting any time dependence, we will have the relation
 \,.
 \end{align}
 
-\todo[inline]{find better explanation for minus sign here and in def of tidal tensor}
+% \todo[inline]{find better explanation for minus sign here and in def of tidal tensor}
 
 This parameter \(\lambda \) describes the deformability of the star; if it is smaller the star deforms less in response to tidal perturbations. 
 In practice the parameter used is not \(\lambda \) but two ways to rescale it: the \(l=2\) (quadrupole) \textbf{Love number} 
@@ -1121,7 +1127,7 @@ Several algorithms implement \ac{MCMC} sampling; a common choice is the Metropol
 \end{algorithmic}
 \end{algorithm}
 
-This random walk will eventually converge to the true distribution mathematically; there are several heuristics which can be used to check whether this is actually happening, such as measuring the autocorrelation of the chain, or running several chains starting at different points and checking that they ``mix'' appropriately. 
+This random walk will eventually (for \(N _{\text{samples}} \to \infty \)) converge to the true distribution mathematically; there are several heuristics which can be used to check whether this is actually happening in a specific number of steps, such as measuring the autocorrelation of the chain, or running several chains starting at different points and checking that they ``mix'' appropriately. 
 
 \subsection{Higher order waveforms}
 
@@ -1140,20 +1146,126 @@ One might wish to expand the equations of motion in orders of \(v / c\), and thi
 In terms of notation, a \(n\)PN expansion will be up to order \((v/c)^{2n}\) in this work.
 
 The strength of the gravitational field scales with the ratio of the Schwarzschild radius of an object to the distance between the objects, so as the system becomes relativistic in speed the gravity also becomes strong. 
-
-After computing the \(n\)PN equations of motion we will need to compute the appropriate number of terms in the multipole expansion \eqref{eq:gw-expansion-moments-stess-tensor}. 
+The flat background metric needs to be substituted; a common choice is a Post-Minkowskian expansion, which is an expansion in orders of \(R_s / r\), where \(R_s\) is the Schwarzschild radius for the combined system. 
+This expansion and the \ac{PN} one have different domains of validity (one far from the source, one near it), so one needs to find an \emph{overlap region} and match them.  
 
 \acsp{GW} of low order source higher-order ones, as well as back-reacting and subtracting energy from the source. 
 This effect comes about at the 2.5PN order: equating the emitted power estimated in equation \eqref{eq:energy-emission-estimate} to the derivative of the energy (which by the virial theorem has the same magnitude as the kinetic energy) \(\dot{E} = - M v \dot{v}\) we find  \(\dot{v} \propto (v/c)^{5}\). 
 
-We can expand the retarded-time argument of the stress-energy tensor, \(t - r/c\), around \(r = 0\); this, however, is only valid if we are relatively near the source and breaks down if we try to extend the result to the ``radiation zone'' where our detector lies --- we need to treat that aspect separately. 
+We can expand the retarded-time argument of the stress-energy tensor, \(t - r/c\), around \(r = 0\); this, however, is only valid if we are relatively near the source and breaks down if we try to extend the result to the ``radiation zone'' where our detector lies --- we need to treat that zone separately. 
+This expansion allows us to express the Dalambertian as \(\square \approx \qty(1 + \order{(v/c)^2}) \nabla^2\). 
+This allows us to turn the equations to solve into Poisson equations in the form 
+%
+\begin{align}
+\triangle g_{\mu \nu }^{(n)} = \text{matter source} + \text{metric source from \(g_{\mu \nu}^{(n-1)}\)}
+\,.
+\end{align}
 
-% The idea of a \ac{PN} expansion is to 
+After computing the \(n\)PN equations of motion we will need to compute the appropriate number of terms in the multipole expansion \eqref{eq:gw-expansion-moments-stess-tensor}. 
+This may also lead to divergencies: as we expand \( \frac{1}{\abs{\vec{x} - \vec{y}}}\) we get terms of type \((\vec{x} \cdot \vec{y} )^{\ell}\) with large values for \(\ell\), which rapidly diverge as we get further from the source. 
+Specifically, the Poisson integrals, which solve \(g(\vec{x}) = \nabla^2 f(\vec{x})\) with 
+%
+\begin{align}
+f(\vec{x}) = - \frac{1}{4 \pi } \int_{\mathbb{R}^3} \frac{ \dd[3]{y}}{\abs{\vec{x} - \vec{y}}} g(\vec{y})
+\,
+\end{align}
+%
+will not always converge.
+Fortunately, this only reflects a limitation of the Poisson integral, and through analytic continuation one can recover a physical solution which respects the boundary conditions. 
 
-\subsubsection{Effective One Body}
+Solutions to these problems have been developed between the '80s and the early 2000s, and currently there exist general formalisms such as the Blanchet-Damour one which allow for high-order computations of \ac{PN} waveforms \cite{blanchetGravitationalRadiationPostNewtonian2014}.
+
+The typical notation used for \ac{PN} waveforms expresses them \cite[sec.\ 5.6.1]{maggioreGravitationalWavesVolume2007} as a function of the dimensionless frequency
+%
+\begin{align}
+x = \qty(\frac{GM \Omega }{c^3})^{2/3} = \order{(v/c)^2}
+\marginnote{\(GM / r \sim v^2\) and \(r \Omega \sim v\).}
+\,,
+\end{align}
+%
+the symmetric mass ratio \(\nu = \mu / M\) and the dimensionless time 
+%
+\begin{align}
+\Theta = \frac{\nu c^3}{5GM} (t_c - t)
+\,.
+\end{align}
+
+These are related by \(x = \Theta^{-1/4} / 4\) (a reframing of equation \eqref{eq:gw-frequency-0PN}) at Newtonian order, and we can also write the phase as 
+%
+\begin{align}
+\phi - \phi_0 &= - \frac{\Theta^{5/8}}{\nu } = - \frac{x^{-5/2}}{32 \nu }
+\,.
+\end{align}
+
+Corrections to this expression are then written multiplicatively as a series in \(x\) (or, really, in \(x^{1/2}\), but the PN order is the exponent of \(x\)): 
+%
+\begin{align}
+\phi - \phi_0 = - \frac{x^{5/2}}{32 \nu } \qty(1 + c_{\text{1PN}} x + c_{\text{1.5PN}} x^{1.5} + \dots)
+\,.
+\end{align}
+
+% This expression for the phase diverges as \(\Theta \to 0\): this is unphysical, and we need to go to 2.5PN order to even just counteract this effect. 
+The error in the phase is therefore of order \(x^{-1/2} > 1\) if we go to 2PN order, and we need a high-order computation in order to recover an accurate expression for the phase. 
+Current results include very high order waveforms, such as 5.5PN \cite[]{biniBinaryDynamicsFifth2020}.
+
+The effect of spin-orbit interactions comes about at 1.5PN order, while spin-spin interactions are a 2PN effect.
+
+\paragraph{The \ac{PN} order of tidal stresses}
+
+We can give a crude estimate, which turns out to be accurate, for the \ac{PN} order at which the effects of quadrupolar tidal deformation come in \cite[pagg.\ 288--289]{maggioreGravitationalWavesVolume2007}. 
+
+The quadrupole moment can be estimated as \(Q_{ij} \sim \epsilon mr^2\) where \(\epsilon \) is the induced ellipticity of the \ac{NS} while \(m\), \(r\) is its mass and radius.
+This ellipticity comes from the tidal effect of the companion; it can be estimated as the ratio of the tidal force to the restoring self-gravity of the star: 
+%
+\begin{align}
+\epsilon \sim \frac{F _{\text{tidal}}}{ F _{\text{self}}} \sim \frac{Gm r / d^3}{Gm / r^2} = \qty( \frac{r}{d})^3
+\,,
+\end{align}
+%
+where \(d\) is the separation between the two stars, and we assume that their masses are the same. 
+
+The inter-body force induced by the quadrupolar deformation depends on the quadrupole moment like \cite[eqs.\ 5.219, 5.235]{maggioreGravitationalWavesVolume2007}
+%
+\begin{align}
+F ^{\text{induced}}_k \approx Q_{ij} \partial_{i} \partial_{j} \partial_{k} U^{\text{Newton}} \sim \frac{Q_{ij}}{m} \partial_{i} \partial_{j} F^{\text{Newton}}_k \sim \qty( \frac{r}{d})^3 \frac{r^2}{d^2} F^{\text{Newton}}_k
+\,,
+\end{align}
+%
+so \(F^{\text{induced}} \sim (r/d)^{5} F^{\text{Newton}}\). 
+This ratio can be reframed in terms of \(v/c\): the radius \(r\) of a star is proportional to its Schwarzschild radius \(Gm/c^2\); while the separation of the two is given by the virial theorem: \(m v^2 \sim Gm^2 /d\), so \(d \sim Gm / v^2\). This means that 
+%
+\begin{align}
+F^{\text{induced}} \sim (v/c)^{10} F^{\text{Newton}}
+\,,
+\end{align}
+%
+and since the Newtonian order is the 0PN one tidal forces come in at 5PN order. 
+
+While this is a very high order, the dimensionless tidal deformability parameters \(\Lambda \) are numerically large: therefore, it can be useful to include higher-order tidal terms in a lower-order calculation. 
 
 \subsubsection{Numerical Relativity}
 
+The \ac{PN} expansion, even if it goes to high order, is still not enough when we approach the merger. 
 
+Thus, we need to compare our results to \ac{NR} simulations, in which the spacetime metric and the stress-energy tensor are evolved according to the Einstein equations. 
+This is possible but time-consuming: each simulation requires days of supercomputer time, while thousands of waveforms are needed for the analysis of a signal. 
+
+The gravitational signal can be extracted from the simulated spacetime by computing the Weyl scalar \(\Psi_{4} = C_{\alpha \beta \gamma \delta }n^\alpha m^\beta n^\gamma m^\delta \), where \(n\) and \(m\) are component vectors of a null tetrad \cite[sec.\ 5.6.3]{lofflerEinsteinToolkitCommunity2012}. This scalar is related to gravitational wave emission by 
+%
+\begin{align}
+\Psi_{4} = \ddot{h}_+ - i \ddot{h}_{\times }
+\,.
+\end{align}
+
+
+The advantage is that we can incorporate the full machinery of \ac{GR}, and account for the internal dynamics of neutron stars, as well as other phenomena such as the formation of an accretion disk after the merger \cite{nedoraNumericalRelativitySimulations2020}.
+
+Besides using the waveforms as validation for any model, 
+an approach we can use for waveform generation is called ``\ac{IMR} phenomenological'': a \ac{PN} waveform is complemented with a power series fitted to \ac{NR} simulations \cite{kumarAccuracyPrecisionGravitationalwave2015}. 
+Several variations on this idea are implemented in the \ac{LAL} \cite[]{ligoscientificcollaborationLIGOAlgorithmLibrary2018}.
+
+\subsubsection{Effective One Body}
+
+\textcite{nagarAllOneEffective2021}
 
 \end{document}
