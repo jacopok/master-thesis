@@ -2,7 +2,12 @@
 \usepackage{indentfirst}
 \usepackage{enumitem}
 \usepackage{datetime2}
-\usepackage{acronym}
+\usepackage[printonlyused, withpage]{acronym}
+% options (https://tex.stackexchange.com/questions/25520/how-can-i-use-the-latex-acronym-package-and-optionally-create-an-acronym-list-i):
+% printonlyused: Only list used acronyms
+% withpage: In printonlyused-mode show the page number where each acronym was first used.
+% nolist: The option nolist stands for “don’t write the list of acronyms”.
+% dua: The option dua stands for “don’t use acronyms”. It leads to a redefinition of \ac and \acp, making the full name appear all the time and suppressing all acronyms but the explicity requested by \acf or \acfp.
 
 \usepackage{algorithm}
 \usepackage{algpseudocode}

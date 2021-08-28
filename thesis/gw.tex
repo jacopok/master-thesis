@@ -1028,6 +1028,39 @@ Alternatively, we can define an ``amplitude signal strain spectral density'':
 %
 which is comparable to \(\sqrt{S_n(f)}\), in the sense that it also has units of \SI{}{Hz^{-1/2}}.
 
+\paragraph{The (optimal) mismatch}
+
+The scalar product \((a|b)\) between waveforms allows us to define a distance between them which is meaningful in terms of their distinguishability in data analysis.
+Specifically, we use the fact that in an inner product space we can write the product as \((a|b) = \sqrt{(a|a) (b|b)} \cos \theta \), where \(\theta \) can be interpreted as an angle between the \(a\) and \(b\). 
+Therefore, we can define the \emph{mismatch} ``distance''\footnote{This is not a distance in the mathematical sense: it does not satisfy the identity of indiscernible principle since \(M(a, Ka) = 0\) for constant \(a\), and it does not satisfy the triangle inequality \(M(a, b) \leq M(a, c) + M(b, c)\) --- think, for example, of \(a\) and \(c\) at right angles to one another (so \(M(a, c) = 1\)) and \(b\) in the middle, at 45° from either, so \(M(a, b) = M(b, c) = 1 - \sqrt{2} / 2 \approx 0.3\). Then, \(M(a,c) = 1 > M(a, b) + M(b, c) \approx 0.6\), in violation of the inequality. 
+
+This is not a problem for us: this mismatch is still a useful metric even if it is not a distance. }
+%
+\begin{align}
+M(a, b) = 1 - \frac{(a|b)}{\sqrt{(a|a) (b|b)}} = 1 - \cos \theta  \in [0, 2]
+\,.
+\end{align}
+
+This mismatch is computed among two waveforms with all of their parameters fixed; in practice, it is often useful to let the initial phase and coalescence time of the waveforms free to vary, and compute the \emph{optimal mismatch}
+%
+\begin{align}
+\mathcal{M}(a, b) = 1 - \max_{\phi_0 , t_0 } \frac{(a|b(\phi_0, t_0 ))}{\sqrt{(a|a)(b|b)}}
+\,,
+\end{align}
+%
+where either of the two waveforms is shifted in time and in phase.
+This is sometimes also denoted as \(F\), the \emph{fidelity}. 
+\todo[inline]{Is this true? Should check on that. Maybe typically \(M = \cos( \theta )\) and \(F = 1- \cos \theta \)\dots}
+
+In practice, this does not affect the norms of the waveforms in the denominator, but instead it means that the scalar product between \(a\) and \(b\) reads 
+%
+\begin{align}
+\max_{\phi_0 , t_0 } (a|b(\phi_0 , t_0 )) 
+&= \max_{\phi_0, t_0 } 4 \Re \int_{0}^{\infty } \dd{f} \frac{A_a (f) A_b(f) e^{i \phi_a - i \phi _b + 2 \pi i f t_0 + \phi_0 }}{S_n (f)} \\
+&= \max_{\phi_0, t_0 } 4 \abs{\int_{0}^{\infty } \dd{f} \frac{A_a (f) A_b(f) e^{i \phi_a - i \phi _b + 2 \pi i f t_0 }}{S_n (f)}}
+\,.
+\end{align}
+
 \subsubsection{Parameter inference: studying the signal}
 
 Modern data analysis techniques for \ac{GW} signals are Bayesian by necessity: we need to extract estimates for the parameters generating a signal of which we only have one measurement. 
@@ -1250,7 +1283,7 @@ The \ac{PN} expansion, even if it goes to high order, is still not enough when w
 Thus, we need to compare our results to \ac{NR} simulations, in which the spacetime metric and the stress-energy tensor are evolved according to the Einstein equations. 
 This is possible but time-consuming: each simulation requires days of supercomputer time, while thousands of waveforms are needed for the analysis of a signal. 
 
-The gravitational signal can be extracted from the simulated spacetime by computing the Weyl scalar \(\Psi_{4} = C_{\alpha \beta \gamma \delta }n^\alpha m^\beta n^\gamma m^\delta \), where \(n\) and \(m\) are component vectors of a null tetrad \cite[sec.\ 5.6.3]{lofflerEinsteinToolkitCommunity2012}. This scalar is related to gravitational wave emission by 
+The gravitational signal can be extracted from the simulated spacetime by computing the Weyl scalar \(\Psi_{4} = C_{\alpha \beta \gamma \delta }n^\alpha m^\beta n^\gamma m^\delta \),\footnote{Here \(C_{\alpha \beta \gamma \delta }\) is the Weyl tensor, the fully traceless part of the Riemann tensor, whose definition can be found for example in \textcite[eq.\ 2.18]{gourgoulhonFormalismBasesNumerical2007}} where \(n\) and \(m\) are component vectors of a null tetrad \cite[sec.\ 5.6.3]{lofflerEinsteinToolkitCommunity2012}. This scalar is related to gravitational wave emission by 
 %
 \begin{align}
 \Psi_{4} = \ddot{h}_+ - i \ddot{h}_{\times }
@@ -1266,6 +1299,78 @@ Several variations on this idea are implemented in the \ac{LAL} \cite[]{ligoscie
 
 \subsubsection{Effective One Body}
 
-\textcite{nagarAllOneEffective2021}
+The \ac{EOB} framework allows for the generation of waveforms encompassing inspiral, merger and ringdown, by mapping the relativistic two-body problem onto the motion of a test particle in an effective metric. 
+This problem is described through an effective Hamiltonian, whose equations of motion are then numerically solved. 
+Let us describe the procedure in a simplified case, including neither spin nor tidal interactions. 
+
+The Hamiltonian of the real system, is approximated with a \ac{PN} one, written in relative \ac{ADM} coordinates and made dimensionless \cite[eqs.\ 4--5]{damourGeneralRelativisticTwo2014}: 
+%
+\begin{align}
+\hat{H} = \frac{H}{\mu } = \underbrace{\frac{p^2}{2} - \frac{1}{q}}_{\text{Newtonian}} 
++ \underbrace{\frac{1}{8} (3 \nu -1 ) (p^2)^2 - \frac{1}{2} \qty[(3+\nu ) p^2 + \nu (n \cdot p)^2] + \frac{1}{2 q^2}}_{\text{1PN}} + \dots
+\,,
+\end{align}
+% 
+where \(q\) and \(p\) are dimensionless variables related to relative distance and the corresponding
+momentum by \(q = r c^2 / GM\) and \(p = p' / \mu \), where \(p'\) is the momentum with the correct dimensions.  
+
+This is then matched\footnote{The way this ``matching'', this construction of a dictionary between the two- and the one-body problems, is performed is through a quantum-mechanical analogy. The idea is to consider the quantized energy levels corresponding to the classical Hamiltonians, which will depend on the quantum numbers \(n\) (principal quantum number) and \(\ell\) (total angular momentum),  while the quantum number \(m\), describing  the \(z\) component of the angular momentum, is irrelevant because of the spherical symmetry of the problem. One can then determine the correspondence by establishing a rule to translate between the energy levels corresponding to the same \((n, \ell)\) pairs \cite{damourGeneralRelativisticTwo2014}.} to the Hamiltonian of a particle moving in an effective metric 
+%
+\begin{align}
+g _{\text{eff}} &= A(u, \nu ) \dd{T^2} + B(u, \nu) \dd{R^2} + R^2 \dd{\Omega^2}  \\
+A(u, \nu ) &\approx 1 + \widetilde{a}_1 (\nu ) u + \widetilde{a}_2 (\nu ) u^2 + \dots  \\
+B(u, \nu ) &\approx 1 + \widetilde{b}_1 (\nu ) u + \widetilde{b}_2 (\nu ) u^2 + \dots  
+\,,
+\end{align}
+%
+where \(u\) is the inverse radial coordinate \(u = GM / c^2 R\). 
+The way to do so is to write both Hamiltonians in Delaunay (action-angle) coordinates. 
+The metric potentials \(A\) and \(B\), to 3PN order, read: 
+%
+\begin{align}
+A _{\text{3PN}} &= 1 - 2u + 3 \nu u^2 + \qty( \frac{94}{3} - \frac{41 \pi }{32}) \nu u^3  \\
+B _{\text{3PN}} &= \frac{1 - 6 \nu u^2 + 2 (3 \nu - 26) \nu u^3}{A _{\text{3PN}}}
+\,.
+\end{align}
+
+Note that the \(\nu \to 0\) case corresponds to one of the masses vanishing: therefore, we are looking at a test particle in Schwarzschild geometry, and we indeed recover \(A = 1-2u = 1/B\).
+The other extreme case is \(\nu = 1/4\), which corresponds to \(m_1 = m_2 \). 
+
+A strategy which is then used is Padé resummation: 
+the idea is to take a Taylor expansion (such as those for the \ac{PN} potentials) and match it to 
+a ratio of polynomial functions, so that 
+%
+\begin{align}
+f^{(N)}(x) = \sum _{n=1}^{N} c_n x^{n} \approx P_{L}^{M}[f^{(n)}(x)] = \frac{\sum _{n=1}^{M} a_n x^{n}}{\sum _{n=1}^{L} b_n x^{n}}
+\,,
+\end{align}
+%
+where the coefficients \(c_n\) are fixed, while the \(a_n\) and \(b_n\) are determined algebraically 
+by having equal-order terms match in the two series. 
+
+A Padé approximant \(P_{L}^{M}\) can then be applied to any polynomial function. 
+This may seem pointless, since it reproduces the \ac{PN} result at the same order, however in practice the Padé-resummed expression often exhibits desirable behaviours, such as avoiding divergences or having faster convergence to the true potential. 
+
+The Hamiltonian whose equations of motion are actually solved is expressed in terms of the potentials \cite[eq.\ 8.22]{bernuzziNotesGravitationalWaves2021}:  
+%
+\begin{align}
+H _{\text{EOB}} &= Mc^2 \sqrt{1 + 2 \nu (\hat{H} _{\text{eff}} - 1 )}  \\
+\hat{H} _{\text{eff}} = \frac{H_{\text{eff}}}{\mu } &= 
+\sqrt{ A(u, \nu ) \qty(1 + p^2_{\phi } u^2 + 2 \nu (4-3 \nu ) u^2 p^{4}_{r*}) + p^2_{r*}}
+\,,
+\end{align}
+%
+where \(p_{r*} = \mu^{-1} \int (B/A) \dd{R} \) is the momentum corresponding to a rescaled radial variable, while \(p_\varphi = P_\varphi / (\mu GM)\) is a rescaled angular momentum. 
+
+% \textcite{schaferHamiltonianFormulationGeneral2018}
+
+% \textcite{damourComparisonSearchTemplates2005}
+
+\ac{EOB} models can also incorporate tidal and spin effects: the waveform model \texttt{TEOBResumS} \cite{nagarTimedomainEffectiveonebodyGravitational2018} is applicable to spin-aligned, tidally interacting compact objects. 
+
+These \ac{EOB} models can reproduce \ac{NR} results quite well: for example, in the case of spinning \ac{BBH} binaries 
+\textcite[fig.\ 2]{nagarAllOneEffective2021} find mismatches between the \ac{EOB} and \acp{GW} from \ac{NR} simulations to be at most of the order of \(F \sim 10^{-2}\) and typically even less, \(F \sim 10^{-3}\).
+
+
 
 \end{document}
