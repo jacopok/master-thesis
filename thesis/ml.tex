@@ -3,6 +3,14 @@
 
 \section{Machine Learning}
 
+\subsection{Numerical waveforms}
+
+
+
+\subsubsection{Greedy approximants}
+
+\textcite{galleyFastEfficientEvaluation2016} introduced \texttt{romspline}. 
+
 \subsection{Principal Component Analysis} \label{sec:principal-component-analysis}
 
 After downsampling, a waveform used by \acs{mb} is described by several hundred points.
@@ -90,7 +98,7 @@ y
 
 For the purpose of dimensionality reduction, however, we are not interested in this projection, which still yields a \(D\)-dimensional vector: this vector lies in a \(k\)-dimensional subspace, therefore we  express it with only \(k\) coordinates, by computing \(V^{\top} y \in \mathbb{R}^{k}\). 
 
-If the 
+% If the 
 
 If we approach the problem by diagonalizing the covariance matrix \(C\), the computational complexity in the worst case scenario is \(\order{D^3}\), since it involves the diagonalization of a \(D \times D\) matrix.
 

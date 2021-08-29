@@ -633,6 +633,18 @@ h_{ \times } (t) &= \frac{1}{r} \qty(\frac{G \mathcal{M}_c}{c^2})^{5/4} \qty( \f
 As we will discuss, it is convenient to have expressions for the Fourier transforms of these. An analytic computation of the integrals is intractable, but we can make use of a technique known as \ac{SPA}, which is discussed in detail in appendix \ref{sec:spa}. 
 The final expressions for the Fourier-domain waveforms are equations \eqref{eq:spa-waveforms}. 
 
+% \paragraph{Spherical harmonics decomposition}
+
+% The waveform we described so far comes from the quadrupole of the mass distribution, but higher-order moments also generate \acp{GW}.
+% In general one can write the waveform as 
+% %
+% \begin{align}
+% h_+ + i h_\times = \frac{1}{r} \sum _{l=2}^{\infty } \sum _{m=-\ell}^{\ell} h_{\ell m} {}_{-2}Y_{\ell m}
+% \,,
+% \end{align}
+% %
+
+
 \subsubsection{Parameters for a \ac{CBC} waveform}
 
 The waveform we wrote explicitly depends on: 
@@ -865,7 +877,9 @@ The parameter vector \(\vec{\theta}\) describing a binary sysem can be divided i
 %
 where the dependence of the waveform on the external parameters is well-understood and easy to analytically calculate, while the dependence on the internal parameters (barring \(M\)) is complicated.
 
-\subsection{Interferometers and data analysis}
+The complete expression 
+
+\subsection{Interferometers and data analysis} \label{sec:data-analysis}
 
 Having seen how a gravitational waveform from a \ac{CBC} might look to lowest order, we move to a discussion of the detection of these waveforms with interferometric techniques. 
 
@@ -896,7 +910,7 @@ The \emph{detector pattern functions} \(F_+\) can be computed explicitly; for a 
 %
 \begin{align}
 F_{+} &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \cos 2 \psi - \cos \theta \sin 2 \phi \sin 2 \psi   \\
-F_{+} &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \sin 2 \psi + \cos \theta \sin 2 \phi \cos 2 \psi  
+F_{ \times } &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \sin 2 \psi + \cos \theta \sin 2 \phi \cos 2 \psi  
 \,,
 \end{align}
 %
@@ -1241,8 +1255,6 @@ Corrections to this expression are then written multiplicatively as a series in 
 The error in the phase is therefore of order \(x^{-1/2} > 1\) if we go to 2PN order, and we need a high-order computation in order to recover an accurate expression for the phase. 
 Current results include very high order waveforms, such as 5.5PN \cite[]{biniBinaryDynamicsFifth2020}.
 
-The effect of spin-orbit interactions comes about at 1.5PN order, while spin-spin interactions are a 2PN effect.
-
 \paragraph{The \ac{PN} order of tidal stresses}
 
 We can give a crude estimate, which turns out to be accurate, for the \ac{PN} order at which the effects of quadrupolar tidal deformation come in \cite[pagg.\ 288--289]{maggioreGravitationalWavesVolume2007}. 
@@ -1275,6 +1287,8 @@ F^{\text{induced}} \sim (v/c)^{10} F^{\text{Newton}}
 and since the Newtonian order is the 0PN one tidal forces come in at 5PN order. 
 
 While this is a very high order, the dimensionless tidal deformability parameters \(\Lambda \) are numerically large: therefore, it can be useful to include higher-order tidal terms in a lower-order calculation. 
+
+The effect of spin-orbit interactions, on the other hand, comes about at 1.5PN order, while spin-spin interactions are a 2PN effect.
 
 \subsubsection{Numerical Relativity}
 
@@ -1366,11 +1380,35 @@ where \(p_{r*} = \mu^{-1} \int (B/A) \dd{R} \) is the momentum corresponding to 
 
 % \textcite{damourComparisonSearchTemplates2005}
 
+This formalism can then be complemented by including some further elements: one is the radiation reaction force, which can be expressed as an influence decreasing the momentum \(p_\varphi \) according to the emitted flux.
+Including this term means we are not considering an \emph{adiabatic} approximation anymore. 
+
+Further, next-to-quasi-circular terms are introduced: these are multiplicative corrections to the last orbits which account for the fact that these are getting further and further from being circular. 
+Finally, the waveform is smoothly connected to a model for the ringdown, which is informed by \ac{BH} perturbation theory and \ac{NR} simulations. 
+
 \ac{EOB} models can also incorporate tidal and spin effects: the waveform model \texttt{TEOBResumS} \cite{nagarTimedomainEffectiveonebodyGravitational2018} is applicable to spin-aligned, tidally interacting compact objects. 
 
 These \ac{EOB} models can reproduce \ac{NR} results quite well: for example, in the case of spinning \ac{BBH} binaries 
 \textcite[fig.\ 2]{nagarAllOneEffective2021} find mismatches between the \ac{EOB} and \acp{GW} from \ac{NR} simulations to be at most of the order of \(F \sim 10^{-2}\) and typically even less, \(F \sim 10^{-3}\).
 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/TEOBResumSPA_evaluation}
+\caption{Evaluation times for one waveform using the \texttt{TEOBResumS} \ac{EOB} model. In one case shown, a \ac{SPA} is used to move to the frequency domain; in the other the waveform is computed in the time domain. The time-domain model is not slower in and of itself: it has to output longer and longer waveforms, since the time and frequency grid spacings stay constant.}
+\label{fig:TEOBResumSPA_evaluation}
+\end{figure}
 
+The \ac{EOB} models natively output time-domain waveforms, while as discussed in section \ref{sec:data-analysis} we need them in the frequency domain in order to perform data analysis. 
+One must therefore find a way to move to the frequency domain. An option is to use a \ac{SPA} \cite{gambaFastFaithfulFrequencydomain2020}; this has been found to be quite successful in providing fast waveform evaluations even for low initial frequencies, as can be seen in figure \ref{fig:TEOBResumSPA_evaluation}. 
+However, it is still an approximation: ideally, we would want to numerically Fourier-transform the time-domain waveform. 
+This becomes quite slow as we reach lower initial frequencies: the duration of the waveform for an equal-mass \ac{BNS} with \(M \approx 2.8 M_{\odot}\) is typically \cite[eq.\ 4.21]{maggioreGravitationalWavesVolume2007}
+%
+\begin{align}
+\text{duration} \approx \SI{3}{min} \qty(\frac{f_0 }{\SI{20}{Hz}})^{-8/3}
+\,.
+\end{align}
+
+In order to perform an \ac{FFT}, we need equally-spaced points in time, so the full duration needs to be densely sampled; also, the merger moment needs to be resolved by the sampling density. 
+This constrains the sampling rate to be quite high, 
 
 \end{document}
