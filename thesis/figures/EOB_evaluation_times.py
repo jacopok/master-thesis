@@ -38,7 +38,6 @@ eob_fd = p.eob | add_dict
 
 for f in tqdm(frequencies):
     
-    
     for _ in range(10):
         t1 = time()
         f_spa, rhpf, ihpf, rhcf, ihcf = EOB.EOBRunPy(eob_fd)

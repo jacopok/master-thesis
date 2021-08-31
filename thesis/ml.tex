@@ -163,7 +163,9 @@ Adding more layers is not conceptually different, it only amounts to applying th
 
 The activation function is crucial for our network to be able to capture nonlinearities: if we were to remove it, with any number of layers the network would still be a linear function of the inputs. 
 
-The implementation we use for \acs{mb} is the one provided by \texttt{scikit-learn} \cite[]{pedregosaScikitlearnMachineLearning2011}. 
+The implementation we use for \acs{mb} is the one provided by \texttt{scikit-learn} \cite[]{pedregosaScikitlearnMachineLearning2011}; specifically, we choose an \texttt{MLPRegressor}.\footnote{The documentation for this network can be found at the url \url{https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html}.} 
+
+
 
 \subsubsection{Training}
 

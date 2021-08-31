@@ -1409,6 +1409,8 @@ This becomes quite slow as we reach lower initial frequencies: the duration of t
 \end{align}
 
 In order to perform an \ac{FFT}, we need equally-spaced points in time, so the full duration needs to be densely sampled; also, the merger moment needs to be resolved by the sampling density. 
-This constrains the sampling rate to be quite high, 
+This constrains the sampling rate to be quite high, therefore the size of the array representing the time-domain waveform will be quite large, slowing down the computation. 
+
+The model \ac{mb} is an attempt to mitigate this problem, by pre-generating Fourier-transformed waveforms. 
 
 \end{document}
