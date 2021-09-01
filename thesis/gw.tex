@@ -262,7 +262,7 @@ These conditions tell us that the plane gravitational wave must have the form
 %
 \boxalign{
 \begin{align} \label{eq:TT-gauge-gw}
-h_{\mu \nu }(x) = \left[\begin{array}{cccc}
+h_{\mu \nu }^{TT}(x) = \left[\begin{array}{cccc}
 0 & 0 & 0 & 0 \\ 
 0 & h_+ & h_\times  & 0 \\ 
 0 & h_\times  & - h_+ & 0 \\ 
@@ -273,6 +273,12 @@ h_{\mu \nu }(x) = \left[\begin{array}{cccc}
 \end{align}}
 %
 where \(h_+ = A_{11} \) and \(h_\times = A_{12} \). 
+
+In a later discussion we will use the fact that a general perturbation \(h_{\mu \nu }\) can be \emph{projected} into the \ac{TT} gauge by using a certain projection tensor \(\Lambda_{ijkl}\); this is not trivial to show, but the general idea follows from a decomposition of the full perturbation into scalar, vector and tensor components \cite[]{carrollSpacetimeGeometryIntroduction2019}.
+Specifically, the number of free components before gauge fixing is 4 scalar, 4 vector and 2 tensor components. 
+The tensor components are gauge invariant, while the other 8 can each be separately set to zero in an appropriate gauge.
+After applying the same decomposition to the stress-energy tensor and writing the Einstein equations we find that the tensor perturbations (which are precisely the \(h_{+}\) and \(h_{ \times }\) polarization degrees of freedom) are the only ones which propagate according to a wave equation. 
+The projection, which yields a perturbation with two degrees of freedom, is thus only a way to recover the ``radiative'' part of the metric. 
 
 \subsubsection{Effect on test masses}
 
@@ -610,8 +616,6 @@ f _{\text{gw}} (t) = \frac{\omega _{\text{gw}} (t)}{2 \pi } = \frac{1}{2 \pi }\q
 \,.
 \end{align}
 
-At this point we can notice an interesting scaling property: if we map \(f _{\text{gw}} \to \alpha f _{\text{gw}}\), \(\tau \to \tau / \alpha \) and \(\mathcal{M}_c \to \mathcal{M}_c / \alpha \) (or, specifically, we divide each mass by \(\alpha \)) the equation still holds! 
-This result turns out to hold in general, not only at the linear, quadrupole level.
 % [FIND CITATION FOR THIS STATEMENT]
 
 This expression for \(f _{\text{gw}}\) can be substituted into the gravitational waveforms \eqref{eq:binary-waveform-1}; we must also update the phase term, since \(2 \Omega t\) is the phase for a uniformly circular orbit: we will want to use integrate the angular velocity, to find 
@@ -633,17 +637,26 @@ h_{ \times } (t) &= \frac{1}{r} \qty(\frac{G \mathcal{M}_c}{c^2})^{5/4} \qty( \f
 As we will discuss, it is convenient to have expressions for the Fourier transforms of these. An analytic computation of the integrals is intractable, but we can make use of a technique known as \ac{SPA}, which is discussed in detail in appendix \ref{sec:spa}. 
 The final expressions for the Fourier-domain waveforms are equations \eqref{eq:spa-waveforms}. 
 
-% \paragraph{Spherical harmonics decomposition}
+\subsubsection{Spherical harmonics decomposition}
 
-% The waveform we described so far comes from the quadrupole of the mass distribution, but higher-order moments also generate \acp{GW}.
-% In general one can write the waveform as 
-% %
-% \begin{align}
-% h_+ + i h_\times = \frac{1}{r} \sum _{l=2}^{\infty } \sum _{m=-\ell}^{\ell} h_{\ell m} {}_{-2}Y_{\ell m}
-% \,,
-% \end{align}
-% %
+The waveform we described so far comes from the quadrupole of the mass distribution, but higher-order moments also generate \acp{GW}.
+In general, in units where \(G = c = 1\), one can write the waveform as \cite[eq.\ II.6]{ajithDataFormatsNumerical2011}
+%
+\begin{align}
+h_+ + i h_\times = \frac{M}{r} \sum _{l=2}^{\infty } \sum _{m=-\ell}^{\ell} h_{\ell m} (t) {}_{(-2)}Y_{\ell m} (\iota, \varphi )
+\,,
+\end{align}
+%
+where the functions \({}_{-2}Y_{\ell m}\) are called \emph{spin-weighted spherical harmonics}, a generalization of the regular spherical harmonics. 
+The only assumption in this expression is the \(1/r\) scaling of the amplitude of the waveform. 
+The expansion parameters \(h_{\ell m}\) are time-dependent and complex, and the spin-weighted harmonics depend on the orientation of the basis we choose (see \nameref{sec:sky-pos-polar}).
 
+The harmonics which give the largest contribution are the \(2, 2\) and \(2, -2\) ones, which are conjugates of each other. 
+
+At this point we can notice an interesting scaling property: in these units lengths, times, energies, masses and momentums have the same dimensions. What happens, then, if we rescale all these quantities by the same amount?
+This means we are mapping \(M \to \alpha M\) and \(r \to \alpha r\) in the previous expression, so we can see that the amplitude \(h\) is preserved. 
+This is consistent with a time rescaling of the time \(t \to \alpha t \), as can be seen in equation \eqref{eq:amplitude-quadrupole-emission}, and with a rescaling of the frequency \(f \to f / \alpha \), as can be seen in equation \eqref{eq:spa-waveforms}. 
+The result also holds at higher orders than the quadrupole, as we will see by the parametrization of the waveform in section \ref{sec:post-newtonian}. 
 
 \subsubsection{Parameters for a \ac{CBC} waveform}
 
@@ -669,7 +682,7 @@ Therefore, it is relevant to see how the Fourier-domain waveform responds to a t
 %
 so a time shift corresponds to the addition of a linear term to the phase, while the phase can be directly moved from the time to the frequency domain. 
 
-\paragraph{Sky position and polarization}
+\paragraph{Sky position and polarization} \label{sec:sky-pos-polar}
 
 The wave will be coming from a sky position, which we can describe with respect to a given coordinate system through two angles; it is convenient to use right ascension \(\alpha \) and declination \(\delta \). 
 Also, the polarization of the gravitational waves can have an arbitrary angle with respect to the observation direction: we denote this angle as \(\psi \). 
@@ -719,6 +732,7 @@ The waveform to the lowest order we described only depends on the chirp mass \(\
 It is customary to fix one of the two masses to always be the largest, therefore constraining \(q \lesseqgtr 1\); we choose the convention \(q \geq 1\).
 
 A possible parametrization for the two masses is \((\mathcal{M}_c, q)\), another is \((M, q)\): these are equivalent, but in the following work we will typically use the latter because of the aforementioned scaling property of the waveforms: we conventionally work with respect to the dimensionless frequency \(Mf\) and the dimensionless time \(t / M\) in order to have one less parameter. 
+If need be, we refer to a ``conventional'' mass of \(M = 2.8 M_{\odot}\), but our results will be easily scalable to any \(M\). 
 
 \paragraph{Spin}
 
@@ -1185,7 +1199,7 @@ The quadrupole approximation, as well as the linearization of gravity, breaks do
 
 In the following sections we will discuss the main strategies\footnote{One strategy which is not particularly relevant in this work but which is useful in other contexts is the gravitational self-force approach \cite{waldIntroductionGravitationalSelfForce2009}, in which one works in orders of \(m_1 / m_2\), by making successive corrections to geodesic motion in a fixed background. This is not applicable to neutron stars, whose mass ratios are never extreme, but it is useful to discuss \ac{EMRI}.} used to model \ac{CBC} waveforms during all of their stages, from the Newtonian inspiral to the merger to the ringdown. 
 
-\subsubsection{Post-Newtonian}
+\subsubsection{Post-Newtonian} \label{sec:post-newtonian}
 
 The assumptions which we made in order to derive the quadrupole formula for the emission of gravitational radiation \eqref{eq:quadrupole-formula} were to consider a non-compact, slow-moving source (\(v \ll c\)), on a flat background. 
 
@@ -1408,9 +1422,10 @@ This becomes quite slow as we reach lower initial frequencies: the duration of t
 \,.
 \end{align}
 
-In order to perform an \ac{FFT}, we need equally-spaced points in time, so the full duration needs to be densely sampled; also, the merger moment needs to be resolved by the sampling density. 
+In order to perform a \ac{FFT}, we need equally-spaced points in time, so the full duration needs to be densely sampled; also, the merger moment needs to be resolved by the sampling density. 
 This constrains the sampling rate to be quite high, therefore the size of the array representing the time-domain waveform will be quite large, slowing down the computation. 
 
 The model \ac{mb} is an attempt to mitigate this problem, by pre-generating Fourier-transformed waveforms. 
+
 
 \end{document}

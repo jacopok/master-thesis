@@ -3,11 +3,11 @@
 
 \section{Machine Learning}
 
-\subsection{Numerical waveforms}
+\subsection{Supervised learning and optimization}
 
 
 
-\subsubsection{Greedy approximants}
+\subsection{Greedy approximants}
 
 \textcite{galleyFastEfficientEvaluation2016} introduced \texttt{romspline}. 
 
@@ -118,7 +118,14 @@ Heuristically, we want the typical scale of the phase residuals to roughly match
 This can be simply achieved by multiplying either part of the vector by a constant, which can be tuned in order to optimize the reconstruction error. 
 It was found that, after using natural logarithms for the amplitude residuals, dividing the phase residuals by roughly \(200\) yields the best results.
 
-[INSERT FIGURE FOR PCA RECONSTRUCTION ACCURACY]
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/PCA_vary_K}
+\caption{The reconstruction error is computed after projecting onto a \(K\)-dimensional subspace a number \(N_w=256\) waveforms. The parameters for the \ac{PCA} model are fitted with an independent, \(N _{\text{PCA}} = 256\) dataset. A \ac{KDE} is performed for each set of corresponding log-fidelities, in order for the probability curve to look smoother.
+Here the \ac{EOB} waveforms are still calculated with a \ac{SPA}. 
+}
+\label{fig:PCA_vary_K}
+\end{figure}
 
 \subsection{Neural Networks} \label{sec:neural-network}
 

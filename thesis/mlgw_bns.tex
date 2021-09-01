@@ -3,6 +3,31 @@
 
 \section{MLGW-BNS}
 
+Let us start with a bird's eye overview of the algorithm employed by \ac{mc} before getting into the technical details. 
+
+We start with two systems for the generation of a theoretical waveform from a \ac{CBC} in the frequency domain, one being faster but less accurate than the other. 
+The ``fast'' system will be the \ac{PN} model \texttt{TaylorF2} provided by \texttt{bajes} \cite[]{breschiTtBajesBayesian2021}, while the ``slow'' system will be the \ac{EOB} model \texttt{TEOBResumS}, with waveforms generated in the time domain and then Fourier-transformed. 
+
+As we shall see shortly, a crucial feature of the ``fast'' system is the capability to generate waveforms in the frequency domain at select frequencies, without needing to perform a full Fourier transform from a time-domain waveform.
+This feature is shared by all \ac{PN} approximants, which base their Fourier-domain representations on the analytic \ac{SPA}.
+
+The main idea is then to 
+\begin{enumerate}
+    \item compute the residuals of the ``slow`` waveforms from the ``fast`` ones, and with these build a dataset;
+    \item train a machine learning system on this dataset, so that it is able to reconstruct the map from the parameters \(\vec{\theta}\) to the residuals.
+\end{enumerate}
+
+If this task is accomplished with tolerable errors and with a fast enough execution time (shorter than the time taken by the ``slow'' generation method) we will have a working \emph{surrogate model}. 
+
+% The \ac{mb} algorithm is an attempt at accelerating waveform generation through interpolation of slow-to-generate waveforms. 
+
+% The ingredients for 
+
+% Things I do to the waveform:
+% \begin{enumerate}
+%     \item Calculate the Fourier-transformed \(h _{\text{EOB}}(f, \theta ) = A _{\text{EOB}} (\theta ) e^{i \phi _{\text{EOB}} (f, \theta )}\)
+%     \item calculate \(h _{\text{PN}} (f, \theta ) = A _{\text{PN}} e^{i \phi _{\text{PN}} (f, \theta )}\)
+% \end{enumerate}
 
 
 \end{document}
