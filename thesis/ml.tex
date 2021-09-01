@@ -5,7 +5,38 @@
 
 \subsection{Supervised learning and optimization}
 
+Machine Learning is about having an algorithm improve through the use of \emph{training data}, 
+so that is it able to make predictions or decisions automatically, 
+without any specific outcome being explicitly programmed in.
 
+There are many kinds of problems this general approach can be used to solve,
+the one which is relevant for us here is known as \emph{supervised learning}. 
+In general, the idea is to start from a set of training data consisting of pairs \((x, y)\), 
+where \(x\) and \(y\) are typically high-dimensional objects, and to train a system so that 
+it is able to reconstruct \(y _{\text{new}}\) from a given \(x _{\text{new}}\) to within some tolerable margin of error.
+
+% This is done by defining some suitable measure of the reconstruction error 
+Supervised learning differs from \emph{unsupervised} learning, in which data is provided without labels of any sort, and the algorithm must seek some sort of structure in it.
+
+\subsubsection{Dataset management}
+
+The way a supervised learning system typically works is to build a model \(y _{\text{pred}} = f(x; \alpha , \beta ) \) which depends on variable parameters \(\alpha \) and fixed hyperparameters \(\beta \).
+For concreteness, we can think of polynomial regression: \(\beta \) may then be the degree of the polynomial with which we fit the data, while \(\alpha \) is the set of coefficients of this polynomial. 
+
+We can evaluate the performance of this model by comparing \(y _{\text{pred}}\) with the known label \(y\) for all the data in the training dataset.
+This allows us to compute some cost function \(C(\alpha ; \beta )\) --- the choice of \(C\) is not simple in general, let us keep it abstract for now. 
+
+Then, we can use some optimization procedure to find 
+%
+\begin{align}
+\overline{\alpha} = \underset{\alpha }{\operatorname{argmax}} C(\alpha ; \beta )
+\,.
+\end{align}
+
+This sounds good, but there is a problem: a procedure as described can get arbitrarily low costs by learning \emph{specific features} of the training dataset which will not generalize. This is known as \emph{overfitting}. 
+Its counterpart, \emph{underfitting}, may happen when our model is not powerful enough 
+% How do we avoid this issue? 
+The parameters \(\beta \) can typically be adapted to avoid 
 
 \subsection{Greedy approximants}
 
@@ -18,6 +49,8 @@ It is convenient to reduce this number in order for the neural network to be fas
 We are able to do so by making use of the fact that the components of the high-dimensional vector representing the waveform are correlated. 
 
 The technique of \ac{PCA} is quite general,\footnote{The utility and relative simplicity of this technique might make one think it quite old, while in fact it was developed only in 1901 by Karl Pearson \cite[]{pearsonLIIILinesPlanes1901,manlyMultivariateStatisticalMethods2017}, ànd it started to see wider use once availability of computers became widespread.} so let us describe it in general terms, and then apply it to our specific problem.
+
+Dimensionality reduction algorithms such as \ac{PCA} may be considered as a kind of unsupervised learning, since they can allow for the detection of relevant features in high-dimensional datasets. Here we will not use it for this purpose though, it will be more of a pre-processing step. 
 
 \subsubsection{General method}
 
@@ -121,7 +154,7 @@ It was found that, after using natural logarithms for the amplitude residuals, d
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/PCA_vary_K}
-\caption{The reconstruction error is computed after projecting onto a \(K\)-dimensional subspace a number \(N_w=256\) waveforms. The parameters for the \ac{PCA} model are fitted with an independent, \(N _{\text{PCA}} = 256\) dataset. A \ac{KDE} is performed for each set of corresponding log-fidelities, in order for the probability curve to look smoother.
+\caption{The reconstruction error is computed after projecting onto a \(K\)-dimensional subspace a number \(N_w=256\) waveforms. The parameters for the \ac{PCA} model are fitted with an independent, \(N _{\text{PCA}} = 1024\) waveform dataset. A \ac{KDE} is performed for each set of corresponding log-fidelities, in order for the probability curve to look smoother.
 Here the \ac{EOB} waveforms are still calculated with a \ac{SPA}. 
 }
 \label{fig:PCA_vary_K}
