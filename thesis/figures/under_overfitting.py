@@ -77,8 +77,8 @@ for i, deg in enumerate(degs):
         np.sum((poly(p)(x[n2:]) - y[n2:])** 2)
         )
 
-plt.semilogy(degs, t_errs, label='Training error')
-plt.semilogy(degs, v_errs, label='Validation error')
+plt.semilogy(degs, t_errs, label='Training error', c='black', ls='--')
+plt.semilogy(degs, v_errs, label='Validation error', c='black')
 plt.xlabel('Polynomial degree')
 plt.ylabel('Sum of square differences')
 

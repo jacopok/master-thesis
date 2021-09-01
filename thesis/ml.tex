@@ -33,10 +33,43 @@ Then, we can use some optimization procedure to find
 \,.
 \end{align}
 
-This sounds good, but there is a problem: a procedure as described can get arbitrarily low costs by learning \emph{specific features} of the training dataset which will not generalize. This is known as \emph{overfitting}. 
-Its counterpart, \emph{underfitting}, may happen when our model is not powerful enough 
-% How do we avoid this issue? 
-The parameters \(\beta \) can typically be adapted to avoid 
+This sounds good, but there is a problem: a procedure as described can get arbitrarily low costs by learning \emph{specific features} of the training dataset which will not generalize. This is known as \emph{overfitting}, and it is characterized by a low error in the training dataset but a high error on new data.
+
+
+Its counterpart, \emph{underfitting}, may happen when our model is not ``detailed'' enough to capture some feature of the data. Here, the model will not only perform badly on new data, but also on its training data. 
+
+The parameters \(\beta \) can typically be adjusted to find an optimum between these two extremes.
+A concrete example is shown in figure \ref{fig:underoverfit_polys}: some noisy data is fitted with polynomials of differing degrees --- this corresponds to minimizing \(C(\alpha ; \beta )\) for different values of \(\beta \).
+Only the data in the central region is used for the fit, while the rest is interpreted as validation data.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/underoverfit_polys}
+\caption{Demonstration of under- and over-fitting: the training data here are the central region between the two vertical lines; the models are then validated in the remaining part of the region. See figure \ref{fig:underoverfit_errors} for the exact value of the training and validation errors at various polynomial degrees.}
+\label{fig:underoverfit_polys}
+\end{figure}
+
+Note that this split of training and validation data, while visually clear, is undesirable in real circumstances: we can achieve much better accuracy if the training data spans every part of the region of interest.
+This is the case for ac{mb}, since we can generate data at will. 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/underoverfit_errors}
+\caption{Training and validation errors for figure \ref{fig:underoverfit_polys}. The best choice for the degree here is clearly \(3\), since it minimizes the validation error as well as having a very low training error, but without the validation procedure we could not appreciate it being a better choice than higher values.}
+\label{fig:underoverfit_errors}
+\end{figure}
+
+If we indicate \(C_V(\alpha ; \beta )\) as the error on the validation data, the full procedure can then be schematically be written as 
+%
+\begin{align}
+\overline{\beta} = \underbrace{\underset{\beta }{\operatorname{argmax}}}_{\text{validation} } \  C_V \qty(
+    \underbrace{\underset{\alpha }{\operatorname{argmax}} \  C(\alpha ; \beta )}_{\text{training}} ; \ \beta )
+\,.
+\end{align}
+
+The best way to calculate these two optimums differ, both among each other and on a case-by-case basis: the validation procedure must account for the fact that the training procedure for each value of \(\beta \) analyzed can take some time. 
+
+In particular, the algorithm used in \ac{mb} for training is discussed in section \ref{sec:sgd}, while the one used for validation is discussed in section \ref{sec:optuna}. 
 
 \subsection{Greedy approximants}
 
@@ -145,7 +178,7 @@ So, we want to combine amplitude and phase residuals into a single vector.
 
 A simple way to do so is to simply ``append'' one vector to the other, and therefore consider the waveform as a vector in \(\mathbb{R}^{D_A + D_\varphi }\). 
 There is an issue with this procedure: \ac{PCA} optimizes Euclidean distance, so the scaling of the amplitude and phase residuals becomes relevant. 
-Fortunately, this carries no physical meaning: because of the way we have defined the residuals [INSERT REF], it is equivalent to a change in the basis for the logarithm. 
+Fortunately, this carries no physical meaning: because of the way we define the residuals \ref{sec:residuals}, it is equivalent to a change in the basis for the logarithm. 
 
 Heuristically, we want the typical scale of the phase residuals to roughly match that of the amplitude residuals. 
 This can be simply achieved by multiplying either part of the vector by a constant, which can be tuned in order to optimize the reconstruction error. 
@@ -285,7 +318,7 @@ The second-to-last equation tells us how to compute the error \(\delta^{l}_{j}\)
 It is an application of the chain rule. 
 We compute the \(\delta^{l}_{j}\) iteratively going backwards through the network, and having done so we can recover the derivative of the cost with respect to the weights and biases by combining the error \(\delta^{l}_{j}\) with the activations of each layer, \(a^{l-1}_{k}\), as described by the first two equations. 
 
-\subsubsection{Stochastic gradient descent}
+\subsubsection{Stochastic gradient descent} \label{sec:sgd}
 
 The method for gradient descent described by equation \ref{eq:gradient-descent-basic} is still slow if we try to compute the gradient of the cost function by using all the training data we have. 
 It turns out to be more efficient to compute the gradient by only looking at a single example or a small batch of them, chosen randomly: this idea is known as \emph{stochastic gradient descent}. 
@@ -301,7 +334,7 @@ A direct move in the direction of the gradient might mean we ``bounce'' between 
 The second aspect is to make the step-size adaptive, as opposed to it being strictly proportional to the gradient.
 A ``signal-to-noise ratio'' is estimated through the square of the gradient, and it is used to scale the step based on how confident we might be in it being meaningful or not. 
 
-\subsection{Hyperparameter optimization}
+\subsection{Hyperparameter optimization} \label{sec:optuna}
 
 Our network will depend on several hyperparameters, such as the number and size of the layers or the learning rate; we want to get as close as possible to the optimal choice of these for the reconstruction of the function mapping the binary system parameters to the principal components to be fast as well as accurate.
 
