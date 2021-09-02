@@ -67,19 +67,17 @@ If we indicate \(C_V(\alpha ; \beta )\) as the error on the validation data, the
 \,.
 \end{align}
 
-The best way to calculate these two optimums differ, both among each other and on a case-by-case basis: the validation procedure must account for the fact that the training procedure for each value of \(\beta \) analyzed can take some time. 
+The best ways to calculate these two optimums differ, both among each other and on a case-by-case basis: the validation procedure must account for the fact that the training procedure for each value of \(\beta \) analyzed can take some time. 
 
 In particular, the algorithm used in \ac{mb} for training is discussed in section \ref{sec:sgd}, while the one used for validation is discussed in section \ref{sec:optuna}. 
 
-\subsection{Greedy approximants}
-
-\textcite{galleyFastEfficientEvaluation2016} introduced \texttt{romspline}. 
+The procedure described here makes use of a training and a validation dataset; 
 
 \subsection{Principal Component Analysis} \label{sec:principal-component-analysis}
 
 After downsampling, a waveform used by \acs{mb} is described by several hundred points.
 It is convenient to reduce this number in order for the neural network to be faster.
-We are able to do so by making use of the fact that the components of the high-dimensional vector representing the waveform are correlated. 
+We are able to do so by making use of the fact that the components of the high-dimensional vector representing the waveform are correlated.
 
 The technique of \ac{PCA} is quite general,\footnote{The utility and relative simplicity of this technique might make one think it quite old, while in fact it was developed only in 1901 by Karl Pearson \cite[]{pearsonLIIILinesPlanes1901,manlyMultivariateStatisticalMethods2017}, ànd it started to see wider use once availability of computers became widespread.} so let us describe it in general terms, and then apply it to our specific problem.
 

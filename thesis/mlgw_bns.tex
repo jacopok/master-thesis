@@ -21,7 +21,19 @@ If this task is accomplished with tolerable errors and with a fast enough execut
 
 \subsection{Waveform generation and downsampling}
 
+\subsubsection{Greedy downsampling}
 
+The residual waveforms generated with the \ac{EOB} / \ac{PN} models have on the order of a few times \num{e5} sampling points. 
+This is too large a number to effectively use \ac{PCA} on: as we will see, it requires writing a covariance matrix which would have \(\sim \num{e11}\) entries, way beyond the \ac{RAM} of most computers. 
+
+Therefore, we need to start by applying a simple dimensionality reduction technique: downsampling, applied to the unwrapped phase and amplitude of waveforms (see section \ref{sec:unwrapping}).
+
+Doing so on a uniform grid, however, is suboptimal: 
+
+\textcite{galleyFastEfficientEvaluation2016} introduced \texttt{romspline}. 
+
+
+\subsection{Phase unwrapping} \label{sec:unwrapping}
 
 \subsection{Residual calculation} \label{sec:residuals}
 

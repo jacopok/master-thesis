@@ -1,5 +1,7 @@
 \documentclass[11pt]{article}
 
+% \usepackage[a-3b]{pdfx}
+
 \input{header.tex}
 \title{Machine Learning Gravitational Waveforms for Binary Neutron Star mergers}
 \usepackage[
@@ -8,22 +10,21 @@ citestyle=authoryear,
 style=alphabetic,
 sorting=nyt,
 urldate=iso8601,
-block=ragged
+block=ragged,
+backref=true
 ]{biblatex}
 
 \addbibresource{Masters thesis.bib}
 
 \usepackage{subfiles}
 
-% \input{easteregg.tex}
+\input{easteregg.tex}
 
 \begin{document}
 
 \maketitle
 
 \subfile{abstract}
-
-\tableofcontents
 
 \subfile{gw}
 
@@ -38,6 +39,8 @@ block=ragged
 \subfile{fourier}
 
 \subfile{acronyms}
+
+\tableofcontents
 
 \printbibliography
 

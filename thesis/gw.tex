@@ -5,10 +5,9 @@
 
 \subsection{Linearized gravity}
 
-The simplest way to discuss gravitational radiation is to consider linearized gravity on a flat Minkowskian background. 
+% We give here a brief overview of , roughly following the path taken by \textcite[chapter 1]{maggioreGravitationalWavesVolume2007}.
+The simplest way to discuss gravitational radiation is to consider linearized gravity on a flat Minkowskian background.
 
-We give a brief overview, roughly following the path taken by \textcite[chapter 1]{maggioreGravitationalWavesVolume2007}.
- 
 This means that we assume that our spacetime admits a reference frame for which the metric is in the form 
 %
 \begin{align}
@@ -166,12 +165,11 @@ We will also need a transformation law for the trace-reversed perturbation \(\ov
 %
 \begin{align} \label{eq:perturbation-transformation-infinitesimal-tracereversed}
 \overline{h}'_{\mu \nu } = \overline{h}_{\mu \nu } - 2 \partial_{(\mu } \xi_{\nu )} + \eta_{\mu \nu } \partial_{\alpha } \xi^{\alpha }
-\,,
+\,.
 \end{align}
-%
 
 
-A second class of transformations is a subset of Lorentz boosts and rotations: substituting \(\pdv*{x^{\mu }}{x^{\prime \nu }} = \Lambda_\nu{}^{\mu }\) into the transformation law \eqref{eq:metric-transformation-general} we find that the flat metric is unchanged, while 
+A second class of transformations which sometimes preserve the structure \(g = \eta + h\) is a subset of Lorentz boosts and rotations: substituting \(\pdv*{x^{\mu }}{x^{\prime \nu }} = \Lambda_\nu{}^{\mu }\) into the transformation law \eqref{eq:metric-transformation-general} we find that the flat metric is unchanged, while 
 %
 \begin{align}
 h^{\prime }_{\mu \nu } ( x') = \Lambda_{\mu }{}^{\alpha }
@@ -207,13 +205,13 @@ A trivial example is \(\zeta _\nu = \const\), but other wave-like choices are of
 
 These still induce a transformation on \(h_{\mu \nu }\) according to the usual law \eqref{eq:perturbation-transformation-infinitesimal}, and they can be used to further specify the form of the gravitational radiation. 
 
-In terms of \textbf{degrees of freedom}, the full perturbation \(h_{\mu \nu }\) starts with 10 as any symmetric 4D, rank-2 tensor; the four Hilbert gauge conditions \eqref{eq:hilbert-gauge} reduce them to 6, while the four residual gauge conditions will allow us to reduce them to 2. 
+In terms of \textbf{degrees of freedom}, the full perturbation \(h_{\mu \nu }\) starts with 10 as any symmetric 4D, rank-2 tensor; the four Hilbert gauge conditions \eqref{eq:hilbert-gauge} reduce them to 6, while the four residual gauge conditions will allow us, under some specific assumptions, to reduce them to 2. 
 
-Doing so in full generality is not useful for us, let us instead fix the residual gauge in the specific context of a plane wave solution to the wave equation \(\square \overline{h}_{\mu \nu } = 0\).
+Let us fix the residual gauge in the specific context of a plane wave solution to the wave equation \(\square \overline{h}_{\mu \nu } = 0\).
 
-\subsubsection{Plane gravitational waves}
+\subsubsection{Plane gravitational waves} \label{sec:plane-gws}
 
-From an analogy to electromagnetic theory it seems reasonable to work with an ansatz in the form 
+A general solution to the wave equation may be written as a superposition of plane waves in the form
 %
 \begin{align}
 \overline{h}_{\mu \nu } = A_{\mu \nu } e^{i k_\alpha x^{\alpha }}
@@ -221,6 +219,7 @@ From an analogy to electromagnetic theory it seems reasonable to work with an an
 \end{align}
 %
 where \(A_{\mu \nu }\) is a constant symmetric tensor.
+Let us then consider a single plane wave.
 
 Imposing the wave equation sets \(k_{\alpha } k^{\alpha } = 0\), and the Hilbert gauge \eqref{eq:hilbert-gauge} condition can be written as \(A_{\mu \nu } k^{\mu } = 0\), where \(A = \eta^{\mu \nu } A_{\mu \nu }\). 
 
@@ -331,11 +330,11 @@ Fortunately \acsp{GW} are physical, so they must still manifest regardless of ou
 \label{fig:polarizations}
 \end{figure}
 
-The positions of points at a fixed position (\(x\), \(y\), \(z\)) change (up to a phase) according to the expression 
+The distances of points at a fixed position (\(x\), \(y\), \(z\)) from the center change (up to a phase) according to the expression 
 %
 \begin{align}
-x (t) &= x(t=0) \qty(1 + h_+ e^{i \omega t}) + y(t=0) h_\times  e^{i \omega t} \\
-y (t) &= y(t=0) \qty(1 - h_+ e^{i \omega t}) + x(t=0) h_\times  e^{i \omega t} 
+x (t) &= x_{0} \qty(1 + h_+ e^{i \omega t}) + y_{0} h_\times  e^{i \omega t} \\
+y (t) &= y_{0} \qty(1 - h_+ e^{i \omega t}) + x_{0} h_\times  e^{i \omega t} 
 \,,
 \end{align}
 %
@@ -350,12 +349,12 @@ F_{i} = \frac{m}{2} \ddot{h}_{ij}^{TT} \xi^{j}
 \,,
 \end{align}
 %
-which unsurprisingly closely mirrors the ac{TT} gauge variation of the distance: the physically measurable effect must be independent of gauge choice. 
-The reason the \ac{TT} gauge perturbation appears here as well is that the Riemann tensor, which is used in these computations, is \emph{invariant} (a stronger condition than covariant! the values of the components are actually unchanged) under gauge transformations. 
+which unsurprisingly closely mirrors the \ac{TT} gauge variation of the distance: the physically measurable effect must be independent of gauge choice. 
+The reason the \ac{TT} gauge perturbation appears here as well is that the Riemann tensor, which is used in these computations, is \emph{invariant} (a stronger condition than covariant --- the values of the components are actually unchanged) under gauge transformations. 
 
 \subsubsection{The quadrupole formula}
 
-The lowest order contribution to the generation of gravitational waves can be calculated starting from the linearized Einstein equation \eqref{eq:wave-equation-einstein}. 
+The lowest order contribution to the generation of gravitational waves can be calculated starting from the linearized Einstein equations \eqref{eq:wave-equation-einstein}. 
 The Green's function method for the inversion of the D'Alambertian is a common technique: if we can find a function \(G(z)\) such that \(\square G(z) = \delta^{(4)} (z)\), then we can do the following manipulation (denoting the gravitational constant as \(G_N\) for clarity): 
 %
 \begin{align}
@@ -371,12 +370,14 @@ The Green's function method for the inversion of the D'Alambertian is a common t
 \,,
 \end{align}
 %
-where in the last step we introduced the explicit expression for the Green's function of the D'Alambertian: \(G(z) = -[z^{0}>0] / 4 \pi \abs{\vec{z}}\)\footnote{The square bracket here is the Iverson bracket \cite{knuthTwoNotesNotation1992}, which maps a boolean expression to 1 (if true) or 0 (if false); in this context it is thus equivalent to the Heaviside Theta: \([z^{0}>0] = \Theta (z^{0})\).} \cite[eq.\ 3.6]{maggioreGravitationalWavesVolume2007}. 
+where in the last step we introduced the explicit expression for the Green's function of the D'Alambertian: \(G(z) = - \Theta (z^{0}) / 4 \pi \abs{\vec{z}}\)
+% \footnote{The square bracket here is the Iverson bracket \cite{knuthTwoNotesNotation1992}, which maps a boolean expression to 1 (if true) or 0 (if false); in this context it is thus equivalent to the Heaviside Theta: \([z^{0}>0] = \Theta (z^{0})\).} 
+\cite[eq.\ 3.6]{maggioreGravitationalWavesVolume2007}. 
 
-We then have a formula for the trace-reversed perturbation, and it can be shown \cite[page 10]{maggioreGravitationalWavesVolume2007} that far from the source we can recover the \ac{TT} gauge perturbation by projecting this equation thanks to a tensor \(\Lambda_{ij, kl} (\hat{n})\): 
+We then have a formula for the trace-reversed perturbation, and as we discussed in section \ref{sec:plane-gws} far from the source we can recover the \ac{TT} gauge perturbation by projecting this equation thanks to a tensor \(\Lambda_{ij, kl} (\hat{n})\) (we return to \(G \equiv G_N\) denoting the gravitational constant): 
 %
 \begin{align}
-h_{ij}^{TT} (t, \vec{x}) = 4G_N \Lambda_{ij, kl}(\hat{n}) \int \frac{\dd[3]{y}}{\abs{\vec{x} - \vec{y}}} T_{kl} \qty(t - \abs{\vec{x} - \vec{y}}, \vec{y}) 
+h_{ij}^{TT} (t, \vec{x}) = 4G \Lambda_{ij, kl}(\hat{n}) \int \frac{\dd[3]{y}}{\abs{\vec{x} - \vec{y}}} T_{kl} \qty(t - \abs{\vec{x} - \vec{y}}, \vec{y}) 
 \,,
 \end{align}
 %
@@ -402,24 +403,26 @@ This allows us to expand and neglect terms of the order \(R^2 / r^2\) and over;\
 } the result we get is 
 %
 \begin{align}
-h_{ij}^{TT} = \frac{4 G_N}{r} \Lambda_{ij, kl} (\hat{n})
+h_{ij}^{TT} = \frac{4 G}{r} \Lambda_{ij, kl} (\hat{n})
 \int \dd[3]{y} T_{kl} \qty(t-r + \vec{y}\cdot \hat{n}, \vec{y}) 
 \,.
 \end{align}
 
 This equation uses the stress-energy tensor as computed without considering the higher-order effects of gravity on matter (this is the meaning of ``linear'' in the linear wave equation \eqref{eq:wave-equation-einstein}); thus it is only a good approximation in the case of objects whose typical scale \(R\) is much larger, than, say, their Schwarzschild radius \(2GM\). 
-The problem with this assumption is that it fails to hold precisely for the sources which we are most interested in since, as we shall see, they give out some of the most easily detectable gravitational radiation: binary compact objects near coalescence. 
-Let us forget about this issue for now. 
+The problem with this assumption is that it fails to hold precisely for the sources which we are most interested in since, as we shall see, they give out some of the most easily detectable gravitational radiation: binary compact objects near coalescence.\footnote{As we shall discuss later, the amplitude of the waves emitted rises as they get closer and closer; also, \acp{BNS} and \acp{BBH} often reach their peak amplitude in the frequency range where our detectors are most sensitive.
+Nevertheless, the ``Newtonian'' stage of the inspiral (a long time before the merger) will be described quite well by the expressions discussed here.}
 
-For a gravitationally bound source like a binary, with total mass \(M\) and reduced mass \(\mu \), moving with speed \(v\), the virial theorem dictates that 
+For a gravitationally bound source like a binary, with total mass \(M\), reduced mass \(\mu \), moving with speed \(v\) and with a relative separation \(r\), the virial theorem dictates that 
 %
 \begin{align}
-\frac{1}{2} \mu v^2 = \frac{1}{2} G \frac{\mu M}{r} \implies v^2 = \frac{GM}{r} \sim \frac{R_s}{r} 
-\,.
+\frac{1}{2} \mu v^2 = \frac{1}{2} G \frac{\mu M}{r} \implies v^2 = \frac{GM}{r} = \frac{R_s}{r} 
+\,,
 \end{align}
+% 
+where \(R_s\) is the Schwarzschild radius corresponding to the total mass of the system. 
 
-This means that the source not being very compact (\(R_s \ll r\)) is equivalent to it moving slowly (\(v \ll 1\)). 
-Neither of these assumptions will hold in the end, but since we are using one we might as well use both. 
+This means that the source not being very compact\footnote{We are being loose with terminology: the two stars in the binary may be compact themselves, but the system as a whole isn't. } (\(R_s \ll r\)) is equivalent to it moving slowly (\(v \ll 1\)). 
+Neither of these assumptions will hold in the end, but since we are using one we should use both. 
 
 In Fourier space, this amounts to saying that the typical frequencies \(\omega \) for which the amplitude of the Fourier transform of the stress-energy tensor is large will satisfy \(\omega \vec{y} \cdot \hat{n} \lesssim \omega R \ll 1\). 
 This means that we can expand the exponential in the Fourier transform; in the time domain this amounts to expanding in time around the retarded time \(t - r\): 
@@ -432,12 +435,12 @@ T_{kl} (t-r + \vec{y} \cdot \hat{n}, \vec{y}) \approx T_{kl} (t-r, \vec{y}) + \v
 This allows us to write the resulting wave as a multipole expansion:
 %
 \begin{align} \label{eq:gw-expansion-moments-stess-tensor}
-h_{ij}^{TT} (t, \vec{x}) &= \frac{4G_N}{r} \Lambda_{ij, kl} \qty(S_{kl} + \sum_{L=1}^{\infty } \frac{1}{L!} \partial_{t}^{L} S_{kl | i_1 \dots i_L} n_{i_1} \dots n_{i_L})
+h_{ij}^{TT} (t, \vec{x}) &= \frac{4G}{r} \Lambda_{ij, kl} \qty(S_{kl} + \sum_{L=1}^{\infty } \frac{1}{L!} \partial_{t}^{L} S_{kl | i_1 \dots i_L} n_{i_1} \dots n_{i_L})
 \marginnote{To be computed at redarded time.}
 \,,
 \end{align}
 %
-where the moments of the stress tensor are defined as 
+where the moments of the stress tensor \(S_{kl|i_1 \dots i_L}\) are defined as 
 %
 \begin{align}
 S_{kl | i_1 \dots i_L} = \int \dd[3]{y} T_{kl} y_{i_1} \dots y_{i_L}
@@ -446,23 +449,25 @@ S_{kl | i_1 \dots i_L} = \int \dd[3]{y} T_{kl} y_{i_1} \dots y_{i_L}
 
 We can also analogously calculate moments for the energy density \(T_{00} \), which we denote \(M_{i_1 \dots i_L}\), and for the momentum density \(T_{0i}\), which we denote \(P_{k|i_1 \dots i_L}\). 
 
-With integration by parts combined with the conservation of the (flat space!) stress-energy tensor \(\partial_{\mu } T^{\mu \nu }= 0\) we can relate the \(M\), \(P\) and \(S\) with equations such as \cite[eqs.\ 3.45--51]{maggioreGravitationalWavesVolume2007}
+With integration by parts combined with the (flat space!) conservation of the stress-energy tensor \(\partial_{\mu } T^{\mu \nu }= 0\) we can relate the \(M\), \(P\) and \(S\) with equations such as \cite[eqs.\ 3.45--51]{maggioreGravitationalWavesVolume2007}
 %
 \begin{align}
 \dot{M} &= 0  \\
 \dot{P}_{i} &= 0 \\
 \dot{M}_{ij} &= 2 P_{(i|j)}   \\
 S_{ij} &= P_{i | j}
-\,.
+\,,
 \end{align}
+%
+where dots denote time derivatives.
 
 These all tell us something interesting: \(\dot{M} = 0\) and \(\dot{P}_{i} = 0\) are energy and momentum conservation, which seem to tell us that there is no energy nor momentum loss from \ac{GW} emission. 
-This is an artifact, due to the assumptions of linear theory which neglect back-action on the source; fortunately we will still be able to compute the energy loss of the system.
+This is an artifact, due to the assumptions of linear theory which neglect back-action on the source; fortunately we will still be able to compute the energy loss of the system even in this approximation.
 
 The second useful fact is \(S_{ij} = \ddot{M}_{ij} / 2\): this allows us to write the lowest-order approximation of the expression of the wave from the source in terms of moments \eqref{eq:gw-expansion-moments-stess-tensor} as 
 %
 \begin{align}
-h_{ij}^{TT}(t, \vec{x}) = \frac{2 G_N}{r} \Lambda_{ij, kl} \ddot{M}_{kl}
+h_{ij}^{TT}(t, \vec{x}) = \frac{2 G}{r} \Lambda_{ij, kl} \ddot{M}_{kl}
 \,,
 \end{align}
 %
@@ -485,7 +490,7 @@ This gives rise to the quadrupole formula
 %
 \boxalign{
 \begin{align} \label{eq:quadrupole-formula}
-h_{ij}^{TT}(t, \vec{x}) = \frac{2 G_N}{r} \Lambda_{ij,kl} \ddot{Q}_{kl}(t-r)
+h_{ij}^{TT}(t, \vec{x}) = \frac{2 G}{r} \Lambda_{ij,kl} \ddot{Q}_{kl}(t-r)
 \,.
 \end{align}}
 
@@ -508,22 +513,22 @@ This pseudotensor can be used to describe the way in which, on large enough scal
 Also, we can compute the energy flux passing through a surface a large distance from the source: if we use the quadrupole formula \eqref{eq:quadrupole-formula} for the gravitational perturbation, we can give an expression for the emitted power in terms of the third derivatives of the quadrupole as \cite[eq.\ 3.98]{maggioreGravitationalWavesVolume2007} 
 %
 \begin{align} \label{eq:energy-emission-quadrupole}
-\dv{E}{t} = -\frac{G_N}{5} \expval{ \dot{\ddot{Q}}_{ij} \dot{\ddot{Q}}_{ij}}
+\dv{E}{t} = -\frac{G}{5} \expval{ \dot{\ddot{Q}}_{ij} \dot{\ddot{Q}}_{ij}}
 \,.
 \end{align}
 
 Dimensionally, \(Q \sim \int \dd[3]{y} \rho r^2\) has units of \SI{}{kg m^2}; so \(\dot{\ddot{Q}}\) has units of \(\SI{}{kg m^2 / s^3} = \SI{}{W}\).
 
-This means that the prefactor, which we wrote using \(c=1\), must really be \(G_N c^{n}/5\) with units of inverse power, which implies \(n = -5\).
-Numerically, it is the inverse of \(5c^{5} / G_N \approx \SI{2e53}{W}\). 
+This means that the prefactor, which we wrote using \(c=1\), must really be \(G c^{n}/5\) with units of inverse power, which implies \(n = -5\).
+Numerically, it is the inverse of \(5c^{5} / G \approx \SI{2e53}{W}\). 
 This means that in order for \ac{GW} emission to be efficient we must have a large value for \(\dot{\ddot{Q}}\): let us estimate it in terms of the typical size of the system, \(R\), of its typical velocity \(v = \Omega R\) and of its mass \(M\). 
 Each time derivative will roughly correspond to multiplication by a factor \(\Omega \), so \(\dot{\ddot{Q}} \sim \Omega^3 M R^2 = v^3 M / R\).
 
 The power can then be estimated as 
 %
 \begin{align} \label{eq:energy-emission-estimate}
-- \dv{E}{t} \sim \frac{G_N}{5 c^{5}} v^{6} \frac{M^2}{R^2} 
-= \underbrace{\frac{1}{5} \frac{c^{5}}{G_N}}_{\sim\SI{e52}{W}} \qty( \frac{v}{c})^{6} \qty( \frac{G_NM}{c^2 R})^2
+- \dv{E}{t} \sim \frac{G}{5 c^{5}} v^{6} \frac{M^2}{R^2} 
+= \underbrace{\frac{1}{5} \frac{c^{5}}{G}}_{\sim\SI{e52}{W}} \qty( \frac{v}{c})^{6} \qty( \frac{GM}{c^2 R})^2
 \,,
 \end{align}
 %
@@ -532,20 +537,20 @@ This prediction has been validated in 2015 with the first detection of \ac{GW} f
 
 \subsection{Compact binaries} \label{sec:compact-binaries-linear}
 
-We focus our attention towards a pair of inspiraling (compact) objects, which we will initially model as point masses.
+We focus our attention towards a pair of inspiraling (compact) objects, which we will initially model as point masses in quasi-circular orbits.
 The first thing we need to do is to write an expression the amplitudes in the two polarizations \(h_{+, \times }\) of the waves generated by a generic mass distribution with a mass moment \(M_{ij}\) \cite[eqs.\ 3.67--68]{maggioreGravitationalWavesVolume2007}:\footnote{We could also write these in terms of the traceless quadrupole moment \(Q_{ij}\); we follow the convention set forward by \textcite{maggioreGravitationalWavesVolume2007}.} 
 %
 \begin{align}
-h_{+}(t, \hat{n}) &= \frac{G_N}{r} \qty(\ddot{M}_{11}' - \ddot{M}_{22}')\\
-h_{+}(t, \hat{n}) &= \frac{G_N}{r} \qty(2\ddot{M}_{12}')
+h_{+}(t, \hat{n}) &= \frac{G}{r} \qty(\ddot{M}_{11}' - \ddot{M}_{22}')\\
+h_{+}(t, \hat{n}) &= \frac{G}{r} \qty(2\ddot{M}_{12}')
 \,,
 \end{align}
 %
 where \(M^{\prime }_{ij}\) are the components of the mass moment tensor in a frame whose \(z'\) axis is aligned to the observation direction.
 
 This frame is not the natural one with which to describe a binary system: typically, we would want to align the \(z\) axis of the coordinates with the rotation axis. 
-The rotation matrix between two systems depends on two angles, however one of these is more important than the other: aligning the \(z\) axes can be accomplished by a rotation of angle \(\iota \), while another rotation of angle \(\phi \) is needed in order to align the \(x\) and \(y\) axes as well. 
-However, since (as we will discuss in a short while) the system is rotating in quasi-circular orbits, the second rotation only amounts to a time shift, or equivalently a phase in the oscillatory functions. 
+The rotation matrix between two systems depends on two angles, however one of these is more important than the other: aligning the \(z\) axes can be accomplished by a rotation of angle \(\iota \) (dubbed the \emph{inclination}), while another rotation of angle \(\phi \) is needed in order to align the \(x\) and \(y\) axes as well. 
+However, since the system is rotating around its axis in a quasi-circular orbit, the second rotation only amounts to a time shift, an additional phase term in the oscillatory functions. 
 For simplicity, we will neglect this phase freedom here and only include a variable phase at the end of the computations.
 
 If the position of the bodies in the center-of-mass frame is 
@@ -562,9 +567,9 @@ If the position of the bodies in the center-of-mass frame is
 then the mass moments read \(M_{ij} = \mu x_i (t) x_j(t)\) (where \(\mu = m_1 m_2 / (m_1 + m_2 ) \) is the reduced mass of the system), and going through the computation yields \cite[eq.\ 3.332]{maggioreGravitationalWavesVolume2007}
 %
 \begin{align} \label{eq:binary-waveform-1}
-h_{+} (t) &= \underbrace{\frac{4 G_N \mu \Omega^2 R^2}{r}}_{A} \qty(\frac{1 + \cos^2 \iota }{2}) \cos( 2 \Omega t) 
+h_{+} (t) &= \underbrace{\frac{4 G \mu \Omega^2 R^2}{r}}_{A} \qty(\frac{1 + \cos^2 \iota }{2}) \cos( 2 \Omega t) 
 \\
-h_{ \times } (t) &= \underbrace{\frac{4 G_N \mu \Omega^2 R^2}{r}}_{A} \cos \iota  \sin( 2 \Omega t) 
+h_{ \times } (t) &= \underbrace{\frac{4 G \mu \Omega^2 R^2}{r}}_{A} \cos \iota  \sin( 2 \Omega t) 
 \\
 A &= \frac{4}{r} \qty(\frac{G\mathcal{M}_c}{c^2})^{5/3} \qty(\frac{\pi f _{\text{gw}}}{c})^{2/3} 
 \,.
@@ -573,7 +578,7 @@ A &= \frac{4}{r} \qty(\frac{G\mathcal{M}_c}{c^2})^{5/3} \qty(\frac{\pi f _{\text
 Approximating the motion of the bodies as circular during an orbit is called the \emph{adiabatic approximation}, since it assumes that no energy is lost in each orbit (as that would deform the circle). The variation of the orbital frequency \(\Omega \), which we shall compute shortly, must satisfy \(\dot{\Omega} \ll \Omega^2\). 
 It is a rather good approximation for the early stages of the inspiral, as we shall see. 
 
-The last expression we wrote for the amplitude of the emission reintroduces factors of \(c\), is expressed in terms of the emission frequency \(f _{\text{gw}} = \omega _{\text{gw}} / 2 \pi = \Omega / \pi \) and of the \emph{chirp mass}
+The last expression we wrote for the amplitude of the emission reintroduces factors of \(c\), and it is expressed in terms of the emission frequency \(f _{\text{gw}} = \omega _{\text{gw}} / 2 \pi = \Omega / \pi \) and of the \emph{chirp mass}
 %
 \begin{align} \label{eq:chirp-mass}
 \mathcal{M}_c = \frac{(m_1 m_2 )^{3/5}}{(m_1 + m_2 )^{1/5}} = \nu^{3/5} M 
@@ -582,9 +587,11 @@ The last expression we wrote for the amplitude of the emission reintroduces fact
 \,.
 \end{align}
 
+The parameter \(\nu \) is called the \emph{symmetric mass ratio}, and it takes values from \(\nu \to 0\) (one mass vanishing) to \(\nu = 1/4\) (equal masses).
+
 \subsubsection{Energy evolution}
 
-Writing the emission in this way allows us to give an expression for the emitted power 
+Combining equations \eqref{eq:binary-waveform-1} with the quadrupole emission formula \eqref{eq:energy-emission-quadrupole} yields an expression for the emitted power 
 %
 \begin{align}
 P = \frac{32}{5} \frac{c^{5}}{G} \qty(\frac{G \mathcal{M}_c \omega_{\text{gw}}}{2 c^3})^{10/3}
@@ -846,7 +853,7 @@ In order to fully describe the \ac{GW} emission from a binary system we must the
 This can be found thanks to the quadrupole angular momentum emission formula, which is analogous to the energy emission one \eqref{eq:energy-emission-quadrupole} \cite[eq.\ 3.99]{maggioreGravitationalWavesVolume2007}:\footnote{The angular momentum emitted in this expression is considered to be both spin and orbital angular momentum.} 
 %
 \begin{align}
-\dv{L^{i}}{t} = - \frac{2G_n}{5c^{5}} \epsilon^{ikl} \expval{ \ddot{M}_{ka} \dot{\ddot{M}}_{la}} 
+\dv{L^{i}}{t} = - \frac{2G}{5c^{5}} \epsilon^{ikl} \expval{ \ddot{M}_{ka} \dot{\ddot{M}}_{la}} 
 \,.
 \end{align}
 
@@ -1060,7 +1067,7 @@ which is comparable to \(\sqrt{S_n(f)}\), in the sense that it also has units of
 
 The scalar product \((a|b)\) between waveforms allows us to define a distance between them which is meaningful in terms of their distinguishability in data analysis.
 Specifically, we use the fact that in an inner product space we can write the product as \((a|b) = \sqrt{(a|a) (b|b)} \cos \theta \), where \(\theta \) can be interpreted as an angle between the \(a\) and \(b\). 
-Therefore, we can define the \emph{mismatch} ``distance''\footnote{This is not a distance in the mathematical sense: it does not satisfy the identity of indiscernible principle since \(M(a, Ka) = 0\) for constant \(a\), and it does not satisfy the triangle inequality \(M(a, b) \leq M(a, c) + M(b, c)\) --- think, for example, of \(a\) and \(c\) at right angles to one another (so \(M(a, c) = 1\)) and \(b\) in the middle, at 45° from either, so \(M(a, b) = M(b, c) = 1 - \sqrt{2} / 2 \approx 0.3\). Then, \(M(a,c) = 1 > M(a, b) + M(b, c) \approx 0.6\), in violation of the inequality. 
+Therefore, we can define the \emph{fidelity}, or \emph{mismatch} ``distance'':\footnote{This is not a distance in the mathematical sense: it does not satisfy the identity of indiscernible principle since \(M(a, Ka) = 0\) for any constant \(K\), and it does not satisfy the triangle inequality \(M(a, b) \leq M(a, c) + M(b, c)\) --- think, for example, of \(a\) and \(c\) at right angles to one another (so \(M(a, c) = 1\)) and \(b\) in the middle, at 45° from either, so \(M(a, b) = M(b, c) = 1 - \sqrt{2} / 2 \approx 0.3\). Then, \(M(a,c) = 1 > M(a, b) + M(b, c) \approx 0.6\), in violation of the inequality. 
 
 This is not a problem for us: this mismatch is still a useful metric even if it is not a distance. }
 %
@@ -1072,13 +1079,11 @@ M(a, b) = 1 - \frac{(a|b)}{\sqrt{(a|a) (b|b)}} = 1 - \cos \theta  \in [0, 2]
 This mismatch is computed among two waveforms with all of their parameters fixed; in practice, it is often useful to let the initial phase and coalescence time of the waveforms free to vary, and compute the \emph{optimal mismatch}
 %
 \begin{align}
-\mathcal{M}(a, b) = 1 - \max_{\phi_0 , t_0 } \frac{(a|b(\phi_0, t_0 ))}{\sqrt{(a|a)(b|b)}}
+\mathcal{F}(a, b) = 1 - \max_{\phi_0 , t_0 } \frac{(a|b(\phi_0, t_0 ))}{\sqrt{(a|a)(b|b)}}
 \,,
 \end{align}
 %
 where either of the two waveforms is shifted in time and in phase.
-This is sometimes also denoted as \(F\), the \emph{fidelity}. 
-\todo[inline]{Is this true? Should check on that. Maybe typically \(M = \cos( \theta )\) and \(F = 1- \cos \theta \)\dots}
 
 In practice, this does not affect the norms of the waveforms in the denominator, but instead it means that the scalar product between \(a\) and \(b\) reads 
 %
@@ -1088,6 +1093,8 @@ In practice, this does not affect the norms of the waveforms in the denominator,
 &= \max_{\phi_0, t_0 } 4 \abs{\int_{0}^{\infty } \dd{f} \frac{A_a (f) A_b(f) e^{i \phi_a - i \phi _b + 2 \pi i f t_0 }}{S_n (f)}}
 \,.
 \end{align}
+
+% This is useful in \ac{GW} analysis since it reduces the dimensionality of the parameter space by 2; we can 
 
 \subsubsection{Parameter inference: studying the signal}
 
@@ -1304,7 +1311,7 @@ While this is a very high order, the dimensionless tidal deformability parameter
 
 The effect of spin-orbit interactions, on the other hand, comes about at 1.5PN order, while spin-spin interactions are a 2PN effect.
 
-\subsubsection{Numerical Relativity}
+\subsubsection{Numerical Relativity} \label{sec:nr}
 
 The \ac{PN} expansion, even if it goes to high order, is still not enough when we approach the merger. 
 
@@ -1325,7 +1332,7 @@ Besides using the waveforms as validation for any model,
 an approach we can use for waveform generation is called ``\ac{IMR} phenomenological'': a \ac{PN} waveform is complemented with a power series fitted to \ac{NR} simulations \cite{kumarAccuracyPrecisionGravitationalwave2015}. 
 Several variations on this idea are implemented in the \ac{LAL} \cite[]{ligoscientificcollaborationLIGOAlgorithmLibrary2018}.
 
-\subsubsection{Effective One Body}
+\subsubsection{Effective One Body} \label{sec:eob}
 
 The \ac{EOB} framework allows for the generation of waveforms encompassing inspiral, merger and ringdown, by mapping the relativistic two-body problem onto the motion of a test particle in an effective metric. 
 This problem is described through an effective Hamiltonian, whose equations of motion are then numerically solved. 

@@ -6,7 +6,7 @@
 
 We can apply \ac{SPA} to approximate the Fourier transform of an oscillatory function \(f(t) = A(t) e^{-i \Phi (t)}\) as long as \cite{chassande-mottinStationaryPhaseApproximation1998}
 \begin{enumerate}
-    \item \(\Phi (t)\) and \(\dot{\Phi}\) are monotonic;
+    \item \(\dot{\Phi}\) is monotonic;
     \item the amplitude \(A(t)\) is slowly changing compared to the phase: \(\abs{\dot{A} / A} \ll \abs{\dot{\Phi}}\);
     \item the phase derivative is slowly varying: \(\abs{\ddot{\Phi}} \ll \dot{\Phi}^2 \).
 \end{enumerate}
@@ -25,7 +25,7 @@ the exponential term will be quickly oscillating, and therefore destructively in
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/spa}
-\caption{Visualization of the idea behind \ac{SPA}. In the upper plot we show a typical waveform for a \ac{CBC} together with a sinusoid corresponding to the ones used in the computation of the Fourier transform. The lower plot shows a windowed Fourier-like integral, in the form \(\int h(t) \cos(\omega t) e^{-(t-t_0 )^2 / \sigma^2} \dd{t}\) for some window width \(\sigma \), as well as the window. It can be clearly seen that in the regions where there is a frequency mismatch the contribution vanishes.}
+\caption{Visualization of the idea behind \ac{SPA}. In the upper plot we show a typical waveform for a \ac{CBC} together with a sinusoid corresponding to the ones used in the computation of the Fourier transform. The lower plot shows a windowed Fourier-like integral, in the form \(\int h(t) \cos(\omega t) e^{-(t-t_0 )^2 / \sigma^2} \dd{t}\) for some window width \(\sigma \), as well as three copies of the window. It can be clearly seen that in the regions where there is a frequency mismatch the contribution vanishes.}
 \label{fig:spa}
 \end{figure}
 
