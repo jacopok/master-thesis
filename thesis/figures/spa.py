@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from functools import partial
 
 from matplotlib import rc
 rc('font',**{'family':'serif','serif':['Palatino']})
@@ -14,7 +15,7 @@ rc('text.latex', preamble=r'''\usepackage{amsmath}
 N = 20000
 T = 50
 periods = 400
-sigma = 1500
+sigma = 1600
 
 tau = np.linspace(100, periods*T, num=N)
 
@@ -34,8 +35,20 @@ sinus = .1 * np.cos(tau/T + np.pi)
 
 select_taus = tau[::100]
 
+# THIS ALSO WORKS: 
+# exponential window
+
+# def window(time, sigma):
+#     return (np.exp(-(time)** 2 / sigma ** 2))
+
+    
+def window(time, sigma):
+    return np.where(abs(time)<sigma, 1, 0)
+
+w = partial(window, sigma=sigma)
+
 integrals = [
-    sum(sinus * h * np.exp(-(tau - t)**2 / sigma**2))**2
+    sum(sinus * h * w(tau-t))**2
     for t in select_taus
 ]
 
@@ -48,9 +61,12 @@ axs[0].legend()
 
 axs[1].plot(select_taus, integrals, c='black', label='Local integral contribution')
 
-axs[1].plot(tau, 60 * np.exp(-(tau - t0)** 2 / sigma ** 2), label='Window', c='black', ls=":")
-axs[1].plot(tau, 60 * np.exp(-(tau - t0 - 6000)** 2 / sigma ** 2), c='black', ls=":")
-axs[1].plot(tau, 60 * np.exp(-(tau - t0 + 6000)** 2 / sigma ** 2), c='black', ls=":")
+
+A = 60
+
+axs[1].plot(tau, A * w(tau - t0), label='Window', c='black', ls=":")
+axs[1].plot(tau, A * w(tau - t0 - 6000), c='black', ls=":")
+axs[1].plot(tau,  A * w(tau - t0 + 6000), c='black', ls=":")
 axs[1].axvline(t0, c='black', ls='--', label='$\\dot{\\Phi} = \\omega$')
 
 axs[1].legend(loc='upper left')

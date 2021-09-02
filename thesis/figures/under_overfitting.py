@@ -10,6 +10,8 @@ rc('text.latex', preamble=r'''\usepackage{amsmath}
           \usepackage{siunitx}
           ''')
 
+np.random.seed(101)
+
 N = 1000
 x = np.linspace(0, 10, num=N)
 
@@ -17,7 +19,7 @@ yerr = np.random.normal(size=N, scale=3) + 5*np.cos(x/2) + np.exp(-x/4) * 40
 
 y = x * (x-5) * (x-8) + yerr
 
-plt.plot(x, y)
+# plt.plot(x, y)
 
 # %%
 
@@ -57,7 +59,9 @@ plt.axvline(x[training][0], ls=':', ymax=.6, c='black')
 plt.axvline(x[training][-1], ls=':', ymax=.6, c='black')
 
 plt.ylim(min(y), max(y))
-plt.legend()
+plt.xlabel('$x$')
+plt.ylabel('$y$')
+plt.legend(loc='upper center')
 plt.savefig('underoverfit_polys.pdf')
 plt.close()
 # %%

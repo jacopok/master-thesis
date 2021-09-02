@@ -25,11 +25,11 @@ the exponential term will be quickly oscillating, and therefore destructively in
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/spa}
-\caption{Visualization of the idea behind \ac{SPA}. In the upper plot we show a typical waveform for a \ac{CBC} together with a sinusoid corresponding to the ones used in the computation of the Fourier transform. The lower plot shows a windowed Fourier-like integral, in the form \(\int h(t) \cos(\omega t) e^{-(t-t_0 )^2 / \sigma^2} \dd{t}\) for some window width \(\sigma \), as well as three copies of the window. It can be clearly seen that in the regions where there is a frequency mismatch the contribution vanishes.}
+\caption{Visualization of the idea behind \ac{SPA}. In the upper plot we show a typical waveform for a \ac{CBC} together with a sinusoid corresponding to the ones used in the computation of the Fourier transform. The lower plot shows a windowed Fourier-like integral, in the form \(I (t_0 ) = \int h(t) \cos(\omega t) w(t-t_0 ) \dd{t}\) for some window function \(w\) centered on \(t-t_0 = 0\), as well as three copies of the window. The value plotted with a solid line is \(\abs{I(t_0 )}^2\). It can be clearly seen that in the regions where there is a frequency mismatch the contribution vanishes.}
 \label{fig:spa}
 \end{figure}
 
-With this in mind, we can approximate the integral: specifically, looking at the local integral contribution to the integral in figure \ref{fig:spa} we can see that it approaches a Gaussian, which suggests expanding the argument of the exponential to second order around its stationary point, 
+With this in mind, we can approximate the integral: specifically, looking at the local integral contribution to the integral in figure \ref{fig:spa} we can see that it approaches a Gaussian,\footnote{The noise is mostly due to the window choice --- a rectangular window is clearest for the visualization, but smoother choices yield less noise.} which suggests expanding the argument of the exponential to second order around its stationary point, 
 %
 \begin{align}
 - i \Phi (t) + i \omega t \approx \eval{\qty(-i \Phi (t) + i \omega t)}_{t_s} - \frac{i}{2} \eval{\ddot{\Phi}}_{t_s} (t-t_s)^2

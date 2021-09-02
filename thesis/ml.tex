@@ -11,7 +11,7 @@ without any specific outcome being explicitly programmed in.
 
 There are many kinds of problems this general approach can be used to solve,
 the one which is relevant for us here is known as \emph{supervised learning}. 
-In general, the idea is to start from a set of training data consisting of pairs \((x, y)\), 
+The idea is to start from a set of training data consisting of pairs \((x, y)\), 
 where \(x\) and \(y\) are typically high-dimensional objects, and to train a system so that 
 it is able to reconstruct \(y _{\text{new}}\) from a given \(x _{\text{new}}\) to within some tolerable margin of error.
 
@@ -29,7 +29,7 @@ This allows us to compute some cost function \(C(\alpha ; \beta )\) --- the choi
 Then, we can use some optimization procedure to find 
 %
 \begin{align}
-\overline{\alpha} = \underset{\alpha }{\operatorname{argmax}} C(\alpha ; \beta )
+\overline{\alpha} = \underset{\alpha }{\operatorname{argmax}}\  C(\alpha ; \beta )
 \,.
 \end{align}
 
@@ -59,7 +59,7 @@ This is the case for ac{mb}, since we can generate data at will.
 \label{fig:underoverfit_errors}
 \end{figure}
 
-If we indicate \(C_V(\alpha ; \beta )\) as the error on the validation data, the full procedure can then be schematically be written as 
+If we denote the error on the validation data as \(C_V(\alpha ; \beta )\), the full procedure can then be schematically be written as 
 %
 \begin{align}
 \overline{\beta} = \underbrace{\underset{\beta }{\operatorname{argmax}}}_{\text{validation} } \  C_V \qty(
@@ -71,7 +71,8 @@ The best ways to calculate these two optimums differ, both among each other and 
 
 In particular, the algorithm used in \ac{mb} for training is discussed in section \ref{sec:sgd}, while the one used for validation is discussed in section \ref{sec:optuna}. 
 
-The procedure described here makes use of a training and a validation dataset; 
+The procedure described here makes use of a training and a validation dataset, but typically also we want to have some objective measure of the quality of the fit.
+This cannot be provided by only using training and validation data information, since the parameters of the model depend on them: we need a third separate \emph{testing} dataset which does not inform the model in any way.\footnote{Confusingly, the \ac{ML} literature sometimes inverts the labels ``validation'' and ``testing'' --- we shall stick with the definition given above.}
 
 \subsection{Principal Component Analysis} \label{sec:principal-component-analysis}
 
@@ -79,7 +80,7 @@ After downsampling, a waveform used by \acs{mb} is described by several hundred 
 It is convenient to reduce this number in order for the neural network to be faster.
 We are able to do so by making use of the fact that the components of the high-dimensional vector representing the waveform are correlated.
 
-The technique of \ac{PCA} is quite general,\footnote{The utility and relative simplicity of this technique might make one think it quite old, while in fact it was developed only in 1901 by Karl Pearson \cite[]{pearsonLIIILinesPlanes1901,manlyMultivariateStatisticalMethods2017}, ànd it started to see wider use once availability of computers became widespread.} so let us describe it in general terms, and then apply it to our specific problem.
+The technique of \ac{PCA} is quite general,\footnote{This technique is quite old: it was developed in 1901 by Karl Pearson \cite[]{pearsonLIIILinesPlanes1901,manlyMultivariateStatisticalMethods2017}, but it started to see broad use once availability of computers became widespread.} so let us describe it in general terms, and then apply it to our specific problem.
 
 Dimensionality reduction algorithms such as \ac{PCA} may be considered as a kind of unsupervised learning, since they can allow for the detection of relevant features in high-dimensional datasets. Here we will not use it for this purpose though, it will be more of a pre-processing step. 
 
@@ -89,15 +90,17 @@ We start with a dataset of \(N\) points in \(\mathbb{R}^{D}\), which we denote b
 We need \(D\) floating point numbers to represent each of these points.
 
 If we can find a \(k\)-dimensional hyperplane in \(\mathbb{R}^{D}\), with \(k \ll D\), such that our points are never very far from this subspace, we can substitute the \(D\)-dimensional parametrization of the points for a \(k\)-dimensional one by approximating each point by its orthogonal projection onto the \(k\)-dimensional hyperplane. 
-We will make a certain error in this process: specifically, if \(P_k(x_{i})\) denotes the projection of the point onto this hyperplane, the error (computed according to the Euclidean distance among points\footnote{One might object here: the Euclidean distance among points is hardly relevant for our practical application! Fortunately, as we will later discuss, the PCA reconstruction of the points is efficient according to the Wiener distance as well as according to the Euclidean one. This might be understood heuristically by thinking of the fact that, when looking at waveforms which are quite close in terms of both distances, the linear approximation 
-%
-\begin{align}
-\text{Wiener distance}(a_i, b_j) \approx \sqrt{g_{ij} a_{i} b_j }
-\,
-\end{align}
-%
-for some metric \(g_{ij}\), where \(a_i\) and \(b_j\) denote the vectors representing the two waveforms. Now, we do not know the precise form of \(g_{ij}\) (and, of course, we could not give a unique expression since it varies with detector noise), but as long as the metric is not pathological convergence in the Euclidean distance will imply convergence for this alternative distance. 
-}) can be quantified by
+We will make a certain error in this process: specifically, if \(P_k(x_{i})\) denotes the projection of the point onto this hyperplane, the error (computed according to the Euclidean distance among points)
+% \footnote{One might object here: the Euclidean distance among points is hardly relevant for our practical application! Fortunately, as we will later discuss, the PCA reconstruction of the points is efficient according to the Wiener distance as well as according to the Euclidean one. This might be understood heuristically by thinking of the fact that, when looking at waveforms which are quite close in terms of both distances, the linear approximation 
+% %
+% \begin{align}
+% \text{Wiener distance}(a_i, b_j) \approx \sqrt{g_{ij} a_{i} b_j }
+% \,
+% \end{align}
+% %
+% for some metric \(g_{ij}\), where \(a_i\) and \(b_j\) denote the vectors representing the two waveforms. Now, we do not know the precise form of \(g_{ij}\) (and, of course, we could not give a unique expression since it varies with detector noise), but as long as the metric is not pathological convergence in the Euclidean distance will imply convergence for this alternative distance. 
+% }
+can be quantified by
 %
 \begin{align}
 \text{error} (k) = \sum _{i=0}^{N-1} \norm{x_i - P_k(x_i)}^2
@@ -113,7 +116,7 @@ Computationally, we keep the mean \(\overline{x}\) saved and add it to the recon
 Let us now consider the \(k=1\) case: we want to project the data onto a single line, which we can parametrize as the span of a unit vector \(w\).
 Therefore, what we want to minimize is \(\sum _{i} \norm{y_i - (y_i \cdot w) w}^2 = \sum _{i} \qty( \norm{y_i}^2 - (y_i \cdot w)^2)\), and we can do so by maximizing \(\sum _{i} (y_i \cdot w)^2\). 
 
-Therefore, the best 1-dimensional subspace is the direction of maximum variance: 
+Therefore, the best 1-dimensional subspace is: %the direction of maximum variance: 
 %
 \begin{align}
 w = \underset{w \in \mathbb{S}^{D-1}}{\operatorname{argmax}} \sum _{i} (y_i \cdot w)^2
@@ -128,14 +131,14 @@ C = \frac{1}{N} \sum _{i} y_i y_i^{\top}
 \,.
 \end{align}
 
-A unit eigenvector \(w\) of this matrix will satisfy \(Cw = \lambda w\) for its eigenvalue \(\lambda \); and we can recover the eigenvalue \(\lambda\) from this equation by computing \(w^{\top} C w = \lambda w^{\top} w = \lambda \); making the covariance matrix explicit allows us to see that 
+A unit eigenvector \(w\) of this matrix will satisfy \(Cw = \lambda w\) for its eigenvalue \(\lambda \), and we can recover the eigenvalue \(\lambda\) from this equation by computing \(w^{\top} C w = \lambda w^{\top} w = \lambda \); making the covariance matrix explicit allows us to see that 
 %
 \begin{align}
 \lambda = w^{\top} C w =  \frac{1}{N }\sum _{i} (y_i \cdot w)^2
 \,;
 \end{align}
 %
-which is precisely the quantity we wanted to maximize: therefore, the best one-dimensional subspace is precisely the largest eigenvector of the covariance matrix. 
+which is precisely the quantity we wanted to maximize: therefore, the best one-dimensional subspace is precisely the largest eigenvector of the covariance matrix, the direction of maximum variance. 
 
 If we make the further observation that the covariance matrix is symmetric and positive definite, and can therefore be orthogonally diagonalized, we are almost done: we can generalize to arbitrary \(k\) moving one vector at a time. 
 To find the second vector to span the subspace we can restrict ourselves to the subspace \(w^{\perp}\) and apply the same procedure as before, this tells us that the optimal two-dimensional subspace is the span of the first two eigenvectors of the covariance matrix, and so on. 
@@ -160,7 +163,7 @@ y
 \,.
 \end{align}
 
-For the purpose of dimensionality reduction, however, we are not interested in this projection, which still yields a \(D\)-dimensional vector: this vector lies in a \(k\)-dimensional subspace, therefore we  express it with only \(k\) coordinates, by computing \(V^{\top} y \in \mathbb{R}^{k}\). 
+For the purpose of dimensionality reduction, however, we are not interested in this projection, which still yields a \(D\)-dimensional vector: all the ``reduced'' vectors lie in a \(k\)-dimensional subspace, therefore we express them with only \(k\) coordinates, by computing \(V^{\top} y \in \mathbb{R}^{k}\). 
 
 % If the 
 
@@ -180,13 +183,14 @@ Fortunately, this carries no physical meaning: because of the way we define the 
 
 Heuristically, we want the typical scale of the phase residuals to roughly match that of the amplitude residuals. 
 This can be simply achieved by multiplying either part of the vector by a constant, which can be tuned in order to optimize the reconstruction error. 
-It was found that, after using natural logarithms for the amplitude residuals, dividing the phase residuals by roughly \(200\) yields the best results.
+% It was found that, after using natural logarithms for the amplitude residuals, dividing the phase residuals by roughly \(200\) yields the best results.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/PCA_vary_K}
 \caption{The reconstruction error is computed after projecting onto a \(K\)-dimensional subspace a number \(N_w=256\) waveforms. The parameters for the \ac{PCA} model are fitted with an independent, \(N _{\text{PCA}} = 1024\) waveform dataset. A \ac{KDE} is performed for each set of corresponding log-fidelities, in order for the probability curve to look smoother.
 Here the \ac{EOB} waveforms are still calculated with a \ac{SPA}. 
+A vertical dashed line indicates a ``desirable'' maximal reconstruction error, \(\mathcal{F} \sim \num{e-3}\).
 }
 \label{fig:PCA_vary_K}
 \end{figure}
@@ -202,7 +206,7 @@ In the next section we will describe the architecture of a multi-layer perceptro
 
 \subsubsection{Multi-layer perceptrons}
 
-This architecture is built in order to solve the problem of reconstructing a map from an input, in \(x_i \in \mathbb{R}^{n}\), to an output in \(y_i \in \mathbb{R}^{k}\).
+This architecture is built in order to solve the problem of reconstructing a map from an input \(x_i \in \mathbb{R}^{n}\), to an output \(y_i \in \mathbb{R}^{k}\).
 
 We introduce a \emph{hidden layer} between the input and the output. 
 This consists of a certain number \(m\) of ``neurons'', which can be more or less activated as a function of the inputs.
@@ -213,7 +217,7 @@ z_j = \sigma \qty( w^{(1)}_{ji} x_i + b^{(1)}_j)
 \,,
 \end{align}
 %
-where \(\sigma \colon \mathbb{R} \to \mathbb{R}\) is called the \emph{activation function}, while the parameters \(w^{(1)}_{ji}\) and \(b^{(1)}_j\) are respectively called the \emph{weights} and the \emph{bias} (for the first hidden layer). 
+where \(\sigma \colon \mathbb{R} \to \mathbb{R}\) is called the \emph{activation function}, while the parameters \(w^{(1)}_{ji}\) and \(b^{(1)}_j\) are respectively called the \emph{weights} and the \emph{biases} (for the first hidden layer). 
 
 We shall discuss the reasons one might have for choosing different activation functions later; for now let us say that it is typically differentiable almost everywhere, and it achieves low values for low inputs and high values for high inputs.
 A common choice, for example, is a logistic sigmoid in the form \(\sigma (z) = (1 + e^{-z})^{-1}\). 
@@ -339,7 +343,7 @@ Our network will depend on several hyperparameters, such as the number and size 
 This optimization is accomplished through a \ac{MOTPE}, as described in \textcite[]{ozakiMultiobjectiveTreestructuredParzen2020} and as implemented through the Optuna API \cite[]{akibaOptunaNextgenerationHyperparameter2019}.
 
 Here we will summarize the mechanism through which a single objective \ac{TPE} works, as originally described in \textcite[section 4]{bergstraAlgorithmsHyperParameterOptimization2011}, since
-the generalization to the multi-objective case \cite[]{ozakiMultiobjectiveTreestructuredParzen2020} is rather mathematically involved but not conceptually dissimilar from the single-objective case. 
+the generalization to the multi-objective case \cite[]{ozakiMultiobjectiveTreestructuredParzen2020} is rather mathematically involved but not too conceptually dissimilar from the single-objective case. 
 
 We can abstract away the neural network as a function \(f\) which, after being given a set of hyperparameters \(\vec{x}\), outputs a cost \(y\), which we want to minimize.
 The evaluation of \(f\) is quite costly: it involves the training of the network and a full evaluation of its performance (in our case, the reconstruction of the waveforms and a computation of the Wiener distance to their true counterparts).  
@@ -388,6 +392,6 @@ The balance among these two contrasting desires will dictate our choice of \(\ga
 Once we are able to compute the expected improvement, the task is simple: we just need to generate a selection of points \(\vec{x}_i\) from the distribution \(\ell (\vec{x})\), evaluate their expected improvement (or just \(g/\ell\), really) and pick the one with the largest expected improvement as the one for which to evaluate the \ac{NN}. 
 
 The one aspect still missing in the algorithm is how to estimate a probability distribution from a small set of samples, and how to calculate a new sample from it. 
-There are different ways to do so; the one implemented in the \ac{TPE} algorithm fits Gaussian Mixture Model to estimate \(\ell(\vec{x})\) and \(g(\vec{x})\) \cite[section 5]{bergstraMakingScienceModel2013}. 
+There are different ways to do so; the one implemented in the \ac{TPE} algorithm fits a gaussian mixture model to estimate \(\ell(\vec{x})\) and \(g(\vec{x})\) \cite[section 5]{bergstraMakingScienceModel2013}. 
 
 \end{document}

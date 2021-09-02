@@ -703,7 +703,7 @@ h_{ab} (t, \vec{x}) &= \sum _{\text{pol} = +, \times }
 \,,
 \end{align}
 %
-where \(\hat{n} = \hat{n} (\alpha , \delta )\) is the vector describing the propagation direction of a specific component --- in the context of a \ac{CBC} the distribution of the \(e^{\text{pol}}_{ab}(\hat{n}, \psi )\) will include a Dirac delta centered on the position of the source in the sky, this more general expression can be useful, for example, in the context of \ac{SGWB}. 
+where \(\hat{n} = \hat{n} (\alpha , \delta )\) is the vector describing the propagation direction of a specific component --- in the context of a \ac{CBC} the distribution of the \(e^{\text{pol}}_{ab}(\hat{n}, \psi )\) will include a Dirac delta centered on the position of the source in the sky, while this more general expression can be useful, for example, in the context of a \ac{SGWB}. 
 
 The tensors \(e_{ab}\) are basis tensors: in a frame where \(\hat{n}\) and \(\psi \) are chosen such that the \(+\) polarization stretches the \(x\) and \(y\) axes, they read 
 %
@@ -735,11 +735,11 @@ where we reparametrized the wavevector \(\vec{k}\) through frequency \(f\) and d
 
 \paragraph{Masses and mass ratio}
 
-The waveform to the lowest order we described only depends on the chirp mass \(\mathcal{M}_c\), but as we will see later at higher order there appears a dependence on the ratio of the two masses: \(q = m_1 / m_2 \), where \(m_i\) are the masses of the two compact objects. 
+The waveform to the lowest order we described only depends on the chirp mass \(\mathcal{M}_c\), but as we will see later at higher order there appears a dependence on the ratio of the two masses: \(q = m_1 / m_2 \),. 
 It is customary to fix one of the two masses to always be the largest, therefore constraining \(q \lesseqgtr 1\); we choose the convention \(q \geq 1\).
 
 A possible parametrization for the two masses is \((\mathcal{M}_c, q)\), another is \((M, q)\): these are equivalent, but in the following work we will typically use the latter because of the aforementioned scaling property of the waveforms: we conventionally work with respect to the dimensionless frequency \(Mf\) and the dimensionless time \(t / M\) in order to have one less parameter. 
-If need be, we refer to a ``conventional'' mass of \(M = 2.8 M_{\odot}\), but our results will be easily scalable to any \(M\). 
+If need be, we will refer to a ``conventional'' mass of \(M = 2.8 M_{\odot}\), but our results will be easily scalable to any \(M\). 
 
 \paragraph{Spin}
 
@@ -760,17 +760,18 @@ The qualitative effect of spin is due to both spin-orbit and spin-spin interacti
 In the simplest spin-aligned case, \(\vec{\chi}_i \propto \vec{L} \), the effect is to make the interaction less attractive (when the spins are aligned, \(\vec{\chi}_1 \cdot \vec{\chi}_2 > 0\)) or to make it more attractive in the alternate case. 
 
 The dynamics when the spins are not aligned are significantly more complicated, since the spins precess and give rise to modulations of the amplitude. 
+Because of this, often models restrict themselves to the aligned-spin scenario. 
 
 \paragraph{Tidal polarizability of neutron stars}
 
-If our compact objects are not black holes, they might be able to deform. The astrophysically motivated scenario we think of is that of neutron stars, but the following characterization can also apply to any extended compact objects. For concreteness' sake, we will refer to \acsp{NS}. 
+If our compact objects are not black holes, they might be able to deform. The astrophysically motivated scenario we think of is that of neutron stars, but the following characterization could also apply to any extended compact objects. For concreteness' sake, we will refer to \acsp{NS}. 
 
 This is a complicated process, but we can try to capture its most significant part by limiting ourselves to the quadrupole order of the deformation of the star. 
-The discussion of this effect is clearest in the Newtonian context, but it can be generalized to \ac{GR} \cite[section 14.4.1]{maggioreGravitationalWavesVolume2018}.
+The discussion of this effect is clearest in the Newtonian context, but it can be also formalized in \ac{GR} \cite[section 14.4.1]{maggioreGravitationalWavesVolume2018}.
 
 Tidal effects are described by the tidal tensor \(\mathcal{E}_{ij} = - \partial_{i} \partial_{j} U\), the traceless\footnote{This tidal tensor describes the effect of one star's gravitational field on the other, so its source is not where we compute it, which is a convoluted way of saying that it should be taken to be a solution of \(\nabla^2 U = 4 \pi \rho \) in vacuum: therefore, \(\nabla^2 U = - \Tr[\mathcal{E}_{ij}] = 0\).} Hessian of the Newtonian potential \(U\). In the weak-field relativistic case, this corresponds to part of the Riemann tensor: \(\mathcal{E}_{ij} = c^2R_{0i0j}\). 
 
-We can describe the effects on the deformed star of such a tidal stress by looking at its quadrupole moment \(Q_{ij}\) \eqref{eq:quadrupole}.
+We can describe the effects on the deformed star of such a tidal stress by looking at its quadrupole moment \(Q_{ij}\) (see equation \eqref{eq:quadrupole}).
 To linear order and neglecting any time dependence, we will have the relation 
 %
 \begin{align}
@@ -781,7 +782,7 @@ To linear order and neglecting any time dependence, we will have the relation
 % \todo[inline]{find better explanation for minus sign here and in def of tidal tensor}
 
 This parameter \(\lambda \) describes the deformability of the star; if it is smaller the star deforms less in response to tidal perturbations. 
-In practice the parameter used is not \(\lambda \) but two ways to rescale it: the \(l=2\) (quadrupole) \textbf{Love number} 
+In practice the parameter used is not \(\lambda \) itself but one of two common ways to rescale it: the \(\ell=2\) (quadrupole) \textbf{Love number} 
 %
 \begin{align}
 k_2 = \frac{3}{2} \frac{G \lambda }{R^{5}}
@@ -798,7 +799,7 @@ where \(R\) is the radius of the deformed \ac{NS}, or the \textbf{tidal deformab
 where \(m\) is the mass of the deformed \ac{NS}. 
 The value of these parameters depends on the specific equation of state used in the model; \(k_2\) is typically of the order of \(10^{-1}\), and in the expression for \(\Lambda \) we have a fifth power of the \emph{compactness} \(\sigma = R c^2 / Gm\) of the \ac{NS} --- this is expected to be a small number, but larger than 3,\footnote{A limit on the maximum redshift of radiation from the surface of a \ac{NS} was calculated by \textcite{lindblomLimitsGravitationalRedshift1984} under the assumptions of causality and stability for the nuclear matter, which is equivalent to a compactness limit of \(\sigma \geq 2.83\) \cite{lattimerNeutronStarObservations2007}. } so its fifth power will be of order \(10^{3 \divisionsymbol 4}\). This means that the deformability \(\Lambda \) will typically be of the order \(10^{2 \divisionsymbol 3}\). 
 
-The Love number is useful since it is an expansion parameter for the gravitational field of the deformed \ac{NS}. This field has contributions from both its quadrupole moment, which is due to the tidal deformation from the other star, and from the gravitational field of the other star which we can expand in terms of the tidal field around the center of the deformed star: \(U _{\text{ext}} \approx - \mathcal{E}_{ij} x_{i} x_{j} / 2\). 
+The Love number is useful since it is an expansion parameter for the gravitational field of the deformed \ac{NS}. This field has contributions from both its own quadrupole moment, which is due to the tidal deformation from the other star, and from the gravitational field of the other star itself, which we can expand in terms of the tidal field around the center of the deformed star: \(U _{\text{ext}} \approx - \mathcal{E}_{ij} x_{i} x_{j} / 2\). 
 
 The gravitational field of the deformed star also changes under the effect of the deformation: including the first term in its expansion, which depends on the quadrupole moment, the potential reads  
 %
@@ -816,7 +817,9 @@ U \approx \frac{Gm}{r} - \frac{1}{2} \mathcal{E}_{ij} x_i x_j \qty[1 + 2 k_2 (R 
 \,.
 \end{align}
 
-The meaning of \(\Lambda \) is less immediate ---  the first correction to the phasing of the waveform which appears is\footnote{The meaning of the \ac{PN} expansion and of the expansion in orders of \(v/c\) will be discussed in [SEC]. } \cites[eq.\ 14.231]{maggioreGravitationalWavesVolume2018}{flanaganConstrainingNeutronStar2008}
+This is the starting point for the relativistic generalization of the result as well, where \(k_2 \) is an expansion parameter for a metric component. 
+
+The meaning of \(\Lambda \) is less immediate ---  the first correction to the phasing of the waveform which appears is\footnote{The meaning of the \ac{PN} expansion and of the expansion in orders of \(v/c\) will be discussed in section \ref{sec:post-newtonian}. } \cites[eq.\ 14.231]{maggioreGravitationalWavesVolume2018}{flanaganConstrainingNeutronStar2008}
 %
 \begin{align}
 \Delta \Psi^{\text{tidal}}_{\text{5PN}} = - \frac{117}{256} \frac{m^2}{m_1 m_2 } \widetilde{\Lambda } \qty(\frac{v}{c})^{5} 
@@ -832,7 +835,7 @@ The effect this will have on \ac{GW} emission is yet to be determined, but one c
 
 \paragraph{Eccentricity}
 
-A general binary system will have a nonvanishing eccentricity \(e \in [0, 1)\), such that the two semiaxes of the ellipse read \cite[eqs.\ 4.51]{maggioreGravitationalWavesVolume2007}
+A general binary system will orbit in an ellipse with eccentricity \(e \in [0, 1)\); the two semiaxes of the ellipse read \cite[eqs.\ 4.51]{maggioreGravitationalWavesVolume2007}
 %
 \begin{align}
 a = \frac{R}{1- e^2} \qquad \text{and} \qquad
@@ -876,11 +879,11 @@ which can be (nontrivially) analytically solved, yielding the result shown in fi
 \label{fig:eccentricity}
 \end{figure}
 
-It can be clearly seen that eccentricity decreases as the semimajor axis decreases.
+It can be clearly seen that eccentricity will decrease as the semimajor axis shrinks due to \ac{GW} emission.
 Typical astrophysical binaries need to shrink by several orders of magnitude before merging --- the notorious pulsar in a binary system detected by \textcite{hulseDiscoveryPulsarBinary1975} has a semimajor axis of \(a \approx \SI{2e9}{m}\) and an eccentricity of \(e \approx 0.617\), while the frequency of the \acsp{GW} it emits is \(f _{\text{gw}} = 2 / P \approx \SI{7e-5}{Hz}\) \cite{taylorNewTestGeneral1982}. 
 
-If we were to wait until this reached a frequency range where next generation ground-based detectors might hope to detect it, \(f \sim \SI{10}{Hz}\), we would expect to see (using Kepler's third law \(a^3 f^2 = \const\)) a reduction of semimajor axis by a factor \(\sim 2700\): it would go off-scale in figure \ref{fig:eccentricity}, so we would expect to basically have \(e \approx 0\). 
-One can then see that this holds for a very wide range of possible values of \(e\). 
+If we were to wait until this reached a frequency range where next generation ground-based detectors might hope to detect it, \(f \sim \SI{10}{Hz}\), we would expect to see (using Kepler's third law \(a^3 f^2 = \const\)) a reduction of semimajor axis by a factor \(\sim 2700\): it would go off-scale to the left in figure \ref{fig:eccentricity}, and we would expect to basically have \(e \approx 0\). 
+One can then see that this result holds for all but the most extreme initial values of \(e\). 
 
 This is the reason why eccentricity is often not considered in \ac{GW} modelling, while it is of crucial importance in astrophysical population studies, since it has a large effect on the emitted power (enhancing it) in the early stages of the inspiral.
 
@@ -889,7 +892,7 @@ Eccentric binary \ac{GW} models do exist \cite{favataConstrainingOrbitalEccentri
 
 \paragraph{Summary}
 
-The parameter vector \(\vec{\theta}\) describing a binary sysem can be divided into internal and external parameters as 
+The parameter vector \(\vec{\theta}\) describing a binary system can be divided into internal and external parameters as 
 %
 \begin{align}
 \vec{\theta} = (\underbrace{M, q, \vec{\chi}_1, \vec{\chi}_2, \Lambda_1, \Lambda_2,}_{\theta _{\text{int}}} \underbrace{D_L, \iota, \alpha, \delta, \psi, t_0, \phi_0 }_{\theta _{\text{ext}}})
@@ -898,7 +901,9 @@ The parameter vector \(\vec{\theta}\) describing a binary sysem can be divided i
 %
 where the dependence of the waveform on the external parameters is well-understood and easy to analytically calculate, while the dependence on the internal parameters (barring \(M\)) is complicated.
 
-The complete expression 
+The model developed in this work is built to reconstruct the dependence on \(q\), \(\Lambda_1\), \(\Lambda_2 \) and the aligned-spin components \(\chi_{1,z} \) and \(\chi_{2, z}\). 
+
+% The waveforms are generated as functions of dimensionless frequency \(fM\); 
 
 \subsection{Interferometers and data analysis} \label{sec:data-analysis}
 
@@ -927,7 +932,7 @@ h(t) &= \sum _{\text{pol}= +, \times } \underbrace{D^{ij} e_{ij}(\hat{n}, \psi )
 \,.
 \end{align}
 
-The \emph{detector pattern functions} \(F_+\) can be computed explicitly; for a Michelson-Morley interferometer they read 
+The \emph{detector pattern functions} \(F_{+, \times }\) can be computed explicitly; for a Michelson-Morley interferometer they read 
 %
 \begin{align}
 F_{+} &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \cos 2 \psi - \cos \theta \sin 2 \phi \sin 2 \psi   \\
@@ -939,13 +944,13 @@ where \(\theta \), \(\phi \) are the two angles describing the direction the \ac
 
 \subsubsection{Matched filtering}
 
-We have seen how the \ac{GW} signal will look to our detector: \(h(t)\), but in practical experiments what we will measure will be in the form \(s(t) = h(t) + n(t)\),\footnote{The ``noise'' described here is not actually what is measured: the output of the detector is not \(h(t)\) but it is a linear function of it --- even without accounting for the technical details of the measurement, the quantity measured is the intensity of the light at the dark fringe of the detector, not directly \(h\).} and typically the magnitude of the noise timeseries \(n(t)\) will be much larger than the magnitude of the signal. 
+We have seen how the \ac{GW} signal will look to our detector: \(h(t)\), but in practical experiments what we will measure will be in the form \(s(t) = h(t) + n(t)\),\footnote{The ``noise'' described here is not actually what is measured: the output of the detector is not \(h(t)\) but it is a linear function of it --- even without accounting for the technical details of the measurement, the quantity measured is the intensity of the light at the dark fringe of the detector, not directly \(h\). Nevertheless, if we know the transfer function of the detector we can refer the measured noise to an ``effective noise'' \(n(t)\), which would be the noise we would need to add to \(h(t)\) in order to see the signal we see. This effective noise is what we will call \(n\) hereafter.} and typically the magnitude of the noise timeseries \(n(t)\) will be much larger than the magnitude of the signal. 
 
 This poses an issue both for the detection of a signal and for the analysis of a signal which has been identified as such. 
 The technique we will describe here, matched filtering, has applications in both branches of \ac{GW} data analysis.
 
-The idea is to define a \emph{filter}, a linear map from the signal timeseries to \(\mathbb{R}\), in such a way that its value is low if there is no signal, and it is high if there is a signal of a certain shape. 
-In general, such a function can be expressed as 
+The idea is to define a \emph{filter}, a  map from the signal timeseries to \(\mathbb{R}\), in such a way that its value is low if there is no signal, and it is high if there is a signal of a certain shape. 
+A common choice because of its computational simplicity is a \emph{linear} filter, written as 
 %
 \begin{align}
 s(t) \to \hat{s} = \int \dd{t} s(t) K(t)
@@ -966,8 +971,8 @@ where we compute the root of a variance for \(N\) since if there is only noise w
 In order to properly express this, let us discuss our assumptions about the statistical properties of the noise: the simplest noise we can characterize is 
 \begin{enumerate}
     \item stationary: its statistical properties are unchanging in time. This is not true in real detectors, but if the variation is slow enough one can work with ``local'' properties, on the scale of hours or days.
-    \item zero-mean: \(\expval{n(t)} =0\).
-    \item uncorrelated in Fourier space: this can be stated simultaneously with the definition of the variance of each Fourier component, which is expressed through the single sided\footnote{The distinction between the single- and double-sided \ac{PSD} depends on whether we want to use negative frequencies in the integral to recover the variance at each time or not: 
+    \item zero-mean: \(\expval{n(t)} =0\); this can be enforced by subtracting an offset.
+    \item uncorrelated in Fourier space: this can be stated simultaneously with the definition of the variance of each Fourier component, which is expressed through the single sided \textbf{\ac{PSD}}\footnote{The distinction between the single- and double-sided \ac{PSD} depends on whether we want to use negative frequencies in the integral to recover the variance at each time or not: 
     %
     \begin{align}
     \expval{n^2(t)} 
@@ -977,7 +982,7 @@ In order to properly express this, let us discuss our assumptions about the stat
     \end{align}
     
     Since the noise is real-valued, these two are simply related by \(S_n^{\text{single-sided}} = S_n^{\text{double-sided}}/2\).
-    } \textbf{\ac{PSD}} \(\expval{\widetilde{n}^{*}(f ) n(f )} = \delta (f - f' ) S_n(f ) / 2\). 
+    } \(\expval{\widetilde{n}^{*}(f ) n(f )} = \delta (f - f' ) S_n(f ) / 2\). 
     \item Gaussian: each Fourier component is normally distributed around zero, with a variance described by the \ac{PSD}.
 \end{enumerate}
 
@@ -997,9 +1002,9 @@ where we defined the \textbf{Wiener product} between two real-valued signals \(a
 \,.
 \end{align}
 
-The reason for the presence of the real part is that we want this to math the previous expression, where we know the signal \(S\) to be real-valued; the factor 4 is a combination of the factor of \(2\) in the definition of the \ac{PSD} and the fact that we restrict the integral to positive frequencies only, using the fact that the negative-frequency part gives the same contribution for real-valued signals.
+The reason for the presence of the real part is that we want this to match the previous expression, where we know the signal \(S\) to be real-valued; the factor 4 is a combination of the factor of \(2\) in the definition of the \ac{PSD} and the fact that we restrict the integral to positive frequencies only, using the fact that the negative-frequency part gives the same contribution for real-valued signals.
 
-We also defined the signal \(u\), which is defined so that its Fourier transform reads \(\widetilde{u}(f) = \widetilde{K}(f) S_n(f) / 2\), which allows the expression with the Wiener product to match the previous one.
+We also defined the modified filter \(u\), which is defined so that its Fourier transform reads \(\widetilde{u}(f) = \widetilde{K}(f) S_n(f) / 2\), which allows the expression with the Wiener product to match the previous one.
 
 This expression can then be written as \(S/N = (\hat{u} | h)\), where \(\hat{u} = u / \sqrt{(u|u)}\) This is then maximized by \(\hat{u}\) parallel to \(h\) with respect to the metric defined by the Wiener product: \(\hat{u} \propto h\) means that 
 %
@@ -1066,13 +1071,13 @@ which is comparable to \(\sqrt{S_n(f)}\), in the sense that it also has units of
 \paragraph{The (optimal) mismatch}
 
 The scalar product \((a|b)\) between waveforms allows us to define a distance between them which is meaningful in terms of their distinguishability in data analysis.
-Specifically, we use the fact that in an inner product space we can write the product as \((a|b) = \sqrt{(a|a) (b|b)} \cos \theta \), where \(\theta \) can be interpreted as an angle between the \(a\) and \(b\). 
+Specifically, we use the fact that in any inner product space we can write the product as \((a|b) = \sqrt{(a|a) (b|b)} \cos \theta \), where \(\theta \) can be interpreted as an angle between \(a\) and \(b\). 
 Therefore, we can define the \emph{fidelity}, or \emph{mismatch} ``distance'':\footnote{This is not a distance in the mathematical sense: it does not satisfy the identity of indiscernible principle since \(M(a, Ka) = 0\) for any constant \(K\), and it does not satisfy the triangle inequality \(M(a, b) \leq M(a, c) + M(b, c)\) --- think, for example, of \(a\) and \(c\) at right angles to one another (so \(M(a, c) = 1\)) and \(b\) in the middle, at 45° from either, so \(M(a, b) = M(b, c) = 1 - \sqrt{2} / 2 \approx 0.3\). Then, \(M(a,c) = 1 > M(a, b) + M(b, c) \approx 0.6\), in violation of the inequality. 
 
 This is not a problem for us: this mismatch is still a useful metric even if it is not a distance. }
 %
 \begin{align}
-M(a, b) = 1 - \frac{(a|b)}{\sqrt{(a|a) (b|b)}} = 1 - \cos \theta  \in [0, 2]
+M(a, b) = 1 - \frac{(a|b)}{\sqrt{(a|a) (b|b)}} = 1 - \cos \theta 
 \,.
 \end{align}
 
@@ -1090,9 +1095,11 @@ In practice, this does not affect the norms of the waveforms in the denominator,
 \begin{align}
 \max_{\phi_0 , t_0 } (a|b(\phi_0 , t_0 )) 
 &= \max_{\phi_0, t_0 } 4 \Re \int_{0}^{\infty } \dd{f} \frac{A_a (f) A_b(f) e^{i \phi_a - i \phi _b + 2 \pi i f t_0 + \phi_0 }}{S_n (f)} \\
-&= \max_{\phi_0, t_0 } 4 \abs{\int_{0}^{\infty } \dd{f} \frac{A_a (f) A_b(f) e^{i \phi_a - i \phi _b + 2 \pi i f t_0 }}{S_n (f)}}
+&= \max_{t_0 } 4 \abs{\int_{0}^{\infty } \dd{f} \frac{A_a (f) A_b(f) e^{i \phi_a - i \phi _b + 2 \pi i f t_0 }}{S_n (f)}}
 \,.
 \end{align}
+
+This relation also means that while the mismatch \(M(a, b)\) could in principle be as large as \(2\) (for \(a(f) = -b(f)\)) the optimal mismatch is bounded by \(1\), since there will always be a phase choice to make \((a|b)\) positive, albeit small in magnitude.
 
 % This is useful in \ac{GW} analysis since it reduces the dimensionality of the parameter space by 2; we can 
 
@@ -1118,11 +1125,11 @@ where the reason we can neglect the dependence on \(\mathbb{P}(s)\) is that it i
 Also, there are techniques to explore the posterior probability density space (such as \ac{MH} sampling) which can use an unnormalized version of the posterior.
 
 The prior, which encodes our prior belief about the potential values of the parameters, is often chosen to be uninformative,\footnote{This does not necessarily mean ``uniform'': there is a method, known as Jeffrey's prior, which allows one to maximize the ``ignorance'' about a parameter once a likelihood is given, through what is basically an argument for reparametrization invariance. For example, an uninformative prior on the mean of a Gaussian is uniform, while an uninformative prior on its standard deviation is log-uniform.} so that we do not introduce bias in the analysis. 
-In certain cases it might be warranted to use biased priors: for example, the analysis for GW170817 offers results based on a low-spin and a high-spin prior \cite{abbottGW170817ObservationGravitational2017}: the first is theoretically motivated and might be more meaningful, but the second is still allowed by the data. 
+In certain cases it might be warranted to use ``biased'' priors: for example, the analysis for GW170817 offers results based on a low-spin and a high-spin prior \cite{abbottGW170817ObservationGravitational2017}: the first is theoretically motivated and might be more meaningful, but the second is still allowed by the data. 
 
-The second ingredient is the likelihood \(\mathbb{P}(s | \vec{\theta})\): this is where signal modelling comes in, since the likelihood needs t include the way the theoretical signal \(h_\theta (t)\) depends on the parameters. 
+The second ingredient is the likelihood \(\mathbb{P}(s | \vec{\theta})\): this is where signal modelling comes in, since the likelihood needs to include the way the theoretical signal \(h_\theta (t)\) depends on the parameters. 
 
-What is the probability of observing \(s = h_\theta + n\) if we fix \(\theta \)? The theoretical signal \(h_\theta \) can be computed and is thereafter fixed, so this amounts to the probability of observing a certain realization of the noise: under the assumption of Gaussianity, this will read 
+What is the probability of observing \(s = h_\theta + n\) if we fix \(\theta \)? The theoretical signal \(h_\theta \) can be computed and is thereafter fixed, likewise \(s\), so this is just the probability of observing a certain realization of the noise: under the assumption of Gaussianity, it will read 
 %
 \begin{align}
 \mathbb{P}(h_\theta + n | \vec{\theta})  
@@ -1141,9 +1148,11 @@ What is the probability of observing \(s = h_\theta + n\) if we fix \(\theta \)?
 \,.
 \end{align}
 
-We then have a closed-form expression for our posterior probability density, so if computational power were no issue we would be done.
-The function \(\mathbb{P}(\theta | s)\) includes all the possible information we could want about the parameters. 
-We can extract \emph{estimators} for single parameters and their variances in order to better understand what we have measured: these are functions which take the full posterior and return an estimate for a single quantity, such as the value for a specific parameter. We ask of these estimators that they be 
+This is a closed-form expression for our posterior probability density, so if computational power were no issue we would be done: the function \(\mathbb{P}(\theta | s)\) includes all the possible information we could extract about the parameters from our observation. 
+We can use \emph{estimators} for single parameters and their variances in order to better understand what we have measured: these are functions which take the full posterior and return an estimate for a single quantity, such as the value for a specific parameter.
+These will always be a simplification of the true distribution, but they are very useful by virtue of being simple to understand.
+
+We ask of these estimators that they be 
 \begin{enumerate}
     \item consistent: they should converge to the true value as more data is included;
     \item efficient: they should minimize the variance\footnote{Here it is important to be careful: this is not the variance of the parameter, an estimate of the error we assign to it based on our single experiment, but the variance of the \emph{estimates} taken over the space of possible experimental results we could have gotten while keeping the value of the true parameter fixed to a certain value} of the estimate;
@@ -1161,8 +1170,8 @@ A choice which satisfies these criteria quite well is the \textbf{Bayes estimato
 \,.
 \end{align}
 
-Depending on the way the posterior distribution is calculated and parametrized, this may be impractical.
-Other choices include maximizing the likelihood or the posterior. 
+Depending on the way the posterior distribution is calculated and parametrized, computing this may be impractical.
+Other choices include estimating the parameters by the values which maximize the likelihood or the posterior, and the covariance from the Hessian of the \ac{PDF} around that point. 
 
 So, how do we compute the posterior distribution \(\mathbb{P}(\vec{\theta} | s)\) in practice? We know how to evaluate it at a single point \(\vec{\theta}\), so we could evaluate it on some sort of grid, say, sampling \(N\) equally spaced points in a reasonable interval for each parameter.
 The curse of dimensionality makes this infeasible: if we have \(n\) parameters we would need \(N^{n}\) evaluations; even with a very small \(N \sim 10\) this quickly becomes unreasonably large, since we typically have \(n \sim 15\) parameters. 
@@ -1204,7 +1213,9 @@ This has been verified in practice by the fact by the binary systems we detected
 
 The quadrupole approximation, as well as the linearization of gravity, breaks down in the case we are interested in: what to do? 
 
-In the following sections we will discuss the main strategies\footnote{One strategy which is not particularly relevant in this work but which is useful in other contexts is the gravitational self-force approach \cite{waldIntroductionGravitationalSelfForce2009}, in which one works in orders of \(m_1 / m_2\), by making successive corrections to geodesic motion in a fixed background. This is not applicable to neutron stars, whose mass ratios are never extreme, but it is useful to discuss \ac{EMRI}.} used to model \ac{CBC} waveforms during all of their stages, from the Newtonian inspiral to the merger to the ringdown. 
+In the following sections we will discuss the main strategies\footnote{One strategy which is not particularly relevant in this work but which is useful in other contexts is the gravitational self-force approach \cite{waldIntroductionGravitationalSelfForce2009}, in which one works in orders of \(m_1 / m_2\), by making successive corrections to geodesic motion in a fixed background. This is not applicable to neutron stars, whose mass ratios are never extreme, but it is useful to discuss extreme mass ratio inspirals.} used to model \ac{CBC} waveforms during all of their stages. 
+
+Qualitatively, a waveform from a \ac{CBC} involves a long \emph{inspiral} phase which terminates when the two compact bodies \emph{merge}, and finally a \emph{ringdown} phase in which the single body remaining exhibits damped vibrations.
 
 \subsubsection{Post-Newtonian} \label{sec:post-newtonian}
 
@@ -1213,16 +1224,17 @@ The assumptions which we made in order to derive the quadrupole formula for the 
 One might wish to expand the equations of motion in orders of \(v / c\), and this is the idea behind the \ac{PN} expansion, but there are technical difficulties associated with this. 
 In terms of notation, a \(n\)PN expansion will be up to order \((v/c)^{2n}\) in this work.
 
+\paragraph{Technical difficulties}
+
 The strength of the gravitational field scales with the ratio of the Schwarzschild radius of an object to the distance between the objects, so as the system becomes relativistic in speed the gravity also becomes strong. 
 The flat background metric needs to be substituted; a common choice is a Post-Minkowskian expansion, which is an expansion in orders of \(R_s / r\), where \(R_s\) is the Schwarzschild radius for the combined system. 
 This expansion and the \ac{PN} one have different domains of validity (one far from the source, one near it), so one needs to find an \emph{overlap region} and match them.  
 
 \acsp{GW} of low order source higher-order ones, as well as back-reacting and subtracting energy from the source. 
-This effect comes about at the 2.5PN order: equating the emitted power estimated in equation \eqref{eq:energy-emission-estimate} to the derivative of the energy (which by the virial theorem has the same magnitude as the kinetic energy) \(\dot{E} = - M v \dot{v}\) we find  \(\dot{v} \propto (v/c)^{5}\). 
+The latter of these effects comes about at the 2.5PN order: equating the emitted power estimated in equation \eqref{eq:energy-emission-estimate} to the derivative of the energy (which by the virial theorem has the same magnitude as the kinetic energy) \(\dot{E} = - M v \dot{v}\) we find  \(\dot{v} \propto (v/c)^{5}\). 
 
 We can expand the retarded-time argument of the stress-energy tensor, \(t - r/c\), around \(r = 0\); this, however, is only valid if we are relatively near the source and breaks down if we try to extend the result to the ``radiation zone'' where our detector lies --- we need to treat that zone separately. 
-This expansion allows us to express the Dalambertian as \(\square \approx \qty(1 + \order{(v/c)^2}) \nabla^2\). 
-This allows us to turn the equations to solve into Poisson equations in the form 
+This expansion allows us to express the Dalambertian as \(\square \approx \qty(1 + \order{(v/c)^2}) \nabla^2\), and to turn the Einstein equations into Poisson equations of the form 
 %
 \begin{align}
 \triangle g_{\mu \nu }^{(n)} = \text{matter source} + \text{metric source from \(g_{\mu \nu}^{(n-1)}\)}
@@ -1241,7 +1253,9 @@ f(\vec{x}) = - \frac{1}{4 \pi } \int_{\mathbb{R}^3} \frac{ \dd[3]{y}}{\abs{\vec{
 will not always converge.
 Fortunately, this only reflects a limitation of the Poisson integral, and through analytic continuation one can recover a physical solution which respects the boundary conditions. 
 
-Solutions to these problems have been developed between the '80s and the early 2000s, and currently there exist general formalisms such as the Blanchet-Damour one which allow for high-order computations of \ac{PN} waveforms \cite{blanchetGravitationalRadiationPostNewtonian2014}.
+Solutions to these problems have been developed between the '80s and the early 2000s, and currently there exist general formalisms, such as the Blanchet-Damour, one which allow for high-order computations of \ac{PN} waveforms \cite{blanchetGravitationalRadiationPostNewtonian2014}.
+
+\paragraph{\ac{PN} waveforms}
 
 The typical notation used for \ac{PN} waveforms expresses them \cite[sec.\ 5.6.1]{maggioreGravitationalWavesVolume2007} as a function of the dimensionless frequency
 %
@@ -1273,7 +1287,7 @@ Corrections to this expression are then written multiplicatively as a series in 
 \end{align}
 
 % This expression for the phase diverges as \(\Theta \to 0\): this is unphysical, and we need to go to 2.5PN order to even just counteract this effect. 
-The error in the phase is therefore of order \(x^{-1/2} > 1\) if we go to 2PN order, and we need a high-order computation in order to recover an accurate expression for the phase. 
+The error in the phase is therefore of order \(x^{-1/2} \gg 1\) if we do not go beyond 2PN order: we need a high-order computation in order to recover an accurate expression for the phase. 
 Current results include very high order waveforms, such as 5.5PN \cite[]{biniBinaryDynamicsFifth2020}.
 
 \paragraph{The \ac{PN} order of tidal stresses}
@@ -1316,7 +1330,7 @@ The effect of spin-orbit interactions, on the other hand, comes about at 1.5PN o
 The \ac{PN} expansion, even if it goes to high order, is still not enough when we approach the merger. 
 
 Thus, we need to compare our results to \ac{NR} simulations, in which the spacetime metric and the stress-energy tensor are evolved according to the Einstein equations. 
-This is possible but time-consuming: each simulation requires days of supercomputer time, while thousands of waveforms are needed for the analysis of a signal. 
+This is possible but time-consuming: each simulation requires many days of supercomputer time. 
 
 The gravitational signal can be extracted from the simulated spacetime by computing the Weyl scalar \(\Psi_{4} = C_{\alpha \beta \gamma \delta }n^\alpha m^\beta n^\gamma m^\delta \),\footnote{Here \(C_{\alpha \beta \gamma \delta }\) is the Weyl tensor, the fully traceless part of the Riemann tensor, whose definition can be found for example in \textcite[eq.\ 2.18]{gourgoulhonFormalismBasesNumerical2007}} where \(n\) and \(m\) are component vectors of a null tetrad \cite[sec.\ 5.6.3]{lofflerEinsteinToolkitCommunity2012}. This scalar is related to gravitational wave emission by 
 %
@@ -1338,7 +1352,7 @@ The \ac{EOB} framework allows for the generation of waveforms encompassing inspi
 This problem is described through an effective Hamiltonian, whose equations of motion are then numerically solved. 
 Let us describe the procedure in a simplified case, including neither spin nor tidal interactions. 
 
-The Hamiltonian of the real system, is approximated with a \ac{PN} one, written in relative \ac{ADM} coordinates and made dimensionless \cite[eqs.\ 4--5]{damourGeneralRelativisticTwo2014}: 
+The Hamiltonian of the real system is approximated with a \ac{PN} one, written in relative \ac{ADM} coordinates and made dimensionless \cite[eqs.\ 4--5]{damourGeneralRelativisticTwo2014}: 
 %
 \begin{align}
 \hat{H} = \frac{H}{\mu } = \underbrace{\frac{p^2}{2} - \frac{1}{q}}_{\text{Newtonian}} 
@@ -1412,15 +1426,16 @@ Finally, the waveform is smoothly connected to a model for the ringdown, which i
 These \ac{EOB} models can reproduce \ac{NR} results quite well: for example, in the case of spinning \ac{BBH} binaries 
 \textcite[fig.\ 2]{nagarAllOneEffective2021} find mismatches between the \ac{EOB} and \acp{GW} from \ac{NR} simulations to be at most of the order of \(F \sim 10^{-2}\) and typically even less, \(F \sim 10^{-3}\).
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figures/TEOBResumSPA_evaluation}
-\caption{Evaluation times for one waveform using the \texttt{TEOBResumS} \ac{EOB} model. In one case shown, a \ac{SPA} is used to move to the frequency domain; in the other the waveform is computed in the time domain. The time-domain model is not slower in and of itself: it has to output longer and longer waveforms, since the time and frequency grid spacings stay constant.}
-\label{fig:TEOBResumSPA_evaluation}
-\end{figure}
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[width=\textwidth]{figures/TEOBResumSPA_evaluation}
+% \caption{Evaluation times for one waveform using the \texttt{TEOBResumS} \ac{EOB} model. In one case shown, a \ac{SPA} is used to move to the frequency domain; in the other the waveform is computed in the time domain. The time-domain model is not slower in and of itself: it has to output longer and longer waveforms, since the time and frequency grid spacings are kept constant.}
+% \label{fig:TEOBResumSPA_evaluation}
+% \end{figure}
 
 The \ac{EOB} models natively output time-domain waveforms, while as discussed in section \ref{sec:data-analysis} we need them in the frequency domain in order to perform data analysis. 
-One must therefore find a way to move to the frequency domain. An option is to use a \ac{SPA} \cite{gambaFastFaithfulFrequencydomain2020}; this has been found to be quite successful in providing fast waveform evaluations even for low initial frequencies, as can be seen in figure \ref{fig:TEOBResumSPA_evaluation}. 
+One must therefore find a way to move to the frequency domain. An option is to use a \ac{SPA} \cite{gambaFastFaithfulFrequencydomain2020}; this has been found to be quite successful in providing fast waveform evaluations even for low initial frequencies. 
+%as can be seen in figure \ref{fig:TEOBResumSPA_evaluation}. 
 However, it is still an approximation: ideally, we would want to numerically Fourier-transform the time-domain waveform. 
 This becomes quite slow as we reach lower initial frequencies: the duration of the waveform for an equal-mass \ac{BNS} with \(M \approx 2.8 M_{\odot}\) is typically \cite[eq.\ 4.21]{maggioreGravitationalWavesVolume2007}
 %
