@@ -240,8 +240,6 @@ The activation function is crucial for our network to be able to capture nonline
 
 The implementation we use for \acs{mb} is the one provided by \texttt{scikit-learn} \cite[]{pedregosaScikitlearnMachineLearning2011}; specifically, we choose an \texttt{MLPRegressor}.\footnote{The documentation for this network can be found at the url \url{https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html}.} 
 
-
-
 \subsubsection{Training}
 
 The network is able to reconstruct our function as long as the weights and biases are appropriately set: how do we train it to ensure this? 
@@ -257,7 +255,8 @@ The typical error chosen is quadratic in the Euclidean distance, since its analy
 \end{align}
 
 We also add an error term in the form \(\alpha \norm{W}^2\), where \(\alpha \) is a non-negative hyperparameter (typically chosen to be small) and \(\norm{W}^2\) is the L2 norm of the weight tensor: this term is known as a ``regularizer'', it penalizes complex models.
-The parameter \(\alpha \) is optimized in the hyperparameter training procedure, and its prior distribution is taken to be a log-uniform one between \(\num{e-7}\) and \(\num{e-5}\). 
+The reason why the L2 norm specifically is often chosen is because of the simplicity and efficiency of its implementation.\footnote{In the backpropagation equations, which we will shortly introduce, this eventually translates to a penalty on the update of each weight proportional to the weight itself. The overhead needed in order to compute this is very small.}
+The parameter \(\alpha \) is optimized in the hyperparameter training procedure. 
 
 We are then using the Euclidean distance among the \(y\)s (which for us will be \ac{PCA} component vectors) as a measure of the performance of the network; this works well enough, but we can make an improvement by noticing that the first PCA components are responsible for more of the variance (and thus more of the distance) between data points. 
 Therefore, we can improve the performance by having the network learn the distance among the rescaled 

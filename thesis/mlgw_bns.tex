@@ -19,6 +19,8 @@ The main idea is then to
 
 If this task is accomplished with tolerable errors and with a fast enough execution time (shorter than the time taken by the ``slow'' generation method) we will have a working \emph{surrogate model}. 
 
+The generation of datasets needs us to define a probability distribution over the parameter space: 
+
 \subsection{Waveform generation and downsampling}
 
 \subsubsection{Greedy downsampling}
@@ -26,12 +28,62 @@ If this task is accomplished with tolerable errors and with a fast enough execut
 The residual waveforms generated with the \ac{EOB} / \ac{PN} models have on the order of a few times \num{e5} sampling points. 
 This is too large a number to effectively use \ac{PCA} on: as we will see, it requires writing a covariance matrix which would have \(\sim \num{e11}\) entries, way beyond the \ac{RAM} of most computers. 
 
-Therefore, we need to start by applying a simple dimensionality reduction technique: downsampling, applied to the unwrapped phase and amplitude of waveforms (see section \ref{sec:unwrapping}).
+Therefore, we need to start by applying a simple dimensionality reduction technique: downsampling, applied to the unwrapped phase and amplitude of waveforms (see section \ref{sec:unwrapping}) after the subtraction of the ``baseline'' \ac{PN} ones.
 
-Doing so on a uniform grid, however, is suboptimal: 
+Doing so on a uniform grid, however, is suboptimal: there is more detail to be captured in some areas than in others. 
+It is difficult to determine \emph{a priori} which areas will be more relevant than others, therefore \ac{mb} implements a greedy algorithm which selects a set of indices which optimize the reconstruction accuracy, inspired by \texttt{romspline}, which was introduced by
+\textcite{galleyFastEfficientEvaluation2016}. 
 
-\textcite{galleyFastEfficientEvaluation2016} introduced \texttt{romspline}. 
+The algorithm is detailed as algorithm \ref{alg:greedy-downsampling}; it includes certain improvements over \texttt{romspline}. 
+First, it allows for a full training dataset as opposed to reconstruction of a single waveform. The points are greedily chosen until the error over the whole dataset is below the threshold.
+This allows us to be more confident of the fact that the indices are not capturing the specifics of a single waveform, but instead they are representative of the whole dataset.
 
+Whether this is actually happening 
+
+The interpolation method to choose is also important: higher-order interpolants are slower but need less points.
+Here we use cubic splines, which have been found to be a good compromise for surrogate models \cite{lackeySurrogateModelAlignedspin2019}.
+
+
+\begin{algorithm}
+\caption{Greedy downsampling algorithm. }\label{alg:greedy-downsampling}
+\begin{algorithmic}
+\Require \(x_i\), \(y_i^{(j)}\), tolerance \(\epsilon \).
+\Require ``Seed'' indices \(I\)
+\State Error \(e \gets 0\)
+\While{\(e > \epsilon \)}
+\State \(e \gets \infty \)
+\For{each \(j\)}
+\State \(I' \gets \emptyset\)
+\State \( e_j \gets 0\)
+\State \(y_{\text{rec}, i}^{(j)} \gets\) interpolation of \(x_I\), \(y_I^{(j)}\)
+\For{\(k_1, k_2\) successive pair in \(I\)}
+\State \(n \gets \operatorname{argmax}_{i \in [k_1 , k_2 ]} \ \abs{y _{\text{rec}, i}^{(j)} - y_{i}^{(j)}}\)
+\State \(e_j \gets \max \left( e_j, \abs{y _{\text{rec}, n}^{(j)} - y_{n}^{(j)}}\right)\)
+\If{\(\abs{y _{\text{rec}, n} - y_{n}^{(j)}} > \epsilon \)}
+\State \(I' \gets I' \cup n\)
+\EndIf
+\State \(I \gets I \cup I'\)
+\EndFor
+\State \(e \gets \min (e, e_j)\)
+\EndFor
+\EndWhile \\
+\Return indices \(I\)
+\end{algorithmic}
+\end{algorithm}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/downsampling_validation}
+\caption{Validation errors for downsampled waveforms. Downsampling indices are calculated by applying algorithm \ref{alg:greedy-downsampling} to a dataset of varying size, and the error is calculated by computing the maximum reconstruction error for each of \(N _{\text{val}} = \)}
+\label{fig:downsampling_validation}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/downsampling_npoints}
+\caption{}
+\label{fig:downsampling_npoints}
+\end{figure}
 
 \subsection{Phase unwrapping} \label{sec:unwrapping}
 
@@ -39,7 +91,7 @@ Doing so on a uniform grid, however, is suboptimal:
 
 
 
-\subsection{}
+% \subsection{}
 
 % The \ac{mb} algorithm is an attempt at accelerating waveform generation through interpolation of slow-to-generate waveforms. 
 
