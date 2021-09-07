@@ -24,7 +24,7 @@ the exponential term will be quickly oscillating, and therefore destructively in
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{figures/spa}
+\includegraphics[width=.9\textwidth]{figures/spa}
 \caption{Visualization of the idea behind \ac{SPA}. In the upper plot we show a typical waveform for a \ac{CBC} together with a sinusoid corresponding to the ones used in the computation of the Fourier transform. The lower plot shows a windowed Fourier-like integral, in the form \(I (t_0 ) = \int h(t) \cos(\omega t) w(t-t_0 ) \dd{t}\) for some window function \(w\) centered on \(t-t_0 = 0\), as well as three copies of the window. The value plotted with a solid line is \(\abs{I(t_0 )}^2\). It can be clearly seen that in the regions where there is a frequency mismatch the contribution vanishes.}
 \label{fig:spa}
 \end{figure}

@@ -1180,18 +1180,19 @@ One solution to this issue is to stochastically sample \(\mathbb{P}(\theta | s)\
 If the rule is appropriately selected, the sequence of points touched by this random walk will approximate a set of samples for the true distribution. This is known as \textbf{Monte Carlo} sampling. 
 A common way to construct an appropriate rule is to make it memory-less, so that each new point is determined only based on the probability distribution and the current point. This is known as a \textbf{Markov Chain}. 
 
-Several algorithms implement \ac{MCMC} sampling; a common choice is the Metropolis-Hastings one, which is shown as algorithm \ref{alg:metropolis-hastings}; the function \(p(\theta )\) should be chosen to be proportional to \(\mathbb{P}(\theta | s)\) (the normalization is irrelevant), and we need to provide a probability density function \(g(\theta_1  | \theta_2  )\) such that samples from \(g\) can be easily be drawn. A common choice for \(g\) is a Gaussian distribution centered in \(\theta_2 \). Further, we need a randomly chosen initial point \(\theta_0 \). 
+Several algorithms implement \ac{MCMC} sampling; a common choice is the Metropolis-Hastings one, which is shown as algorithm \ref{alg:metropolis-hastings}; the function \(p(\theta )\) should be chosen to be proportional to \(\mathbb{P}(\theta | s)\) (the normalization is irrelevant), and we need to provide a probability density function \(g(\theta _{\text{new}}  | \theta  )\) such that samples from \(g\) can be easily be drawn. A common choice for \(g\) is a Gaussian distribution centered in \(\theta \), which has the advantage of being symmetric: \(g( \theta _{\text{new}}| \theta ) = g (\theta | \theta _{\text{new}})\).
+Further, we need a randomly chosen initial point \(\theta_0 \).
 
 \begin{algorithm}
 \caption{Metropolis-Hastings algorithm. }\label{alg:metropolis-hastings}
 \begin{algorithmic}
-\Require $p(\theta )$, \(g(\theta_1 | \theta_2  )\), \(\theta_0 \), \(N _{\text{samples}}\)
+\Require $p(\theta )$, \(g(\theta _{\text{new}} | \theta  )\), \(\theta_0 \), \(N _{\text{samples}}\)
 \State $i \gets 0$
 \State $S \gets \emptyset$ 
 \While{$i < N _{\text{samples}}$}
 \State \(\theta _{\text{new}} \gets \text{ sample from } g(\theta _{\text{new}} | \theta_{i})\)
-\State \(\alpha \gets p(\theta _{\text{new}}) / p(\theta_i) \times g(\theta _i | \theta _{\text{new}}) g(\theta _{\text{new}} | \theta_i)\) 
-\State with probability \(\alpha \), or if \(\alpha >1\), accept
+\State \(\alpha \gets p(\theta _{\text{new}}) / p(\theta_i) \times g(\theta _i | \theta _{\text{new}}) / g(\theta _{\text{new}} | \theta_i)\) 
+\State with probability \(\min(\alpha, 1) \) accept
 \If{accept}
     \State $\theta_{i+1} \gets \theta  _{\text{new}}$
 \Else
@@ -1332,7 +1333,7 @@ The \ac{PN} expansion, even if it goes to high order, is still not enough when w
 Thus, we need to compare our results to \ac{NR} simulations, in which the spacetime metric and the stress-energy tensor are evolved according to the Einstein equations. 
 This is possible but time-consuming: each simulation requires many days of supercomputer time. 
 
-The gravitational signal can be extracted from the simulated spacetime by computing the Weyl scalar \(\Psi_{4} = C_{\alpha \beta \gamma \delta }n^\alpha m^\beta n^\gamma m^\delta \),\footnote{Here \(C_{\alpha \beta \gamma \delta }\) is the Weyl tensor, the fully traceless part of the Riemann tensor, whose definition can be found for example in \textcite[eq.\ 2.18]{gourgoulhonFormalismBasesNumerical2007}} where \(n\) and \(m\) are component vectors of a null tetrad \cite[sec.\ 5.6.3]{lofflerEinsteinToolkitCommunity2012}. This scalar is related to gravitational wave emission by 
+The gravitational signal can be extracted from the simulated spacetime by computing the Weyl scalar \(\Psi_{4} = C_{\alpha \beta \gamma \delta }n^\alpha m^\beta n^\gamma m^\delta \),\footnote{Here \(C_{\alpha \beta \gamma \delta }\) is the Weyl tensor, the fully traceless part of the Riemann tensor, whose definition can be found for example in \textcite[eq.\ 2.18]{gourgoulhonFormalismBasesNumerical2007}.} where \(n\) and \(m\) are component vectors of a null tetrad \cite[sec.\ 5.6.3]{lofflerEinsteinToolkitCommunity2012}. This scalar is related to gravitational wave emission by 
 %
 \begin{align}
 \Psi_{4} = \ddot{h}_+ - i \ddot{h}_{\times }
