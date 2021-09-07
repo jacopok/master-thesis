@@ -26,9 +26,25 @@ The implementation currently active in \ac{mb}, however, simply generates wavefo
 
 The nonspinning case, which will be discussed later, simply amounts to restricting the prior to the three-dimensional subspace \(\chi _i \equiv 0\).
 
-\subsection{Training waveform generation and downsampling}
+\subsection{Training waveform generation}
 
+The output of the \ac{EOB} and \ac{PN} we use is able to output both \(h_{+}\) and \(h_{\times }\), but this is redundant for our purposes: the ratio between them is a \(\pi /2\) phase combined with a factor depending on the inclination angle \(\iota \): the two polarizations can be expressed as \(h_{+} (f) = h_0 (f) (1 + \cos^2 \iota ) / 2\) and \(h_{\times }( f) = h_0 (f) (-i) \cos \iota \). 
+The ``base'' waveform \(h_0 (f)\) can therefore be interpreted as the plus-polarized waveform in the \(\iota = 0\) case. 
 
+If we reconstruct it, we can recover \(h_{+}\) and \(h_{\times }\) for arbitrary inclination using the two aforementioned expressions.
+
+Also, we work in natural units: we treat the waveform as a function of \(Mf\), which is dimensionless if \(G = c = 1\).
+We must be careful, however, since while the time-domain strain \(h(t)\) is dimensionless its Fourier transform \(\widetilde{h}(f)\) has the dimensions of a time, or a mass.
+
+Let us rewrite the \ac{SPA}, 0PN expression for the amplitude (the absolute value of equation \ref{eq:spa-waveforms} for \(\iota = 0\)) to illustrate this point: 
+%
+\begin{align}
+\frac{\widetilde{h}_+ (f)}{M} = \frac{1}{\pi^{2/3}} \sqrt{ \frac{5}{24}}
+(Mf)^{-7/6} \frac{M}{r} \sqrt{\nu }
+\,,
+\end{align}
+%
+where we use natural units, as well as employing the relation \(\mathcal{M}_c = M \nu^{3/5}\) \eqref{eq:chirp-mass}.
 
 \subsection{Phase unwrapping} \label{sec:unwrapping}
 
@@ -50,20 +66,38 @@ If \(\epsilon = \pi \) this is equivalent to the \texttt{numpy} algorithm.
 The monotonicity and magnitude of the phase are not invariant: we can add a general linear term \(2 \pi f t_0 + \phi_0 \) to \(\phi \) by changing the initial phase and the coalescence time. 
 However, within the convention we are using (where the coalescence happens at the edge of the sample range) the phase of \(h(f)\) is indeed almost monotonic, such that \(\epsilon \sim 10^{-1}\) is typically a good choice.
 
+Since this implementation is custom-made it is also slightly faster: it takes \(\sim \SI{30}{ms}\) to unwrap a waveform with \(\sim \num{5e5}\) sampling points,  as opposed to the \(\sim \SI{40}{ms}\) needed for the \texttt{numpy} implementation. 
 
 \subsubsection{Residual calculation} \label{sec:residuals}
 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/amp_residuals}
+\caption{Residuals in amplitude of the EOB waveforms versus the \ac{PN} ones. The waveforms are uniformly distributed across all five parameters. }
+\label{fig:amp_residuals}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/phase_residuals}
+\caption{Residuals in phase of the \ac{EOB} waveforms versus the \ac{PN} ones. The waveforms are uniformly distributed across all five parameters.}
+\label{fig:phase_residuals}
+\end{figure}
+
+The computation of the residuals is made easier by the fact that we have closed-form expressions for the \ac{PN} waveforms to high order, including tidal effects.
+
+Using higher-order waveforms means that the residuals to fit are smaller, but this comes with a large drawback: the evaluation time of the 
 
 \subsubsection{Greedy downsampling}
 
 The residual waveforms generated with the \ac{EOB} / \ac{PN} models have on the order of a few times \num{e5} sampling points. 
-This is too large a number to effectively use \ac{PCA} on: as we will see, it requires writing a covariance matrix which would have \(\sim \num{e11}\) entries, way beyond the \ac{RAM} of most computers. 
+This is too large a number to effectively use \ac{PCA} on: as we will see, it requires writing a covariance matrix which would have \(\sim \num{e11}\) entries, way beyond the RAM of most computers. 
 
 Therefore, we need to start by applying a simple dimensionality reduction technique: downsampling, applied to the unwrapped phase and amplitude of waveforms (see section \ref{sec:unwrapping}) after the subtraction of the ``baseline'' \ac{PN} ones.
 
 Doing so on a uniform grid, however, is suboptimal: there is more detail to be captured in some areas than in others. 
 It is difficult to determine \emph{a priori} which areas will be more relevant than others, therefore \ac{mb} implements a greedy algorithm which selects a set of indices which optimize the reconstruction accuracy, inspired by \texttt{romspline}, which was introduced by
-\textcite{galleyFastEfficientEvaluation2016}. 
+\textcite{galleyFastEfficientEvaluation2016}.
 
 The algorithm is detailed as algorithm \ref{alg:greedy-downsampling}; it includes certain improvements over \texttt{romspline}. 
 First, it allows for a full training dataset as opposed to reconstruction of a single waveform. The points are greedily chosen until the error over the whole dataset is below the threshold.
@@ -116,7 +150,8 @@ Here we use cubic splines, which have been found to be a good compromise for sur
 \label{fig:downsampling_npoints}
 \end{figure}
 
+\subsection{The reconstruction of a waveform}
 
-
+% Once we reconstruct \(h (f)  = h_{+} (f) + i h_{\times} (f)\) fixing \(\iota = 0\) we can reconstruct \(h_{+}\) and \(h_{\times }\): 
 
 \end{document}
