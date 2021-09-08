@@ -5,8 +5,8 @@
 
 Let us start with an overview of the algorithm employed by \ac{mb} before getting into the technical details. 
 
-We start with two systems for the generation of a theoretical waveform from a \ac{CBC} in the frequency domain, one being faster but less accurate than the other. 
-The ``fast'' system will be the \ac{PN} model \texttt{TaylorF2}, as implemented in \texttt{bajes} \cite[]{breschiTtBajesBayesian2021}, while the ``slow'' system will be the \ac{EOB} model \texttt{TEOBResumS}, with waveforms generated in the time domain and then Fourier-transformed.
+It is based on the use of two systems for the generation of a theoretical waveform from a \ac{CBC} in the frequency domain, one being faster but less accurate than the other.
+The ``fast'' system will be the \ac{PN} model \texttt{TaylorF2}, as implemented in \texttt{bajes} \cite[]{breschiTtBajesBayesian2021}, while the ``slow'' system will be the \ac{EOB} model \texttt{TEOBResumS} .\footnote{The wave}
 
 As we shall see shortly, a crucial feature of the ``fast'' system is the capability to generate waveforms in the frequency domain at select frequencies, without needing to perform a full Fourier transform from a time-domain waveform.
 This feature is shared by all \ac{PN} approximants, which base their Fourier-domain representations on the analytic \ac{SPA}.
@@ -24,7 +24,8 @@ A good choice, therefore, could be to generate the training dataset according to
 
 The implementation currently active in \ac{mb}, however, simply generates waveforms with a uniform distribution over the selected parameter ranges: \(q \in [1, 2]\), \(\Lambda _i \in [5, 5000]\)\footnote{The reason why \(\Lambda \to 0\) is not included in the range is that the \ac{EOB} model used is unstable very small \(\Lambda \), since certain computations include divisions by it.} and \(\chi_i \in [-0.5, 0.5]\).
 
-The nonspinning case, which will be discussed later, simply amounts to restricting the prior to the three-dimensional subspace \(\chi _i \equiv 0\).
+The nonspinning case, which will be discussed later as a simplification for which the reconstruction errors improve significantly, simply amounts to restricting the prior to the three-dimensional subspace \(\chi _i \equiv 0\). 
+The set
 
 \subsection{Training waveform generation}
 
@@ -91,7 +92,7 @@ A linear term has been subtracted from all of these for the plot: this does not 
 The \ac{mb} model reconstructs the residuals of \ac{EOB} waveforms from \ac{PN} ones: these are specifically expressed as 
 %
 \begin{align} \label{eq:amplitude-phase-residuals}
-\Delta A(f;\theta ) &= \log \qty(\frac{A _{\text{EOB}} (f;\theta )}{A _{\text{PN}} (f;\theta )})
+\Delta A(f;\theta ) &= \log \qty(\frac{A _{\text{EOB}} (f;\theta )}{A _{\text{PN}} (f;\theta )}) \\
 \Delta \Phi (f; \theta ) &= \Phi _{\text{EOB}} (f; \theta ) - \Phi _{\text{PN}} (f; \theta )
 \,,
 \end{align}
@@ -128,20 +129,13 @@ The algorithm is detailed as algorithm \ref{alg:greedy-downsampling}; it include
 First, it allows for a full training dataset as opposed to reconstruction of a single waveform. The points are greedily chosen until the error over the whole dataset is below the threshold.
 This allows us to be more confident of the fact that the indices are not capturing the specifics of a single waveform, but instead they are representative of the whole dataset.
 
-Whether this is actually happening can be checked with a validation dataset: 
-
-The interpolation method to choose is also important: higher-order interpolants are slower but need less points.
-Here we use cubic splines, which have been found to be a good compromise for surrogate models \cite{lackeySurrogateModelAlignedspin2019}.
-
-
 \begin{algorithm}
 \caption{Greedy downsampling algorithm. }\label{alg:greedy-downsampling}
 \begin{algorithmic}
 \Require \(x_i\), \(y_i^{(j)}\), tolerance \(\epsilon \).
 \Require ``Seed'' indices \(I\)
-\State Error \(e \gets 0\)
+\State Error \(e \gets \infty \)
 \While{\(e > \epsilon \)}
-\State \(e \gets \infty \)
 \For{each \(j\)}
 \State \(I' \gets \emptyset\)
 \State \( e_j \gets 0\)
@@ -175,8 +169,65 @@ Here we use cubic splines, which have been found to be a good compromise for sur
 \label{fig:downsampling_npoints}
 \end{figure}
 
+Whether this is actually happening can be checked with a validation dataset: the validation errors are shown in figure \ref{fig:downsampling_validation} as the size of the training dataset increases.
+The number of indices found corresponding to a fixed tolerance increases with the size of the training dataset, as can be seen in figure \ref{fig:downsampling_npoints}. 
+
+The size of the training dataset is limited by memory complexity, more so than computational complexity: each training waveform must be fully kept in memory, with its \(\sim \num{1e6}\) floating point numbers, each needing 8 bytes of memory. 
+Therefore, we need \(\sim \SI{10}{MiB}\) of memory per stored waveform, and a hundred of them will take up \( \sim \SI{1}{GiB}\) of storage. 
+
+The interpolation method to choose is also important: higher-order interpolants are slower but need less points.
+Here we use cubic splines, which have been found to be a good compromise for surrogate models \cite{lackeySurrogateModelAlignedspin2019}.
+
 \subsection{The reconstruction of a waveform}
 
-% Once we reconstruct \(h (f)  = h_{+} (f) + i h_{\times} (f)\) fixing \(\iota = 0\) we can reconstruct \(h_{+}\) and \(h_{\times }\): 
+We describe the procedure taken by a trained \ac{mb} model in order to reconstruct a waveform starting from a set of parameters \(\theta = [q, \Lambda_1 , \Lambda_2 , \chi_1 , \chi_2 ]\), extrinsic parameters (for simplicity we consider only \(\theta _{\text{ext}} = [M, D_L, \iota]\)), as well as a set of new frequencies \(f\) to re-interpolate the waveform at.
+
+\begin{enumerate}
+    \item The parameters \(\theta \) are reduced to \(\theta _r\) by a scaler, which is trained so that they each have zero mean and unit variance. 
+    \item The trained \ac{NN} makes its prediction based on the parameters, let us denote it as \(\qty(y_i)_{i=0}^{K-1}\).
+    \item The prediction is divided by the corresponding \ac{PCA} eigenvalues, to get \(x_i = y_i / \lambda _i^{\alpha }\).
+    \item The \ac{PCA} model reconstructs the normalized, combined vector representing the amplitude and phase residuals: \(\text{ncomb}_i\). 
+    \item The normalized, combined vector is de-normalized by multiplying the phase part by the chosen normalization factor \(\sim 30\).
+    \item The combined vector is split into the amplitude and phase residual vectors, corresponding to their respective amplitude and phase downsampled frequencies.
+    \item The frequencies \(f\) are converted into natural units by dividing them by \(c^3 / GM \approx (M_{\odot} / M) \SI{2e5}{Hz}\); this yields a set of natural-units frequencies \(f_n\). 
+    \item The residual amplitude and phase are resampled to the frequencies \(f_n\).
+    \item The amplitude and phase are reconstructed from the residuals according to equations \eqref{eq:amplitude-phase-reconstruction}.
+    \item The waveform is recombined as \(h = A e^{i \Phi }\).
+    \item The waveform is rescaled according to \(M\) and \(D_L\), so that it is expressed in SI units (seconds).
+    \item The two polarizations are recovered by multiplying \(h\) by their respective functions of \(\iota \) and a phase shift by \(\pi /2\) for \(h_ \times \). 
+\end{enumerate}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/evaluation_time_by_fsize}
+\caption{Evaluation times for the waveforms provided by \ac{mb}, depending on the size of the interpolation grid. Below \(N \sim \num{e4}\) points the time is roughly constant at \(\sim \SI{10}{ms}\);}
+\label{fig:evaluation_time_by_fsize}
+\end{figure}
+
+\section{Conclusions}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/mismatches_spinning}
+\caption{Mismatches between reconstructed and \ac{EOB} waveforms in the spinning case; we also show the mismatches between the \ac{EOB} waveforms and the original \ac{PN} ones (i.e.\ we set the residuals to zero). We can see that there is a typical improvement in fidelity by a factor \(\sim 10\), but the faithfulness is still not good as required.}
+\label{fig:mismatches_spinning}
+\end{figure}
+
+\subsection{Target accuracy}
+
+What is the fidelity \(\mathcal{F}\) we should aim for? 
+One criterion to use for a surrogate model such as this one is to look at the accuracy of the underlying model: comparing the \ac{EOB} model to numerical relativity simulations we get typical values for the fidelity of \(\mathcal{F} \simeq \num{2.5e-3}\) \cite[]{nagarTimedomainEffectiveonebodyGravitational2018}.
+
+We can also reframe the issue in terms of signal-to-noise ratio: as discussed e.g.\ by \textcite[]{lindblomModelWaveformAccuracy2008} \cite[]{gambaFastFaithfulFrequencydomain2020}, if we are analyzing a signal detected with a certain \ac{SNR} two theoretical waveforms are faithful (indistinguishable for the purposes of the analysis) when 
+%
+\begin{align}
+\mathcal{F} \leq \frac{D}{\text{SNR}^2}
+\,,
+\end{align}
+%
+where \(D\) is the number of intrinsic parameters. 
+As an example, GW170817 was detected with a combined SNR\(\approx 32.4\) \cite[]{abbottGW170817ObservationGravitational2017}, meaning that the fidelity needed to analyze it is \(\mathcal{F} \lesssim \num{5e-3}\) if we are considering five intrinsic parameters.
+
+
 
 \end{document}

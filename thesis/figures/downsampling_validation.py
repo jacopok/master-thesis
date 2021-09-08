@@ -131,6 +131,7 @@ plt.xlabel('Training dataset size')
 plt.ylim(0, plt.ylim()[1])
 
 plt.ylabel('Number of points')
+plt.legend()
 plt.grid()
 
 plt.savefig('downsampling_npoints.pdf', dpi=150)
