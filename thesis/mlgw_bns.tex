@@ -175,8 +175,18 @@ The number of indices found corresponding to a fixed tolerance increases with th
 The size of the training dataset is limited by memory complexity, more so than computational complexity: each training waveform must be fully kept in memory, with its \(\sim \num{1e6}\) floating point numbers, each needing 8 bytes of memory. 
 Therefore, we need \(\sim \SI{10}{MiB}\) of memory per stored waveform, and a hundred of them will take up \( \sim \SI{1}{GiB}\) of storage. 
 
-The interpolation method to choose is also important: higher-order interpolants are slower but need less points.
+The interpolation method to choose is important: higher-order interpolants are slower but need less points.
 Here we use cubic splines, which have been found to be a good compromise for surrogate models \cite{lackeySurrogateModelAlignedspin2019}.
+As we shall see in section \ref{sec:evaluation-time}, the interpolation accounts for the most significant part of the overhead \ac{mb} exhibits over the 3.5PN TaylorF2 approximant it uses (roughly \SI{65}{\percent} of a \SI{40}{\percent} overhead) in the case of high numbers of points to interpolate. 
+This may seem like a reason to switch to a lower-order interpolation mechanism, but it is balanced by the fact that the lower number of points allows for a larger training dataset. 
+
+Care must also be put into the choice of the tolerances, since they have a secondary, perhaps unexpected effect: the greedy downsampling algorithm implemented in \ac{mb} yields different numbers of downsampling points for amplitude and phase based on how many are needed in order to get the training dataset below the tolerance, therefore the combined amplitude+phase vector will have \(N _{\text{amp}} + N _{\text{phi}}\) components, where the numbers of points \(N _{\text{amp}}\) and \(N _{\text{phi}}\) depend on the tolerances \( \epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\). 
+
+There is no natural relation between \(\epsilon _{\text{amp}}\) ad \(\epsilon _{\text{phi}}\): one measures a variation in the logarithm of the amplitude, the other a variation in angle. 
+However, there is more to the choice of these than just selecting the error we are willing to accept. 
+The vectors whose distances are computed when doing \ac{PCA} will have more components for amplitude or for phase, and this will affect the reconstruction error, biasing the reconstruction towards one or the other. 
+
+Heuristically, it was found to be typically best to tune the tolerances so that the number of points describing the phase is slightly larger than the ones describing the amplitude. 
 
 \subsection{The reconstruction of a waveform}
 
@@ -219,16 +229,18 @@ The 3.5PN-accurate TaylorF2 model is internally evaluated by \ac{mb}.}
 \label{fig:teobresumspa_speedup}
 \end{figure}
 
-\section{Conclusions}
+\subsubsection{Evaluation time} \label{sec:evaluation-time}
+
+\subsection{Performance} \label{sec:performance}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/mismatches_spinning}
-\caption{Mismatches between reconstructed and \ac{EOB} waveforms in the spinning case; we also show the mismatches between the \ac{EOB} waveforms and the original \ac{PN} ones (i.e.\ we set the residuals to zero). We can see that there is a typical improvement in fidelity by a factor \(\sim 10\), but the faithfulness is still not good as required.}
+\caption{Mismatches between reconstructed and \ac{EOB} waveforms in the spinning case; we also show the mismatches between the \ac{EOB} waveforms and the original \ac{PN} ones (i.e.\ we set the residuals to zero). We can see that there is a typical improvement in fidelity by a factor \(\sim 10^2\), but the faithfulness is still not good as required.}
 \label{fig:mismatches_spinning}
 \end{figure}
 
-\subsection{Target accuracy}
+\subsubsection{Target accuracy}
 
 What is the fidelity \(\mathcal{F}\) we should aim for? 
 One criterion to use for a surrogate model such as this one is to look at the accuracy of the underlying model: comparing the \ac{EOB} model to numerical relativity simulations we get typical values for the fidelity of \(\mathcal{F} \simeq \num{2.5e-3}\) \cite[]{nagarTimedomainEffectiveonebodyGravitational2018}.
@@ -242,6 +254,5 @@ We can also reframe the issue in terms of signal-to-noise ratio: as discussed e.
 %
 where \(D\) is the number of intrinsic parameters. 
 As an example, GW170817 was detected with a combined SNR\(\approx 32.4\) \cite[]{abbottGW170817ObservationGravitational2017}, meaning that the fidelity needed to analyze it is \(\mathcal{F} \lesssim \num{5e-3}\) if we are considering five intrinsic parameters.
-
 
 \end{document}
