@@ -200,8 +200,23 @@ We describe the procedure taken by a trained \ac{mb} model in order to reconstru
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/evaluation_time_by_fsize}
-\caption{Evaluation times for the waveforms provided by \ac{mb}, depending on the size of the interpolation grid. Below \(N \sim \num{e4}\) points the time is roughly constant at \(\sim \SI{10}{ms}\);}
+\caption{Evaluation times for the waveforms provided by \ac{mb}, depending on the size of the interpolation grid. Below \(N \sim \num{e4}\) points the time is roughly constant at \(\sim \SI{10}{ms}\). For a detailed view of the overhead \ac{mb} represents over the \ac{PN} models see figure \ref{fig:overhead_evaluation}, for a view of the speedup factor of \ac{mb} over TEOBResumSPA see figure \ref{fig:teobresumspa_speedup}. All evaluation times refer to an initial frequency of \SI{20}{Hz}.}
 \label{fig:evaluation_time_by_fsize}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/overhead_evaluation}
+\caption{Overhead for the evaluation of a waveform with \ac{mb}, compared to \ac{PN} models. 
+The 3.5PN-accurate TaylorF2 model is internally evaluated by \ac{mb}.}
+\label{fig:overhead_evaluation}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/teobresumspa_speedup}
+\caption{Speedup over TEOBResumSPA (TEOBResumS in the frequency domain, with the Fourier transform being approximated with \ac{SPA}). For sampling exceeding approximately \num{e5} \ac{mb} is slower.}
+\label{fig:teobresumspa_speedup}
 \end{figure}
 
 \section{Conclusions}
@@ -227,7 +242,6 @@ We can also reframe the issue in terms of signal-to-noise ratio: as discussed e.
 %
 where \(D\) is the number of intrinsic parameters. 
 As an example, GW170817 was detected with a combined SNR\(\approx 32.4\) \cite[]{abbottGW170817ObservationGravitational2017}, meaning that the fidelity needed to analyze it is \(\mathcal{F} \lesssim \num{5e-3}\) if we are considering five intrinsic parameters.
-
 
 
 \end{document}
