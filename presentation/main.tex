@@ -26,8 +26,12 @@ doi=false
 \frame{\titlepage}
 
 \begin{frame}
-    \frametitle{Structure}
+    \frametitle{MLGW\_BNS structure: training dataset generation}
     \begin{itemize}
+    \item Greedy adaptive downsampling fit;
+    \item EOB waveform generation and downsampling;
+    \item residuals from PN waveforms: \(\Delta A = \log (A _{\text{EOB}}/ A _{\text{PN}})\) and \(\Delta \Phi = \Phi _{\text{EOB}} - \Phi _{\text{PN}}\);
+    \item PCA on the combined, downsampled residuals;
     \item 
     \end{itemize}
 \end{frame}
@@ -96,7 +100,7 @@ doi=false
 \end{frame}
 
 \begin{frame}
-    \frametitle{Evaluation time}
+    \frametitle{Evaluation time: \(f_0 = \SI{20}{Hz}\)}
     
     \begin{figure}[ht]
     \centering
@@ -106,11 +110,40 @@ doi=false
 \end{frame}
 
 \begin{frame}
-    \frametitle{Evaluation time}
+    \frametitle{Evaluation time: \(f_0 = \SI{20}{Hz}\)}
     
     \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/teobresumspa_speedup}
+    \label{fig:teobresumspa_speedup}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Evaluation time: \(f_0 = \SI{10}{Hz}\)}    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/evaluation_time_by_fsize_10hz}
+    \label{fig:evaluation_time_by_fsize}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Evaluation time: \(f_0 = \SI{10}{Hz}\)}
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/overhead_evaluation_10hz}
+    \label{fig:overhead_evaluation}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Evaluation time: \(f_0 = \SI{10}{Hz}\)}
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/teobresumspa_speedup_10hz}
     \label{fig:teobresumspa_speedup}
     \end{figure}
 \end{frame}

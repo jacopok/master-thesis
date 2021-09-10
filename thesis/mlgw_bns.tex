@@ -199,7 +199,7 @@ We describe the procedure taken by a trained \ac{mb} model in order to reconstru
     \item The \ac{PCA} model reconstructs the normalized, combined vector representing the amplitude and phase residuals: \(\text{ncomb}_i\). 
     \item The normalized, combined vector is de-normalized by multiplying the phase part by the chosen normalization factor \(\sim 30\).
     \item The combined vector is split into the amplitude and phase residual vectors, corresponding to their respective amplitude and phase downsampled frequencies.
-    \item The frequencies \(f\) are converted into natural units by dividing them by \(c^3 / GM \approx (M_{\odot} / M) \SI{2e5}{Hz}\); this yields a set of natural-units frequencies \(f_n\). 
+    \item The frequencies \(f\) are converted into natural units by dividing them by \(c^3 / GM \approx (M_{\odot} / M) \times  \SI{2e5}{Hz}\); this yields a set of natural-units frequencies \(f_n\). 
     \item The residual amplitude and phase are resampled to the frequencies \(f_n\).
     \item The amplitude and phase are reconstructed from the residuals according to equations \eqref{eq:amplitude-phase-reconstruction}.
     \item The waveform is recombined as \(h = A e^{i \Phi }\).
