@@ -26,13 +26,32 @@ doi=false
 \frame{\titlepage}
 
 \begin{frame}
+    \frametitle{Amplitudes}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/native_amplitudes}
+    \label{fig:native_amplitudes}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Phases}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/native_phases}
+    \label{fig:native_phases}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
     \frametitle{MLGW\_BNS structure: training dataset generation}
     \begin{itemize}
     \item Greedy adaptive downsampling fit;
     \item EOB waveform generation and downsampling;
     \item residuals from PN waveforms: \(\Delta A = \log (A _{\text{EOB}}/ A _{\text{PN}})\) and \(\Delta \Phi = \Phi _{\text{EOB}} - \Phi _{\text{PN}}\);
-    \item PCA on the combined, downsampled residuals;
-    \item 
+    \item PCA on the combined, downsampled, rescaled residuals;
+    \item a NN learns the map \(\theta \to PC_i \lambda_i^{\alpha}\);
+    \item the hyperparameters of the NN and \(\alpha \) are optimized case-by-case.
     \end{itemize}
 \end{frame}
 
@@ -90,7 +109,26 @@ doi=false
 \end{frame}
 
 \begin{frame}
-    \frametitle{Evaluation time}
+    \frametitle{Amplitude reconstruction residuals}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/recon-amp-residuals}
+    \label{fig:recon-amp-residuals}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Phase reconstruction residuals}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/recon-phase-residuals}
+    \label{fig:recon-phase-residuals}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Evaluation time: \(f_0 = \SI{20}{Hz}\)}
     
     \begin{figure}[ht]
     \centering
@@ -149,15 +187,65 @@ doi=false
 \end{frame}
 
 \begin{frame}
-    \frametitle{}
-    
+    \frametitle{Profiling the evaluation: \(\num{e4}\) interpolation points}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/predict_profile_fast}
+    \label{fig:predict_profile_fast}
+    \end{figure}
 \end{frame}
-
 
 \begin{frame}
-    \frametitle{Bibliography}
-    \printbibliography
+    \frametitle{Profiling the evaluation: \(\num{e6}\) interpolation points}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/predict_profile_slow}
+    \label{fig:predict_profile_slow}
+    \end{figure}
 \end{frame}
+
+\begin{frame}
+    \frametitle{Fourier transform issues}
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/FFT-noise-wide}
+    \label{fig:fft-noise-wide}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fourier transform issues}
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/FFT-noise-highf}
+    \label{fig:fft-noise-highf}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fourier transform issues}
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/FFT-noise-lowf}
+    \label{fig:fft-noise-lowf}
+    \end{figure}
+\end{frame}
+
+
+
+% \begin{frame}
+%     \frametitle{}
+    
+% \end{frame}
+
+
+% \begin{frame}
+%     \frametitle{Bibliography}
+%     \printbibliography
+% \end{frame}
 
 
 \end{document}
