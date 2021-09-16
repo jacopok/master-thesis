@@ -1029,7 +1029,7 @@ In other words, we are mapping a signal into another signal where all the noise 
 In terms of the whitened signals, the Wiener product just reads 
 %
 \begin{align}
-(a|b) = (a_w | b_w)_w = 2 \Re \int_{0}^{\infty } \dd{f} \widetilde{a}_w^{*} (f) \widetilde{b}_w(f) = \int_{- \infty }^{\infty } \dd{t} a_w(t) b_w(t)
+(a|b) = 2 \Re \int_{0}^{\infty } \dd{f} \widetilde{a}_w^{*} (f) \widetilde{b}_w(f) = \int_{- \infty }^{\infty } \dd{t} a_w(t) b_w(t)
 \,,
 \end{align}
 %
@@ -1072,7 +1072,7 @@ which is comparable to \(\sqrt{S_n(f)}\), in the sense that it also has units of
 
 The scalar product \((a|b)\) between waveforms allows us to define a distance between them which is meaningful in terms of their distinguishability in data analysis.
 Specifically, we use the fact that in any inner product space we can write the product as \((a|b) = \sqrt{(a|a) (b|b)} \cos \theta \), where \(\theta \) can be interpreted as an angle between \(a\) and \(b\). 
-Therefore, we can define the \emph{fidelity}, or \emph{mismatch} ``distance'':\footnote{This is not a distance in the mathematical sense: it does not satisfy the identity of indiscernible principle since \(M(a, Ka) = 0\) for any constant \(K\), and it does not satisfy the triangle inequality \(M(a, b) \leq M(a, c) + M(b, c)\) --- think, for example, of \(a\) and \(c\) at right angles to one another (so \(M(a, c) = 1\)) and \(b\) in the middle, at 45° from either, so \(M(a, b) = M(b, c) = 1 - \sqrt{2} / 2 \approx 0.3\). Then, \(M(a,c) = 1 > M(a, b) + M(b, c) \approx 0.6\), in violation of the inequality. 
+Therefore, we can define the \emph{fidelity}, or \emph{mismatch} ``distance'':\footnote{This is not a distance in the mathematical sense: it does not satisfy the identity of indiscernibles principle since \(M(a, Ka) = 0\) for any constant \(K\), and it does not satisfy the triangle inequality \(M(a, b) \leq M(a, c) + M(b, c)\) --- think, for example, of \(a\) and \(c\) at right angles to one another (so \(M(a, c) = 1\)) and \(b\) in the middle, at 45° from either, so \(M(a, b) = M(b, c) = 1 - \sqrt{2} / 2 \approx 0.3\). Then, \(M(a,c) = 1 > M(a, b) + M(b, c) \approx 0.6\), in violation of the inequality. 
 
 This is not a problem for us: this mismatch is still a useful metric even if it is not a distance. }
 %
@@ -1440,15 +1440,26 @@ One must therefore find a way to move to the frequency domain. An option is to u
 However, it is still an approximation: ideally, we would want to numerically Fourier-transform the time-domain waveform. 
 This becomes quite slow as we reach lower initial frequencies: the duration of the waveform for an equal-mass \ac{BNS} with \(M \approx 2.8 M_{\odot}\) is typically \cite[eq.\ 4.21]{maggioreGravitationalWavesVolume2007}
 %
-\begin{align}
+\begin{align} \label{eq:waveform-duration}
 \text{duration} \approx \SI{3}{min} \qty(\frac{f_0 }{\SI{20}{Hz}})^{-8/3}
-\,.
+\,,
 \end{align}
+%
+which is graphically shown in figure \ref{fig:waveform_length}. 
 
-In order to perform a \ac{FFT}, we need equally-spaced points in time, so the full duration needs to be densely sampled; also, the merger moment needs to be resolved by the sampling density. 
-This constrains the sampling rate to be quite high, therefore the size of the array representing the time-domain waveform will be quite large, slowing down the computation. 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/waveform_length}
+\caption{Duration of time-domain waveforms under the assumption of zero ellipticity. The dashed line shows the output of equation \eqref{eq:waveform-duration}, while the thick line shows the durations one might concretely use, under the assumption that the number of samples in the time domain is an integer power of 2.}
+\label{fig:waveform_length}
+\end{figure}
 
-The model \ac{mb} is an attempt to mitigate this problem, by pre-generating Fourier-transformed waveforms. 
+
+
+% In order to perform a \ac{FFT}, we need equally-spaced points in time, so the full duration needs to be densely sampled; also, the merger moment needs to be resolved by the sampling density. 
+% This constrains the sampling rate to be quite high, therefore the size of the array representing the time-domain waveform will be quite large, slowing down the computation. 
+
+% The model \ac{mb} is an attempt to mitigate this problem, by pre-generating Fourier-transformed waveforms. 
 
 
 \end{document}

@@ -133,29 +133,33 @@ We describe the procedure taken by a trained \ac{mb} model in order to reconstru
     \item The two polarizations are recovered by multiplying \(h\) by their respective functions of \(\iota \) and a phase shift by \(\pi /2\) for \(h_ \times \). 
 \end{enumerate}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figures/evaluation_time_by_fsize}
-\caption{Evaluation times for the waveforms provided by \ac{mb}, depending on the size of the interpolation grid. Below \(N \sim \num{e4}\) points the time is roughly constant at \(\sim \SI{10}{ms}\). For a detailed view of the overhead \ac{mb} represents over the \ac{PN} models see figure \ref{fig:overhead_evaluation}, for a view of the speedup factor of \ac{mb} over TEOBResumSPA see figure \ref{fig:teobresumspa_speedup}. All evaluation times refer to an initial frequency of \SI{20}{Hz}.}
-\label{fig:evaluation_time_by_fsize}
-\end{figure}
+\todo[inline]{Add new benchmarks}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figures/overhead_evaluation}
-\caption{Overhead for the evaluation of a waveform with \ac{mb}, compared to \ac{PN} models. 
-The 3.5PN-accurate TaylorF2 model is internally evaluated by \ac{mb}.}
-\label{fig:overhead_evaluation}
-\end{figure}
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[width=\textwidth]{figures/evaluation_time_by_fsize}
+% \caption{Evaluation times for the waveforms provided by \ac{mb}, depending on the size of the interpolation grid. Below \(N \sim \num{e4}\) points the time is roughly constant at \(\sim \SI{10}{ms}\). For a detailed view of the overhead \ac{mb} represents over the \ac{PN} models see figure \ref{fig:overhead_evaluation}, for a view of the speedup factor of \ac{mb} over TEOBResumSPA see figure \ref{fig:teobresumspa_speedup}. All evaluation times refer to an initial frequency of \SI{20}{Hz}.}
+% \label{fig:evaluation_time_by_fsize}
+% \end{figure}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figures/teobresumspa_speedup}
-\caption{Speedup over TEOBResumSPA (TEOBResumS in the frequency domain, with the Fourier transform being approximated with \ac{SPA}). For sampling exceeding approximately \num{e5} \ac{mb} is slower.}
-\label{fig:teobresumspa_speedup}
-\end{figure}
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[width=\textwidth]{figures/overhead_evaluation}
+% \caption{Overhead for the evaluation of a waveform with \ac{mb}, compared to \ac{PN} models. 
+% The 3.5PN-accurate TaylorF2 model is internally evaluated by \ac{mb}.}
+% \label{fig:overhead_evaluation}
+% \end{figure}
+
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[width=\textwidth]{figures/teobresumspa_speedup}
+% \caption{Speedup over TEOBResumSPA (TEOBResumS in the frequency domain, with the Fourier transform being approximated with \ac{SPA}). For sampling exceeding approximately \num{e5} \ac{mb} is slower.}
+% \label{fig:teobresumspa_speedup}
+% \end{figure}
 
 \subsubsection{Evaluation time} \label{sec:evaluation-time}
+
+
 
 \subsection{Performance} \label{sec:performance}
 
