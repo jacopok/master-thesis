@@ -658,12 +658,32 @@ where the functions \({}_{-2}Y_{\ell m}\) are called \emph{spin-weighted spheric
 The only assumption in this expression is the \(1/r\) scaling of the amplitude of the waveform. 
 The expansion parameters \(h_{\ell m}\) are time-dependent and complex, and the spin-weighted harmonics depend on the orientation of the basis we choose (see \nameref{sec:sky-pos-polar}).
 
-The harmonics which give the largest contribution are the \(2, 2\) and \(2, -2\) ones, which are conjugates of each other. 
+The harmonics which give the largest contribution are the \((\ell = 2, m = 2)\) and \((\ell = 2, m =-2)\) ones, which are conjugates of each other. 
+The algorithm \ac{mb} currently only reconstructs this mode, which is equivalent to writing the Fourier-domain waveform as 
+%
+\begin{align}
+\widetilde{h}_{+}(f) &= \frac{M}{r} \frac{1 + \cos^2 \iota }{2} \widetilde{h} (f)  \\
+\widetilde{h}_{ \times } (f) &= \frac{M}{r} \cos \iota \widetilde{h}(f)
+\,.
+\end{align}
 
-At this point we can notice an interesting scaling property: in these units lengths, times, energies, masses and momentums have the same dimensions. What happens, then, if we rescale all these quantities by the same amount?
-This means we are mapping \(M \to \alpha M\) and \(r \to \alpha r\) in the previous expression, so we can see that the amplitude \(h\) is preserved. 
-This is consistent with a time rescaling of the time \(t \to \alpha t \), as can be seen in equation \eqref{eq:amplitude-quadrupole-emission}, and with a rescaling of the frequency \(f \to f / \alpha \), as can be seen in equation \eqref{eq:spa-waveforms}. 
-The result also holds at higher orders than the quadrupole, as we will see by the parametrization of the waveform in section \ref{sec:post-newtonian}. 
+Also, we work in natural units: we treat the waveform as a function of \(Mf\), which is dimensionless if \(G = c = 1\).
+We must be careful, however: the time-domain strain \(h(t)\) is dimensionless, but its Fourier transform \(\widetilde{h}(f)\) has the dimensions of a time, or a mass.
+
+Let us rewrite the \ac{SPA}, 0PN expression for the amplitude (the absolute value of equation \ref{eq:spa-waveforms} for \(\iota = 0\)) to illustrate this point: 
+%
+\begin{align}
+\frac{\abs{\widetilde{h}_+ (f)}}{M} = \frac{1}{\pi^{2/3}} \sqrt{ \frac{5}{24}}
+(Mf)^{-7/6} \frac{M}{r} \sqrt{\nu }
+\,,
+\end{align}
+%
+where we use natural units, as well as employing the relation \(\mathcal{M}_c = M \nu^{3/5}\) \eqref{eq:chirp-mass}.
+
+Conventionally (as well as in \ac{mb}), the waveforms expressed in natural units are provided as \(\widetilde{h}(fM) / (\nu M)\). 
+The amplitude of these is  \(\nu \)-dependent even in the Newtonian limit, specifically \(\abs{\widetilde{h}(fM)} / (\nu M) \propto 1 / \sqrt{\nu }\). 
+
+\todo[inline]{Finish!}
 
 \subsubsection{Parameters for a \ac{CBC} waveform}
 
@@ -738,8 +758,18 @@ where we reparametrized the wavevector \(\vec{k}\) through frequency \(f\) and d
 The waveform to the lowest order we described only depends on the chirp mass \(\mathcal{M}_c\), but as we will see later at higher order there appears a dependence on the ratio of the two masses: \(q = m_1 / m_2 \),. 
 It is customary to fix one of the two masses to always be the largest, therefore constraining \(q \lesseqgtr 1\); we choose the convention \(q \geq 1\).
 
-A possible parametrization for the two masses is \((\mathcal{M}_c, q)\), another is \((M, q)\): these are equivalent, but in the following work we will typically use the latter because of the aforementioned scaling property of the waveforms: we conventionally work with respect to the dimensionless frequency \(Mf\) and the dimensionless time \(t / M\) in order to have one less parameter. 
-If need be, we will refer to a ``conventional'' mass of \(M = 2.8 M_{\odot}\), but our results will be easily scalable to any \(M\). 
+A possible parametrization for the two masses is \((\mathcal{M}_c, q)\), another is \((M, q)\): these are equivalent, but in the following work we will typically use the latter. 
+
+\todo[inline]{Fix!}
+
+At this point we can notice an interesting scaling property: in these units lengths, times, energies, masses and momenta have the same dimensions. What happens, then, if we rescale all these quantities by the same amount?
+This means we are mapping \(M \to \alpha M\) and \(r \to \alpha r\) in the previous expression, so we can see that the amplitude \(h\) is preserved. 
+This is consistent with a time rescaling of the time \(t \to \alpha t \), as can be seen in equation \eqref{eq:amplitude-quadrupole-emission}, and with a rescaling of the frequency \(f \to f / \alpha \), as can be seen in equation \eqref{eq:spa-waveforms}. 
+The result also holds at higher orders than the quadrupole, as we will see by the parametrization of the waveform in section \ref{sec:post-newtonian}. 
+
+
+% because of scaling property of the waveforms: we conventionally work with respect to the dimensionless frequency \(Mf\) and the dimensionless time \(t / M\) in order to have one less parameter. 
+% If need be, we will refer to a ``conventional'' mass of \(M = 2.8 M_{\odot}\), but our results will be easily scalable to any \(M\). 
 
 \paragraph{Spin}
 
@@ -1254,7 +1284,7 @@ f(\vec{x}) = - \frac{1}{4 \pi } \int_{\mathbb{R}^3} \frac{ \dd[3]{y}}{\abs{\vec{
 will not always converge.
 Fortunately, this only reflects a limitation of the Poisson integral, and through analytic continuation one can recover a physical solution which respects the boundary conditions. 
 
-Solutions to these problems have been developed between the '80s and the early 2000s, and currently there exist general formalisms, such as the Blanchet-Damour, one which allow for high-order computations of \ac{PN} waveforms \cite{blanchetGravitationalRadiationPostNewtonian2014}.
+Solutions to these problems have been developed between the '80s and the early 2000s, and currently there exist general formalisms, such as the Blanchet-Damour one, which allow for high-order computations of \ac{PN} waveforms \cite{blanchetGravitationalRadiationPostNewtonian2014}.
 
 \paragraph{\ac{PN} waveforms}
 
@@ -1438,6 +1468,7 @@ The \ac{EOB} models natively output time-domain waveforms, while as discussed in
 One must therefore find a way to move to the frequency domain. An option is to use a \ac{SPA} \cite{gambaFastFaithfulFrequencydomain2020}; this has been found to be quite successful in providing fast waveform evaluations even for low initial frequencies. 
 %as can be seen in figure \ref{fig:TEOBResumSPA_evaluation}. 
 However, it is still an approximation: ideally, we would want to numerically Fourier-transform the time-domain waveform. 
+The issues with  
 This becomes quite slow as we reach lower initial frequencies: the duration of the waveform for an equal-mass \ac{BNS} with \(M \approx 2.8 M_{\odot}\) is typically \cite[eq.\ 4.21]{maggioreGravitationalWavesVolume2007}
 %
 \begin{align} \label{eq:waveform-duration}
@@ -1450,7 +1481,7 @@ which is graphically shown in figure \ref{fig:waveform_length}.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/waveform_length}
-\caption{Duration of time-domain waveforms under the assumption of zero ellipticity. The dashed line shows the output of equation \eqref{eq:waveform-duration}, while the thick line shows the durations one might concretely use, under the assumption that the number of samples in the time domain is an integer power of 2.}
+\caption{Duration of time-domain waveforms for a \(M = 2.8 M_{\odot}\) \ac{NS} binary. The dashed line shows the output of equation \eqref{eq:waveform-duration}, while the thick line shows the durations one might concretely use, imposing the number of samples in the time domain is an integer power of 2.}
 \label{fig:waveform_length}
 \end{figure}
 
