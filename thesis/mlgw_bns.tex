@@ -103,18 +103,18 @@ Therefore, a relatively low-order \ac{PN} approximant is chosen; specifically, t
 We describe the procedure taken by a trained \ac{mb} model in order to reconstruct a waveform starting from a set of parameters \(\theta = [q, \Lambda_1 , \Lambda_2 , \chi_1 , \chi_2 ]\), extrinsic parameters (for simplicity we consider only \(\theta _{\text{ext}} = [M, D_L, \iota]\)), as well as a set of new frequencies \(f\) to re-interpolate the waveform at.
 
 \begin{enumerate}
-    \item The parameters \(\theta \) are reduced to \(\theta _r\) by a scaler, which is trained so that they each have zero mean and unit variance. 
-    \item The trained \ac{NN} makes its prediction based on the parameters, let us denote it as \(\qty(y_i)_{i=0}^{K-1}\).
+    \item The parameters \(\theta \) are reduced to \(\theta _r\) by a scaler, which is trained so that they each have zero mean and unit variance. \label{item:param-reduction}
+    \item The trained \ac{NN} makes its prediction based on the parameters, let us denote it as \(\qty(y_i)_{i=0}^{K-1}\). \label{item:nn-prediction}
     \item The prediction is divided by the corresponding \ac{PCA} eigenvalues, to get \(x_i = y_i / \lambda _i^{\alpha }\).
-    \item The \ac{PCA} model reconstructs the normalized, combined vector representing the amplitude and phase residuals: \(\text{ncomb}_i\). 
+    \item The \ac{PCA} model reconstructs the normalized, combined vector representing the amplitude and phase residuals: \(\text{ncomb}_i\). \label{item:pca-reconstruction}
     \item The normalized, combined vector is de-normalized by multiplying the phase part by the chosen normalization factor \(\sim 15\).
-    \item The combined vector is split into the amplitude and phase residual vectors, corresponding to their respective amplitude and phase downsampled frequencies.
-    \item The frequencies \(f\) are converted into natural units by dividing them by \(c^3 / GM \approx (M_{\odot} / M) \times  \SI{2e5}{Hz}\); this yields a set of natural-units frequencies \(f_n\).
-    \item The residual amplitude and phase are resampled to the frequencies \(f_n\).
-    \item The amplitude and phase are reconstructed from the residuals according to equations \eqref{eq:amplitude-phase-reconstruction}.
-    \item The waveform is recombined as \(h = A e^{i \Phi }\).
-    \item The waveform is rescaled according to \(M\) and \(D_L\), so that it is expressed in SI units (seconds).
-    \item The two polarizations are recovered by multiplying \(h\) by their respective functions of \(\iota \) and a phase shift by \(\pi /2\) for \(h_ \times \). 
+    \item The combined vector is split into the amplitude and phase residual vectors, corresponding to their respective amplitude and phase downsampled frequencies. \label{item:combined-split}
+    \item The frequencies \(f\) are converted into natural units by dividing them by \(c^3 / GM \approx (M_{\odot} / M) \times  \SI{2e5}{Hz}\); this yields a set of natural-units frequencies \(f_n\). \label{item:frequency-conversion}
+    \item The amplitude and phase are reconstructed from the residuals according to equations \eqref{eq:amplitude-phase-reconstruction}. \label{item:tf2}
+    \item The amplitude and phase are resampled to the frequencies \(f_n\). \label{item:resample}
+    \item The waveform is recombined as \(h = A e^{i \Phi }\). \label{item:recombine}
+    \item The waveform is rescaled according to \(M\) and \(D_L\), so that it is expressed in SI units (seconds). \label{item:rescale}
+    \item The two polarizations are recovered by multiplying \(h\) by their respective functions of \(\iota \) and a phase shift by \(\pi /2\) for \(h_ \times \). \label{item:polarizations}
 \end{enumerate}
 
 \todo[inline]{Add new benchmarks}
@@ -124,7 +124,7 @@ We describe the procedure taken by a trained \ac{mb} model in order to reconstru
 In broad strokes, the evaluation time of a waveform by \ac{mb} is comparable if not slightly better than that of the model it is trained on, \texttt{TEOBResumS} with \ac{SPA}. 
 The benchmarks for the evaluation time are shown in figure \ref{fig:profiling_by_f0}, and the ratios between the times for the three models are shown in more detail in figure \ref{fig:profiling_by_f0_ratios}. 
 
-The assumption underlying all these benchmarks is that, as the initial frequency decreases and the duration of the waveform increases as shown in figure \ref{fig:waveform_length}, the number of samples for the Fourier transform must roughly match the number of samples in the time domain; specifically, if \(r\) is the sample rate and \(T\) is the length of the time-series then in the time domain we will need \(rT\) samples to represent the signal. Typically, for \ac{BNS} analysis, the sample rate is set to \(2^{12} \SI{}{Hz} = \SI{4096}{Hz}\), while the duration of the signal depends on the initial frequency we want to consider --- for example, a \ac{BNS} with \(M = 2.8 M_{\odot}\) starting at \SI{12}{Hz} can be described within a time series lasting \SI{1024}{s}, leading to \(2^{22}\) samples.
+The assumption underlying all these benchmarks is that, as the initial frequency decreases and the duration of the waveform increases (as shown in figure \ref{fig:waveform_length}), the number of samples for the Fourier transform must roughly match the number of samples in the time domain; specifically, if \(r\) is the sample rate and \(T\) is the length of the time-series then in the time domain we will need \(rT\) samples to represent the signal. Typically, for \ac{BNS} analysis, the sample rate is set to \(2^{12} \SI{}{Hz} = \SI{4096}{Hz}\), while the duration of the signal depends on the initial frequency we want to consider --- for example, a \ac{BNS} with \(M = 2.8 M_{\odot}\) starting at \SI{12}{Hz} can be described within a time series lasting \SI{1024}{s}, leading to \(2^{22}\) samples in the time domain.
 
 
 \begin{figure}[ht]
@@ -138,8 +138,15 @@ On the other hand, in the frequency domain the standard approach is to use unifo
 The highest frequency it is useful to record is the Nyquist frequency \(f_N = r / 2\).  
 Since our signal is real-valued, negative frequency samples are redundant --- they are the conjugates of the corresponding positive frequency ones. 
 We also do not need to record components at frequencies lower than \(f_0 \), the initial frequency of the signal. 
+Therefore, the total number of frequency samples is 
+%
+\begin{align}
+N = \frac{f_N - f_0 }{\Delta f} +1 = \qty( \frac{r}{2} - f_0 )T + 1 \approx \frac{r}{2} T
+\marginnote{We sample both endpoints, hence the \(+1\).}
+\,.
+\end{align}
 
-
+In the aforementioned case, this corresponds to roughly \(2^{21} \approx \num{2.1e6}\) samples. In terms of storage, each of these samples is a complex number, typically represented with two 64-bit floating points Cartesian components, therefore a waveform represented in this way will take up \SI{32}{MiB} of memory.
 
 \begin{figure}[ht]
 \centering
@@ -148,7 +155,74 @@ We also do not need to record components at frequencies lower than \(f_0 \), the
 \label{fig:profiling_by_f0_ratios}
 \end{figure}
 
-\subsection{Performance} \label{sec:performance}
+Neither \ac{mb} nor \texttt{TEOBResumS} natively work with so many points, and both need to interpolate their results on a fine grid such as this one. 
+This is the reason why \ac{mb}, as shown in figure \ref{fig:profiling_by_f0_ratios}, is only slightly faster than \texttt{TEOBResumS} when the initial frequency is very low: both algorithms are bottle-necked by resampling, which can be performed in linear time with respect to the number of points in the new, densely sampled array. 
+
+In order to illustrate this point, let us discuss the breakdown of an evaluation of \ac{mb} in three different cases.
+In all three it reconstructs both polarizations for a \ac{BNS} waveform with \(f_0 = \SI{12}{Hz}\), with a time-domain sampling rate of \SI{4096}{Hz}, total mass \(M = 2.8M_{\odot}\), mass ratio \(q \approx 1.96\), aligned spins \(\chi_{1z} \approx 0.38\) and \(\chi_{2z} \approx 0.04\), tidal deformabilities \(\Lambda_1 \approx 3600 \) and \(\Lambda_2 \approx 2500\), luminosity distance \(d_L = \SI{25}{Mpc}\), and inclination \(\iota = \SI{3}{rad}\).
+
+The times we give refer to a single evaluation of \ac{mb}, so they cannot be considered fully representative, but they were found to be fairly consistent among different runs; the most significant difference between different runs was found to be the overall scaling of the times, which depends on system factors such as other processes running and memory availability, while the ratios were generally preserved.
+
+\paragraph{Full resampling}
+Here the waveform is resampled to its full \((f_N - f_0 ) / \Delta f + 1 = 2084865 \approx \num{2e6}\) points. 
+The total time taken by \ac{mb} is \SI{385}{ms},\footnote{This is slightly faster than the typical time shown in figure \ref{fig:profiling_by_f0} for an initial frequency of \SI{12}{Hz}: this comes down to the state of the system at the time the benchmarks were taken --- the data for the figure was computed at a different time than the following benchmarks, but the overall slowdown preserves ratios, so the speedups we discuss are rather consistent.
+Still, the breakdown in the following section refers to a single trial, so it should be taken with a grain of salt.} of which 
+\begin{enumerate}
+    \item \SI{246}{ms} (\SI{69}{\%}) are taken by the interpolation (point \ref{item:resample});
+    \item \SI{103}{ms} (\SI{27}{\%}) are taken by extrinsic parameter operations (points \ref{item:recombine} through \ref{item:polarizations});
+    \item \SI{0.9}{ms} (\SI{0.2}{\%}) are taken by the \ac{NN} + \ac{PCA} routines (points \ref{item:param-reduction} through \ref{item:combined-split});
+    \item \SI{0.5}{ms} (\SI{0.15}{\%}) are taken by the evaluation of the \ac{PN} waveform (point \ref{item:recombine});
+    \item the rest of the time (\SI{16}{ms}, \SI{4}{\%}) is taken by other post-processing operations (such as point \ref{item:frequency-conversion}).
+\end{enumerate}
+
+The evaluation time of the baseline \ac{PN} model, as well as the \ac{PCA} and \ac{NN} steps, are basically negligible. 
+
+In a comparable scenario, \texttt{TEOBResumSPA} took \SI{452}{ms}, or around \SI{17}{\%} more. 
+
+\paragraph{16-fold downsampling}
+
+Here the waveform provided by \ac{mb} is evaluated on a grid made 16 times sparser, so consisting of 130305 points.
+These were taken to be still equally spaced for simplicity, even though it is not a realistic usage case: the \ac{mb} model can interpolate to an arbitrary frequency array, and providing an efficiently chosen, non-uniform frequency array does not change its performance. 
+
+In this case the total time taken by \ac{mb} is \SI{34}{ms}, of which 
+\begin{enumerate}
+    \item \SI{22}{ms} (\SI{64}{\%}) are taken by the interpolation (point \ref{item:resample});
+    \item \SI{10}{ms} (\SI{30}{\%}) are taken by extrinsic parameter operations (points \ref{item:recombine} through \ref{item:polarizations});
+    \item \SI{0.6}{ms} (\SI{1.8}{\%}) are taken by the \ac{NN} + \ac{PCA} routines (points \ref{item:param-reduction} through \ref{item:combined-split});
+    \item \SI{0.6}{ms} (\SI{1.7}{\%}) are taken by the evaluation of the \ac{PN} waveform (point \ref{item:recombine});
+    \item the rest of the time (\SI{0.7}{ms}, \SI{2}{\%}) is taken by other post-processing operations (such as point \ref{item:frequency-conversion}).
+\end{enumerate}
+
+In the same scenario, \texttt{TEOBResumSPA} took \SI{65}{ms}, or around \SI{90}{\%} more. 
+
+\paragraph{256-fold downsampling}
+
+Here the waveform provided by \ac{mb} is evaluated on a grid made 256 (\( = 16^2\)) times sparser, so consisting of 8145 points.
+
+In this case the total time taken by \ac{mb} is \SI{4.2}{ms}.
+Here we give a more detailed breakdown of the times taken by some subroutines, since they can be more clearly interpreted as percentages of this total. 
+
+\begin{enumerate}
+    \item \SI{2}{ms} (\SI{49}{\%}) are taken by the interpolation (point \ref{item:resample});
+    \begin{enumerate}
+        \item of these, \SI{0.7}{ms} (\SI{16}{\%} of the total) are taken by the creation of the cubic spline --- this is consistent, regardless of the number of points it is then evaluated on; 
+        \item \SI{1.4}{ms} (\SI{33}{\%} of the total) are taken by the evaluation of the spline.
+    \end{enumerate}
+    \item \SI{0.8}{ms} (\SI{19}{\%}) are taken by the \ac{NN} + \ac{PCA} routines (points \ref{item:param-reduction} through \ref{item:combined-split});
+    \begin{enumerate}
+        \item of these, \SI{0.6}{ms} (\SI{15}{\%} of the total) are taken by the \ac{NN} prediction (point \ref{item:nn-prediction}), while
+        \item \SI{0.1}{ms} (\SI{3}{\%} of the total) are taken by the \ac{PCA} reconstruction (point \ref{item:pca-reconstruction});
+    \end{enumerate}
+    \item \SI{0.6}{ms} (\SI{15}{\%}) are taken by extrinsic parameter operations (points \ref{item:recombine} through \ref{item:polarizations});
+    \item \SI{0.5}{ms} (\SI{13}{\%}) are taken by the evaluation of the \ac{PN} waveform (point \ref{item:recombine});
+    \item the rest of the time (\SI{0.1}{ms}, \SI{3}{\%}) is taken by other post-processing operations (such as point \ref{item:frequency-conversion}).
+\end{enumerate}
+
+In the same scenario, \texttt{TEOBResumSPA} took \SI{43}{ms}, or around 10 times more than \ac{mb}. 
+
+
+
+\subsection{Accuracy} \label{sec:accuracy}
 
 \begin{figure}[ht]
 \centering
