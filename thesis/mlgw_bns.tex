@@ -6,7 +6,7 @@
 Let us start with an overview of the algorithm employed by \ac{mb} before getting into the technical details. 
 
 It is based on the use of two systems for the generation of a theoretical waveform from a \ac{CBC} in the frequency domain, one being faster but less accurate than the other.
-The ``fast'' system will be the \ac{PN} model \texttt{TaylorF2}, as implemented in \texttt{bajes} \cite[]{breschiTtBajesBayesian2021}, while the ``slow'' system will be the \ac{EOB} model \texttt{TEOBResumS} .\footnote{The wave}
+The ``fast'' system will be the \ac{PN} model \texttt{TaylorF2}, as implemented in \texttt{bajes} \cite[]{breschiTtBajesBayesian2021}, while the ``slow'' system will be the \ac{EOB} model \texttt{TEOBResumS}.
 
 As we shall see shortly, a crucial feature of the ``fast'' system is the capability to generate waveforms in the frequency domain at select frequencies, without needing to perform a full Fourier transform from a time-domain waveform.
 This feature is shared by all \ac{PN} approximants, which base their Fourier-domain representations on the analytic \ac{SPA}.
@@ -220,15 +220,20 @@ Here we give a more detailed breakdown of the times taken by some subroutines, s
 
 In the same scenario, \texttt{TEOBResumSPA} took \SI{43}{ms}, or around 10 times more than \ac{mb}. 
 
-
-
 \subsection{Accuracy} \label{sec:accuracy}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{figures/mismatches_spinning}
-\caption{Mismatches between reconstructed and \ac{EOB} waveforms in the spinning case; we also show the mismatches between the \ac{EOB} waveforms and the original \ac{PN} ones (i.e.\ we set the residuals to zero). We can see that there is a typical improvement in fidelity by a factor \(\sim 10^2\), but the faithfulness is still not good as required.}
-\label{fig:mismatches_spinning}
+\includegraphics[width=\textwidth]{figures/MLGW_BNS_vs_TF2}
+\caption{Mismatches between reconstructed and \ac{EOB} waveforms in the spinning case; we also show the mismatches between the \ac{EOB} waveforms and the original \ac{PN} ones (i.e.\ we set the residuals to zero). All waveforms are reconstructed starting from \SI{12}{Hz}, and the mismatches are computed according to the \ac{aLIGO} \ac{PSD}}
+\label{fig:MLGW_BNS_vs_TF2}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/MLGW_BNS_reconstruction_varying_PSD}
+\caption{}
+\label{fig:MLGW_BNS_reconstruction_varying_PSD}
 \end{figure}
 
 \subsubsection{Target accuracy}
