@@ -121,7 +121,8 @@ We describe the procedure taken by a trained \ac{mb} model in order to reconstru
 
 \subsection{Evaluation time} \label{sec:evaluation-time}
 
-In broad strokes, the evaluation time of a waveform by \ac{mb} is comparable if not slightly better than that of the model it is trained on, \texttt{TEOBResumS} with \ac{SPA}. 
+In broad strokes, on standard benchmarks the evaluation time of a waveform by \ac{mb} is slightly better than that of the model it is trained on, \texttt{TEOBResumS} with \ac{SPA}; while in simpler but realistic scenarios its evaluation time is up to an order of magnitude faster. 
+
 The benchmarks for the evaluation time are shown in figure \ref{fig:profiling_by_f0}, and the ratios between the times for the three models are shown in more detail in figure \ref{fig:profiling_by_f0_ratios}. 
 
 The assumption underlying all these benchmarks is that, as the initial frequency decreases and the duration of the waveform increases (as shown in figure \ref{fig:waveform_length}), the number of samples for the Fourier transform must roughly match the number of samples in the time domain; specifically, if \(r\) is the sample rate and \(T\) is the length of the time-series then in the time domain we will need \(rT\) samples to represent the signal. Typically, for \ac{BNS} analysis, the sample rate is set to \(2^{12} \SI{}{Hz} = \SI{4096}{Hz}\), while the duration of the signal depends on the initial frequency we want to consider --- for example, a \ac{BNS} with \(M = 2.8 M_{\odot}\) starting at \SI{12}{Hz} can be described within a time series lasting \SI{1024}{s}, leading to \(2^{22}\) samples in the time domain.
@@ -243,19 +244,5 @@ In the same scenario, \texttt{TEOBResumSPA} took \SI{43}{ms}, or around 10 times
 \label{fig:TF2_reconstruction_varying_PSD}
 \end{figure}
 
-\subsubsection{Target accuracy}
-
-What is the fidelity \(\mathcal{F}\) we should aim for? 
-One criterion to use for a surrogate model such as this one is to look at the accuracy of the underlying model: comparing the \ac{EOB} model to numerical relativity simulations we get typical values for the fidelity of \(\mathcal{F} \simeq \num{2.5e-3}\) \cite[]{nagarTimedomainEffectiveonebodyGravitational2018}.
-
-We can also reframe the issue in terms of signal-to-noise ratio: as discussed e.g.\ by \textcite[]{lindblomModelWaveformAccuracy2008} or \textcite[]{gambaFastFaithfulFrequencydomain2020}, if we are analyzing a signal detected with a certain \ac{SNR} two theoretical waveforms are faithful (indistinguishable for the purposes of the analysis) when 
-%
-\begin{align}
-\mathcal{F} \leq \frac{D}{\text{SNR}^2}
-\,,
-\end{align}
-%
-where \(D\) is the number of intrinsic parameters. 
-As an example, GW170817 was detected with a combined SNR\(\approx 32.4\) \cite[]{abbottGW170817ObservationGravitational2017}, meaning that the fidelity needed to analyze it is \(\mathcal{F} \lesssim \num{5e-3}\) if we are considering five intrinsic parameters.
 
 \end{document}

@@ -658,32 +658,10 @@ where the functions \({}_{-2}Y_{\ell m}\) are called \emph{spin-weighted spheric
 The only assumption in this expression is the \(1/r\) scaling of the amplitude of the waveform. 
 The expansion parameters \(h_{\ell m}\) are time-dependent and complex, and the spin-weighted harmonics depend on the orientation of the basis we choose (see \nameref{sec:sky-pos-polar}).
 
-The harmonics which give the largest contribution are the \((\ell = 2, m = 2)\) and \((\ell = 2, m =-2)\) ones, which are conjugates of each other. 
-The algorithm \ac{mb} currently only reconstructs this mode, which is equivalent to writing the Fourier-domain waveform as 
-%
-\begin{align}
-\widetilde{h}_{+}(f) &= \frac{M}{r} \frac{1 + \cos^2 \iota }{2} \widetilde{h} (f)  \\
-\widetilde{h}_{ \times } (f) &= \frac{M}{r} \cos \iota \widetilde{h}(f)
-\,.
-\end{align}
+In the case of aligned spins, the harmonics which give the largest contribution are the \((\ell = 2, m = 2)\) and \((\ell = 2, m =-2)\) ones, which are conjugates of each other. 
+The algorithm \ac{mb} currently only reconstructs this mode ---
+considering more modes will be needed in order to treat the effects of precession, which happens when the spins are not aligned. 
 
-Also, we work in natural units: we treat the waveform as a function of \(Mf\), which is dimensionless if \(G = c = 1\).
-We must be careful, however: the time-domain strain \(h(t)\) is dimensionless, but its Fourier transform \(\widetilde{h}(f)\) has the dimensions of a time, or a mass.
-
-Let us rewrite the \ac{SPA}, 0PN expression for the amplitude (the absolute value of equation \ref{eq:spa-waveforms} for \(\iota = 0\)) to illustrate this point: 
-%
-\begin{align}
-\frac{\abs{\widetilde{h}_+ (f)}}{M} = \frac{1}{\pi^{2/3}} \sqrt{ \frac{5}{24}}
-(Mf)^{-7/6} \frac{M}{r} \sqrt{\nu }
-\,,
-\end{align}
-%
-where we use natural units, as well as employing the relation \(\mathcal{M}_c = M \nu^{3/5}\) \eqref{eq:chirp-mass}.
-
-Conventionally (as well as in \ac{mb}), the waveforms expressed in natural units are provided as \(\widetilde{h}(fM) / (\nu M)\). 
-The amplitude of these is  \(\nu \)-dependent even in the Newtonian limit, specifically \(\abs{\widetilde{h}(fM)} / (\nu M) \propto 1 / \sqrt{\nu }\). 
-
-\todo[inline]{Finish!}
 
 \subsubsection{Parameters for a \ac{CBC} waveform}
 
@@ -849,7 +827,7 @@ U \approx \frac{Gm}{r} - \frac{1}{2} \mathcal{E}_{ij} x_i x_j \qty[1 + 2 k_2 (R 
 
 This is the starting point for the relativistic generalization of the result as well, where \(k_2 \) is an expansion parameter for a metric component. 
 
-The meaning of \(\Lambda \) is less immediate ---  the first correction to the phasing of the waveform which appears is\footnote{The meaning of the \ac{PN} expansion and of the expansion in orders of \(v/c\) will be discussed in section \ref{sec:post-newtonian}. } \cites[eq.\ 14.231]{maggioreGravitationalWavesVolume2018}{flanaganConstrainingNeutronStar2008}
+The meaning of \(\Lambda \) is less immediate ---  the first correction to the phasing of the waveform which appears is\footnote{The meaning of the \ac{PN} expansion will be discussed in section \ref{sec:post-newtonian} --- for now, one can think of it simply as an expansion in orders of \(v/c\).} \cites[eq.\ 14.231]{maggioreGravitationalWavesVolume2018}{flanaganConstrainingNeutronStar2008}
 %
 \begin{align}
 \Delta \Psi^{\text{tidal}}_{\text{5PN}} = - \frac{117}{256} \frac{m^2}{m_1 m_2 } \widetilde{\Lambda } \qty(\frac{v}{c})^{5} 
@@ -918,20 +896,65 @@ One can then see that this result holds for all but the most extreme initial val
 This is the reason why eccentricity is often not considered in \ac{GW} modelling, while it is of crucial importance in astrophysical population studies, since it has a large effect on the emitted power (enhancing it) in the early stages of the inspiral.
 
 Eccentric binaries are by no means excluded by this line of argument; there are astrophysical contexts in which they might be generated with high eccentricities combined with already small radii, which would allow \(e > 0\) to be detectable even in the \ac{LIGO}-Virgo band.
-Eccentric binary \ac{GW} models do exist \cite{favataConstrainingOrbitalEccentricity2021}, and ignoring eccentricities may lead to bias in parameter estimation.\footnote{It is interesting to note that these models reach into ``relativistic territory'', and therefore must also include effects such as periastron precession --- a good resource on these, based on \cite{favataGravitationalwaveMemoryEccentric2011}, is the \href{Sounds of Spacetime}{https://www.soundsofspacetime.org/elliptical-binaries.html} website, which also provides audio renditions of the waveforms.}
+Eccentric binary \ac{GW} models do exist \cite{favataConstrainingOrbitalEccentricity2021}, and ignoring eccentricities may lead to bias in parameter estimation.\footnote{It is interesting to note that these models reach into ``relativistic territory'', and therefore must also include effects such as periastron precession --- a good resource on these, based on \textcite{favataGravitationalwaveMemoryEccentric2011}, is the \href{Sounds of Spacetime}{https://www.soundsofspacetime.org/elliptical-binaries.html} website, which also provides audio renditions of the waveforms.}
 
 \paragraph{Summary}
 
 The parameter vector \(\vec{\theta}\) describing a binary system can be divided into internal and external parameters as 
 %
 \begin{align}
-\vec{\theta} = (\underbrace{M, q, \vec{\chi}_1, \vec{\chi}_2, \Lambda_1, \Lambda_2,}_{\theta _{\text{int}}} \underbrace{D_L, \iota, \alpha, \delta, \psi, t_0, \phi_0 }_{\theta _{\text{ext}}})
+\vec{\theta} = (\underbrace{q, \vec{\chi}_1, \vec{\chi}_2, \Lambda_1, \Lambda_2,}_{\theta _{\text{int}}} \underbrace{M, D_L, \iota, \alpha, \delta, \psi, t_0, \phi_0 }_{\theta _{\text{ext}}})
 \,,
 \end{align}
 %
 where the dependence of the waveform on the external parameters is well-understood and easy to analytically calculate, while the dependence on the internal parameters (barring \(M\)) is complicated.
 
 The model developed in this work is built to reconstruct the dependence on \(q\), \(\Lambda_1\), \(\Lambda_2 \) and the aligned-spin components \(\chi_{1,z} \) and \(\chi_{2, z}\). 
+
+\subsubsection{Natural units and simplifications} 
+% fix title! 
+
+Restricting ourselves to the \((\ell=2, m=2)\) mode is equivalent to writing the Fourier-domain waveform as 
+%
+\begin{align}
+\widetilde{h}_{+}(f) &= \frac{M}{r} \frac{1 + \cos^2 \iota }{2} \ \widetilde{h} (f)  \\
+\widetilde{h}_{ \times } (f) &= \frac{M}{r} \cos \iota \ \widetilde{h}(f)
+\,.
+\end{align}
+
+Also, we work in natural units: we treat the waveform as a function of \(Mf\), which is dimensionless if \(G = c = 1\).
+We must be careful, however: the time-domain strain \(h(t)\) is dimensionless, but its Fourier transform \(\widetilde{h}(f)\) has the dimensions of a time, or a mass.
+
+Let us rewrite the \ac{SPA}, 0PN expression for the amplitude (the absolute value of equation \ref{eq:spa-waveforms} for \(\iota = 0\)) to illustrate this point: 
+%
+\begin{align}
+\frac{\abs{\widetilde{h}_+ (f)}}{M_s} = \frac{1}{\pi^{2/3}} \sqrt{ \frac{5}{24}}
+(M_s f)^{-7/6} \frac{M_m}{r} \sqrt{\nu }
+\,,
+\end{align}
+%
+where we use employ the relation \(\mathcal{M}_c = M \nu^{3/5}\) \eqref{eq:chirp-mass}, as well as \emph{almost} using natural units: \(M_m\) and \(M_s\) denote the values of the total mass as expressed in terms of length (meters) or time (seconds), respectively \(M_m = GM / c^2\) and \(M_s = GM / c^3\).
+
+Conventionally (as well as in \ac{mb}), the waveforms expressed in ``natural units'' are provided as 
+%
+\begin{align}
+\widetilde{h}_{NU} (fM) = \frac{\widetilde{h}(f)}{M_s} \frac{r}{\nu M_m} \overset{\text{0PN}}{\sim} \frac{1}{\pi^{2/3}} \sqrt{ \frac{5}{24}} (Mf)^{-7/6} \frac{1}{\sqrt{ \nu }}
+\,.
+\end{align}
+
+The amplitude of these is  \(\nu \)-dependent even in the Newtonian limit --- the division by \(\nu \) is convenient in the context of \ac{EOB} calculations. 
+
+When reconstructing a waveform, \ac{mb} will first compute \(\widetilde{h}_{NU} (fM)\), and then the \ac{SI}-units version as 
+%
+\begin{align}
+\widetilde{h}(f) 
+= \widetilde{h}_{NU} (fM) \frac{\mathtt{M}^2}{\mathtt{r}} \nu 
+\underbrace{\qty(\frac{G M_{\odot}}{c^3}) 
+\qty(\frac{G M_{\odot}}{ c^2 \SI{}{Mpc} })}_{\approx \SI{2.36e-25}{s}}
+\,,
+\end{align}
+%
+where \(\mathtt{M}\) is the numeric value of the total mass, expressed in solar masses \(M_{\odot}\), and \(\mathtt{r}\) is the numeric value of the distance, expressed in \SI{}{Mpc}. 
 
 % The waveforms are generated as functions of dimensionless frequency \(fM\); 
 
@@ -1132,6 +1155,27 @@ In practice, this does not affect the norms of the waveforms in the denominator,
 This relation also means that while the mismatch \(M(a, b)\) could in principle be as large as \(2\) (for \(a(f) = -b(f)\)) the optimal mismatch is bounded by \(1\), since there will always be a phase choice to make \((a|b)\) positive, albeit small in magnitude.
 
 % This is useful in \ac{GW} analysis since it reduces the dimensionality of the parameter space by 2; we can 
+
+\subsubsection{Target accuracy}
+
+What is the fidelity \(\mathcal{F}\) we should aim for? 
+
+\(\mathcal{\overline{F}}= 1 - (1- \mathcal{F})^3\): is this true? See equation \cite[eq.\ 16]{lindblomModelWaveformAccuracy2008}. 
+Is that \(\epsilon \) the same as \(\mathcal{F}\)? 
+I think not, but \cite[]{gambaFastFaithfulFrequencydomain2020} seem to claim so. 
+\todo[inline]{check}
+
+One criterion to use for a surrogate model such as this one is to look at the accuracy of the underlying model: comparing the \ac{EOB} model to numerical relativity simulations we get typical values for the fidelity of \(\mathcal{F} \simeq \num{2.5e-3}\) \cite[]{nagarTimedomainEffectiveonebodyGravitational2018}.
+
+We can also reframe the issue in terms of signal-to-noise ratio: as discussed e.g.\ by \textcite[]{lindblomModelWaveformAccuracy2008} or \textcite[]{gambaFastFaithfulFrequencydomain2020}, if we are analyzing a signal detected with a certain \ac{SNR} two theoretical waveforms are faithful (indistinguishable for the purposes of the analysis) when 
+%
+\begin{align}
+\mathcal{F} \leq \frac{D}{\text{SNR}^2}
+\,,
+\end{align}
+%
+where \(D\) is the number of intrinsic parameters. 
+As an example, GW170817 was detected with a combined SNR\(\approx 32.4\) \cite[]{abbottGW170817ObservationGravitational2017}, meaning that the fidelity needed to analyze it is \(\mathcal{F} \lesssim \num{5e-3}\) if we are considering five intrinsic parameters.
 
 \subsubsection{Parameter inference: studying the signal}
 
