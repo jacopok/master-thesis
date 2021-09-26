@@ -29,10 +29,13 @@ The set
 
 \subsection{Training waveform generation}
 
-The \ac{EOB} and \ac{PN} models we use are able to output both \(h_{+}\) and \(h_{\times }\), but this is redundant for our purposes: the ratio between them is a \(\pi /2\) phase combined with a factor depending on the inclination angle \(\iota \): the two polarizations can be expressed as \(h_{+} (f) = h_0 (f) (1 + \cos^2 \iota ) / 2\) and \(h_{\times }( f) = h_0 (f) (-i) \cos \iota \). 
-The ``base'' waveform \(h_0 (f)\) can therefore be interpreted as the plus-polarized waveform in the \(\iota = 0\) case. 
+% The \ac{EOB} and \ac{PN} models we use are able to output both \(h_{+}\) and \(h_{\times }\), but this is redundant for our purposes: the ratio between them is a \(\pi /2\) phase combined with a factor depending on the inclination angle \(\iota \): the two polarizations can be expressed as \(h_{+} (f) = h_0 (f) (1 + \cos^2 \iota ) / 2\) and \(h_{\times }( f) = h_0 (f) (-i) \cos \iota \). 
+% The ``base'' waveform \(h_0 (f)\) can therefore be interpreted as the plus-polarized waveform in the \(\iota = 0\) case. 
+As discussed in section \ref{sec:natural-units}, 
 
 If we reconstruct it, we can recover \(h_{+}\) and \(h_{\times }\) for arbitrary inclination using the two aforementioned expressions.
+
+\todo[inline]{Fix this bit, citing \ref{sec:natural-units}.}
 
 \subsection{Phase unwrapping} \label{sec:unwrapping}
 
@@ -220,6 +223,12 @@ Here we give a more detailed breakdown of the times taken by some subroutines, s
 \end{enumerate}
 
 In the same scenario, \texttt{TEOBResumSPA} took \SI{43}{ms}, or around 10 times more than \ac{mb}. 
+
+\subsubsection{Reduced order modelling}
+
+ROM, ROQ, \dots
+
+
 
 \textcite[]{vinciguerraAcceleratingGravitationalWave2017}
 

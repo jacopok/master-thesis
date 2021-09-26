@@ -911,7 +911,7 @@ where the dependence of the waveform on the external parameters is well-understo
 
 The model developed in this work is built to reconstruct the dependence on \(q\), \(\Lambda_1\), \(\Lambda_2 \) and the aligned-spin components \(\chi_{1,z} \) and \(\chi_{2, z}\). 
 
-\subsubsection{Natural units and simplifications} 
+\subsubsection{Natural units and simplifications} \label{sec:natural-units}
 % fix title! 
 
 Restricting ourselves to the \((\ell=2, m=2)\) mode is equivalent to writing the Fourier-domain waveform as 
@@ -1082,11 +1082,9 @@ In other words, we are mapping a signal into another signal where all the noise 
 In terms of the whitened signals, the Wiener product just reads 
 %
 \begin{align}
-(a|b) = 2 \Re \int_{0}^{\infty } \dd{f} \widetilde{a}_w^{*} (f) \widetilde{b}_w(f) = \int_{- \infty }^{\infty } \dd{t} a_w(t) b_w(t)
-\,,
+(a|b) = 2 \Re \int_{0}^{\infty } \dd{f} \widetilde{a}_w^{*} (f) \widetilde{b}_w(f) 
+\,.
 \end{align}
-%
-so it can also be computed in the time domain.
 
 \paragraph{Optimal \ac{SNR}}
 
@@ -1111,6 +1109,18 @@ h_n (f) &= \sqrt{f S_n(f)}
 %
 where the quantities \(h_c\) and \(h_n\) are called the \textbf{characteristic strains} of signal and noise \cite[eqs.\ 17--19]{mooreGravitationalwaveSensitivityCurves2015}. 
 They are both dimensionless, the way this integral is expressed allows us to integrate ``by eye'': if we plot log-characteristic strain against log-frequency, the positive area between \(h_c\) and \(h_n\) will be proportional to the optimal \ac{SNR}. 
+
+This is shown in figure \ref{fig:characteristic_strains}: 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/characteristic_strains}
+\caption{We show several comparable quantities: the characteristic noise strains corresponding to the estimated 
+\acp{PSD} of \ac{aLIGO} and \ac{ET}, the ones corresponding to the actual \acp{PSD} in the three detectors at the time of the detection of GW170817, and the characteristic signal strain corresponding to a theoretical waveform calculated with GW170817 best-fit parameters. 
+Comparing this single waveform to three different detectors' \acp{PSD} is not completely warranted, since their different locations and orientations give rise to different detector patterns.
+The waveform shown is lowered by a factor \(8.1\) compared to the value it would have with perfect detector orientation and zero inclination. The value is chosen so that the Livingston \ac{SNR} of \(\sim 26.4\) is matched by the graph; the Hanford \ac{SNR} was \(\sim 18.8\) while this graph shows \(\sim 10\); the Virgo \ac{SNR} of \(\sim 2\) is matched by the graph.}
+\label{fig:characteristic_strains}
+\end{figure}
 
 Alternatively, we can define an ``amplitude signal strain spectral density'': 
 %
@@ -1157,6 +1167,8 @@ This relation also means that while the mismatch \(M(a, b)\) could in principle 
 % This is useful in \ac{GW} analysis since it reduces the dimensionality of the parameter space by 2; we can 
 
 \subsubsection{Target accuracy}
+
+We stated 
 
 What is the fidelity \(\mathcal{F}\) we should aim for? 
 
@@ -1244,11 +1256,16 @@ A choice which satisfies these criteria quite well is the \textbf{Bayes estimato
 \,.
 \end{align}
 
+
 Depending on the way the posterior distribution is calculated and parametrized, computing this may be impractical.
 Other choices include estimating the parameters by the values which maximize the likelihood or the posterior, and the covariance from the Hessian of the \ac{PDF} around that point. 
 
+\subsubsection{Posterior sampling}
+
 So, how do we compute the posterior distribution \(\mathbb{P}(\vec{\theta} | s)\) in practice? We know how to evaluate it at a single point \(\vec{\theta}\), so we could evaluate it on some sort of grid, say, sampling \(N\) equally spaced points in a reasonable interval for each parameter.
 The curse of dimensionality makes this infeasible: if we have \(n\) parameters we would need \(N^{n}\) evaluations; even with a very small \(N \sim 10\) this quickly becomes unreasonably large, since we typically have \(n \sim 15\) parameters. 
+
+\paragraph{Monte Carlo Markov Chains}
 
 One solution to this issue is to stochastically sample \(\mathbb{P}(\theta | s)\), taking steps in randomly determined directions using a rule which includes information about the probability distribution. 
 If the rule is appropriately selected, the sequence of points touched by this random walk will approximate a set of samples for the true distribution. This is known as \textbf{Monte Carlo} sampling. 
@@ -1280,6 +1297,17 @@ Further, we need a randomly chosen initial point \(\theta_0 \).
 \end{algorithm}
 
 This random walk will eventually (for \(N _{\text{samples}} \to \infty \)) converge to the true distribution mathematically; there are several heuristics which can be used to check whether this is actually happening in a specific number of steps, such as measuring the autocorrelation of the chain, or running several chains starting at different points and checking that they ``mix'' appropriately. 
+
+\paragraph{Nested sampling}
+
+The statement we made earlier, that ``the posterior includes all the possible information'', is correct but incomplete: there is another piece of information, called the \emph{evidence}, which is not contained in the posterior but is very important in the context of comparing different models. It is defined as 
+%
+\begin{align}
+Z = \int \mathscr{L}(s | \theta , M) \pi (\theta | M) \dd[n]{\theta }
+\,,
+\end{align}
+%
+
 
 \subsection{Higher order waveforms}
 
@@ -1525,7 +1553,7 @@ which is graphically shown in figure \ref{fig:waveform_length}.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/waveform_length}
-\caption{Duration of time-domain waveforms for a \(M = 2.8 M_{\odot}\) \ac{NS} binary. The dashed line shows the output of equation \eqref{eq:waveform-duration}, while the thick line shows the durations one might concretely use, imposing the number of samples in the time domain is an integer power of 2.}
+\caption{Duration of time-domain waveforms for a \(M = 2.8 M_{\odot}\) \ac{BNS}. The dashed line shows the output of equation \eqref{eq:waveform-duration}, while the thick line shows the durations one might concretely use, imposing the number of samples in the time domain is an integer power of 2 and at least slightly larger than the typical duration, so as to have a margin.}
 \label{fig:waveform_length}
 \end{figure}
 

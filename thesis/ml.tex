@@ -425,7 +425,7 @@ This allows us to be more confident of the fact that the indices are not capturi
 \State \(y_{\text{rec}, i}^{(j)} \gets\) interpolation of \(x_I\), \(y_I^{(j)}\)
 \For{\(k_1, k_2\) successive pair in \(I\)}
 \State \(n \gets \operatorname{argmax}_{i \in [k_1 , k_2 ]} \ \abs{y _{\text{rec}, i}^{(j)} - y_{i}^{(j)}}\)
-\State \(e_j \gets \max \left( e_j, \abs{y _{\text{rec}, n}^{(j)} - y_{n}^{(j)}}\right)\)
+\State \(e_j \gets \max \big( e_j, \abs{y _{\text{rec}, n}^{(j)} - y_{n}^{(j)}}\big)\)
 \If{\(\abs{y _{\text{rec}, n} - y_{n}^{(j)}} > \epsilon \)}
 \State \(I' \gets I' \cup n\)
 \EndIf
@@ -441,14 +441,14 @@ This allows us to be more confident of the fact that the indices are not capturi
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/downsampling_validation}
-\caption{Validation errors for downsampled waveforms. Downsampling indices are calculated by applying algorithm \ref{alg:greedy-downsampling} to a dataset of varying size, and the error is calculated by computing the maximum reconstruction error for each of \(N _{\text{val}} = 128\) waveforms. Note that ``average'' and ``maximum'' here refer to the difference between taking an average or a maximum over the array of maximum reconstruction errors. }
+\caption{Validation errors for downsampled waveforms. Downsampling indices are calculated by applying algorithm \ref{alg:greedy-downsampling} to a dataset of varying size, and the error is calculated by computing the maximum reconstruction error for each of \(N _{\text{val}} = 128\) waveforms. Note that ``average'' and ``maximum'' here refer to the difference between taking an average or a maximum over the \(N _{\text{val}}\)-long array of maximum reconstruction errors per validation waveform. The validation waveforms are stochastically generated each time, hence the slight up-ticks one can see at certain points --- still, the overall trend is downward.}
 \label{fig:downsampling_validation}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/downsampling_npoints}
-\caption{Size of the downsampling index array deriving from the application of algorithm \ref{alg:greedy-downsampling} to datasets of varying sizes.}
+\caption{Size of the downsampling index array deriving from the application of algorithm \ref{alg:greedy-downsampling} to training datasets of varying sizes. }
 \label{fig:downsampling_npoints}
 \end{figure}
 
@@ -458,7 +458,7 @@ The number of indices found corresponding to a fixed tolerance increases with th
 The size of the training dataset is limited by memory complexity, more so than computational complexity: each training waveform must be fully kept in memory, with its \(\sim \num{e6}\) floating point numbers, each needing 8 bytes of memory. 
 Therefore, we need \(\sim \SI{10}{MiB}\) of memory per stored waveform, and a hundred of them will take up \( \sim \SI{1}{GiB}\) of storage. 
 
-The interpolation method to choose is important: higher-order interpolants are slower but need less points.
+The interpolation method choice is important: higher-order interpolants are slower but need less points.
 Here we use cubic splines, which have been found to be a good compromise for surrogate models \cite{lackeySurrogateModelAlignedspin2019}.
 As we shall see in section \ref{sec:evaluation-time}, the interpolation accounts for the most significant part of the overhead \ac{mb} exhibits over the 3.5PN TaylorF2 approximant it uses (roughly \SI{65}{\percent} of a \SI{40}{\percent} overhead) in the case of high numbers of points to interpolate. 
 This may seem like a reason to switch to a lower-order interpolation mechanism, but it is balanced by the fact that the lower number of points allows for a larger training dataset. 
