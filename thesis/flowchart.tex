@@ -1,0 +1,119 @@
+% \documentclass[main.tex]{subfiles}
+
+% \begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+% Define block styles used later
+
+\tikzstyle{generator}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{parameters}=[generator, fill=green!20, rounded corners, text width=15em]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{algo} = [generator, text width=15em, fill=red!20, 
+    minimum height=6em, rounded corners, drop shadow]
+% \tikzstyle{algo2} = [generator, text width=13em, fill=red!20, 
+    % minimum height=10em, rounded corners, drop shadow]
+\tikzstyle{trained} = [parameters, fill=orange!20, ellipse, text width=2em]
+\tikzstyle{arrow} = [ultra thick,->]
+
+% Define distances for bordering
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+
+\begin{tikzpicture}[node distance=2cm]
+\node (eob) [generator] {Effective One Body};
+\node (pn) [generator, right of=eob, xshift=2.5cm] {Post-Newtonian};
+\node (pred) [generator, right of=pn, xshift=2.5cm] {predicted waveform};
+
+\node (manage) [algo, below of=eob, yshift=-1cm] {\textbf{Management}
+\begin{itemize}
+    \addtolength{\itemindent}{-.5cm}
+    \item residual calculation
+    \item unwrapping
+\end{itemize}
+};
+
+\node (dimred) [algo, below of=manage, yshift=-1cm] {\textbf{Dimensionality reduction} 
+\\ 
+\begin{itemize}
+    \addtolength{\itemindent}{-.5cm}
+    \item downsampling training
+    \item PCA training
+\end{itemize}};
+
+\node (nn) [algo, below of=dimred, yshift=-1cm] {\textbf{Neural Network} 
+\\ 
+\begin{itemize}
+    \addtolength{\itemindent}{-.5cm}
+    \item hyperparameter optimization
+    \item NN training
+\end{itemize}};
+
+\node (trainedpca) [trained, right of=dimred, xshift=2.5cm] {PCA};
+
+\node (trainednn) [trained, right of=nn, xshift=2.5cm] {NN};
+
+\node (manage2) [algo, right of=manage, xshift=7cm] {\textbf{Management}
+\begin{itemize}
+    \addtolength{\itemindent}{-.5cm}
+    \item residual recombination
+    \item extrinsic parameter inclusion
+\end{itemize}
+};
+
+\node (dimred2) [algo, right of=dimred, xshift=7cm] {\textbf{Reconstruction}
+\begin{itemize}
+    \addtolength{\itemindent}{-.5cm}
+    \item PCA reconstruction
+    \item resampling to user grid
+\end{itemize}
+};
+
+\node (nn2) [algo, right of=nn, xshift=7cm] {\textbf{Prediction}
+\begin{itemize}
+    \addtolength{\itemindent}{-.5cm}
+    \item parameter rescaling
+    \item NN evaluation
+\end{itemize}
+};
+
+\node (params) [parameters, below of=nn2, yshift=-1cm] {user parameters \((q, \Lambda_1, \Lambda_2, \chi_1, \chi_2, M, D_L, \iota, t_0, \phi_0)\)};
+
+\path (nn.south)+(0, -1cm) node (training) {\Large{Training}};
+\path (params.south)+(0, -1cm) node (prediction) {\Large{Prediction}};
+
+\draw [arrow] (eob) -- (manage);
+\draw [arrow] (pn) -- (manage);
+\draw [arrow] (pn) -- (manage2);
+\draw [arrow] (manage) -- (dimred);
+\draw [arrow] (dimred) -- (nn);
+\draw [arrow] (nn2) -- (dimred2);
+\draw [arrow] (dimred2) -- (manage2);
+\draw [arrow] (manage2) -- (pred);
+\draw [arrow] (params) -- (nn2);
+\draw [arrow] (dimred) -- (trainedpca);
+\draw [arrow] (trainedpca) -- (dimred2);
+\draw [arrow] (nn) -- (trainednn);
+\draw [arrow] (trainednn) -- (nn2);
+
+\begin{pgfonlayer}{background}
+    \path (manage.west |- manage.north)+(-0.4,0.4) node (a) {};
+    \path (training.south -| nn.east)+(+0.4,-0.4) node (b) {};
+    \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+        (a) rectangle (b);
+
+    \path (manage2.west |- manage2.north)+(-0.4,0.4) node (a) {};
+    \path (prediction.south -| nn2.east)+(+0.4,-0.4) node (b) {};
+    \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+        (a) rectangle (b);
+
+\end{pgfonlayer}
+
+
+\end{tikzpicture}
+
+
+% \end{document}

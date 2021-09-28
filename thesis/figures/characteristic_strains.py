@@ -69,6 +69,17 @@ def main():
     plt.legend()
 
     plt.savefig('characteristic_strains.pdf', dpi=150)
+    plt.close()
+    
+    plt.plot(np.log(f_PSD), 4 * f_PSD * abs(hp)**2 /  L1_PSD, label='Livingston', lw=.5)
+    plt.plot(np.log(f_PSD), 4 * f_PSD * abs(hp)**2 /  H1_PSD, label='Hanford', ls='--', lw=.5)
+    plt.plot(np.log(f_PSD), 4 * f_PSD * abs(hp)**2 /  V1_PSD, label='Virgo', ls=':', lw=.5)
+
+    plt.xlabel('Log-frequency [$\\log(f / 1 \\text{Hz})$]')
+    plt.ylabel('$4 f \\abs{\\widetilde{h}}^2 / S_n = (h_c / h_n)^2$')
+    plt.legend()
+    plt.grid('on', lw=.4)
+    plt.savefig('integrating_SNR.pdf', dpi=150)
     
 if __name__ == "__main__":
     main()

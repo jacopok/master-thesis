@@ -1110,16 +1110,29 @@ h_n (f) &= \sqrt{f S_n(f)}
 where the quantities \(h_c\) and \(h_n\) are called the \textbf{characteristic strains} of signal and noise \cite[eqs.\ 17--19]{mooreGravitationalwaveSensitivityCurves2015}. 
 They are both dimensionless, the way this integral is expressed allows us to integrate ``by eye'': if we plot log-characteristic strain against log-frequency, the positive area between \(h_c\) and \(h_n\) will be proportional to the optimal \ac{SNR}. 
 
-This is shown in figure \ref{fig:characteristic_strains}: 
+This is shown in figure \ref{fig:characteristic_strains}, with specific reference to the event GW170817. We both show the \acp{PSD} computed from the data near the actual event and the two design sensitivities for the current-generation \ac{aLIGO} and the planned, third generation detector \ac{ET}. 
+The optimal \ac{SNR} for a signal with the parameters of GW170817, naïvely computed, is much larger than the actual value of the measured \ac{SNR}. This is due to the inclination of the source, its position in the sky and the specific realization of the experimental noise. 
+These all act to decrease the experimental \ac{SNR}, and they also differ among the various detectors for each signal, since they are differently oriented. 
 
-\begin{figure}[ht]
+These effects can be analytically accounted for in the analysis of a signal; in the making of figure \ref{fig:characteristic_strains} we simply divide the signal characteristic strain by a constant, selected in order to match the measured \ac{SNR}. 
+
+The fact that integrating \((h_c / h_n)^2\) yields the \ac{SNR} is represented in more detail in figure \ref{fig:integrating_SNR}.
+
+\begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/characteristic_strains}
 \caption{We show several comparable quantities: the characteristic noise strains corresponding to the estimated 
 \acp{PSD} of \ac{aLIGO} and \ac{ET}, the ones corresponding to the actual \acp{PSD} in the three detectors at the time of the detection of GW170817, and the characteristic signal strain corresponding to a theoretical waveform calculated with GW170817 best-fit parameters. 
 Comparing this single waveform to three different detectors' \acp{PSD} is not completely warranted, since their different locations and orientations give rise to different detector patterns.
-The waveform shown is lowered by a factor \(8.1\) compared to the value it would have with perfect detector orientation and zero inclination. The value is chosen so that the Livingston \ac{SNR} of \(\sim 26.4\) is matched by the graph; the Hanford \ac{SNR} was \(\sim 18.8\) while this graph shows \(\sim 10\); the Virgo \ac{SNR} of \(\sim 2\) is matched by the graph.}
+The waveform shown is lowered by a factor \(8\) compared to the value it would have with perfect detector orientation and zero inclination. The value is chosen so that the Livingston \ac{SNR} of \(\sim 26.4\) is matched by the graph; the Hanford \ac{SNR} was \(\sim 18.8\) while this graph shows \(\sim 10\); the Virgo \ac{SNR} of \(\sim 2\) is matched by the graph \cite{abbottGW170817ObservationGravitational2017}.}
 \label{fig:characteristic_strains}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/integrating_SNR}
+\caption{Integrand in the calculation of the optimal \ac{SNR} for a GW170817-like signal with the three detectors of the \ac{LIGO}-Virgo collaboration. The plotted data corresponds to figure \ref{fig:characteristic_strains}: we show the square ratio of \(h_c\) to the three actual \acp{PSD}.}
+\label{fig:integrating_SNR}
 \end{figure}
 
 Alternatively, we can define an ``amplitude signal strain spectral density'': 
@@ -1153,7 +1166,7 @@ This mismatch is computed among two waveforms with all of their parameters fixed
 %
 where either of the two waveforms is shifted in time and in phase.
 
-In practice, this does not affect the norms of the waveforms in the denominator, but instead it means that the scalar product between \(a\) and \(b\) reads 
+In practice, this does not affect the norms of the waveforms in the denominator, but instead it means that the scalar product between \(a = A_a(f) e^{i \phi _a (f)}\) and \(b = A_b (f) e^{i \phi _b (f)}\) reads 
 %
 \begin{align}
 \max_{\phi_0 , t_0 } (a|b(\phi_0 , t_0 )) 
@@ -1166,11 +1179,20 @@ This relation also means that while the mismatch \(M(a, b)\) could in principle 
 
 % This is useful in \ac{GW} analysis since it reduces the dimensionality of the parameter space by 2; we can 
 
-\subsubsection{Target accuracy}
+\subsubsection{Target fidelity}
 
-We stated 
+We defined the fidelity as a distance induced by the Wiener product, but we have yet to show that it actually measures what we need. 
+We shall use it to evaluate the accuracy of our waveform templates against certain reference templates; what do we ask of our templates \cite{lindblomModelWaveformAccuracy2008}? 
 
-What is the fidelity \(\mathcal{F}\) we should aim for? 
+\begin{enumerate}
+    \item In a matched-filtering search for signals, they need to be accurate enough so that we do not miss a large fraction of the signals;
+    \item in the data analysis of a signal, they need to be accurate enough that they do not induce a significant bias in the estimation of parameters.
+\end{enumerate}
+
+It turns out that, indeed, the fidelity distance is the correct metric to evaluate both of these criteria. 
+In the matched-filtering context, the fraction of true signals we miss is also related both to the density of our template bank, but 
+
+% What is the fidelity \(\mathcal{F}\) we should aim for? 
 
 \(\mathcal{\overline{F}}= 1 - (1- \mathcal{F})^3\): is this true? See equation \cite[eq.\ 16]{lindblomModelWaveformAccuracy2008}. 
 Is that \(\epsilon \) the same as \(\mathcal{F}\)? 
@@ -1187,7 +1209,7 @@ We can also reframe the issue in terms of signal-to-noise ratio: as discussed e.
 \end{align}
 %
 where \(D\) is the number of intrinsic parameters. 
-As an example, GW170817 was detected with a combined SNR\(\approx 32.4\) \cite[]{abbottGW170817ObservationGravitational2017}, meaning that the fidelity needed to analyze it is \(\mathcal{F} \lesssim \num{5e-3}\) if we are considering five intrinsic parameters.
+As an example, GW170817 was detected with a combined SNR \(\approx 32.4\) \cite[]{abbottGW170817ObservationGravitational2017}, meaning that the fidelity needed to analyze it is \(\mathcal{F} \lesssim \num{5e-3}\) if we are considering five intrinsic parameters.
 
 \subsubsection{Parameter inference: studying the signal}
 
