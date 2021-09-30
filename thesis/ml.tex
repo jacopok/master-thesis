@@ -1,9 +1,9 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
-\section{Machine Learning}
+\chapter{Machine Learning}
 
-\subsection{Supervised learning and optimization}
+\section{Supervised learning and optimization}
 
 Machine Learning is about having an algorithm improve through the use of \emph{training data}, 
 so that is it able to make predictions or decisions automatically, 
@@ -20,7 +20,7 @@ Supervised learning differs from \emph{unsupervised} learning, in which data is 
 
 The software \ac{mb} uses both kinds: the \ac{NN} is trained with supervised learning, while the \ac{PCA} dimensionality reduction technique and the downsampling are unsupervised. 
 
-\subsubsection{Dataset management}
+\subsection{Dataset management}
 
 The way a supervised learning system typically works is to build a model \(y _{\text{pred}} = f(x; \alpha , \beta ) \) which depends on variable parameters \(\alpha \) and fixed hyperparameters \(\beta \).
 For concreteness, we can think of polynomial regression: \(\beta \) may then be the degree of the polynomial with which we fit the data, while \(\alpha \) is the set of coefficients of this polynomial. 
@@ -74,9 +74,9 @@ The best ways to calculate these two optimums differ, both among each other and 
 In particular, the algorithm used in \ac{mb} for training is discussed in section \ref{sec:sgd}, while the one used for validation is discussed in section \ref{sec:optuna}. 
 
 The procedure described here makes use of a training and a validation dataset, but typically also we want to have some objective measure of the quality of the fit.
-This cannot be provided by only using training and validation data information, since the parameters of the model depend on them: we need a third separate \emph{testing} dataset which does not inform the model in any way.\footnote{Confusingly, the \ac{ML} literature sometimes inverts the labels ``validation'' and ``testing'' --- we shall stick with the definition given above.}
+This cannot be provided by only using training and validation data information, since the parameters of the model depend on them: we need a third separate \emph{testing} dataset which does not inform the model in any way.\footnote{Confusingly,  \ac{ML} literature sometimes inverts the labels ``validation'' and ``testing'' --- we shall stick with the definition given above.}
 
-\subsection{Principal Component Analysis} \label{sec:principal-component-analysis}
+\section{Principal Component Analysis} \label{sec:principal-component-analysis}
 
 After downsampling, a waveform used by \acs{mb} is described by several hundred points.
 It is convenient to reduce this number in order for the neural network to be faster.
@@ -86,7 +86,7 @@ The technique of \ac{PCA} is quite general,\footnote{This technique is quite old
 
 Dimensionality reduction algorithms such as \ac{PCA} may be considered as a kind of unsupervised learning, since they can allow for the detection of relevant features in high-dimensional datasets. Here we will not use it for this purpose though, it will be more of a pre-processing step. 
 
-\subsubsection{General method}
+\subsection{General method}
 
 We start with a dataset of \(N\) points in \(\mathbb{R}^{D}\), which we denote by \(\{ x^{i}\}_{i=0}^{N-1}\).
 We need \(D\) floating point numbers to represent each of these points.
@@ -171,7 +171,7 @@ For the purpose of dimensionality reduction, however, we are not interested in t
 
 If we approach the problem by diagonalizing the covariance matrix \(C\), the computational complexity in the worst case scenario is \(\order{D^3}\), since it involves the diagonalization of a \(D \times D\) matrix.
 
-\subsubsection{PCA for waveforms}
+\subsection{PCA for waveforms}
 
 After downsampling and computing the residuals from the \ac{PN} waveform, we are left with a waveform described by a vector of a few hundred points for the amplitude and similarly for the phase. 
 
@@ -197,7 +197,7 @@ A vertical dashed line indicates a ``desirable'' maximal reconstruction error, \
 \label{fig:PCA_vary_K}
 \end{figure}
 
-\subsection{Neural Networks} \label{sec:neural-network}
+\section{Neural Networks} \label{sec:neural-network}
 
 After the reduction of dimensionality through \ac{PCA}, we are left with the task of approximating the map between the parameters of the system generating the waveform, \(\theta _i\), and the \(k\) principal components. 
 
@@ -206,7 +206,7 @@ In the work of \textcite[]{schmidtMachineLearningGravitational2020} this was acc
 \acsp{NN} are known to be able to approximate arbitrary functions \cite[]{nielsenNeuralNetworksDeep2015}, and in practice they are quite versatile and usually not prone to overfitting. 
 In the next section we will describe the architecture of a multi-layer perceptron regressor, the kind of network used by \acs{mb}.
 
-\subsubsection{Multi-layer perceptrons}
+\subsection{Multi-layer perceptrons}
 
 This architecture is built in order to solve the problem of reconstructing a map from an input \(x_i \in \mathbb{R}^{n}\), to an output \(y_i \in \mathbb{R}^{k}\).
 
@@ -242,7 +242,7 @@ The activation function is crucial for our network to be able to capture nonline
 
 The implementation we use for \acs{mb} is the one provided by \texttt{scikit-learn} \cite[]{pedregosaScikitlearnMachineLearning2011}; specifically, we choose an \texttt{MLPRegressor}.\footnote{The documentation for this network can be found at the url \url{https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html}.} 
 
-\subsubsection{Training}
+\subsection{Training}
 
 The network is able to reconstruct our function as long as the weights and biases are appropriately set: how do we train it to ensure this? 
 
@@ -271,7 +271,7 @@ Therefore, we can improve the performance by having the network learn the distan
 where \(\lambda _i\) are the eigenvalues corresponding to the principal components, while \(\kappa > 0\) is a hyperparameter.
 The prior distribution for \(\kappa \) is a log-uniform one between \(\num{e-3}\) and \(1\). 
 
-\subsubsection{Backpropagation}
+\subsection{Backpropagation}
 
 Once we have our cost function, we need a rule to change the weights \(w_{ij}^{l}\) and biases \(b_{j}^{l}\) of our network\footnote{We have added an index \(l\) for the layer: so, \(w_{ij}^{l}\) is the weight that the \(j\)-th neuron in the \(l\)-th layer gives to input \(i\).} according to the variation of the cost function. 
 We would like to implement some sort of gradient descent algorithm, updating weights and biases by
@@ -321,7 +321,7 @@ The second-to-last equation tells us how to compute the error \(\delta^{l}_{j}\)
 It is an application of the chain rule. 
 We compute the \(\delta^{l}_{j}\) iteratively going backwards through the network, and having done so we can recover the derivative of the cost with respect to the weights and biases by combining the error \(\delta^{l}_{j}\) with the activations of each layer, \(a^{l-1}_{k}\), as described by the first two equations. 
 
-\subsubsection{Stochastic gradient descent} \label{sec:sgd}
+\subsection{Stochastic gradient descent} \label{sec:sgd}
 
 The method for gradient descent described by equation \ref{eq:gradient-descent-basic} is still slow if we try to compute the gradient of the cost function by using all the training data we have. 
 It turns out to be more efficient to compute the gradient by only looking at a single example or a small batch of them, chosen randomly: this idea is known as \emph{stochastic gradient descent}. 
@@ -339,7 +339,7 @@ A ``signal-to-noise ratio'' is estimated through the square of the gradient, and
 
 Both of these exponential decays are regulated by a hyperparameter --- \(\beta_1\) and \(\beta_2 \) respectively, which are commonly set to \(\beta_1 = 0.9\) and \(\beta_2 = 0.999\), but which can be optimized. 
 
-\subsection{Hyperparameter optimization} \label{sec:optuna}
+\section{Hyperparameter optimization} \label{sec:optuna}
 
 Our network will depend on several hyperparameters, such as the number and size of the layers or the learning rate; we want to get as close as possible to the optimal choice of these for the reconstruction of the function mapping the binary system parameters to the principal components to be fast as well as accurate.
 
@@ -397,7 +397,7 @@ Once we are able to compute the expected improvement, the task is simple: we jus
 The one aspect still missing in the algorithm is how to estimate a probability distribution from a small set of samples, and how to calculate a new sample from it. 
 There are different ways to do so; the one implemented in the \ac{TPE} algorithm fits a gaussian mixture model to estimate \(\ell(\vec{x})\) and \(g(\vec{x})\) \cite[section 5]{bergstraMakingScienceModel2013}. 
 
-\subsubsection{Greedy downsampling}
+\subsection{Greedy downsampling}
 
 The residual waveforms generated with the \ac{EOB} / \ac{PN} models have on the order of a few times \num{e5} sampling points. 
 This is too large a number to effectively use \ac{PCA} on: as we will see, it requires writing a covariance matrix which would have \(\sim \num{e11}\) entries, way beyond the RAM of most computers. 

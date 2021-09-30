@@ -1,9 +1,9 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
-\section{Gravitational wave theory}
+\chapter{Gravitational wave theory}
 
-\subsection{Linearized gravity}
+\section{Linearized gravity}
 
 % We give here a brief overview of , roughly following the path taken by \textcite[chapter 1]{maggioreGravitationalWavesVolume2007}.
 The simplest way to discuss gravitational radiation is to consider linearized gravity on a flat Minkowskian background.
@@ -114,7 +114,7 @@ so the general form of the Einstein equations to linear order will be
 %
 where the stress-energy tensor is computed up to first order in the metric perturbation.
 
-\subsubsection{Transformations of the perturbation}
+\subsection{Transformations of the perturbation}
 
 The theory of General Relativity is constructed to be invariant under smooth changes of coordinates: under a map in the form \(x \to x' = x' (x)\) (where \(x'(x)\) is a diffeomorphism\footnote{In the physics parlance this property is known as ``diffeomorphism invariance'', while a mathematician would call the kinds of transformations considered ``isometries'', since we ask that they preserve the metric structure of the manifold.}).
 
@@ -181,7 +181,7 @@ which may remain in the class of small metric perturbations: this is not guarant
 
 Finally, the perturbation is invariant under shifts in the form \(x^{\prime \mu }= x^{\mu } + a^{\mu }\). 
 
-\subsubsection{Gauge fixing} \label{sec:gauge-fixing}
+\subsection{Gauge fixing} \label{sec:gauge-fixing}
 
 Now that we know how the perturbation \(h_{\mu \nu }\) transforms under an infinitesimal transformation, we can use this to impose the condition we want --- specifically, the Hilbert gauge \eqref{eq:hilbert-gauge}.
 
@@ -209,7 +209,7 @@ In terms of \textbf{degrees of freedom}, the full perturbation \(h_{\mu \nu }\) 
 
 Let us fix the residual gauge in the specific context of a plane wave solution to the wave equation \(\square \overline{h}_{\mu \nu } = 0\).
 
-\subsubsection{Plane gravitational waves} \label{sec:plane-gws}
+\subsection{Plane gravitational waves} \label{sec:plane-gws}
 
 A general solution to the wave equation may be written as a superposition of plane waves in the form
 %
@@ -279,7 +279,7 @@ The tensor components are gauge invariant, while the other 8 can each be separat
 After applying the same decomposition to the stress-energy tensor and writing the Einstein equations we find that the tensor perturbations (which are precisely the \(h_{+}\) and \(h_{ \times }\) polarization degrees of freedom) are the only ones which propagate according to a wave equation. 
 The projection, which yields a perturbation with two degrees of freedom, is thus only a way to recover the ``radiative'' part of the metric. 
 
-\subsubsection{Effect on test masses}
+\subsection{Effect on test masses}
 
 The \ac{TT} gauge we defined has the rather peculiar characteristic of ``moving with the wave'', so that the position of any observer initially at rest (so, such that \(u^{\mu } (\tau = 0 ) = (1, \vec{0})^{\top}\)) is unchanged: the geodesic equation evaluated at \(\tau = 0\) reads
 %
@@ -352,7 +352,7 @@ F_{i} = \frac{m}{2} \ddot{h}_{ij}^{TT} \xi^{j}
 which unsurprisingly closely mirrors the \ac{TT} gauge variation of the distance: the physically measurable effect must be independent of gauge choice. 
 The reason the \ac{TT} gauge perturbation appears here as well is that the Riemann tensor, which is used in these computations, is \emph{invariant} (a stronger condition than covariant --- the values of the components are actually unchanged) under gauge transformations. 
 
-\subsubsection{The quadrupole formula}
+\subsection{The quadrupole formula}
 
 The lowest order contribution to the generation of gravitational waves can be calculated starting from the linearized Einstein equations \eqref{eq:wave-equation-einstein}. 
 The Green's function method for the inversion of the D'Alambertian is a common technique: if we can find a function \(G(z)\) such that \(\square G(z) = \delta^{(4)} (z)\), then we can do the following manipulation (denoting the gravitational constant as \(G_N\) for clarity): 
@@ -494,7 +494,7 @@ h_{ij}^{TT}(t, \vec{x}) = \frac{2 G}{r} \Lambda_{ij,kl} \ddot{Q}_{kl}(t-r)
 \,.
 \end{align}}
 
-\subsubsection{Energy loss through gravitational radiation}
+\subsection{Energy loss through gravitational radiation}
 
 The problem of quantifying the energy carried by gravitational radiation is thorny: first of all, there is no universally valid way to split the perturbation from the background in the general case; also, at each point we can always apply the equivalence principle to recover flat spacetime up to first order. 
 It is impossible to construct a \emph{local}, gauge invariant stress-energy tensor \(T_{\mu \nu }^{GW}\) for \ac{GW} radiation: the limit of the energy density contained in any volume will always vanish as that volume goes to zero. 
@@ -535,7 +535,7 @@ The power can then be estimated as
 which tells us that the most significant sources of \ac{GW} will be relativistic and compact.
 This prediction has been validated in 2015 with the first detection of \ac{GW} from a \ac{BBH} system \cite{abbottObservationGravitationalWaves2016}, and again in 2017 with the first detection of \ac{GW} from a \ac{BNS} system \cite{abbottGW170817ObservationGravitational2017}. 
 
-\subsection{Compact binaries} \label{sec:compact-binaries-linear}
+\section{Compact binaries} \label{sec:compact-binaries-linear}
 
 We focus our attention towards a pair of inspiraling (compact) objects, which we will initially model as point masses in quasi-circular orbits.
 The first thing we need to do is to write an expression the amplitudes in the two polarizations \(h_{+, \times }\) of the waves generated by a generic mass distribution with a mass moment \(M_{ij}\) \cite[eqs.\ 3.67--68]{maggioreGravitationalWavesVolume2007}:\footnote{We could also write these in terms of the traceless quadrupole moment \(Q_{ij}\); we follow the convention set forward by \textcite{maggioreGravitationalWavesVolume2007}.} 
@@ -589,7 +589,7 @@ The last expression we wrote for the amplitude of the emission reintroduces fact
 
 The parameter \(\nu \) is called the \emph{symmetric mass ratio}, and it takes values from \(\nu \to 0\) (one mass vanishing) to \(\nu = 1/4\) (equal masses).
 
-\subsubsection{Energy evolution}
+\subsection{Energy evolution}
 
 Combining equations \eqref{eq:binary-waveform-1} with the quadrupole emission formula \eqref{eq:energy-emission-quadrupole} yields an expression for the emitted power 
 %
@@ -644,7 +644,7 @@ h_{ \times } (t) &= \frac{1}{r} \qty(\frac{G \mathcal{M}_c}{c^2})^{5/4} \qty( \f
 As we will discuss, it is convenient to have expressions for the Fourier transforms of these. An analytic computation of the integrals is intractable, but we can make use of a technique known as \ac{SPA}, which is discussed in detail in appendix \ref{sec:spa}. 
 The final expressions for the Fourier-domain waveforms are equations \eqref{eq:spa-waveforms}. 
 
-\subsubsection{Spherical harmonics decomposition}
+\subsection{Spherical harmonics decomposition}
 
 The waveform we described so far comes from the quadrupole of the mass distribution, but higher-order moments also generate \acp{GW}.
 In general, in units where \(G = c = 1\), one can write the waveform as \cite[eq.\ II.6]{ajithDataFormatsNumerical2011}
@@ -663,7 +663,7 @@ The algorithm \ac{mb} currently only reconstructs this mode ---
 considering more modes will be needed in order to treat the effects of precession, which happens when the spins are not aligned. 
 
 
-\subsubsection{Parameters for a \ac{CBC} waveform}
+\subsection{Parameters for a \ac{CBC} waveform}
 
 The waveform we wrote explicitly depends on: 
 \begin{enumerate}
@@ -911,7 +911,7 @@ where the dependence of the waveform on the external parameters is well-understo
 
 The model developed in this work is built to reconstruct the dependence on \(q\), \(\Lambda_1\), \(\Lambda_2 \) and the aligned-spin components \(\chi_{1,z} \) and \(\chi_{2, z}\). 
 
-\subsubsection{Natural units and simplifications} \label{sec:natural-units}
+\subsection{Natural units and simplifications} \label{sec:natural-units}
 % fix title! 
 
 Restricting ourselves to the \((\ell=2, m=2)\) mode is equivalent to writing the Fourier-domain waveform as 
@@ -958,7 +958,7 @@ where \(\mathtt{M}\) is the numeric value of the total mass, expressed in solar 
 
 % The waveforms are generated as functions of dimensionless frequency \(fM\); 
 
-\subsection{Interferometers and data analysis} \label{sec:data-analysis}
+\section{Interferometers and data analysis} \label{sec:data-analysis}
 
 Having seen how a gravitational waveform from a \ac{CBC} might look to lowest order, we move to a discussion of the detection of these waveforms with interferometric techniques. 
 
@@ -995,7 +995,7 @@ F_{ \times } &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \sin 2 \psi + \
 %
 where \(\theta \), \(\phi \) are the two angles describing the direction the \ac{GW} is coming from in a frame aligned with the axes of the detector --- they will depend on the sky position of the source (\(\alpha \), \(\delta \)) as well as the orientation of the detector in space (which depends on well-known parameters such as its latitude, the orientation of the earth at each time and so on).
 
-\subsubsection{Matched filtering}
+\subsection{Matched filtering}
 
 We have seen how the \ac{GW} signal will look to our detector: \(h(t)\), but in practical experiments what we will measure will be in the form \(s(t) = h(t) + n(t)\),\footnote{The ``noise'' described here is not actually what is measured: the output of the detector is not \(h(t)\) but it is a linear function of it --- even without accounting for the technical details of the measurement, the quantity measured is the intensity of the light at the dark fringe of the detector, not directly \(h\). Nevertheless, if we know the transfer function of the detector we can refer the measured noise to an ``effective noise'' \(n(t)\), which would be the noise we would need to add to \(h(t)\) in order to see the signal we see. This effective noise is what we will call \(n\) hereafter.} and typically the magnitude of the noise timeseries \(n(t)\) will be much larger than the magnitude of the signal. 
 
@@ -1179,7 +1179,7 @@ This relation also means that while the mismatch \(M(a, b)\) could in principle 
 
 % This is useful in \ac{GW} analysis since it reduces the dimensionality of the parameter space by 2; we can 
 
-\subsubsection{Target fidelity}
+\subsection{Target fidelity}
 
 We defined the fidelity as a distance induced by the Wiener product, but we have yet to show that it actually measures what we need. 
 We shall use it to evaluate the accuracy of our waveform templates against certain reference templates; this needs to satisfy two independent criteria \cite{lindblomModelWaveformAccuracy2008}:
@@ -1215,7 +1215,7 @@ We can also reframe the issue in terms of signal-to-noise ratio: as discussed e.
 where \(D\) is the number of intrinsic parameters. 
 As an example, GW170817 was detected with a combined SNR \(\approx 32.4\) \cite[]{abbottGW170817ObservationGravitational2017}, meaning that the fidelity needed to analyze it is \(\mathcal{F} \lesssim \num{5e-3}\) if we are considering five intrinsic parameters.
 
-\subsubsection{Parameter inference: studying the signal}
+\subsection{Parameter inference: studying the signal}
 
 Modern data analysis techniques for \ac{GW} signals are Bayesian by necessity: we need to extract estimates for the parameters generating a signal of which we only have one measurement. 
 
@@ -1286,7 +1286,7 @@ A choice which satisfies these criteria quite well is the \textbf{Bayes estimato
 Depending on the way the posterior distribution is calculated and parametrized, computing this may be impractical.
 Other choices include estimating the parameters by the values which maximize the likelihood or the posterior, and the covariance from the Hessian of the \ac{PDF} around that point. 
 
-\subsubsection{Posterior sampling}
+\subsection{Posterior sampling}
 
 So, how do we compute the posterior distribution \(\mathbb{P}(\vec{\theta} | s)\) in practice? We know how to evaluate it at a single point \(\vec{\theta}\), so we could evaluate it on some sort of grid, say, sampling \(N\) equally spaced points in a reasonable interval for each parameter.
 The curse of dimensionality makes this infeasible: if we have \(n\) parameters we would need \(N^{n}\) evaluations; even with a very small \(N \sim 10\) this quickly becomes unreasonably large, since we typically have \(n \sim 15\) parameters. 
@@ -1335,7 +1335,7 @@ Z = \int \mathscr{L}(s | \theta , M) \pi (\theta | M) \dd[n]{\theta }
 %
 
 
-\subsection{Higher order waveforms}
+\section{Higher order waveforms}
 
 The treatment of \ac{GW} production in linear gravity discussed in section \ref{sec:compact-binaries-linear} is useful but incomplete: as equation \eqref{eq:energy-emission-estimate} shows, the systems emitting the most are \emph{relativistic} (\(v/c\) is large) and \emph{compact} (\(R_s / R\) is large). 
 This has been verified in practice by the fact by the binary systems we detected: mostly \acsp{BBH}, with some \acsp{BNS}.
@@ -1346,7 +1346,7 @@ In the following sections we will discuss the main strategies\footnote{One strat
 
 Qualitatively, a waveform from a \ac{CBC} involves a long \emph{inspiral} phase which terminates when the two compact bodies \emph{merge}, and finally a \emph{ringdown} phase in which the single body remaining exhibits damped vibrations.
 
-\subsubsection{Post-Newtonian} \label{sec:post-newtonian}
+\subsection{Post-Newtonian} \label{sec:post-newtonian}
 
 The assumptions which we made in order to derive the quadrupole formula for the emission of gravitational radiation \eqref{eq:quadrupole-formula} were to consider a non-compact, slow-moving source (\(v \ll c\)), on a flat background. 
 
@@ -1454,7 +1454,7 @@ While this is a very high order, the dimensionless tidal deformability parameter
 
 The effect of spin-orbit interactions, on the other hand, comes about at 1.5PN order, while spin-spin interactions are a 2PN effect.
 
-\subsubsection{Numerical Relativity} \label{sec:nr}
+\subsection{Numerical Relativity} \label{sec:nr}
 
 The \ac{PN} expansion, even if it goes to high order, is still not enough when we approach the merger. 
 
@@ -1475,7 +1475,7 @@ Besides using the waveforms as validation for any model,
 an approach we can use for waveform generation is called ``\ac{IMR} phenomenological'': a \ac{PN} waveform is complemented with a power series fitted to \ac{NR} simulations \cite{kumarAccuracyPrecisionGravitationalwave2015}. 
 Several variations on this idea are implemented in the \ac{LAL} \cite[]{ligoscientificcollaborationLIGOAlgorithmLibrary2018}.
 
-\subsubsection{Effective One Body} \label{sec:eob}
+\subsection{Effective One Body} \label{sec:eob}
 
 The \ac{EOB} framework allows for the generation of waveforms encompassing inspiral, merger and ringdown, by mapping the relativistic two-body problem onto the motion of a test particle in an effective metric. 
 This problem is described through an effective Hamiltonian, whose equations of motion are then numerically solved. 

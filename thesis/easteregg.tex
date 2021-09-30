@@ -6,8 +6,8 @@
     color=black!40,
     scale=.15,
     % hshift=1380,
-    hshift=-187,
-    vshift=247,
+    % hshift=-187,
+    vshift=260,
     contents=,
 ]{background}
 
@@ -21,12 +21,14 @@
     \ifthenelse{\isodd{\value{page}}}
     {
         \backgroundsetup{
-            contents=\includegraphics{figures/small_polarizations/h_c-\thepage.png}
+            contents=\includegraphics{figures/small_polarizations/h_c-\thepage.png},
+            hshift=-193
         }
     }
     {
         \backgroundsetup{
-            contents=\includegraphics{figures/small_polarizations/h_p-\thepage.png}
+            contents=\includegraphics{figures/small_polarizations/h_p-\thepage.png},
+            hshift=193
         }
     }
 \BgMaterial}

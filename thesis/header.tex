@@ -40,41 +40,12 @@
 \newcommand{\lambdabar}{{\mkern0.75mu\mathchar '26\mkern -9.75mu\lambda}}
 \usepackage[right=4cm,left=2cm,top=3cm,bottom=3.0cm, marginparwidth=2.7cm, marginparsep=3mm]{geometry}
 \usepackage{mdframed}
-\usepackage[version=4]{mhchem}
 
-% \usetikzlibrary{shapes,arrows,positioning,automata,backgrounds,calc,er,patterns}
-% \usepackage{tikz-feynman}
 
-% \tikzfeynmanset{
-%   extra large/.style={
-%     /tikz/node distance=3cm,
-%     /graph drawing/node distance=4cm,
-%     /graph drawing/level distance=3cm,
-%     /graph drawing/sibling distance=5cm,
-%     /tikz/graphs/edges={thick},
-%     /tikzfeynman/every dot@@/.append style={/tikz/minimum size=4mm},
-%     /tikzfeynman/every crossed dot@@/.append style={/tikz/minimum size=8mm},
-%     /tikzfeynman/every blob@@/.append style={/tikz/minimum size=2cm},
-%     /tikzfeynman/arrow size=2pt,
-%     /tikzfeynman/insertion/size=8pt,
-%   },
-% }
-
-% \usepackage{simplewick}
-% \usepackage{simpler-wick}
-% \usetikzlibrary{calc}
-
-%\usepackage{tikz-cd}
 \usepackage{amsmath}
-
-% \newsavebox{\accentbox}
-% \newcommand{\compositeaccents}[2]{%
-%   \sbox\accentbox{$#2$}#1{\usebox\accentbox}}
-% \usepackage[single]{accents}
-
 \usepackage{amsfonts}
 \usepackage{amssymb}
-\usepackage{amsthm}
+
 \numberwithin{equation}{section}
 \usepackage{graphicx}
 
@@ -86,12 +57,9 @@
 % \urlstyle{same}
 \usepackage{siunitx}
 \sisetup{separate-uncertainty=true}
-\DeclareSIUnit\erg{erg}
-\DeclareSIUnit\parsec{pc}
-\DeclareSIUnit\littleh{\textit{h}}
+% \DeclareSIUnit\parsec{pc}
 \usepackage{cancel}
 \usepackage{mathrsfs}
-\usepackage{tensor}
 \usepackage{marginnote}
 \renewcommand*{\marginnotevadjust}{-0.3cm}
 \renewcommand*{\marginfont}{\scriptsize}
@@ -103,73 +71,15 @@
 \linespread{1.05}         % Palladio needs more leading (space between lines)
 \usepackage[T1]{fontenc}
 
-\newcommand{\diag}[1]{\text{diag}\qty(#1)}
-\newcommand{\const}{\text{const}}
-\newcommand{\sign}{\text{sign}}
-\renewcommand{\H}{\mathcal{H}}
-\renewcommand{\dim}{\text{dim}}
-\newcommand{\supp}[1]{\text{supp} \qty(#1)}
-
-% \usepackage{nicefrac}
-% \usepackage{ifthen}
-% \let\oldfrac\frac
-% \renewcommand{\frac}[3][d]{\ifthenelse{\equal{#1}{d}}{\oldfrac{#2}{#3}}{\nicefrac{#2}{#3}}}
-
-\renewcommand{\var}[1]{\text{var} \qty(#1)}
-\newcommand{\defeq}{\ensuremath{\stackrel{\text{def}}{=}}}
-
 \newcommand\mybox[1]{%
   \fbox{\begin{minipage}{0.9\textwidth}#1\end{minipage}}}
 
-%Spiegazioni/verifiche
-\newenvironment{greenbox}{\begin{mdframed}[hidealllines=true,backgroundcolor=green!20,innerleftmargin=3pt,innerrightmargin=3pt]}{\end{mdframed}}
-
-%Approfondimenti
-\newenvironment{bluebox}{\begin{mdframed}[hidealllines=true,backgroundcolor=blue!10,innerleftmargin=3pt,innerrightmargin=3pt]}{\end{mdframed}}
-
-\newtheorem{claim}{Claim}[section]
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proposition}{Proposition}[section]
-
-\usepackage{circledsteps}
-
-\newcommand{\hlc}[2]{%
-  \colorbox{#1!50}{$\displaystyle#2$}}
-
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstdefinestyle{mystyle}{
-  backgroundcolor=\color{backcolour},
-  commentstyle=\color{codegreen},
-  keywordstyle=\color{magenta},
-  numberstyle=\tiny\color{codegray},
-  stringstyle=\color{codepurple},
-  basicstyle=\ttfamily\footnotesize,
-  breakatwhitespace=false,
-  breaklines=true,
-  captionpos=b,
-  keepspaces=true,
-  numbers=left,
-  numbersep=5pt,
-  showspaces=false,
-  showstringspaces=false,
-  showtabs=false,
-  tabsize=2
-}
-
-\lstset{style=mystyle}
-\usepackage{svg}
+\newcommand{\const}{\mathrm{const}}
 
 \usepackage[section]{placeins}
 
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,shadows}
-\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
-\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
 
 
 \newcommand{\boxalign}[2][0.986\textwidth]{
@@ -180,8 +90,8 @@
    };
 \end{tikzpicture}\end{center}}
 
-\newcommand{\bigd}[2]{\frac{\mathrm{D} #1}{\mathrm{D} #2}}
-\newcommand{\DD}{\mathrm{D}}
+
+\pagestyle{plain}
 
 \author{Jacopo Tissino}
 
