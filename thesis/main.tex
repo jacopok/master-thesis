@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,draft]{book}
+\documentclass[11pt,a4paper]{book}
 
 % \usepackage[a-3b]{pdfx}
 
@@ -18,11 +18,14 @@ backref=true
 
 \usepackage{subfiles}
 
+\usepackage[final]{pdfpages}
+
 \input{easteregg.tex}
 
 \begin{document}
 
-\maketitle
+% \maketitle
+\includepdf[pages=1]{title_page.pdf}
 
 \subfile{abstract}
 
