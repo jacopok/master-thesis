@@ -9,11 +9,11 @@
 % Define block styles used later
 
 \tikzstyle{generator}=[draw, fill=blue!20, text width=5em, 
-    text centered, minimum height=2.5em,drop shadow]
+    text centered, minimum height=2.5em]
 \tikzstyle{parameters}=[generator, fill=green!20, rounded corners, text width=15em]
 \tikzstyle{ann} = [above, text width=5em, text centered]
 \tikzstyle{algo} = [generator, text width=15em, fill=red!20, 
-    minimum height=6em, rounded corners, drop shadow]
+    minimum height=6em, rounded corners]
 % \tikzstyle{algo2} = [generator, text width=13em, fill=red!20, 
     % minimum height=10em, rounded corners, drop shadow]
 \tikzstyle{trained} = [parameters, fill=orange!20, ellipse, text width=2em]
@@ -32,7 +32,7 @@
 \begin{itemize}
     \addtolength{\itemindent}{-.5cm}
     \item residual calculation
-    \item unwrapping
+    \item phase unwrapping
 \end{itemize}
 };
 
@@ -40,7 +40,7 @@
 \\ 
 \begin{itemize}
     \addtolength{\itemindent}{-.5cm}
-    \item downsampling training
+    \item greedy downsampling
     \item PCA training
 \end{itemize}};
 

@@ -41,10 +41,6 @@
 \usepackage[right=4cm,left=2cm,top=3cm,bottom=3.0cm, marginparwidth=2.7cm, marginparsep=3mm]{geometry}
 \usepackage{mdframed}
 \usepackage[version=4]{mhchem}
-\usepackage{tikz}
-\usetikzlibrary{shapes,arrows,shadows}
-\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
-\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
 
 % \usetikzlibrary{shapes,arrows,positioning,automata,backgrounds,calc,er,patterns}
 % \usepackage{tikz-feynman}
@@ -168,12 +164,13 @@
 \lstset{style=mystyle}
 \usepackage{svg}
 
-\usepackage{pgf,tikz}
-\usetikzlibrary{arrows}
-% \pagestyle{empty}
-\definecolor{uququq}{rgb}{0.25,0.25,0.25}
+\usepackage[section]{placeins}
 
-% \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,factor=1100,stretch=10,shrink=10]{microtype}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows}
+\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
+\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
+
 
 \newcommand{\boxalign}[2][0.986\textwidth]{
   \par\noindent\tikzstyle{mybox} = [draw=black,inner sep=6pt]

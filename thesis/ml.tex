@@ -455,7 +455,7 @@ This allows us to be more confident of the fact that the indices are not capturi
 Whether this is actually happening can be checked with a validation dataset: the validation errors are shown in figure \ref{fig:downsampling_validation} as the size of the training dataset increases.
 The number of indices found corresponding to a fixed tolerance increases with the size of the training dataset, as can be seen in figure \ref{fig:downsampling_npoints}. 
 
-The size of the training dataset is limited by memory complexity, more so than computational complexity: each training waveform must be fully kept in memory, with its \(\sim \num{e6}\) floating point numbers, each needing 8 bytes of memory. 
+The size of the training dataset is limited by memory availability, more so than computational complexity: each training waveform must be fully kept in memory, with its \(\sim \num{e6}\) floating point numbers, each needing 8 bytes of memory. 
 Therefore, we need \(\sim \SI{10}{MiB}\) of memory per stored waveform, and a hundred of them will take up \( \sim \SI{1}{GiB}\) of storage. 
 
 The interpolation method choice is important: higher-order interpolants are slower but need less points.

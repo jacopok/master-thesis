@@ -1182,22 +1182,26 @@ This relation also means that while the mismatch \(M(a, b)\) could in principle 
 \subsubsection{Target fidelity}
 
 We defined the fidelity as a distance induced by the Wiener product, but we have yet to show that it actually measures what we need. 
-We shall use it to evaluate the accuracy of our waveform templates against certain reference templates; what do we ask of our templates \cite{lindblomModelWaveformAccuracy2008}? 
+We shall use it to evaluate the accuracy of our waveform templates against certain reference templates; this needs to satisfy two independent criteria \cite{lindblomModelWaveformAccuracy2008}:
 
 \begin{enumerate}
-    \item In a matched-filtering search for signals, they need to be accurate enough so that we do not miss a large fraction of the signals;
-    \item in the data analysis of a signal, they need to be accurate enough that they do not induce a significant bias in the estimation of parameters.
+    \item In a matched-filtering search for signals, they need to be accurate enough that we do not miss a large fraction of the signals --- this is called \emph{effectualness} \cite[]{damourAccuracyEffectualnessClosedform2011};
+    \item in the data analysis of a signal, they need to be accurate enough that they do not induce a significant bias in the estimation of parameters --- this is called \emph{accuracy}.
 \end{enumerate}
 
-It turns out that, indeed, the fidelity distance is the correct metric to evaluate both of these criteria. 
-In the matched-filtering context, the fraction of true signals we miss is also related both to the density of our template bank, but 
+It turns out that fidelity is a useful metric for both of these, but the thresholds we need to set are chosen differently 
 
-% What is the fidelity \(\mathcal{F}\) we should aim for? 
+In the matched-filtering context, we search for signals by comparing (with the Wiener product) the measured data against a bank of templates with varying parameters, and checking whether any of them surpass a certain \ac{SNR} threshold.
 
-\(\mathcal{\overline{F}}= 1 - (1- \mathcal{F})^3\): is this true? See equation \cite[eq.\ 16]{lindblomModelWaveformAccuracy2008}. 
-Is that \(\epsilon \) the same as \(\mathcal{F}\)? 
-I think not, but \cite[]{gambaFastFaithfulFrequencydomain2020} seem to claim so. 
-\todo[inline]{check}
+The ineffectualness of our templates is one factor which makes it more likely for us to miss a signal; another source of error in this regard is given by the grid size of the template bank --- if it is too sparse, the true parameters of the system might lie quite far from any grid point.
+Let us neglect the second of these aspects, since it is independent of the template-making efforts of this work, and focus on the first. 
+
+How does a certain template fidelity \(\mathcal{F}\) relate to the fraction of signals we will miss because of the ineffectualness of our templates, supposing that our template bank has a vanishing grid size? 
+
+We already discussed the fact that if the true signal is \(h\), then the optimal \ac{SNR} is \(\text{SNR} = \sqrt{(h|h)} = (s|h) / \sqrt{(h|h)}\); if instead the signal is \(h\) while our template includes \(h'\), the \ac{SNR} will be \(\text{SNR}' = (h|h') / \sqrt{(h'|h')} \approx (1 - \mathcal{F}) \text{SNR}\). 
+This also applies in the noisy case: having imprecise templates will lead to a decrease in the effective \ac{SNR}. 
+
+For very loud signals this will not be an issue, but the distribution of the sources we detect is peaked at the edge of detectability; if we make the simplifying assumption that the distribution of sources is uniform in space and the volume scales as the luminosity distance cubed\footnote{This is not true in a cosmological context, i.e.\ at high redshift: the comoving volume scales as \(d_L^3 / (1+z)^3\). For \acp{BNS} detections have only ever been achieved so far with \(z \lesssim 0.05\), meaning that the difference is of the order of \SI{15}{\%}, while for \ac{BBH} the bound is \(z\lesssim 1\), for which the calculation with \(d_L^3\) alone is wrong by almost an order of magnitude. Specifically, the comoving volume is \emph{smaller} than \(\propto d_L^3\), which makes the bound for the ineffectualness of templates more forgiving in the high-redshift context.} we find that the fraction of sources we miss due to template ineffectualness is roughly \(1 - (1-\mathcal{F})^3\) \cites[eq.\ 18]{damourAccuracyEffectualnessClosedform2011}[eq.\ 2.21]{owenSearchTemplatesGravitational1996}.
 
 One criterion to use for a surrogate model such as this one is to look at the accuracy of the underlying model: comparing the \ac{EOB} model to numerical relativity simulations we get typical values for the fidelity of \(\mathcal{F} \simeq \num{2.5e-3}\) \cite[]{nagarTimedomainEffectiveonebodyGravitational2018}.
 

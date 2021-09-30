@@ -18,7 +18,7 @@ The ``fast'' system will be the \ac{PN} model \texttt{TaylorF2}, as implemented 
 As we shall see shortly, a crucial feature of the ``fast'' system is the capability to generate waveforms in the frequency domain at select frequencies, without needing to perform a full Fourier transform from a time-domain waveform.
 This feature is shared by all \ac{PN} approximants, which base their Fourier-domain representations on the analytic \ac{SPA}.
 
-The main idea is then to 
+As illustrated in figure \ref{fig:flowchart}, the main idea is then to 
 \begin{enumerate}
     \item compute the residuals of the ``slow`` waveforms from the ``fast`` ones, and with these build a dataset;
     \item train a machine learning system on this dataset, so that it is able to reconstruct the map from the parameters \(\vec{\theta}\) to the residuals.
@@ -117,7 +117,7 @@ We describe the procedure taken by a trained \ac{mb} model in order to reconstru
     \item The trained \ac{NN} makes its prediction based on the parameters, let us denote it as \(\qty(y_i)_{i=0}^{K-1}\). \label{item:nn-prediction}
     \item The prediction is divided by the corresponding \ac{PCA} eigenvalues, to get \(x_i = y_i / \lambda _i^{\alpha }\).
     \item The \ac{PCA} model reconstructs the normalized, combined vector representing the amplitude and phase residuals: \(\text{ncomb}_i\). \label{item:pca-reconstruction}
-    \item The normalized, combined vector is de-normalized by multiplying the phase part by the chosen normalization factor \(\sim 15\).
+    % \item The normalized, combined vector is de-normalized by multiplying the phase part by the chosen normalization factor \(\sim 15\).
     \item The combined vector is split into the amplitude and phase residual vectors, corresponding to their respective amplitude and phase downsampled frequencies. \label{item:combined-split}
     \item The frequencies \(f\) are converted into natural units by dividing them by \(c^3 / GM \approx (M_{\odot} / M) \times  \SI{2e5}{Hz}\); this yields a set of natural-units frequencies \(f_n\). \label{item:frequency-conversion}
     \item The amplitude and phase are reconstructed from the residuals according to equations \eqref{eq:amplitude-phase-reconstruction}. \label{item:tf2}
@@ -133,7 +133,7 @@ We describe the procedure taken by a trained \ac{mb} model in order to reconstru
 
 In broad strokes, on standard benchmarks the evaluation time of a waveform by \ac{mb} is slightly better than that of the model it is trained on, \texttt{TEOBResumS} with \ac{SPA}; while in simpler but realistic scenarios its evaluation time is up to an order of magnitude faster. 
 
-The benchmarks for the evaluation time are shown in figure \ref{fig:profiling_by_f0}, and the ratios between the times for the three models are shown in more detail in figure \ref{fig:profiling_by_f0_ratios}. 
+The standard benchmarks for the evaluation time are shown in figure \ref{fig:profiling_by_f0}, and the ratios between the times for the three models are shown in more detail in figure \ref{fig:profiling_by_f0_ratios}. 
 
 The assumption underlying all these benchmarks is that, as the initial frequency decreases and the duration of the waveform increases (as shown in figure \ref{fig:waveform_length}), the number of samples for the Fourier transform must roughly match the number of samples in the time domain; specifically, if \(r\) is the sample rate and \(T\) is the length of the time-series then in the time domain we will need \(rT\) samples to represent the signal. Typically, for \ac{BNS} analysis, the sample rate is set to \(2^{12} \SI{}{Hz} = \SI{4096}{Hz}\), while the duration of the signal depends on the initial frequency we want to consider --- for example, a \ac{BNS} with \(M = 2.8 M_{\odot}\) starting at \SI{12}{Hz} can be described within a time series lasting \SI{1024}{s}, leading to \(2^{22}\) samples in the time domain.
 
@@ -216,7 +216,7 @@ Here we give a more detailed breakdown of the times taken by some subroutines, s
 \begin{enumerate}
     \item \SI{2}{ms} (\SI{49}{\%}) are taken by the interpolation (point \ref{item:resample});
     \begin{enumerate}
-        \item of these, \SI{0.7}{ms} (\SI{16}{\%} of the total) are taken by the creation of the cubic spline --- this is consistent, regardless of the number of points it is then evaluated on; 
+        \item of these, \SI{0.7}{ms} (\SI{16}{\%} of the total) are taken by the creation of the cubic spline --- this absolute time is consistent, regardless of the number of points it is then evaluated on; 
         \item \SI{1.4}{ms} (\SI{33}{\%} of the total) are taken by the evaluation of the spline.
     \end{enumerate}
     \item \SI{0.8}{ms} (\SI{19}{\%}) are taken by the \ac{NN} + \ac{PCA} routines (points \ref{item:param-reduction} through \ref{item:combined-split});
