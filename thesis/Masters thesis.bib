@@ -143,6 +143,24 @@
   file = {/home/jacopo/zotero/storage/IINDQYFM/Allen et al. - 2012 - FINDCHIRP An algorithm for detection of gravitati.pdf}
 }
 
+@article{antilTwoStepGreedyAlgorithm2013,
+  title = {Two-{{Step Greedy Algorithm}} for {{Reduced Order Quadratures}}},
+  author = {Antil, Harbir and Field, Scott E. and Herrmann, Frank and Nochetto, Ricardo H. and Tiglio, Manuel},
+  date = {2013-12-01},
+  journaltitle = {Journal of Scientific Computing},
+  shortjournal = {J Sci Comput},
+  volume = {57},
+  number = {3},
+  pages = {604--637},
+  issn = {1573-7691},
+  doi = {10.1007/s10915-013-9722-z},
+  url = {https://doi.org/10.1007/s10915-013-9722-z},
+  urldate = {2021-10-01},
+  abstract = {We present an algorithm to generate application-specific, global reduced order quadratures (ROQ) for multiple fast evaluations of weighted inner products between parameterized functions. If a reduced basis or any other projection-based model reduction technique is applied, the dimensionality of integrands is reduced dramatically; however, the cost of approximating the integrands by projection still scales as the size of the original problem. In contrast, using discrete empirical interpolation points as ROQ nodes leads to a computational cost which depends linearly on the dimension of the reduced space. Generation of a reduced basis via a greedy procedure requires a training set, which for products of functions can be very large. Since this direct approach can be impractical in many applications, we propose instead a two-step greedy targeted towards approximation of such products. We present numerical experiments demonstrating the accuracy and the efficiency of the two-step approach. The presented ROQ are expected to display very fast convergence whenever there is regularity with respect to parameter variation. We find that for the particular application here considered, one driven by gravitational wave physics, the two-step approach speeds up the offline computations to build the ROQ by more than two orders of magnitude. Furthermore, the resulting ROQ rule is found to converge exponentially with the number of nodes, and a factor of \$\$\textbackslash sim \$\$50 savings, without loss of accuracy, is observed in evaluations of inner products when ROQ are used as a downsampling strategy for equidistant samples using the trapezoidal rule. While the primary focus of this paper is on quadrature rules for inner products of parameterized functions, our method can be easily adapted to integrations of single parameterized functions, and some examples of this type are considered.},
+  langid = {english},
+  file = {/home/jacopo/zotero/storage/WTPF7E26/Antil et al_2013_Two-Step Greedy Algorithm for Reduced Order Quadratures.pdf}
+}
+
 @article{apostolatosSpininducedOrbitalPrecession1994,
   title = {Spin-Induced Orbital Precession and Its Modulation of the Gravitational Waveforms from Merging Binaries},
   author = {Apostolatos, Theocharis A. and Cutler, Curt and Sussman, Gerald J. and Thorne, Kip S.},
@@ -387,6 +405,23 @@
   urldate = {2021-09-22},
   abstract = {Inferring the astrophysical parameters of coalescing compact binaries is a key science goal of the upcoming advanced LIGO-Virgo gravitational-wave detector network and, more generally, gravitational-wave astronomy. However, current approaches to parameter estimation for these detectors require computationally expensive algorithms. Therefore, there is a pressing need for new, fast, and accurate Bayesian inference techniques. In this Letter, we demonstrate that a reduced order modeling approach enables rapid parameter estimation to be performed. By implementing a reduced order quadrature scheme within the LIGO Algorithm Library, we show that Bayesian inference on the 9-dimensional parameter space of nonspinning binary neutron star inspirals can be sped up by a factor of ∼30 for the early advanced detectors’ configurations (with sensitivities down to around 40 Hz) and ∼70 for sensitivities down to around 20 Hz. This speedup will increase to about 150 as the detectors improve their low-frequency limit to 10 Hz, reducing to hours analyses which could otherwise take months to complete. Although these results focus on interferometric gravitational wave detectors, the techniques are broadly applicable to any experiment where fast Bayesian analysis is desirable.},
   file = {/home/jacopo/zotero/storage/U7MZ4T3F/Canizares et al_2015_Accelerated Gravitational Wave Parameter Estimation with Reduced Order Modeling.pdf;/home/jacopo/zotero/storage/77N7QV2S/PhysRevLett.114.html}
+}
+
+@article{canizaresGravitationalWaveParameter2013,
+  title = {Gravitational Wave Parameter Estimation with Compressed Likelihood Evaluations},
+  author = {Canizares, Priscilla and Field, Scott E. and Gair, Jonathan R. and Tiglio, Manuel},
+  date = {2013-06-05},
+  journaltitle = {Physical Review D},
+  shortjournal = {Phys. Rev. D},
+  volume = {87},
+  number = {12},
+  pages = {124005},
+  publisher = {{American Physical Society}},
+  doi = {10.1103/PhysRevD.87.124005},
+  url = {https://link.aps.org/doi/10.1103/PhysRevD.87.124005},
+  urldate = {2021-10-01},
+  abstract = {One of the main bottlenecks in gravitational wave (GW) astronomy is the high cost of performing parameter estimation and GW searches on the fly. We propose a novel technique based on reduced order quadratures (ROQs), an application and data-specific quadrature rule, to perform fast and accurate likelihood evaluations. These are the dominant cost in Markov chain Monte Carlo algorithms, which are widely employed in parameter estimation studies, and so ROQs offer a new way to accelerate GW parameter estimation. We illustrate our approach using a four-dimensional GW burst model embedded in noise. We build an ROQ for this model and perform four-dimensional Markov chain Monte Carlo searches with both the standard and ROQ rules, showing that, for this model, the ROQ approach is around 25 times faster than the standard approach with essentially no loss of accuracy. The speed-up from using ROQs is expected to increase for more complex GW signal models and therefore has significant potential to accelerate parameter estimation of GW sources such as compact binary coalescences.},
+  file = {/home/jacopo/zotero/storage/6CQ66QMN/Canizares et al_2013_Gravitational wave parameter estimation with compressed likelihood evaluations.pdf;/home/jacopo/zotero/storage/52KJ5H3L/PhysRevD.87.html}
 }
 
 @book{carrollSpacetimeGeometryIntroduction2019,

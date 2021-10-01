@@ -1179,7 +1179,7 @@ This relation also means that while the mismatch \(M(a, b)\) could in principle 
 
 % This is useful in \ac{GW} analysis since it reduces the dimensionality of the parameter space by 2; we can 
 
-\subsection{Target fidelity}
+\subsection{Target fidelity} \label{sec:target-fidelity}
 
 We defined the fidelity as a distance induced by the Wiener product, but we have yet to show that it actually measures what we need. 
 We shall use it to evaluate the accuracy of our waveform templates against certain reference templates; this needs to satisfy two independent criteria \cite{lindblomModelWaveformAccuracy2008}.
@@ -1269,12 +1269,12 @@ The second ingredient is the likelihood \(\mathbb{P}(s | \vec{\theta})\): this i
 The posterior distribution \(\mathbb{P}(\vec{\theta} | s)\) contains all the information we can gather about the parameters, and it can be explored without computing the evidence, since certain algorithms (such as \ac{MH}, algorithm \ref{alg:metropolis-hastings}) can explore unnormalized distributions. 
 
 However, this makes the assumption that the model --- which is practically represented by the choice of parameters, likelihood and prior --- is correct; as mentioned before we should really be writing \( \mathbb{P}(s) = \mathbb{P}(s | \text{model})\). 
-If one only shows the posterior, the results cannot be directly compared with ones corresponding to a different model. Therefore, the results of a full data analysis should include the posterior as well as the evidence \cite{skillingNestedSamplingGeneral2006}{knuthBayesianEvidenceModel2015}.
+If one only shows the posterior, the results cannot be directly compared with ones corresponding to a different model. Therefore, the results of a full data analysis should include the posterior as well as the evidence \cites{skillingNestedSamplingGeneral2006}{knuthBayesianEvidenceModel2015}.
 
 Specifically, if we have the evidence for a specific signal corresponding to two models, \(\mathbb{P}(s | M_1 )\) and \(\mathbb{P}(s | M_2 )\), we can compute the \emph{Bayes factor}, which allows us to update our belief about the relative probabilities of the two models 
 %
 \begin{align}
-\underbrace{\frac{\mathbb{P}(M_1 | s)}{\mathbb{P}(M_2 | s)}}_{posterior odds} = \underbrace{\frac{\mathbb{P}(s | M_1 )}{\mathbb{P}(s | M_2 )}}_{\text{Bayes factor}} \underbrace{\frac{\mathbb{P}(M_1 )}{\mathbb{P}(M_2 )}}_{\text{prior odds}}
+\underbrace{\frac{\mathbb{P}(M_1 | s)}{\mathbb{P}(M_2 | s)}}_{\text{posterior odds}} = \underbrace{\frac{\mathbb{P}(s | M_1 )}{\mathbb{P}(s | M_2 )}}_{\text{Bayes factor}} \underbrace{\frac{\mathbb{P}(M_1 )}{\mathbb{P}(M_2 )}}_{\text{prior odds}}
 \,.
 \end{align}
 
