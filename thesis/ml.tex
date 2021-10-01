@@ -397,7 +397,7 @@ Once we are able to compute the expected improvement, the task is simple: we jus
 The one aspect still missing in the algorithm is how to estimate a probability distribution from a small set of samples, and how to calculate a new sample from it. 
 There are different ways to do so; the one implemented in the \ac{TPE} algorithm fits a gaussian mixture model to estimate \(\ell(\vec{x})\) and \(g(\vec{x})\) \cite[section 5]{bergstraMakingScienceModel2013}. 
 
-\subsection{Greedy downsampling}
+\section{Greedy downsampling} \label{sec:downsampling}
 
 The residual waveforms generated with the \ac{EOB} / \ac{PN} models have on the order of a few times \num{e5} sampling points. 
 This is too large a number to effectively use \ac{PCA} on: as we will see, it requires writing a covariance matrix which would have \(\sim \num{e11}\) entries, way beyond the RAM of most computers. 

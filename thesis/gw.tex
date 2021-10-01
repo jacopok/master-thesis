@@ -760,7 +760,7 @@ These vectors \(\vec{S}_i\) have units of angular momentum, but they are typical
 \,.
 \end{align}
 
-The constraint of \(\abs{\chi_i} < 1\) can be approached by realistic models of \acsp{BH}, while realistic models of \acsp{NS} typically are constrained to spin much less, at the most \(\abs{\chi _i} \lesssim 0.7\) \cite{loSPINPARAMETERUNIFORMLY2011}.
+The constraint of \(\abs{\chi_i} < 1\) can be approached by realistic models of \acsp{BH}, while realistic models of \acsp{NS} typically are constrained to spin much less, at the most \(\abs{\chi _i} \lesssim 0.7\) \cite{loSpinParameterUniformly2011}.
 This constraint is hard to experimentally verify since one is faced with the degeneracy between the components \(\chi_{z,i}\) aligned with the direction of the angular momentum and the mass ratio \(q\); in the analysis of the merger GW170807 two sets of prior distributions for the spins were used, \(\abs{\chi } < 0.05\) and \(\abs{\chi } < 0.89\), for this reason \cite{abbottGW170817ObservationGravitational2017}. We have theoretical reasons to believe that the low-spins priors might correspond to a more physically meaningful scenario, but the degeneracy means that the high-spin case is not experimentally excluded, so we must still consider it a possibility.
 
 The qualitative effect of spin is due to both spin-orbit and spin-spin interactions. 
@@ -1182,14 +1182,16 @@ This relation also means that while the mismatch \(M(a, b)\) could in principle 
 \subsection{Target fidelity}
 
 We defined the fidelity as a distance induced by the Wiener product, but we have yet to show that it actually measures what we need. 
-We shall use it to evaluate the accuracy of our waveform templates against certain reference templates; this needs to satisfy two independent criteria \cite{lindblomModelWaveformAccuracy2008}:
+We shall use it to evaluate the accuracy of our waveform templates against certain reference templates; this needs to satisfy two independent criteria \cite{lindblomModelWaveformAccuracy2008}.
 
 \begin{enumerate}
     \item In a matched-filtering search for signals, they need to be accurate enough that we do not miss a large fraction of the signals --- this is called \emph{effectualness} \cite[]{damourAccuracyEffectualnessClosedform2011};
     \item in the data analysis of a signal, they need to be accurate enough that they do not induce a significant bias in the estimation of parameters --- this is called \emph{accuracy}.
 \end{enumerate}
 
-It turns out that fidelity is a useful metric for both of these, but the thresholds we need to set are chosen differently 
+It turns out that fidelity is a useful metric for both of these, but the thresholds we need to set are chosen differently.
+
+\paragraph{Effectualness}
 
 In the matched-filtering context, we search for signals by comparing (with the Wiener product) the measured data against a bank of templates with varying parameters, and checking whether any of them surpass a certain \ac{SNR} threshold.
 
@@ -1203,43 +1205,80 @@ This also applies in the noisy case: having imprecise templates will lead to a d
 
 For very loud signals this will not be an issue, but the distribution of the sources we detect is peaked at the edge of detectability; if we make the simplifying assumption that the distribution of sources is uniform in space and the volume scales as the luminosity distance cubed\footnote{This is not true in a cosmological context, i.e.\ at high redshift: the comoving volume scales as \(d_L^3 / (1+z)^3\). For \acp{BNS} detections have only ever been achieved so far with \(z \lesssim 0.05\), meaning that the difference is of the order of \SI{15}{\%}, while for \ac{BBH} the bound is \(z\lesssim 1\), for which the calculation with \(d_L^3\) alone is wrong by almost an order of magnitude. Specifically, the comoving volume is \emph{smaller} than \(\propto d_L^3\), which makes the bound for the ineffectualness of templates more forgiving in the high-redshift context.} we find that the fraction of sources we miss due to template ineffectualness is roughly \(1 - (1-\mathcal{F})^3\) \cites[eq.\ 18]{damourAccuracyEffectualnessClosedform2011}[eq.\ 2.21]{owenSearchTemplatesGravitational1996}.
 
-One criterion to use for a surrogate model such as this one is to look at the accuracy of the underlying model: comparing the \ac{EOB} model to numerical relativity simulations we get typical values for the fidelity of \(\mathcal{F} \simeq \num{2.5e-3}\) \cite[]{nagarTimedomainEffectiveonebodyGravitational2018}.
+A commonly used threshold by the \ac{LIGO}-Virgo collaboration is to accept missing \SI{10}{\percent} of the signals, therefore setting \(\mathcal{F}_{\text{max}} \approx 0.035\) \cite[]{lindblomModelWaveformAccuracy2008}.
 
-We can also reframe the issue in terms of signal-to-noise ratio: as discussed e.g.\ by \textcite[]{lindblomModelWaveformAccuracy2008} or \textcite[]{gambaFastFaithfulFrequencydomain2020}, if we are analyzing a signal detected with a certain \ac{SNR} two theoretical waveforms are faithful (indistinguishable for the purposes of the analysis) when 
+\paragraph{Accuracy}
+
+The condition needed for data analysis is stricter.
+We can quantify the bias given by our waveform in terms of the error in parameter estimation we have from the intrinsic detector noise \cites[sec.\ A]{lindblomModelWaveformAccuracy2008}[sec.\ C]{damourAccuracyEffectualnessClosedform2011}. 
+If we allow for the bias due to waveform inaccuracy to be comparable to the one due to intrinsic statistical uncertainty (i.e.\ smaller than \(1 \sigma \)) we find that in the Gaussian approximation, for a signal detected with a certain \ac{SNR} and for which we want to estimate \(D\) intrinsic parameters we will need our inaccuracy to be bounded by
+\cites[appendix G]{chatziioannouConstructingGravitationalWaves2017}{gambaWaveformSystematicsGravitationalwave2021}:\footnote{It has been suggested \cite[sec.\ III]{purrerGravitationalWaveformAccuracy2020} that in practical applications this criterion is too strict, and that the biases in parameter estimation it suggests are an overestimate.}
 %
 \begin{align}
-\mathcal{F} \leq \frac{D}{\text{SNR}^2}
-\,,
+\mathcal{F} \leq \frac{D}{2 \text{SNR}^2}
+\,.
 \end{align}
-%
-where \(D\) is the number of intrinsic parameters. 
+
 As an example, GW170817 was detected with a combined SNR \(\approx 32.4\) \cite[]{abbottGW170817ObservationGravitational2017}, meaning that the fidelity needed to analyze it is \(\mathcal{F} \lesssim \num{5e-3}\) if we are considering five intrinsic parameters.
+
+\paragraph{Surrogates}
+
+The previous considerations regard the accuracy of a waveform compared to the true signal; however, \ac{mb} is a surrogate model: it does not model any physics itself, relying instead on a dataset generated with another model. 
+
+This means that the final accuracy which can be reached is bounded by the accuracy of the underlying model, and we must seek not to worsen it by a large margin.
+
+Comparing the \ac{EOB} model currently used in the training of \ac{mb}, \texttt{TEOBResumS}, to numerical relativity simulations we get maximal values for the mismatch of \(\mathcal{F} \simeq \num{2.5e-3}\) \cite[fig.\ 1]{nagarTimedomainEffectiveonebodyGravitational2018}, while the bulk of the distribution lies in the \(\mathcal{F} \sim \num{e-4} \divisionsymbol \num{e-3}\) range.
+We shall discuss in section \ref{sec:accuracy} how this compares to the reconstruction errors by \ac{mb}.
 
 \subsection{Parameter inference: studying the signal}
 
 Modern data analysis techniques for \ac{GW} signals are Bayesian by necessity: we need to extract estimates for the parameters generating a signal of which we only have one measurement. 
 
-The quantity we want to extract from our analysis is the \textbf{posterior probability density function} \(\mathbb{P}(\vec{\theta} | s)\), where \(\vec{\theta}\) is the parameter vector while \(s\) represents the data from the detector. 
+The main quantity we want to extract from our analysis is the \textbf{posterior probability density function} \(\mathbb{P}(\vec{\theta} | s)\), where \(\vec{\theta}\) is the parameter vector while \(s\) represents the data from the detector. 
 If we integrate it in a certain hyper-volume \(\Omega \), we get \(\int_{\Omega } \dd[n]{\vec{\theta}} \mathbb{P}(\vec{\theta} | s)\): the answer to the question ``given the data we measured, what is the probability that the parameters of the system were contained in the region \(\Omega \)?''
 
 The way we write these probabilities is a compactification of notation: 
-after the ``given'' symbol we should also always ideally include all the other assumptions about the signal, the noise, and the way they are combined into \(s = h + n\). We will always leave this implicit, but we understand that the probabilities calculated will always be model-dependent. 
+after the ``given'' symbol we should also always ideally include all the other assumptions about the signal, the noise, and the way they are combined into \(s = h + n\): in the context of \ac{GW} data analysis, this also includes the choice of waveform approximant. 
+We will leave this implicit, but we understand that the probabilities calculated will always be model-dependent. 
 
 A Bayesian approach starts by applying Bayes' theorem: 
 %
 \begin{align}
-\underbrace{\mathbb{P}(\vec{\theta}| s )}_{\text{posterior}} = \frac{\mathbb{P}(s | \vec{\theta}) \mathbb{P}(\vec{\theta})}{\mathbb{P}(s)}
-\propto \underbrace{\mathbb{P}(s | \vec{\theta})}_{\text{likelihood}} \underbrace{\mathbb{P}(\vec{\theta})}_{\text{prior}}
+\underbrace{\mathbb{P}(\vec{\theta}| s )}_{\text{posterior}} = \underbrace{\frac{1}{\mathbb{P}(s)}}_{\text{evidence}} \underbrace{\mathbb{P}(s | \vec{\theta})}_{\text{likelihood}} \underbrace{\mathbb{P}(\vec{\theta})}_{\text{prior}}
+\,.
+\end{align}
+%
+% where the reason we can neglect the dependence on \(\mathbb{P}(s)\) is that it is a constant: since probability density functions are normalized to have unit integral over the whole space, we can worry about normalization in the end. 
+
+The normalization factor \(\mathbb{P}(s)\) is called the \emph{evidence}, and it can be expressed as 
+%
+\begin{align}
+\mathbb{P} (s) = \int \mathbb{P}(s | \vec{\theta}) \mathbb{P}(\theta ) \dd[n]{\theta }
 \,,
 \end{align}
 %
-where the reason we can neglect the dependence on \(\mathbb{P}(s)\) is that it is a constant: since probability density functions are normalized to have unit integral over the whole space, we can worry about normalization in the end. 
-Also, there are techniques to explore the posterior probability density space (such as \ac{MH} sampling) which can use an unnormalized version of the posterior.
+since the posterior must be normalized to have unit integral in order to be a probability distribution. 
+
+% Also, there are techniques to explore the posterior probability density space (such as \ac{MH} sampling) which can use an unnormalized version of the posterior.
 
 The prior, which encodes our prior belief about the potential values of the parameters, is often chosen to be uninformative,\footnote{This does not necessarily mean ``uniform'': there is a method, known as Jeffrey's prior, which allows one to maximize the ``ignorance'' about a parameter once a likelihood is given, through what is basically an argument for reparametrization invariance. For example, an uninformative prior on the mean of a Gaussian is uniform, while an uninformative prior on its standard deviation is log-uniform.} so that we do not introduce bias in the analysis. 
 In certain cases it might be warranted to use ``biased'' priors: for example, the analysis for GW170817 offers results based on a low-spin and a high-spin prior \cite{abbottGW170817ObservationGravitational2017}: the first is theoretically motivated and might be more meaningful, but the second is still allowed by the data. 
 
 The second ingredient is the likelihood \(\mathbb{P}(s | \vec{\theta})\): this is where signal modelling comes in, since the likelihood needs to include the way the theoretical signal \(h_\theta (t)\) depends on the parameters. 
+
+The posterior distribution \(\mathbb{P}(\vec{\theta} | s)\) contains all the information we can gather about the parameters, and it can be explored without computing the evidence, since certain algorithms (such as \ac{MH}, algorithm \ref{alg:metropolis-hastings}) can explore unnormalized distributions. 
+
+However, this makes the assumption that the model --- which is practically represented by the choice of parameters, likelihood and prior --- is correct; as mentioned before we should really be writing \( \mathbb{P}(s) = \mathbb{P}(s | \text{model})\). 
+If one only shows the posterior, the results cannot be directly compared with ones corresponding to a different model. Therefore, the results of a full data analysis should include the posterior as well as the evidence \cite{skillingNestedSamplingGeneral2006}{knuthBayesianEvidenceModel2015}.
+
+Specifically, if we have the evidence for a specific signal corresponding to two models, \(\mathbb{P}(s | M_1 )\) and \(\mathbb{P}(s | M_2 )\), we can compute the \emph{Bayes factor}, which allows us to update our belief about the relative probabilities of the two models 
+%
+\begin{align}
+\underbrace{\frac{\mathbb{P}(M_1 | s)}{\mathbb{P}(M_2 | s)}}_{posterior odds} = \underbrace{\frac{\mathbb{P}(s | M_1 )}{\mathbb{P}(s | M_2 )}}_{\text{Bayes factor}} \underbrace{\frac{\mathbb{P}(M_1 )}{\mathbb{P}(M_2 )}}_{\text{prior odds}}
+\,.
+\end{align}
+
+\paragraph{Gravitational wave likelihoods}
 
 What is the probability of observing \(s = h_\theta + n\) if we fix \(\theta \)? The theoretical signal \(h_\theta \) can be computed and is thereafter fixed, likewise \(s\), so this is just the probability of observing a certain realization of the noise: under the assumption of Gaussianity, it will read 
 %
@@ -1282,7 +1321,6 @@ A choice which satisfies these criteria quite well is the \textbf{Bayes estimato
 \,.
 \end{align}
 
-
 Depending on the way the posterior distribution is calculated and parametrized, computing this may be impractical.
 Other choices include estimating the parameters by the values which maximize the likelihood or the posterior, and the covariance from the Hessian of the \ac{PDF} around that point. 
 
@@ -1322,18 +1360,67 @@ Further, we need a randomly chosen initial point \(\theta_0 \).
 \end{algorithmic}
 \end{algorithm}
 
-This random walk will eventually (for \(N _{\text{samples}} \to \infty \)) converge to the true distribution mathematically; there are several heuristics which can be used to check whether this is actually happening in a specific number of steps, such as measuring the autocorrelation of the chain, or running several chains starting at different points and checking that they ``mix'' appropriately. 
+This random walk will eventually (for \(N _{\text{samples}} \to \infty \)) converge to the true distribution; there are several heuristics which can be used to check whether this is actually happening in a specific number of steps, such as measuring the autocorrelation of the chain, or running several chains starting at different points and checking that they ``mix'' appropriately. 
 
 \paragraph{Nested sampling}
 
-The statement we made earlier, that ``the posterior includes all the possible information'', is correct but incomplete: there is another piece of information, called the \emph{evidence}, which is not contained in the posterior but is very important in the context of comparing different models. It is defined as 
+This technique allows for the simultaneous calculation of the evidence \(\mathbb{P}(s) = \int \mathscr{L}(s|\theta) \mathbb{P}(\theta ) \dd[n]{\theta }\) as well as the likelihood \cites{skillingNestedSamplingGeneral2006}{siviaDataAnalysisBayesian2006}[app.\ B]{breschiTtBajesBayesian2021}{betancourtNestedSamplingConstrained2011}.
+
+The idea of this algorithm is to define the \emph{prior mass} variable 
 %
 \begin{align}
-Z = \int \mathscr{L}(s | \theta , M) \pi (\theta | M) \dd[n]{\theta }
+X(\lambda ) = \int_{\mathbb{P}(s | \theta) > \lambda } \mathbb{P}(\theta) \dd[n]{\theta }
 \,,
 \end{align}
 %
+which quantifies the ``mass'' in parameter space (with the prior distribution as ``density'') of the region in which the likelihood \(\mathbb{P}(s | \theta )\) is larger than \(\lambda \). 
 
+Since the prior must be normalized \(X\) is bounded to lie in \([0, 1]\), and the evidence can be written as 
+%
+\begin{align}
+\mathbb{P}(s) = \int_{0}^{1} \mathbb{P}(s | \theta ) \dd{X}
+\,.
+\end{align}
+
+If we knew the values of the likelihood at certain points \(X_i\) with corresponding likelihood values \(L_i\), then we could approximate the evidence as 
+%
+\begin{align}
+\mathbb{P}(s) \approx \frac{1}{2} \sum _{i=1}^{N} (X_{i-1} - X_{i+1}) L_i
+\,.
+\end{align}
+
+The practical problem in the evaluation of this integral in the high-dimensional context of parameter estimation is the fact that the region where the likelihood is high is typically very small in terms of prior mass; this is especially severe in the most desirable scenarios, where we are learning a great deal of new information compared to the non-informative prior, i.e.\ constraining our parameters very well \cite[sec.\ 4]{skillingNestedSamplingGeneral2006}.
+
+Ideally, we'd want to sample with a uniform distribution in \(\log X\); 
+the nested sampling method allows us to do so stochastically, with the procedure outlined as algorithm \ref{alg:nested-sampling}. 
+
+The way the points are selected forces them to be distributed close to uniformly in \(\log X\), which means it is a good approximation to just set \(\log X_i = - i / N\) for the samples. 
+Alternatively, one could sample the prior distribution to get a more accurate answer. 
+
+\begin{algorithm}
+\caption{Nested sampling algorithm. }\label{alg:nested-sampling}
+\begin{algorithmic}
+\Require set of \(N\) points \(\theta _j\) sampled from the prior, likelihood function \(L(\theta )\)
+\State evidence $Z \gets 0$
+\State \(i \gets 0\)
+\State prior mass sample $X_0  \gets 0$
+\While{stopping condition not reached}
+\State \(X_i \gets \exp(- i / N)\) 
+\State \(L_i \gets \min(L(\theta _j))\)
+\State \(Z \gets Z + L_i (X_{i-1} - X_{i+1}) / 2\)
+\State replace the \(\theta _j\) corresponding to \(L_i\) with a new value, 
+\State drawn from the prior restricted to \([L(\theta ) > L_i]\)
+\State \(i \gets i+1\)
+\EndWhile 
+\State \(Z \gets Z + (X _{\text{last}} / N) \sum _{j} L(\theta _j)\) \\
+\Return evidence \(Z\) \\
+\Return all computed samples \(\theta _k\), weighted by \((X_{k-1} - X_{k+1}) / 2 \times L(\theta_k) / Z \).
+\end{algorithmic}
+\end{algorithm}
+
+The stopping condition in algorithm \ref{alg:nested-sampling} must be defined so that it detects the point at which all the \(N\) points are lying very close to the maximum of the likelihood; this is typically done by setting a lower threshold for the likelihood improvement at each step. 
+
+Besides estimating the evidence, this algorithm provides us with a sampling of the posterior distribution as long as we are careful to weigh them appropriately, as outlined in the last line of algorithm \ref{alg:nested-sampling}.
 
 \section{Higher order waveforms}
 

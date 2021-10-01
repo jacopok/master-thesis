@@ -1,7 +1,7 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
-\chapter{MLGW-BNS}
+\chapter{MLGW\_BNS}
 
 \begin{figure}[ht]
 \centering
@@ -9,6 +9,8 @@
 \caption{Flowchart for \ac{mb}.}
 \label{fig:flowchart}
 \end{figure}
+
+\newpage
 
 Let us start with an overview of the algorithm employed by \ac{mb} before getting into the technical details. 
 
@@ -66,7 +68,7 @@ However, within the convention we are using (where the coalescence happens at th
 
 Since this implementation is custom-made it is also slightly faster: it takes \(\sim \SI{30}{ms}\) to unwrap a waveform with \(\sim \num{5e5}\) sampling points,  as opposed to the \(\sim \SI{40}{ms}\) needed for the \texttt{numpy} implementation. 
 
-\subsection{Residual calculation} \label{sec:residuals}
+\section{Residual calculation} \label{sec:residuals}
 
 \begin{figure}[ht]
 \centering
@@ -116,7 +118,7 @@ We describe the procedure taken by a trained \ac{mb} model in order to reconstru
     \item The parameters \(\theta \) are reduced to \(\theta _r\) by a scaler, which is trained so that they each have zero mean and unit variance. \label{item:param-reduction}
     \item The trained \ac{NN} makes its prediction based on the parameters, let us denote it as \(\qty(y_i)_{i=0}^{K-1}\). \label{item:nn-prediction}
     \item The prediction is divided by the corresponding \ac{PCA} eigenvalues, to get \(x_i = y_i / \lambda _i^{\alpha }\).
-    \item The \ac{PCA} model reconstructs the normalized, combined vector representing the amplitude and phase residuals: \(\text{ncomb}_i\). \label{item:pca-reconstruction}
+    \item The \ac{PCA} model reconstructs combined vector representing the amplitude and phase residuals: \(\text{comb}_i\). \label{item:pca-reconstruction}
     % \item The normalized, combined vector is de-normalized by multiplying the phase part by the chosen normalization factor \(\sim 15\).
     \item The combined vector is split into the amplitude and phase residual vectors, corresponding to their respective amplitude and phase downsampled frequencies. \label{item:combined-split}
     \item The frequencies \(f\) are converted into natural units by dividing them by \(c^3 / GM \approx (M_{\odot} / M) \times  \SI{2e5}{Hz}\); this yields a set of natural-units frequencies \(f_n\). \label{item:frequency-conversion}
@@ -168,6 +170,8 @@ In the aforementioned case, this corresponds to roughly \(2^{21} \approx \num{2.
 
 Neither \ac{mb} nor \texttt{TEOBResumS} natively work with so many points, and both need to interpolate their results on a fine grid such as this one. 
 This is the reason why \ac{mb}, as shown in figure \ref{fig:profiling_by_f0_ratios}, is only slightly faster than \texttt{TEOBResumS} when the initial frequency is very low: both algorithms are bottle-necked by resampling, which can be performed in linear time with respect to the number of points in the new, densely sampled array. 
+
+\subsection{Downsampled waveform evaluation time} \label{sec:downsampled-evaluation}
 
 In order to illustrate this point, let us discuss the breakdown of an evaluation of \ac{mb} in three different cases.
 In all three it reconstructs both polarizations for a \ac{BNS} waveform with \(f_0 = \SI{12}{Hz}\), with a time-domain sampling rate of \SI{4096}{Hz}, total mass \(M = 2.8M_{\odot}\), mass ratio \(q \approx 1.96\), aligned spins \(\chi_{1z} \approx 0.38\) and \(\chi_{2z} \approx 0.04\), tidal deformabilities \(\Lambda_1 \approx 3600 \) and \(\Lambda_2 \approx 2500\), luminosity distance \(d_L = \SI{25}{Mpc}\), and inclination \(\iota = \SI{3}{rad}\).
@@ -231,23 +235,49 @@ Here we give a more detailed breakdown of the times taken by some subroutines, s
 
 In the same scenario, \texttt{TEOBResumSPA} took \SI{43}{ms}, or around 10 times more than \ac{mb}. 
 
-\subsection{Reduced order modelling}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/profiling_by_ds}
+\caption{Evaluation time for waveforms starting at \SI{12}{Hz}, as detailed in section \ref{sec:downsampled-evaluation}; at the very left of the graph the waveforms are evaluated at roughly two million points, while at the very right they are evaluated at roughly two thousand points.}
+\label{fig:profiling_by_ds}
+\end{figure}
 
-ROM, ROQ, \dots
 
+\paragraph{Reduced order modelling}
 
+The improvement given by \ac{mb} as opposed to \texttt{TEOBResumS} is shown in more detail in figure \ref{fig:profiling_by_ds}: if the waveform is sampled at fewer points, \ac{mb} yields a significant speedup. 
 
-\textcite[]{vinciguerraAcceleratingGravitationalWave2017}
+How many points do we actually need to sample at? Not that many! 
+\textcite{vinciguerraAcceleratingGravitationalWave2017}, for example, outline a multi-banding approach: the chirping behavior of the signal means that we know \emph{a priori} that the content at high frequencies is only relative to the short section of time relative to the end of the timeseries. 
+
+If we were to use a 
+
+\textcite[]{smithFastAccurateInference2016} ROQ
+\textcite[]{zackayRelativeBinningFast2018} relative binning
 
 \section{Accuracy} \label{sec:accuracy}
 
-\cite[]{lindblomModelWaveformAccuracy2008}
+Figure \ref{fig:MLGW_BNS_vs_TF2} 
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/MLGW_BNS_vs_TF2}
 \caption{Mismatches between reconstructed and \ac{EOB} waveforms in the spinning case; we also show the mismatches between the \ac{EOB} waveforms and the original \ac{PN} ones (i.e.\ we set the residuals to zero). All waveforms are reconstructed starting from \SI{12}{Hz}, and the mismatches are computed according to the \ac{aLIGO} \ac{PSD}}
 \label{fig:MLGW_BNS_vs_TF2}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/recon-amp-residuals}
+\caption{Log-amplitude reconstruction residuals for waveforms starting at \SI{20}{Hz}. These are computed between }
+\label{fig:recon-amp-residuals}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/recon-phase-residuals}
+\caption{Phase reconstruction residuals for waveforms starting at \SI{20}{Hz}. }
+\label{fig:recon-phase-residuals}
 \end{figure}
 
 \begin{figure}[ht]

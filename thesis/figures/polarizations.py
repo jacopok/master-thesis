@@ -54,10 +54,10 @@ for k, v in polarizations.items():
         ax.set_title(k)
     
 
-plt.tight_layout()
-fig.set_dpi(150)
-fig.savefig('polarizations.pdf', bbox_inches = 'tight')
-plt.close()
+# plt.tight_layout()
+# fig.set_dpi(150)
+# fig.savefig('polarizations.pdf', bbox_inches = 'tight')
+# plt.close()
 
 # %%
 
@@ -74,11 +74,15 @@ for pol, v in polarizations_sm.items():
 
     h_p, h_c, to_add = v
     for i, t in tqdm(enumerate(ts_sm)):
+        if pol == 'h_c' and i == 0:
+            al = 0
+        else:
+            al = 1
         
         plt.plot(*evolve(t, xs, ys, h_p, h_c),
                 c='black',
                 lw=4,
-                alpha=1
+                alpha=al
             )
         plt.plot(*evolve(1/2, xs, ys, h_p, h_c),
                 alpha=0.
