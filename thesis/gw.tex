@@ -644,7 +644,7 @@ h_{ \times } (t) &= \frac{1}{r} \qty(\frac{G \mathcal{M}_c}{c^2})^{5/4} \qty( \f
 As we will discuss, it is convenient to have expressions for the Fourier transforms of these. An analytic computation of the integrals is intractable, but we can make use of a technique known as \ac{SPA}, which is discussed in detail in appendix \ref{sec:spa}. 
 The final expressions for the Fourier-domain waveforms are equations \eqref{eq:spa-waveforms}. 
 
-\subsection{Spherical harmonics decomposition}
+\subsection{Spherical harmonics decomposition} \label{sec:spherical-harmonics-decomposition}
 
 The waveform we described so far comes from the quadrupole of the mass distribution, but higher-order moments also generate \acp{GW}.
 In general, in units where \(G = c = 1\), one can write the waveform as \cite[eq.\ II.6]{ajithDataFormatsNumerical2011}
@@ -737,14 +737,11 @@ The waveform to the lowest order we described only depends on the chirp mass \(\
 It is customary to fix one of the two masses to always be the largest, therefore constraining \(q \lesseqgtr 1\); we choose the convention \(q \geq 1\).
 
 A possible parametrization for the two masses is \((\mathcal{M}_c, q)\), another is \((M, q)\): these are equivalent, but in the following work we will typically use the latter. 
+We shall discuss in section \ref{sec:natural-units} that the total mass \(M\) can be interpreted as an extrinsic parameter.
 
-\todo[inline]{Fix!}
+An alternative parametrization for the mass ratio \(q\) is the symmetric mass ratio \(\nu = \mu / M = q / (1 + q)^2\).
 
-At this point we can notice an interesting scaling property: in these units lengths, times, energies, masses and momenta have the same dimensions. What happens, then, if we rescale all these quantities by the same amount?
-This means we are mapping \(M \to \alpha M\) and \(r \to \alpha r\) in the previous expression, so we can see that the amplitude \(h\) is preserved. 
-This is consistent with a time rescaling of the time \(t \to \alpha t \), as can be seen in equation \eqref{eq:amplitude-quadrupole-emission}, and with a rescaling of the frequency \(f \to f / \alpha \), as can be seen in equation \eqref{eq:spa-waveforms}. 
-The result also holds at higher orders than the quadrupole, as we will see by the parametrization of the waveform in section \ref{sec:post-newtonian}. 
-
+% \todo[inline]{Fix!}
 
 % because of scaling property of the waveforms: we conventionally work with respect to the dimensionless frequency \(Mf\) and the dimensionless time \(t / M\) in order to have one less parameter. 
 % If need be, we will refer to a ``conventional'' mass of \(M = 2.8 M_{\odot}\), but our results will be easily scalable to any \(M\). 
@@ -770,9 +767,9 @@ In the simplest spin-aligned case, \(\vec{\chi}_i \propto \vec{L} \), the effect
 The dynamics when the spins are not aligned are significantly more complicated, since the spins precess and give rise to modulations of the amplitude. 
 Because of this, often models restrict themselves to the aligned-spin scenario. 
 
-\paragraph{Tidal polarizability of neutron stars}
+\paragraph{Tidal defomability of neutron stars}
 
-If our compact objects are not black holes, they might be able to deform. The astrophysically motivated scenario we think of is that of neutron stars, but the following characterization could also apply to any extended compact objects. For concreteness' sake, we will refer to \acsp{NS}. 
+If our compact objects are not black holes, they might be able to deform. The astrophysically-motivated scenario we think of is that of neutron stars, but the following characterization could also apply to any extended compact objects. For concreteness' sake, we will refer to \acsp{NS}. 
 
 This is a complicated process, but we can try to capture its most significant part by limiting ourselves to the quadrupole order of the deformation of the star. 
 The discussion of this effect is clearest in the Newtonian context, but it can be also formalized in \ac{GR} \cite[section 14.4.1]{maggioreGravitationalWavesVolume2018}.
@@ -883,7 +880,7 @@ which can be (nontrivially) analytically solved, yielding the result shown in fi
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/eccentricity}
-\caption{We show the behaviour of the analytic solution for the semimajor axis \(a(e)\) \cite[eq.\ 4.126]{maggioreGravitationalWavesVolume2007}; the \(x\) axis is on a logit scale, meaning that it is proportional to \(\log (e / (1-e))\). The quantity on the \(y\) axis is not \(a(e)\), but \(a\) is proportional to it: ratios in the form \(a(e_1) / a(e_2)\) are correctly represented in this graph.}
+\caption{We show the behaviour of the analytic solution for the semimajor axis \(a(e)\) \cite[eq.\ 4.126]{maggioreGravitationalWavesVolume2007}; the \(x\) axis is on a logit scale, meaning that it is proportional to \(\log (e / (1-e))\). The quantity on the \(y\) axis is not \(a(e)\), but \(a\) (which can have any value) varies proportionally to it: ratios in the form \(a(e_1) / a(e_2)\) are correctly represented in this graph.}
 \label{fig:eccentricity}
 \end{figure}
 
@@ -896,7 +893,7 @@ One can then see that this result holds for all but the most extreme initial val
 This is the reason why eccentricity is often not considered in \ac{GW} modelling, while it is of crucial importance in astrophysical population studies, since it has a large effect on the emitted power (enhancing it) in the early stages of the inspiral.
 
 Eccentric binaries are by no means excluded by this line of argument; there are astrophysical contexts in which they might be generated with high eccentricities combined with already small radii, which would allow \(e > 0\) to be detectable even in the \ac{LIGO}-Virgo band.
-Eccentric binary \ac{GW} models do exist \cite{favataConstrainingOrbitalEccentricity2021}, and ignoring eccentricities may lead to bias in parameter estimation.\footnote{It is interesting to note that these models reach into ``relativistic territory'', and therefore must also include effects such as periastron precession --- a good resource on these, based on \textcite{favataGravitationalwaveMemoryEccentric2011}, is the \href{Sounds of Spacetime}{https://www.soundsofspacetime.org/elliptical-binaries.html} website, which also provides audio renditions of the waveforms.}
+Eccentric binary \ac{GW} models do exist \cite{favataConstrainingOrbitalEccentricity2021}, although they do not reach the accuracy of circular ones, and ignoring eccentricities may lead to bias in parameter estimation.\footnote{A good resource on these, based on \textcite{favataGravitationalwaveMemoryEccentric2011}, is the \href{Sounds of Spacetime}{https://www.soundsofspacetime.org/elliptical-binaries.html} website, which also provides audio renditions of eccentric waveforms (at 1\ac{PN} order).}
 
 \paragraph{Summary}
 
@@ -907,22 +904,25 @@ The parameter vector \(\vec{\theta}\) describing a binary system can be divided 
 \,,
 \end{align}
 %
-where the dependence of the waveform on the external parameters is well-understood and easy to analytically calculate, while the dependence on the internal parameters (barring \(M\)) is complicated.
+where the dependence of the waveform on the external parameters is well-understood and easy to analytically calculate, while the dependence on the internal parameters is complicated.
 
-The model developed in this work is built to reconstruct the dependence on \(q\), \(\Lambda_1\), \(\Lambda_2 \) and the aligned-spin components \(\chi_{1,z} \) and \(\chi_{2, z}\). 
+The model developed in this work is built to reconstruct the dependence on \(q\), \(\Lambda_1\), \(\Lambda_2 \) and the aligned-spin components \(\chi_{1,z} \) and \(\chi_{2, z}\).
+This is enough, as is discussed in section \ref{sec:natural-units}. 
 
 \subsection{Natural units and simplifications} \label{sec:natural-units}
 % fix title! 
 
-Restricting ourselves to the \((\ell=2, m=2)\) mode is equivalent to writing the Fourier-domain waveform as 
-%
-\begin{align}
-\widetilde{h}_{+}(f) &= \frac{M}{r} \frac{1 + \cos^2 \iota }{2} \ \widetilde{h} (f)  \\
-\widetilde{h}_{ \times } (f) &= \frac{M}{r} \cos \iota \ \widetilde{h}(f)
-\,.
-\end{align}
+In the absence of matter, \ac{GR} is scale invariant: if we consider a \ac{BBH} system with total mass \(M\) and radial separation \(r\),
+and we map \(M \to \alpha M\) and \(r \to \alpha r\) for some positive \(\alpha \), as well as rescaling the time \(t \to \alpha t \) and the frequency \(f \to f / \alpha \), the \ac{GW} amplitude \(h\) is preserved. 
+% This is consistent with a time rescaling of  as can be seen in equation \eqref{eq:amplitude-quadrupole-emission}, and with a rescaling of the frequency \(f \to f / \alpha \), as can be seen in equation \eqref{eq:spa-waveforms}. 
+The fact that this result holds at the quadrupole order, can be clearly seen in equation \ref{eq:spa-waveforms}.
 
-Also, we work in natural units: we treat the waveform as a function of \(Mf\), which is dimensionless if \(G = c = 1\).
+This line of reasoning is exact in vacuum GR, and thus for \ac{BBH}; matter is not scale-invariant, so it does not precisely work for \ac{BNS}. 
+However, the effects of the \acp{NS} not being point masses are included into the dimensionless tidal parameters \(\Lambda_i \sim k_2 (R/m_i)^{5}\), which depend on the Love number and the compactness of \acp{NS}. If \(k_2 \) and the compactness were constant as the mass varied, this would be scale-invariant. 
+It could be the case that the Love number varies with the mass, but this does not affect the validity of the waveforms: it just means that, as we vary \(M\) during parameter estimation, we will be estimating the compactness and \ac{EoS} of \acp{NS} with different masses. 
+
+We can then work in \emph{mass-rescaled natural units}, commonly shortened to just ``natural units'', expressing frequencies as \(Mf\) and times as \(t / M\). This allows us to reduce the dimensionality of the parameter space by one. 
+
 We must be careful, however: the time-domain strain \(h(t)\) is dimensionless, but its Fourier transform \(\widetilde{h}(f)\) has the dimensions of a time, or a mass.
 
 Let us rewrite the \ac{SPA}, 0PN expression for the amplitude (the absolute value of equation \ref{eq:spa-waveforms} for \(\iota = 0\)) to illustrate this point: 
@@ -944,7 +944,7 @@ Conventionally (as well as in \ac{mb}), the waveforms expressed in ``natural uni
 
 The amplitude of these is  \(\nu \)-dependent even in the Newtonian limit --- the division by \(\nu \) is convenient in the context of \ac{EOB} calculations. 
 
-When reconstructing a waveform, \ac{mb} will first compute \(\widetilde{h}_{NU} (fM)\), and then the \ac{SI}-units version as 
+When reconstructing a waveform, \ac{mb} will first compute \(\widetilde{h}_{NU} (fM)\), and then the \ac{SI} version as 
 %
 \begin{align}
 \widetilde{h}(f) 
@@ -956,7 +956,13 @@ When reconstructing a waveform, \ac{mb} will first compute \(\widetilde{h}_{NU} 
 %
 where \(\mathtt{M}\) is the numeric value of the total mass, expressed in solar masses \(M_{\odot}\), and \(\mathtt{r}\) is the numeric value of the distance, expressed in \SI{}{Mpc}. 
 
-% The waveforms are generated as functions of dimensionless frequency \(fM\); 
+Restricting ourselves to the \((\ell=2, m=2)\) mode (as defined in section \ref{sec:spherical-harmonics-decomposition}) is equivalent to writing the Fourier-domain waveform as 
+%
+\begin{align}
+\widetilde{h}_{+}(f) &= \frac{1 + \cos^2 \iota }{2} \ \widetilde{h} (f)  \\
+\widetilde{h}_{ \times } (f) &= \cos \iota \ \widetilde{h}(f)
+\,.
+\end{align}
 
 \section{Interferometers and data analysis} \label{sec:data-analysis}
 
@@ -1131,7 +1137,7 @@ The waveform shown is lowered by a factor \(8\) compared to the value it would h
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/integrating_SNR}
-\caption{Integrand in the calculation of the optimal \ac{SNR} for a GW170817-like signal with the three detectors of the \ac{LIGO}-Virgo collaboration. The plotted data corresponds to figure \ref{fig:characteristic_strains}: we show the square ratio of \(h_c\) to the three actual \acp{PSD}.}
+\caption{Integrand in the calculation of the optimal \ac{SNR} for a GW170817-like signal with the three detectors of the \ac{LIGO}-Virgo collaboration. The plotted data corresponds to figure \ref{fig:characteristic_strains}: we show the square ratio of \(h_c\) to the three actual \acp{PSD}. The units for the two axes are such that the area below one of these curves is exactly equal to the observed \ac{SNR}.}
 \label{fig:integrating_SNR}
 \end{figure}
 
@@ -1153,7 +1159,7 @@ Therefore, we can define the \emph{fidelity}, or \emph{mismatch} ``distance'':\f
 This is not a problem for us: this mismatch is still a useful metric even if it is not a distance. }
 %
 \begin{align}
-M(a, b) = 1 - \frac{(a|b)}{\sqrt{(a|a) (b|b)}} = 1 - \cos \theta 
+F(a, b) = 1 - \frac{(a|b)}{\sqrt{(a|a) (b|b)}} = 1 - \cos \theta 
 \,.
 \end{align}
 

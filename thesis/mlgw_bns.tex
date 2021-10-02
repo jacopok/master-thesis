@@ -17,7 +17,7 @@ Let us start with an overview of the algorithm employed by \ac{mb} before gettin
 It is based on the use of two systems for the generation of a theoretical waveform from a \ac{CBC} in the frequency domain, one being faster but less accurate than the other.
 The ``fast'' system will be the \ac{PN} model \texttt{TaylorF2}, as implemented in \texttt{bajes} \cite[]{breschiTtBajesBayesian2021}, while the ``slow'' system will be the \ac{EOB} model \texttt{TEOBResumS}.
 
-As we shall see shortly, a crucial feature of the ``fast'' system is the capability to generate waveforms in the frequency domain at select frequencies, without needing to perform a full Fourier transform from a time-domain waveform.
+As we shall see shortly, a crucial feature of the ``fast'' system is the capability to generate waveforms in the frequency domain at select frequencies, without needing to perform a full Fourier transform from a time-domain waveform, and to do so yielding amplitude and phase separately .
 This feature is shared by all \ac{PN} approximants, which base their Fourier-domain representations on the analytic \ac{SPA}.
 
 As illustrated in figure \ref{fig:flowchart}, the main idea is then to 
@@ -29,24 +29,33 @@ As illustrated in figure \ref{fig:flowchart}, the main idea is then to
 If this task is accomplished with tolerable errors and with a fast enough execution time (shorter than the time taken by the ``slow'' generation method) we will have a working \emph{surrogate model}. 
 
 The generation of datasets needs us to define a probability distribution over the parameter space: the density of points in each region will bias the reconstruction, but this might actually be desirable if we need to sample from certain regions more than others. 
-A good choice, therefore, could be to generate the training dataset according to a prior distribution over the parameters. 
+
+A good choice, therefore, could be to generate the training dataset according to a prior distribution over the parameters --- this might be not be an astrophysically motivated prior: ideally, we would want it to resolve regions in which the reconstruction is most difficult with more points.
 
 The implementation currently active in \ac{mb}, however, simply generates waveforms with a uniform distribution over the selected parameter ranges: \(q \in [1, 2]\), \(\Lambda _i \in [5, 5000]\)\footnote{The reason why \(\Lambda \to 0\) is not included in the range is that the \ac{EOB} model used is unstable very small \(\Lambda \), since certain computations include divisions by it.} and \(\chi_i \in [-0.5, 0.5]\).
 
-The nonspinning case, which will be discussed later as a simplification for which the reconstruction errors improve significantly, simply amounts to restricting the prior to the three-dimensional subspace \(\chi _i \equiv 0\). 
-The set
+As discussed in section \ref{sec:natural-units}, these are all the parameters needed for the reconstruction: the dependence on the total mass \(M\), on the inclination \(\iota \) and on the luminosity distance \(d_L\) can be recovered analytically after the natural-units waveform has been constructed.  
+
+% The nonspinning case, which will be discussed later as a simplification for which the reconstruction errors improve significantly, simply amounts to restricting the prior to the three-dimensional subspace \(\chi _i \equiv 0\). 
+% The set
 
 \section{Training waveform generation}
 
-% The \ac{EOB} and \ac{PN} models we use are able to output both \(h_{+}\) and \(h_{\times }\), but this is redundant for our purposes: the ratio between them is a \(\pi /2\) phase combined with a factor depending on the inclination angle \(\iota \): the two polarizations can be expressed as \(h_{+} (f) = h_0 (f) (1 + \cos^2 \iota ) / 2\) and \(h_{\times }( f) = h_0 (f) (-i) \cos \iota \). 
-% The ``base'' waveform \(h_0 (f)\) can therefore be interpreted as the plus-polarized waveform in the \(\iota = 0\) case. 
-As discussed in section \ref{sec:natural-units}, 
+A \ac{mb} model requires several independent training datasets. These are each computed by generating random parameters with a differently seeded \acp{PRNG}.
+This is all accomplished with a single call of the \texttt{generate\_dataset} method of the \texttt{Model} class in \ac{mb}.
 
-If we reconstruct it, we can recover \(h_{+}\) and \(h_{\times }\) for arbitrary inclination using the two aforementioned expressions.
+The first dataset needed is the one for the training of the greedy downsampling algorithm (see section \ref{sec:downsampling}). 
+These are unwrapped (section \ref{sec:unwrapping}) \ac{EOB} waveforms, sampled at full resolution. 
+The downsampling algorithm yields a set of frequencies for the amplitude and one for the phase, which are then saved and kept constant for that model.
 
-\todo[inline]{Fix this bit, citing \ref{sec:natural-units}.}
+Two more datasets are then generated with the same technique: 
+downsampling the \ac{EOB} waveforms generated at new pseudo-random parameter values, computing their residuals (see section \ref{sec:residuals}) from the \ac{PN} waveforms, and recording these. 
 
-\section{Phase unwrapping} \label{sec:unwrapping}
+The first of these datasets is then used to train a \ac{PCA} model, while the second is kept to serve as training, validation and testing data for the \ac{NN}.
+
+The generation of these last two datasets is the longest part of the procedure, but it is parallelized, so making a dataset with \(f_0 \sim \SI{20}{Hz}\) and \(\sim 1024\) waveforms in both can take as little as a few minutes.
+
+\subsection{Phase unwrapping} \label{sec:unwrapping}
 
 The waveforms generated by the \ac{EOB} system are complex-valued, in the form \(h(f) = A(f) e^{i \phi (f)}\).
 
@@ -68,7 +77,7 @@ However, within the convention we are using (where the coalescence happens at th
 
 Since this implementation is custom-made it is also slightly faster: it takes \(\sim \SI{30}{ms}\) to unwrap a waveform with \(\sim \num{5e5}\) sampling points,  as opposed to the \(\sim \SI{40}{ms}\) needed for the \texttt{numpy} implementation. 
 
-\section{Residual calculation} \label{sec:residuals}
+\subsection{Residual calculation} \label{sec:residuals}
 
 \begin{figure}[ht]
 \centering
@@ -97,10 +106,9 @@ where \(A\) and \(\Phi \) are the amplitude and phase of the respective \ac{FD} 
 
 The computation of the residuals is made easy by the fact that we have closed-form expressions for the \ac{PN} waveforms to high order, including tidal effects.
 
-Using higher-order waveforms means that the residuals to fit are smaller, but this comes with a large drawback: the evaluation time of the \ac{PN} waveforms drastically rises with the order --- they are complicated analytic waveforms. 
+The highest-order available \ac{PN} approximant is chosen; specifically, the amplitude is computed to 3.5PN order, and the phase is computed to 5.5PN order including tidal contributions to 7.5PN order \cite{favataSystematicParameterErrors2014}.\footnote{Specifically, the functions used are \texttt{Af3hPN} and \texttt{Phif5hPN} \href{https://github.com/matteobreschi/bajes/blob/stable/v0.1/bajes/obs/gw/approx/taylorf2.py}{implemented in the \texttt{bajes} module} \cite[]{breschiTtBajesBayesian2021}.}
 
-As we will discuss later, the reconstruction time for a single waveform 
-is dominated by the recovery of the full waveform from the residuals: the computation of \(A _{\text{PN}}(f; \theta )\) and \(\Phi _{\text{PN}}(f; \theta )\) in
+After the \ac{PCA}+\ac{NN} ensemble reconstructs the residuals, the waveform can be recovered as 
 %
 \begin{align}\label{eq:amplitude-phase-reconstruction}
 A _{\text{rec}} (f; \theta ) &= \exp( \Delta A _{\text{rec}} (f; \theta )) A _{\text{PN}}(f; \theta )  \\
@@ -108,7 +116,12 @@ A _{\text{rec}} (f; \theta ) &= \exp( \Delta A _{\text{rec}} (f; \theta )) A _{\
 \,.
 \end{align}
 
-Therefore, a relatively low-order \ac{PN} approximant is chosen; specifically, the amplitude is computed to 3.5PN order, and the phase is computed to 3.5PN order including tidal contributions to 6PN order \cite{favataSystematicParameterErrors2014}.\footnote{Specifically, the functions used are \texttt{Af3hPN} and \texttt{Phif3hPN} \href{https://github.com/matteobreschi/bajes/blob/stable/v0.1/bajes/obs/gw/approx/taylorf2.py}{implemented in the \texttt{bajes} module} \cite[]{breschiTtBajesBayesian2021}.}
+\subsection{Optimization}
+
+% hyperparameter optimization
+% which hyperparameters?
+% dependence on training dataset size
+TODO
 
 \section{The reconstruction of a waveform}
 
@@ -129,9 +142,7 @@ We describe the procedure taken by a trained \ac{mb} model in order to reconstru
     \item The two polarizations are recovered by multiplying \(h\) by their respective functions of \(\iota \) and a phase shift by \(\pi /2\) for \(h_ \times \). \label{item:polarizations}
 \end{enumerate}
 
-\todo[inline]{Add new benchmarks}
-
-\section{Evaluation time} \label{sec:evaluation-time}
+\subsection{Evaluation time} \label{sec:evaluation-time}
 
 In broad strokes, on standard benchmarks the evaluation time of a waveform by \ac{mb} is slightly better than that of the model it is trained on, \texttt{TEOBResumS} with \ac{SPA}; while in simpler but realistic scenarios its evaluation time is up to an order of magnitude faster. 
 
@@ -244,7 +255,7 @@ In the same scenario, \texttt{TEOBResumSPA} typically takes \SI{70}{ms}, or arou
 
 \paragraph{Reduced order modelling}
 
-The improvement given by \ac{mb} as opposed to \texttt{TEOBResumS} is shown in more detail in figure \ref{fig:profiling_by_ds}: if the waveform is sampled at fewer points, \ac{mb} yields a significant speedup. 
+The improvement given by \ac{mb} as opposed to the \ac{EOB} model \texttt{TEOBResumS} is shown in more detail in figure \ref{fig:profiling_by_ds}: if the waveform is sampled at fewer points, \ac{mb} yields a significant speedup. 
 
 How many points do we actually need to sample at? Not that many! 
 \textcite{vinciguerraAcceleratingGravitationalWave2017}, for example, outline a multi-banding approach: the chirping behavior of the signal means that we know \emph{a priori} that the content at high frequencies is only relative to the short section of time relative to the end of the timeseries. 
@@ -261,7 +272,7 @@ Another technique is relative binning \cite{zackayRelativeBinningFast2018}, in w
 
 % Ideas from all of these are applied throughout \ac{mb}, which 
 
-\section{Accuracy} \label{sec:accuracy}
+\subsection{Accuracy} \label{sec:accuracy}
 
 \begin{figure}[ht]
 \centering
@@ -281,7 +292,6 @@ We can clearly see an improvement by a factor 10 or more --- the histograms bare
 \centering
 \includegraphics[width=\textwidth]{figures/recon-amp-residuals}
 \caption{Log-amplitude reconstruction residuals for waveforms starting at \SI{12}{Hz}. }
-% Not true currently! #TODO
 \label{fig:recon-amp-residuals}
 \end{figure}
 
@@ -289,7 +299,6 @@ We can clearly see an improvement by a factor 10 or more --- the histograms bare
 \centering
 \includegraphics[width=.9\textwidth]{figures/recon-phase-residuals}
 \caption{Phase reconstruction residuals for waveforms starting at \SI{12}{Hz}. A linear fit is subtracted from all of these; this is arbitrary, however it shows the magnitude of the phase residuals for a close-to-optimal time alignment.}
-% not true currently! #TODO
 \label{fig:recon-phase-residuals}
 \end{figure}
 
@@ -316,8 +325,25 @@ Specifically, they are almost unchanged with the predicted \ac{ET} \ac{PSD}, whi
 
 \section{Conclusions and outlook}
 
-We did this stuff, it could be improved by
+% \textcite{cuocoEnhancingGravitationalwaveScience2020}
 
+In this work we developed the surrogate gravitational waveform model \ac{mb}.
+It natively works in the frequency domain, and it is able to generate five-parameter waveforms in only a few milliseconds if these do not need to be sampled at more than about \num{e4} points. 
+
+The fidelity of the reconstructed waveforms to the ones in the training dataset is, in the worst case, comparable to the intrinsic accuracy of the \ac{EOB} waveforms themselves. 
+This is an acceptable level for current interferometers (see section \ref{sec:target-fidelity}) but it is still not enough for third generation detectors such as \ac{ET}. 
+
+A surrogate model such as \ac{mb} can be thought of as a plugin: it can improve the evaluation time of any ``slow'' model, as long as we are able to generate a large enough dataset of waveforms with that model. 
+
+Currently, \ac{mb} only reconstructs the \((2, 2)\) mode of gravitational radiation: a path for improvement is the reconstruction of other modes, which would allow for a proper treatment of precessing \ac{BNS} systems (i.e.\ ones with arbitrary spin orientations). 
+
+Another aspect which could be optimized in view of future detectors relates to the low-frequency regime: there, the \ac{PN} approximation is quite accurate, as can be seen in figures \ref{fig:amp_residuals} and \ref{fig:phase_residuals}. 
+Thus, there is a point beyond which evaluating the \ac{EOB} model and computing its residuals from the \ac{PN} one is superfluous. 
+Implementing this is trickier than simply appending zeroes to the start of the residual vectors, since we must ensure a smooth connection --- while they approach zero they do not reach it exactly. 
+Nevertheless, if this can be implemented it can allow the \ac{mb} model to be trained on waveforms which are faster to generate, while being able to make predictions up to arbitrarily low frequencies. 
+
+
+% A similar idea to this is to 
 % precession / modes
 % smoothly connecting to TF2
 % publishing as a package
