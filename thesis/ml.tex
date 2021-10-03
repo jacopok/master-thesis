@@ -448,7 +448,7 @@ This allows us to be more confident of the fact that the indices are not capturi
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/downsampling_npoints}
-\caption{Size of the downsampling index array deriving from the application of algorithm \ref{alg:greedy-downsampling} to training datasets of varying sizes. }
+\caption{Size of the downsampling index array deriving from the application of algorithm \ref{alg:greedy-downsampling} to training datasets of varying sizes, with both tolerances set to \(\epsilon _{\text{amp}} =\epsilon _{\text{phi}} = \num{5e-7}\). }
 \label{fig:downsampling_npoints}
 \end{figure}
 
@@ -465,10 +465,13 @@ This may seem like a reason to switch to a lower-order interpolation mechanism, 
 
 Care must also be put into the choice of the tolerances, since they have a secondary, perhaps unexpected effect: the greedy downsampling algorithm implemented in \ac{mb} yields different numbers of downsampling points for amplitude and phase based on how many are needed in order to get the training dataset below the tolerance, therefore the combined amplitude+phase vector will have \(N _{\text{amp}} + N _{\text{phi}}\) components, where the numbers of points \(N _{\text{amp}}\) and \(N _{\text{phi}}\) depend on the tolerances \( \epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\). 
 
-There is no natural relation between \(\epsilon _{\text{amp}}\) ad \(\epsilon _{\text{phi}}\): one measures a variation in the logarithm of the amplitude, the other a variation in angle. 
-However, there is more to the choice of these than just selecting the error we are willing to accept. 
-The vectors whose distances are computed when doing \ac{PCA} will have more components for amplitude or for phase, and this will affect the reconstruction error, biasing the reconstruction towards one or the other. 
+% There is no natural relation between \(\epsilon _{\text{amp}}\) ad \(\epsilon _{\text{phi}}\): one measures a variation in the logarithm of the amplitude, the other a variation in angle. 
+Motivated by the possibility of writing a waveform as \(h = A e^{i \Phi } = e^{\log A + i \Phi }\), we set the tolerances for the amplitude and the phase \(\epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\) to be equal.
+As shown in figure \ref{fig:downsampling_npoints}, this results in more points for the phase than for the amplitude. 
 
-Heuristically, it was found to be typically best to tune the tolerances so that the number of points describing the phase is slightly larger than the ones describing the amplitude. 
+There is more to this choice than just selecting the error we are willing to accept:
+the vectors whose distances are computed when doing \ac{PCA} will have more components for amplitude or for phase, and this will affect the reconstruction error, biasing the reconstruction towards one or the other. 
+
+Heuristically, it was found to be good to tune the tolerances so that the number of points describing the phase is slightly larger than the ones describing the amplitude, since the phase errors are one to two orders of magnitude larger than the log-amplitude errors. 
 
 \end{document}
