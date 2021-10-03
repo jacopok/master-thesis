@@ -39,9 +39,10 @@ As discussed in section \ref{sec:natural-units}, these are all the parameters ne
 % The nonspinning case, which will be discussed later as a simplification for which the reconstruction errors improve significantly, simply amounts to restricting the prior to the three-dimensional subspace \(\chi _i \equiv 0\). 
 % The set
 
-\section{Training waveform generation}
+\section{Training dataset generation}
 
-A \ac{mb} model requires several independent training datasets. These are each computed by generating random parameters with a differently seeded \acp{PRNG}.
+A \ac{mb} model requires several independent training datasets. These are each computed by generating random parameters with differently seeded \acp{PRNG}.
+
 This is all accomplished with a single call of the \texttt{generate\_dataset} method of the \texttt{Model} class in \ac{mb}.
 
 The first dataset needed is the one for the training of the greedy downsampling algorithm (see section \ref{sec:downsampling}). 
@@ -108,6 +109,9 @@ The computation of the residuals is made easy by the fact that we have closed-fo
 
 The highest-order available \ac{PN} approximant is chosen; specifically, the amplitude is computed to 3.5PN order, and the phase is computed to 5.5PN order including tidal contributions to 7.5PN order \cite{favataSystematicParameterErrors2014}.\footnote{Specifically, the functions used are \texttt{Af3hPN} and \texttt{Phif5hPN} \href{https://github.com/matteobreschi/bajes/blob/stable/v0.1/bajes/obs/gw/approx/taylorf2.py}{implemented in the \texttt{bajes} module} \cite[]{breschiTtBajesBayesian2021}.}
 
+The waveforms produced by the two systems are not perfectly aligned in the time domain, so the dominant contribution to the residuals is the linear term due to the phase difference. This can be safely removed from all the phases (see the discussion on \ref{sec:arrival-time}). 
+An arbitrary choice must be made for this normalization: since we know the low-frequency behaviours of the two approximants should match, we impose that the phase residuals and their derivative at the low-frequency end of the spectrum both equal zero.
+
 After the \ac{PCA}+\ac{NN} ensemble reconstructs the residuals, the waveform can be recovered as 
 %
 \begin{align}\label{eq:amplitude-phase-reconstruction}
@@ -116,12 +120,78 @@ A _{\text{rec}} (f; \theta ) &= \exp( \Delta A _{\text{rec}} (f; \theta )) A _{\
 \,.
 \end{align}
 
+Because of the subtraction of the linear term from the phase, the reconstructed waveform will be time-shifted by some small amount compared to the corresponding \ac{EOB} one. 
+
 \subsection{Optimization}
+
+Tuning the hyperparameters with \texttt{optuna} as described in section \ref{sec:optuna} is the longest step in the preparation of a \ac{mb} model. 
+Therefore, a fiducial set of hyperparameters is provided as a constant, and it is used by default if the user does not wish to wait for the optimization. 
+
+Otherwise, the method \texttt{optimize\_hyper} for the \texttt{Model} class can be called. 
+The following network parameters are varied during the optimization procedure:\footnote{Most of these are parameters in the initialization of an \texttt{MLPRegressor} from \texttt{scikit-learn} \cite{pedregosaScikitlearnMachineLearning2011}.}
+\begin{enumerate}
+    \item the number of layers is varied between 2 and 4, and the sizes of each layer are separately varied between 0 and 100;
+    \item the activation function is varied between a \ac{ReLU} \(x \to \max{0, x}\), a hyperbolic tangent \(x 
+\to \tanh(x)\), and a logistic function \(x \to (1 + e^{-x})^{-1}\);
+    \item the L2 regularization term \(\alpha \) is varied with a log-uniform distribution in \([10^{-6}, 10^{-1}]\);
+    \item the batch size for the stochastic optimization (see section \ref{sec:sgd}) is varied with a uniform distribution in \([150, 250]\);
+    \item the optimization is stopped when the performance does not improve by \texttt{tol} for more than \texttt{n\_iter\_no\_change} iterations --- \texttt{tol} is varied with a log-uniform distribution in \([10^{-15}, 10^{-7}]\), while \texttt{n\_iter\_no\_change} is varied with an integer-valued log-uniform distribution in \([40, 100]\);
+    \item the exponent for the \ac{PCA} eigenvalues multiplying the \ac{PCA} components for the training data is varied with a log-uniform distribution in \([10^{-3}, 1]\);
+    \item the training dataset \emph{size} can be varied with an integer-valued log-uniform distribution between 100 and the total data available.
+\end{enumerate}
+
+We do not optimize the \ac{PCA} parameter at this stage --- that part of the optimization is done independently, setting a cautiously high value of \(K_{\text{PCA}} = 40\) which, as discussed in section \ref{sec:principal-component-analysis}, is  enough to reconstruct waveforms with fidelity \(\mathcal{F} \lesssim 10^{-6}\). 
+
+Varying the training dataset size may seem peculiar: should we not always train the network with all the data available? 
+If the dataset size is not too large this can work, but with larger datasets (say, larger than \(10^4\) waveforms) the training time for a single network can become quite long, on the order of several minutes. 
+This is not a problem if we only need to train it once, but the optimization procedure requires several hundred or even thousands of training instances, so it quickly becomes very inefficient if each time we use a huge dataset. 
+
+On the other hand, we cannot assume that the optimal set of hyperparameters is independent of the size of the training dataset: heuristically, we should expect a network which is able to capture small-scale features to be prone to overfitting on a small dataset, while it might perform well with a large dataset. 
+
+Allowing for the training on smaller datasets can allow us to explore the hyperparameter space in a faster way.
+We have found no significant improvement beyond dataset sizes of the order \(\sim 10^3\), which is consistent with the results of \textcite{schmidtMachineLearningGravitational2020}.
+
+The optimization is carried out on two fronts with a \ac{MOTPE}: one cost function is determined by the accuracy of the reconstruction, while the other is determined by the time of the generation of the training dataset, plus the training of the \ac{NN}. 
+
+The accuracy of the reconstruction is computed on a validation dataset, which is independent of the training data for the \ac{NN} (see section \ref{sec:dataset-management}). 
+Ideally, we would want to evaluate the mismatches, but this is not computationally efficient; instead, we use the surrogate measurement 
+%
+\begin{align}
+\text{error} =\expval{ \frac{1}{\# i_\Phi } \sum _{i \in i_\Phi } \qty(\Delta \Phi ^{\text{rec}}_i - \Delta \Phi ^{\text{EOB-PN}}_i )^2 + \frac{1}{\# i_A} \sum _{i \in i_A} \qty(\Delta \log A ^{\text{rec}}_i - \Delta \log A ^{\text{EOB-PN}}_i)^2}
+\,,
+\end{align}
+%
+where the average is taken over the validation dataset, while the index sets \(i_\Phi \) and \(i_A\) are the results of the greedy downsampling algorithm (see section \ref{sec:downsampling}), and \(\# S\) denotes the cardinality of set \(S\). 
+
+The evaluation time is computed by timing the \ac{NN} training, and then adding a penalty for the training dataset size, heuristically set to \SI{100}{ms} per training waveform. 
 
 % hyperparameter optimization
 % which hyperparameters?
 % dependence on training dataset size
-TODO
+
+\subsection{\ac{FFT} versus \ac{SPA}}
+
+The use of the \ac{SPA} is ubiquitous in \ac{GW} data analysis, because of its speed, but it is still an approximation: should we not use a full \ac{FFT} of the \ac{EOB} waveforms? 
+
+The mismatch between \ac{SPA} and \ac{FFT} applied to the waveforms generated by \texttt{TEOBResumS} was studied by \textcite{gambaFastFaithfulFrequencydomain2020}, who found that they are typically on the order of \(\mathcal{F} \approx \num{e-4}\), with maximal values on the order of \(\approx \num{5e-4}\). 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/FFT-noise-lowf}
+\caption{Comparison between the amplitude for waveforms generated from the same \ac{EOB} model, moved to the frequency domain with either the \ac{SPA} or a \ac{FFT}. The \ac{FFT} is noisy due to windowing effects.}
+\label{fig:FFT-noise-lowf}
+\end{figure}
+
+This is reassuring if we want to use the \ac{SPA}: the error it introduces is an order of magnitude lower than that of the model itself. 
+
+Why would we want to use it though, if it just introduces an error?
+One reason is speed: transforming a waveform with a \ac{FFT} is quite slow, and it quickly becomes the main bottleneck in the generation of the training dataset.
+
+The second and more important reason is the windowing noise in the computation of the transform.
+Figure \ref{fig:FFT-noise-lowf} shows an example of what it looks like: since the frequency resolution is quite fine, it is able to resolve the difference between frequencies ``constructively or destructively interfering'' with the time-domain window in which we are computing the waveform. 
+This results in small fluctuations in the amplitude. These are not a large concern by themselves, but they are large enough to prevent the greedy downsampling algorithm (section \ref{alg:greedy-downsampling}) from working properly, since it assumes that the amplitude, like the phase, is smoothly varying. 
+
+Because of these two aspects, \ac{mb} reconstructs smooth \ac{SPA} waveforms. It is a prospect for the future to improve it by including \ac{FFT}-informed corrections to the high-frequency region, in which the physically meaningful difference between the \ac{SPA} and the \ac{FFT} manifests. 
 
 \section{The reconstruction of a waveform}
 

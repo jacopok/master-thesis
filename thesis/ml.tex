@@ -20,7 +20,7 @@ Supervised learning differs from \emph{unsupervised} learning, in which data is 
 
 The software \ac{mb} uses both kinds: the \ac{NN} is trained with supervised learning, while the \ac{PCA} dimensionality reduction technique and the downsampling are unsupervised. 
 
-\subsection{Dataset management}
+\subsection{Dataset management} \label{sec:dataset-management}
 
 The way a supervised learning system typically works is to build a model \(y _{\text{pred}} = f(x; \alpha , \beta ) \) which depends on variable parameters \(\alpha \) and fixed hyperparameters \(\beta \).
 For concreteness, we can think of polynomial regression: \(\beta \) may then be the degree of the polynomial with which we fit the data, while \(\alpha \) is the set of coefficients of this polynomial. 
@@ -269,7 +269,7 @@ Therefore, we can improve the performance by having the network learn the distan
 \end{align}
 %
 where \(\lambda _i\) are the eigenvalues corresponding to the principal components, while \(\kappa > 0\) is a hyperparameter.
-The prior distribution for \(\kappa \) is a log-uniform one between \(\num{e-3}\) and \(1\). 
+% The prior distribution for \(\kappa \) is a log-uniform one between \(\num{e-3}\) and \(1\). 
 
 \subsection{Backpropagation}
 
