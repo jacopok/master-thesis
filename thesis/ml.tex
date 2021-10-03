@@ -229,6 +229,7 @@ we can understand these as the columns of a \(D \times k\) matrix \(V\), which w
 
 In terms of the \(D\)-dimensional coordinates, the projection matrix is \(V V^{\top}\): its application to a vector \(y\) can be written as 
 %
+\begin{subequations}
 \begin{align}
 P_k (y) = V V^{\top} y = \left[\begin{array}{ccc}
 w_1  & \cdots & w_k
@@ -243,6 +244,7 @@ y
 (w_i \cdot y) w_i \in \mathbb{R}^{D}
 \,.
 \end{align}
+\end{subequations}
 
 For the purpose of dimensionality reduction, however, we are not interested in this projection, which still yields a \(D\)-dimensional vector: all the ``reduced'' vectors lie in a \(k\)-dimensional subspace, therefore we express them with only \(k\) coordinates, by computing \(V^{\top} y \in \mathbb{R}^{k}\). 
 
@@ -252,11 +254,13 @@ If we approach the problem by diagonalizing the covariance matrix \(C\), the com
 
 Once we have calculated \(V\) and \(\overline{x}\), then, dimensionality reduction and reconstruction are algebraic: 
 %
+\begin{subequations}
 \begin{align}
 x_i &\to V^{\top}(x_i - \overline{x}) = \widetilde{x}_i  \\
 \widetilde{x}_i &\to V \widetilde{x}_i + \overline{x} \approx x_i
 \,.
 \end{align}
+\end{subequations}
 
 The implementation used for the \ac{PCA} in \ac{mb} is the one provided by the \texttt{PCA\_model} class in \texttt{mlgw} \cite[]{schmidtMachineLearningGravitational2020}. 
 
@@ -374,6 +378,7 @@ The backpropagation algorithm is a clever idea which allows us to compute the gr
 
 The algorithm can be summarized by the following equations \cite[chapter 2]{nielsenNeuralNetworksDeep2015}: 
 %
+\begin{subequations}
 \begin{align}
 \pdv{C}{w_{jk}^{l}} &= a_{k}^{l-1} \delta^{l}_{j}  \\
 \pdv{C}{b_{j}^{l}} &= \delta^{l}_{j}  \\
@@ -381,6 +386,7 @@ The algorithm can be summarized by the following equations \cite[chapter 2]{niel
 \delta^{L}_j &= \pdv{C}{a_j^{L}}
 \,,
 \end{align}
+\end{subequations}
 %
 where \(a^{l}_{j} = w^{l}_{ji} z_i + b_j^{l}\) is the activation for the \(j\)-th neuron of layer \(l\), while \(z^{l}_j = \sigma (a^{l}_{j})\) is the output of the activation function for \(a_{j}^{l}\).
 
@@ -431,6 +437,7 @@ We choose a certain quantile \(\gamma\), say \(15 \%\), and select a fraction \(
 
 Then, we approximate the probability density \(p(\vec{x} | y)\) as follows: 
 %
+\begin{subequations}
 \begin{align}
 p(\vec{x} | y) = 
 \begin{cases}
@@ -439,6 +446,7 @@ p(\vec{x} | y) =
 \,.
 \end{cases}
 \end{align}
+\end{subequations}
 %
 
 We are condensing the \(y\)-dependence onto a binary choice between ``good'' observations, 
@@ -447,6 +455,7 @@ These two functions can then be estimated by making use of the observations we h
 
 This, crucially, allows us to calculate the \textbf{expected improvement} associated with a certain parameter set \(\vec{x}\): 
 %
+\begin{subequations}
 \begin{align}
 \text{EI}_{y^{*}} (\vec{x}) &= \int_{- \infty }^{\infty } \max \qty(y^{*} - y, 0 ) p(y | \vec{x}) \dd{y}
 \marginnote{There is no improvement if \(y > y^{*}\).}  \\
@@ -457,6 +466,7 @@ This, crucially, allows us to calculate the \textbf{expected improvement} associ
 &\propto \frac{1}{\gamma + (1 - \gamma ) \frac{g(\vec{x})}{\ell(\vec{x})}}
 \,,
 \end{align}
+\end{subequations}
 %
 where the term we neglected can be interpreted as the average improvement over all choices of \(\vec{x}\), which we hope is large but which we cannot affect with a good choice of \(\vec{x}\). 
 

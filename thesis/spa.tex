@@ -57,12 +57,14 @@ Notice that the combination of the conditions we imposed at the beginning ensure
 
 If this is the case, we can write the Fourier integral as 
 %
+\begin{subequations}
 \begin{align}
 \widetilde{f}(\omega ) &\approx A(t_s) e^{- i \Phi (t_s) + i \omega t_s} \sqrt{\frac{- 2 \pi i}{\ddot{\Phi}}}   \\
 \abs{\widetilde{f}(\omega )} &\approx A(t_s (\omega )) \sqrt{\frac{2 \pi }{\ddot{\Phi} (t_s (\omega ))}}  \\
 \angle \widetilde{f}(\omega ) &\approx - \Phi (t_s (\omega )) + \omega t_s (\omega ) - \frac{\pi}{4}
 \,,
 \end{align}
+\end{subequations}
 %
 where the \(- \pi /4\) comes from the \(\sqrt{-i}\). 
 
@@ -81,14 +83,17 @@ The true values for the exponents in the quadrupole approximation are \(\alpha =
 
 The first thing to do is to find \(t_s(\omega )\): it is given by 
 %
+\begin{subequations}
 \begin{align}
 \omega &= \dot{\Phi} = \alpha K_\Phi (-t_s)^{\alpha -1}   \\
 t_S &= - \qty( \frac{\omega }{\alpha  K_\Phi })^{1/(\alpha -1)}
 \,.
 \end{align}
+\end{subequations}
 
 The other quantities we need to compute are: 
 %
+\begin{subequations}
 \begin{align}
 A(t_s) &= K_A \qty(\frac{\omega  }{\alpha  K_\Phi })^{\beta / (\alpha-1 )}  \\
 \Phi(t_s) &= K_\Phi \qty(\frac{\omega }{\alpha  K_\Phi })^{\alpha / (\alpha-1 )}  \\ 
@@ -96,18 +101,22 @@ A(t_s) &= K_A \qty(\frac{\omega  }{\alpha  K_\Phi })^{\beta / (\alpha-1 )}  \\
 = - K_\Phi \alpha (\alpha -1) \qty(\frac{\omega }{\alpha  K_\Phi })^{(\alpha -2) / ( \alpha -1)}  
 \,,
 \end{align}
+\end{subequations}
 %
 therefore the phase reads 
 %
+\begin{subequations}
 \begin{align}
 \angle \widetilde{f}(\omega ) &= - K_\Phi \qty(\frac{\omega }{\alpha  K_\Phi })^{\alpha / (\alpha-1 )} 
 - \omega \qty(\frac{\omega }{\alpha  K_\Phi })^{1/\alpha } - \frac{\pi}{4}  \\
 &= - \qty(\frac{\omega^{\alpha }}{K_\Phi } \qty(\alpha^{-\alpha } + \alpha^{-1}))^{1 / (\alpha - 1)}  - \frac{\pi}{4}
 \,,
 \end{align}
+\end{subequations}
 %
 while the amplitude reads 
 %
+\begin{subequations}
 \begin{align}
 \abs{\widetilde{f}(\omega )} &= K_A \qty(\frac{\omega }{\alpha K_\Phi })^{\beta / (\alpha-1 )} \sqrt{2 \pi } \underbrace{\qty(K_\Phi \alpha (\alpha -1) \qty(\frac{\omega }{\alpha  K_\Phi })^{(\alpha -2) / ( \alpha -1)})^{-1/2}}_{1 / \sqrt{\ddot{\Phi}}}   \\
 &= K_A 
@@ -116,12 +125,14 @@ while the amplitude reads
 \sqrt{ \frac{2\pi}{\alpha -1} }
 \,.
 \end{align}
+\end{subequations}
 
 The last complication is the fact that the phase appears in the expression for the waveform \eqref{eq:amplitude-quadrupole-emission} not with a complex exponential, but instead with a cosine or a sine: this is not a problem, we just need to use the relations \(\cos x = (e^{ix}+e^{-ix}) / 2\) and \(\sin x = (e^{ix}- e^{-ix}) / 2i\). 
 The factor of \(i\) in the sine will correspond to a \(\pi /2\) phase difference between the two polarizations, while the average of the two different exponentials will correspond to an amplitude reduction of a factor 2 if we restrict ourselves to positive frequencies.\footnote{Since the Fourier transform is linear the two exponentials can be treated separately. The transform of a real signal is fully encoded by its positive-frequency components; in order for the integral not to vanish in the Gaussian approximation there needs to be a stationary point; the phase of the \ac{GW} signal is strictly monotonic. These three assumptions lead to the fact that only one of the two exponentials will give a nonzero contribution while the other will have no stationary point, so only the division by 2 will matter in the average.}
 
 Substituting the values for \(\alpha \), \(\beta \), \(K_\Phi \) and \(K_A\) we get the following expressions \cite[eqs.\ 4.34--37]{maggioreGravitationalWavesVolume2007}, written in terms of \(f = \omega / 2\pi \): 
 %
+\begin{subequations}
 \begin{align} \label{eq:spa-waveforms}
 \widetilde{h}_{+}(f) &= \frac{1}{\pi^{2/3}} \sqrt{ \frac{5}{24}} 
 \frac{c}{r} \qty( \frac{G \mathcal{M}_c}{c^3})^{5/6} f^{-7/6} 
@@ -134,6 +145,7 @@ Substituting the values for \(\alpha \), \(\beta \), \(K_\Phi \) and \(K_A\) we 
 \cos \iota 
 \,.
 \end{align}
+\end{subequations}
 
 The frequency dependence of the amplitude comes out to be \(\abs{\widetilde{f}(\omega )} \propto \omega^{-7/6} \propto f^{-7/6}\):  it might be surprising to see that this is decreasing while the chirping waveform rises in amplitude! 
 The reason for this fact is that each portion of the Fourier integral is weighted not only by the amplitude of the envelope \(A(t)\) but also by the time the waveform ``spends'' in that frequency region, which decreases with time. 

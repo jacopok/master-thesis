@@ -100,11 +100,13 @@ A linear term has been subtracted from all of these for the plot: this does not 
 
 The \ac{mb} model reconstructs the residuals of \ac{EOB} waveforms from \ac{PN} ones: these are specifically expressed as 
 %
+\begin{subequations}
 \begin{align} \label{eq:amplitude-phase-residuals}
 \Delta A(f;\theta ) &= \log \qty(\frac{A _{\text{EOB}} (f;\theta )}{A _{\text{PN}} (f;\theta )}) \\
 \Delta \Phi (f; \theta ) &= \Phi _{\text{EOB}} (f; \theta ) - \Phi _{\text{PN}} (f; \theta )
 \,,
 \end{align}
+\end{subequations}
 %
 where \(A\) and \(\Phi \) are the amplitude and phase of the respective \ac{FD} waveforms. 
 
@@ -118,11 +120,13 @@ An arbitrary choice must be made for this normalization: since we know the low-f
 
 After the \ac{PCA}+\ac{NN} ensemble reconstructs the residuals, the waveform can be recovered as 
 %
+\begin{subequations}
 \begin{align}\label{eq:amplitude-phase-reconstruction}
 A _{\text{rec}} (f; \theta ) &= \exp( \Delta A _{\text{rec}} (f; \theta )) A _{\text{PN}}(f; \theta )  \\
 \Phi _{\text{rec}} (f; \theta ) &= \Phi _{\text{rec}}(f; \theta ) + \Phi _{\text{PN}}(f; \theta )
 \,.
 \end{align}
+\end{subequations}
 
 Because of the subtraction of the linear term from the phase, the reconstructed waveform will be time-shifted by some small amount compared to the corresponding \ac{EOB} one. 
 
@@ -239,7 +243,7 @@ This is the procedure denoted as ``prediction'' in figure \ref{fig:flowchart}.
     \item The two polarizations are recovered by multiplying \(h\) by their respective functions of \(\iota \) and a phase shift by \(\pi /2\) for \(h_ \times \). \label{item:polarizations}
 \end{enumerate}
 
-As we shall discuss in section \ref{sec:evaluation-time}, the second-slowest part of the reconstruction for a waveform is the inclusion of extrinsic parameters, in points \ref{item:item:rescale} and \ref{item:polarizations}. 
+As we shall discuss in section \ref{sec:evaluation-time}, the second-slowest part of the reconstruction for a waveform is the inclusion of extrinsic parameters, in points \ref{item:rescale} and \ref{item:polarizations}. 
 Therefore, these have been sped up with just-in-time compilation with \texttt{numba} \cite{lamNumbaLLVMbasedPython2015}.
 
 \subsection{Evaluation time} \label{sec:evaluation-time}

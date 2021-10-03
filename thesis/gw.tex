@@ -21,15 +21,18 @@ We work in this \emph{global inertial frame}.
 In order to study the evolution of the perturbation \(h_{\mu \nu }\) we need to solve the Einstein Field Equations for it to linear order. 
 In a vacuum, they can be written as 
 %
+\begin{subequations}
 \begin{align}
 G_{\mu \nu } &= R_{\mu \nu} - \frac{1}{2} \eta_{\mu \nu } R  = 0 \\
 R_{\mu \nu } &= g^{\alpha \beta } R_{\alpha \mu \beta  \nu }   \\
 R &= g^{\mu \nu } R_{\mu \nu }
 \,,
 \end{align}
+\end{subequations}
 %
 where \(R_{\alpha \mu \beta \nu } \sim \partial \Gamma + \Gamma \Gamma \) is the Riemann tensor, which is written in terms of derivatives and squares of Christoffel symbols \(\Gamma \): 
 %
+\begin{subequations}
 \begin{align}
 \Gamma^{\rho }_{\mu \nu } 
 &= \frac{1}{2} g^{\rho \lambda } 
@@ -39,6 +42,7 @@ where \(R_{\alpha \mu \beta \nu } \sim \partial \Gamma + \Gamma \Gamma \) is the
 \marginnote{We use the fact that \(\partial \eta = 0\), and keep only linear order terms.}
 \,.
 \end{align}
+\end{subequations}
 
 Since the Christoffel symbols are of first order in the perturbation, the term \(\Gamma \Gamma \) in the Riemann tensor is of second order and can be neglected. 
 Therefore, the relevant components are 
@@ -187,6 +191,7 @@ Now that we know how the perturbation \(h_{\mu \nu }\) transforms under an infin
 The way to show that this is possible is to write out the way \(\partial^{\mu } \overline{h}_{\mu \nu }\) transforms for an arbitrary choice of \(\xi \), and to see that with an appropriate choice of \(\xi \) we can always map it to zero. 
 The transformation reads 
 %
+\begin{subequations}
 \begin{align}
 \partial^{\mu } \overline{h}_{\mu \nu }' &= 
 \partial^{\mu } \qty(h_{\mu \nu } - 2 \partial_{(\mu } \xi_{\nu )}) - \frac{1}{2} \partial_{\nu } \qty(\eta^{\alpha \beta } \qty(h_{\alpha \beta } - 2 \partial_{(\alpha } \xi_{\beta )}))  \\
@@ -194,6 +199,7 @@ The transformation reads
 &= \partial^{\mu } \overline{h}_{\mu \nu } - \square \xi_{\nu } \overset{!}{=} 0
 \,. 
 \end{align}
+\end{subequations}
 
 Therefore, from any starting gauge we must only find a \(\xi_{\nu }\) such that \(\partial^{\mu } \overline{h}_{\mu \nu } = \square \xi_{\nu }\), and we will be in the correct gauge. 
 This can always be done, since the D'Alambert equation \(\square f = g\) can always be solved for \(f\) --- if we needed to compute \(\xi_{\nu }\) explicitly (which we typically do not) we could use the Green's function \(G(z)\) for the operator, defined by \(\square G(z) = \delta^{(4)} (z)\). 
@@ -226,11 +232,13 @@ In this framework we can impose the residual gauge condition explicitly: a funct
 
 In these terms, the transformation equation \eqref{eq:perturbation-transformation-infinitesimal-tracereversed} reads 
 %
+\begin{subequations}
 \begin{align}
 \overline{h}_{\mu \nu } &\to \overline{h}_{\mu \nu } + \qty(- 2 i B_{(\mu } d_{\nu )}  + i \eta_{\mu \nu } B_{\beta } d^{\beta } ) e^{i d_\alpha x^{\alpha }} \\
 A_{\mu \nu } e^{i k_\alpha x^{\alpha }} &\to A_{\mu \nu } e^{i k_\alpha x^{\alpha }} + \qty(-2 i B_{(\mu } d_{\nu )} + i \eta_{\mu \nu } B_{\beta } d^{\beta }) e^{i d_\alpha x^{\alpha }} 
 \,.
 \end{align}
+\end{subequations}
 
 This tells us that if we set the vector \(d_{\alpha }\) to be equal to \(k_\alpha \) the amplitude \(A_{\mu \nu }\) will transform according to the algebraic system
 %
@@ -269,6 +277,7 @@ h_{\mu \nu }^{TT}(x) = \left[\begin{array}{cccc}
 \exp(i k_{\alpha } x^{ \alpha })
 \,,
 \end{align}}
+
 %
 where \(h_+ = A_{11} \) and \(h_\times = A_{12} \). 
 
@@ -282,11 +291,13 @@ The projection, which yields a perturbation with two degrees of freedom, is thus
 
 The \ac{TT} gauge we defined has the rather peculiar characteristic of ``moving with the wave'', so that the position of any observer initially at rest (so, such that \(u^{\mu } (\tau = 0 ) = (1, \vec{0})^{\top}\)) is unchanged: the geodesic equation evaluated at \(\tau = 0\) reads
 %
+\begin{subequations}
 \begin{align}
 \eval{\dv[2]{x^{\mu }}{\tau}}_{\tau = 0} + \eval{\Gamma^{\mu }_{\nu \rho } u^{\nu } u^{\rho }}_{\tau = 0} &= 0   \\
 \eval{\dv[2]{x^{\mu }}{\tau}}_{\tau = 0} &= - \Gamma^{\mu }_{00} = 0 
 \,,
 \end{align}
+\end{subequations}
 %
 since the Christoffel symbols computed \(\Gamma^{\mu }_{00}\) with the \ac{TT} gauge perturbation \eqref{eq:TT-gauge-gw} all vanish: \(\Gamma^{\mu }_{00} = \eta^{\mu \nu } \qty( 2 g_{\nu 0,0} - g_{00, \nu }) / 2 =  0\).
 
@@ -331,11 +342,13 @@ Fortunately \acsp{GW} are physical, so they must still manifest regardless of ou
 
 The distances of points at a fixed position (\(x\), \(y\), \(z\)) from the center change (up to a phase) according to the expression 
 %
+\begin{subequations}
 \begin{align}
 x (t) &= x_{0} \qty(1 + h_+ e^{i \omega t}) + y_{0} h_\times  e^{i \omega t} \\
 y (t) &= y_{0} \qty(1 - h_+ e^{i \omega t}) + x_{0} h_\times  e^{i \omega t} 
 \,,
 \end{align}
+\end{subequations}
 %
 which is shown graphically in figure \ref{fig:polarizations} for four configurations: only \(h_+\) or \(h_\times \) being nonzero, or only \(h_R \propto h_+ + i h_\times \) or \(h_L \propto h_+ - i h_\times \) being nonzero. 
 The last two are called \emph{circular polarizations}.
@@ -356,6 +369,7 @@ The reason the \ac{TT} gauge perturbation appears here as well is that the Riema
 The lowest order contribution to the generation of gravitational waves can be calculated starting from the linearized Einstein equations \eqref{eq:wave-equation-einstein}. 
 The Green's function method for the inversion of the D'Alambertian is a common technique: if we can find a function \(G(z)\) such that \(\square G(z) = \delta^{(4)} (z)\), then we can do the following manipulation (denoting the gravitational constant as \(G_N\) for clarity): 
 %
+\begin{subequations}
 \begin{align}
 \square_x \overline{h}_{\mu \nu} (x) &= - 16 \pi G_N T_{\mu \nu } (x)  \\
 &= - 16 \pi G_N \int \dd[4]{y} T_{\mu \nu }(y) \delta^{(4)} (x-y)  \\
@@ -368,6 +382,7 @@ The Green's function method for the inversion of the D'Alambertian is a common t
 &= 4 G_N \int \dd[3]{y} T_{\mu \nu }(x^{0} - \abs{\vec{x} - \vec{y}}, \vec{y}) \frac{1}{\abs{\vec{x} - \vec{y}}}
 \,,
 \end{align}
+\end{subequations}
 %
 where in the last step we introduced the explicit expression for the Green's function of the D'Alambertian: \(G(z) = - \Theta (z^{0}) / 4 \pi \abs{\vec{z}}\)
 % \footnote{The square bracket here is the Iverson bracket \cite{knuthTwoNotesNotation1992}, which maps a boolean expression to 1 (if true) or 0 (if false); in this context it is thus equivalent to the Heaviside Theta: \([z^{0}>0] = \Theta (z^{0})\).} 
@@ -450,6 +465,7 @@ We can also analogously calculate moments for the energy density \(T_{00} \), wh
 
 With integration by parts combined with the (flat space!) conservation of the stress-energy tensor \(\partial_{\mu } T^{\mu \nu }= 0\) we can relate the \(M\), \(P\) and \(S\) with equations such as \cite[eqs.\ 3.45--51]{maggioreGravitationalWavesVolume2007}
 %
+\begin{subequations}
 \begin{align}
 \dot{M} &= 0  \\
 \dot{P}_{i} &= 0 \\
@@ -457,6 +473,7 @@ With integration by parts combined with the (flat space!) conservation of the st
 S_{ij} &= P_{i | j}
 \,,
 \end{align}
+\end{subequations}
 %
 where dots denote time derivatives.
 
@@ -500,11 +517,13 @@ It is impossible to construct a \emph{local}, gauge invariant stress-energy tens
 
 However, we \emph{can} define a tensor through an averaging procedure over many wavelengths and periods of the wave. There are different ways to do so, but a common one is the Landau-Lifshitz pseudotensor: 
 %
+\begin{subequations}
 \begin{align}
 t_{\mu \nu } &= - \frac{1}{8 \pi G} \expval{R^{(2)}_{\mu \nu }- \frac{1}{2} \overline{g}_{\mu \nu } R^{(2)}}_{\text{mesoscopic}}  \\
 &= \frac{1}{32 \pi G} \expval{\partial_{\mu } h_{\alpha \beta } \partial_{\nu }h^{\alpha \beta }}
 \,,
 \end{align}
+\end{subequations}
 %
 where \(R^{(2)}_{\mu \nu }\) and \(R^{(2)}\) are the components of the Ricci tensor and scalar which are quadratic in the perturbation \(h_{\mu \nu }\); \(\overline{g}_{\mu \nu }\) is the background metric, and the averaging procedure is done on scales (wavelengths/periods) which are (much) larger than the typical wavelengths of the gravitational radiation considered, but (much) smaller than the typical wavelengths of the background \cite[sections 1.4.2, 1.4.3]{maggioreGravitationalWavesVolume2007}.
 
@@ -539,11 +558,13 @@ This prediction has been validated in 2015 with the first detection of \ac{GW} f
 We focus our attention towards a pair of inspiraling (compact) objects, which we will initially model as point masses in quasi-circular orbits.
 The first thing we need to do is to write an expression the amplitudes in the two polarizations \(h_{+, \times }\) of the waves generated by a generic mass distribution with a mass moment \(M_{ij}\) \cite[eqs.\ 3.67--68]{maggioreGravitationalWavesVolume2007}:\footnote{We could also write these in terms of the traceless quadrupole moment \(Q_{ij}\); we follow the convention set forward by \textcite{maggioreGravitationalWavesVolume2007}.} 
 %
+\begin{subequations}
 \begin{align}
 h_{+}(t, \hat{n}) &= \frac{G}{r} \qty(\ddot{M}_{11}' - \ddot{M}_{22}')\\
 h_{+}(t, \hat{n}) &= \frac{G}{r} \qty(2\ddot{M}_{12}')
 \,,
 \end{align}
+\end{subequations}
 %
 where \(M^{\prime }_{ij}\) are the components of the mass moment tensor in a frame whose \(z'\) axis is aligned to the observation direction.
 
@@ -554,6 +575,7 @@ For simplicity, we will neglect this phase freedom here and only include a varia
 
 If the position of the bodies in the center-of-mass frame is 
 %
+\begin{subequations}
 \begin{align}
 \vec{x}(t) = R \left[\begin{array}{c}
 \cos(\Omega t) \\ 
@@ -562,9 +584,11 @@ If the position of the bodies in the center-of-mass frame is
 \end{array}\right]
 \,,
 \end{align}
+\end{subequations}
 %
 then the mass moments read \(M_{ij} = \mu x_i (t) x_j(t)\) (where \(\mu = m_1 m_2 / (m_1 + m_2 ) \) is the reduced mass of the system), and going through the computation yields \cite[eq.\ 3.332]{maggioreGravitationalWavesVolume2007}
 %
+\begin{subequations}
 \begin{align} \label{eq:binary-waveform-1}
 h_{+} (t) &= \underbrace{\frac{4 G \mu \Omega^2 R^2}{r}}_{A} \qty(\frac{1 + \cos^2 \iota }{2}) \cos( 2 \Omega t) 
 \\
@@ -573,6 +597,7 @@ h_{ \times } (t) &= \underbrace{\frac{4 G \mu \Omega^2 R^2}{r}}_{A} \cos \iota  
 A &= \frac{4}{r} \qty(\frac{G\mathcal{M}_c}{c^2})^{5/3} \qty(\frac{\pi f _{\text{gw}}}{c})^{2/3} 
 \,.
 \end{align}
+\end{subequations}
 
 Approximating the motion of the bodies as circular during an orbit is called the \emph{adiabatic approximation}, since it assumes that no energy is lost in each orbit (as that would deform the circle). The variation of the orbital frequency \(\Omega \), which we shall compute shortly, must satisfy \(\dot{\Omega} \ll \Omega^2\). 
 This turns out to be a good approximation only for very early stages of the inspiral. 
@@ -626,19 +651,23 @@ f _{\text{gw}} (t) = \frac{\omega _{\text{gw}} (t)}{2 \pi } = \frac{1}{2 \pi }\q
 
 This expression for \(f _{\text{gw}}\) can be substituted into the gravitational waveforms \eqref{eq:binary-waveform-1}; we must also update the phase term, since \(2 \Omega t\) is the phase for a uniformly circular orbit: we will want to use integrate the angular velocity, to find 
 %
+\begin{subequations}
 \begin{align} \label{eq:phase-quadrupole-emission}
 \Phi (t) &= \int^{t} \omega _{\text{gw}}(\widetilde{t}) \dd{\widetilde{t}} = 2 \int^{t} \Omega (\widetilde{t}) \dd{\widetilde{t}}  \\
 &= -2 \qty(\frac{5 G \mathcal{M}_c}{c^3})^{-5/8} \tau^{-5/8} + \const
 \,.
 \end{align}
+\end{subequations}
 
 In terms of this, the amplitude in the two polarizations will read \cite[eqs.\ 4.31--32]{maggioreGravitationalWavesVolume2007}
 %
+\begin{subequations}
 \begin{align} \label{eq:amplitude-quadrupole-emission}
 h_{+} (t) &= \frac{1}{r} \qty(\frac{G \mathcal{M}_c}{c^2})^{5/4} \qty( \frac{5}{c \tau })^{1/4} \qty(\frac{1 + \cos^2\iota }{2}) \cos \Phi (t) \\
 h_{ \times } (t) &= \frac{1}{r} \qty(\frac{G \mathcal{M}_c}{c^2})^{5/4} \qty( \frac{5}{c \tau })^{1/4} \cos \iota  \sin \Phi (t) 
 \,.
 \end{align}
+\end{subequations}
 
 As we will discuss in section \ref{sec:data-analysis}, for data analysis it is convenient to have expressions for the Fourier transforms of these. An analytic computation of the integrals is intractable, but we can make use of a technique known as \ac{SPA}, which is discussed in detail in appendix \ref{sec:spa}. 
 The final expressions for the Fourier-domain waveforms are equations \eqref{eq:spa-waveforms}. 
@@ -723,6 +752,7 @@ where \(\hat{n} = \hat{n} (\alpha , \delta )\) is the vector describing the prop
 
 The tensors \(e_{ab}\) are basis tensors: in a frame where \(\hat{n}\) and \(\psi \) are chosen such that the \(+\) polarization stretches the \(x\) and \(y\) axes, they read 
 %
+\begin{subequations}
 \begin{align}
 e_{ij}^{+} (\hat{n}=\hat{z}, \psi =0) &= u_i u_j - v_i v_j = \left[\begin{array}{ccc}
 1 & 0 & 0 \\ 
@@ -736,6 +766,7 @@ e_{ij}^{ \times } (\hat{n}=\hat{z}, \psi = 0) &= u_i v_j + v_i u_j = \left[\begi
 \end{array}\right]
 \,,
 \end{align}
+\end{subequations}
 %
 where \(u\) and \(v\) are two unit vectors defining the polarization direction; they are always chosen to be orthogonal, so fixing the angle \(\psi \) is enough to determine them both once we give \(\hat{n}\). 
 
@@ -851,12 +882,14 @@ This is the starting point for the relativistic generalization of the result as 
 
 The meaning of \(\Lambda \) is less immediate ---  the first correction to the phasing of the waveform which appears is\footnote{The meaning of the \ac{PN} expansion will be discussed in section \ref{sec:post-newtonian} --- for now, one can think of it simply as an expansion in orders of \(v/c\).} \cites[eq.\ 14.231]{maggioreGravitationalWavesVolume2018}{flanaganConstrainingNeutronStar2008}
 %
+\begin{subequations}
 \begin{align}
 \Delta \Psi^{\text{tidal}}_{\text{5PN}} &= - \frac{117}{256} \frac{m^2}{m_1 m_2 } \widetilde{\Lambda } \qty(\frac{v}{c})^{5} 
 \\
 \widetilde{\Lambda} &= \frac{16}{13} \frac{(m_1 + 12m_2 ) m_1^{4} \Lambda_1 + (m_2 + 12 m_1 ) m_2^{4} \Lambda_2 }{(m_1 +m_2 )^{5}}
 \,.
 \end{align}
+\end{subequations}
 
 The parameter \(\widetilde{\Lambda}\), which depends on the tidal deformabilities of the two stars \(\Lambda_{1, 2}\), is called the \emph{reduced tidal parameter}. 
 
@@ -892,6 +925,7 @@ This can be found thanks to the quadrupole angular momentum emission formula, wh
 
 This allows us to make a system of two equations, \(\dv*{E}{t}\) and \(\dv*{L}{t}\), which we can reparametrize as equations for \(\dot{a}\) and \(\dot{e}\) \cite[eqs.\ 4.116--17]{maggioreGravitationalWavesVolume2007}: 
 %
+\begin{subequations}
 \begin{align}
 \dot{a} &= - \frac{64}{5} \frac{G^3 \mu m^2}{c^{5} a^3}
 \frac{1}{(1-e^2)^{7/2}} \qty(1 + \frac{73}{24} e^2 + \frac{37}{96}e^{4})  \\
@@ -899,6 +933,7 @@ This allows us to make a system of two equations, \(\dv*{E}{t}\) and \(\dv*{L}{t
 \frac{e}{(1-e^2)^{5/2}} \qty(1 + \frac{121}{304} e^2)
 \,,
 \end{align}
+\end{subequations}
 %
 which can be (nontrivially) analytically solved, yielding the result shown in figure \ref{fig:eccentricity}. 
 
@@ -981,11 +1016,13 @@ where \(\mathtt{M}\) is the numeric value of the total mass, expressed in solar 
 
 Restricting ourselves to the \((\ell=2, m=2)\) mode (as defined in section \ref{sec:spherical-harmonics-decomposition}) is equivalent to writing the Fourier-domain waveform as 
 %
+\begin{subequations}
 \begin{align}
 \widetilde{h}_{+}(f) &= \frac{1 + \cos^2 \iota }{2} \ \widetilde{h} (f)  \\
 \widetilde{h}_{ \times } (f) &= \cos \iota \ \widetilde{h}(f)
 \,.
 \end{align}
+\end{subequations}
 
 \section{Interferometers and data analysis} \label{sec:data-analysis}
 
@@ -1008,19 +1045,23 @@ We want to apply this expression to the generic one for a gravitational wave \eq
 
 This leads to the following expression for the observed signal:
 %
+\begin{subequations}
 \begin{align}
 h(t) &= \sum _{\text{pol}= +, \times } \underbrace{D^{ij} e_{ij}(\hat{n}, \psi )}_{F _{\text{pol}}}  \underbrace{\int_{- \infty }^{\infty } \dd{f} \widetilde{h} _{\text{pol}} e^{-2 \pi i f t}}_{h _{\text{pol}}(t)}  \\
 &= F_+ h_+ (t) + F_\times h_\times (t)
 \,.
 \end{align}
+\end{subequations}
 
 The \emph{detector pattern functions} \(F_{+, \times }\) can be computed explicitly; for a Michelson-Morley interferometer they read 
 %
+\begin{subequations}
 \begin{align}
 F_{+} &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \cos 2 \psi - \cos \theta \sin 2 \phi \sin 2 \psi   \\
 F_{ \times } &= \frac{1}{2} \qty(1 + \cos^2 \theta ) \cos 2 \phi \sin 2 \psi + \cos \theta \sin 2 \phi \cos 2 \psi  
 \,,
 \end{align}
+\end{subequations}
 %
 where \(\theta \), \(\phi \) are the two angles describing the direction the \ac{GW} is coming from in a frame aligned with the axes of the detector --- they will depend on the sky position of the source (\(\alpha \), \(\delta \)) as well as the orientation of the detector in space (which depends on well-known parameters such as its latitude, the orientation of the earth at each time and so on).
 
@@ -1145,6 +1186,7 @@ The waveform shown is lowered by a factor \(8\) compared to the value it would h
 
 Amplitude strain profiles, as well as Fourier transforms of signals, are often plotted with log-scales: in order to have an intuition for this quantity we can reframe it as 
 %
+\begin{subequations}
 \begin{align}
 \text{optimal \ac{SNR}} &=
 \int_{- \infty }^{\infty } \dd{\log f}  \frac{h_c^2 (f)}{h_n^2(f)}  
@@ -1153,6 +1195,7 @@ h_c (f) &= 2 f \abs{\widetilde{h}(f)}  \\
 h_n (f) &= \sqrt{f S_n(f)}
 \,,
 \end{align}
+\end{subequations}
 %
 where the quantities \(h_c\) and \(h_n\) are called the \textbf{characteristic strains} of signal and noise \cite[eqs.\ 17--19]{mooreGravitationalwaveSensitivityCurves2015}. 
 They are both dimensionless, the way this integral is expressed allows us to integrate ``by eye'': if we plot log-characteristic strain against log-frequency, the positive area between \(h_c\) and \(h_n\) will be proportional to the optimal \ac{SNR}. 
@@ -1199,12 +1242,14 @@ where either of the two waveforms is shifted in time and in phase.
 
 In practice, this does not affect the norms of the waveforms in the denominator, but instead it means that the scalar product between \(a = A_a(f) e^{i \phi _a (f)}\) and \(b = A_b (f) e^{i \phi _b (f)}\) reads 
 %
+\begin{subequations}
 \begin{align}
 \max_{\phi_0 , t_0 } (a|b(\phi_0 , t_0 )) 
 &= \max_{\phi_0, t_0 } 4 \Re \int_{0}^{\infty } \dd{f} \frac{A_a (f) A_b(f) e^{i \phi_a - i \phi _b + 2 \pi i f t_0 + \phi_0 }}{S_n (f)} \\
 &= \max_{t_0 } 4 \abs{\int_{0}^{\infty } \dd{f} \frac{A_a (f) A_b(f) e^{i \phi_a - i \phi _b + 2 \pi i f t_0 }}{S_n (f)}}
 \,.
 \end{align}
+\end{subequations}
 
 This relation also means that while the mismatch \(M(a, b)\) could in principle be as large as \(2\) (for \(a(f) = -b(f)\)) the optimal mismatch is bounded by \(1\), since there will always be a phase choice to make \((a|b)\) positive, albeit small in magnitude.
 
@@ -1313,6 +1358,7 @@ Specifically, if we have the evidence for a specific signal corresponding to two
 
 What is the probability of observing \(s = h_\theta + n\) if we fix \(\theta \)? The theoretical signal \(h_\theta \) can be computed and is thereafter fixed, likewise \(s\), so this is just the probability of observing a certain realization of the noise: under the assumption of Gaussianity, it will read 
 %
+\begin{subequations}
 \begin{align}
 \mathbb{P}(h_\theta + n | \vec{\theta})  
 &\propto \exp( - \frac{1}{2} \int_{\infty }^{\infty } \dd{f} \frac{\abs{n(f)}^2}{S_n(f) / 2} )
@@ -1329,6 +1375,7 @@ What is the probability of observing \(s = h_\theta + n\) if we fix \(\theta \)?
 \frac{(h_\theta | h_\theta )}{2})
 \,.
 \end{align}
+\end{subequations}
 
 This is a closed-form expression for our posterior probability density, so if we could compute it precisely and efficiently we would be done: the posterior distribution \(\mathbb{P}(\theta | s)\) conceptually includes all the possible information we could extract about the parameters from our observation. 
 % This, of course, neglects several issues: the noise in the detector is not really Gaussian as this expression assumes, 
@@ -1345,6 +1392,7 @@ We ask of these estimators that they be
 
 A choice which satisfies these criteria quite well is the \textbf{Bayes estimator}, which estimates a parameter \(\theta^{i}\) and the covariance matrix component \(\Sigma_{ij}\) as 
 %
+\begin{subequations}
 \begin{align}
 \hat{\theta}^{i} &= \int \dd[n]{\vec{\theta} } \theta^{i}\mathbb{P}(\vec{\theta} | s)  \\
 \hat{\Sigma}_{ij} &= \int \dd[n]{\vec{\theta}} 
@@ -1353,6 +1401,7 @@ A choice which satisfies these criteria quite well is the \textbf{Bayes estimato
 \mathbb{P}(\vec{\theta} | s)
 \,.
 \end{align}
+\end{subequations}
 
 Depending on the way the posterior distribution is calculated and parametrized, computing this may be impractical.
 Other choices include estimating the parameters by the values which maximize the likelihood or the posterior, and the covariance from the Hessian of the \ac{PDF} around that point. 
@@ -1614,22 +1663,26 @@ momentum by \(q = r c^2 / GM\) and \(p = p' / \mu \), where \(p'\) is the moment
 
 This is then matched\footnote{The way this ``matching'', this construction of a dictionary between the two- and the one-body problems, is performed is through a quantum-mechanical analogy. The idea is to consider the quantized energy levels corresponding to the classical Hamiltonians, which will depend on the quantum numbers \(n\) (principal quantum number) and \(\ell\) (total angular momentum),  while the quantum number \(m\), describing  the \(z\) component of the angular momentum, is irrelevant because of the spherical symmetry of the problem. One can then determine the correspondence by establishing a rule to translate between the energy levels corresponding to the same \((n, \ell)\) pairs \cite{damourGeneralRelativisticTwo2014}.} to the Hamiltonian of a particle moving in an effective metric 
 %
+\begin{subequations}
 \begin{align}
 g _{\text{eff}} &= A(u, \nu ) \dd{T^2} + B(u, \nu) \dd{R^2} + R^2 \dd{\Omega^2}  \\
 A(u, \nu ) &\approx 1 + \widetilde{a}_1 (\nu ) u + \widetilde{a}_2 (\nu ) u^2 + \dots  \\
 B(u, \nu ) &\approx 1 + \widetilde{b}_1 (\nu ) u + \widetilde{b}_2 (\nu ) u^2 + \dots  
 \,,
 \end{align}
+\end{subequations}
 %
 where \(u\) is the inverse radial coordinate \(u = GM / c^2 R\). 
 The way to do so is to write both Hamiltonians in Delaunay (action-angle) coordinates. 
 The metric potentials \(A\) and \(B\), to 3PN order, read: 
 %
+\begin{subequations}
 \begin{align}
 A _{\text{3PN}} &= 1 - 2u + 3 \nu u^2 + \qty( \frac{94}{3} - \frac{41 \pi }{32}) \nu u^3  \\
 B _{\text{3PN}} &= \frac{1 - 6 \nu u^2 + 2 (3 \nu - 26) \nu u^3}{A _{\text{3PN}}}
 \,.
 \end{align}
+\end{subequations}
 
 Note that the \(\nu \to 0\) case corresponds to one of the masses vanishing: therefore, we are looking at a test particle in Schwarzschild geometry, and we indeed recover \(A = 1-2u = 1/B\).
 The other extreme case is \(\nu = 1/4\), which corresponds to \(m_1 = m_2 \). 
@@ -1651,12 +1704,14 @@ This may seem pointless, since it reproduces the \ac{PN} result at the same orde
 
 The Hamiltonian whose equations of motion are actually solved is expressed in terms of the potentials \cite[eq.\ 8.22]{bernuzziNotesGravitationalWaves2021}:  
 %
+\begin{subequations}
 \begin{align}
 H _{\text{EOB}} &= Mc^2 \sqrt{1 + 2 \nu (\hat{H} _{\text{eff}} - 1 )}  \\
 \hat{H} _{\text{eff}} = \frac{H_{\text{eff}}}{\mu } &= 
 \sqrt{ A(u, \nu ) \qty(1 + p^2_{\phi } u^2 + 2 \nu (4-3 \nu ) u^2 p^{4}_{r*}) + p^2_{r*}}
 \,,
 \end{align}
+\end{subequations}
 %
 where \(p_{r*} = \mu^{-1} \int (B/A) \dd{R} \) is the momentum corresponding to a rescaled radial variable, while \(p_\varphi = P_\varphi / (\mu GM)\) is a rescaled angular momentum. 
 

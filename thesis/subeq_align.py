@@ -59,7 +59,7 @@ def make_subeq_align(filename):
 
 if __name__ == "__main__":
     
-    files = ['gw', 'ml', 'spa']
+    files = ['gw', 'ml', 'spa', 'mlgw_bns']
     
     for file in files:
         make_subeq_align(file + '.tex')
