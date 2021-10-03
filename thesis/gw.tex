@@ -3,7 +3,7 @@
 
 \chapter{Gravitational wave theory}
 
-\section{Linearized gravity}
+\section{Linearized gravity} \label{sec:linearized-gravity}
 
 % We give here a brief overview of , roughly following the path taken by \textcite[chapter 1]{maggioreGravitationalWavesVolume2007}.
 The simplest way to discuss gravitational radiation is to consider linearized gravity on a flat Minkowskian background.
@@ -674,14 +674,14 @@ h_+ + i h_\times = \frac{M}{r} \sum _{l=2}^{\infty } \sum _{m=-\ell}^{\ell} h_{\
 %
 where the functions \({}_{-2}Y_{\ell m}\) are called \emph{spin-weighted spherical harmonics}, a generalization of the regular spherical harmonics. 
 The only assumption in this expression is the \(1/r\) scaling of the amplitude of the waveform. 
-The expansion parameters \(h_{\ell m}\) are time-dependent and complex, and the spin-weighted harmonics depend on the orientation of the basis we choose (see \nameref{sec:sky-pos-polar}).
+The expansion parameters \(h_{\ell m}\) are time-dependent and complex, and the spin-weighted harmonics depend on the orientation of the basis we choose (see section \ref{sec:sky-pos-polar}).
 
 In the case of aligned spins, the harmonics which give the largest contribution are the \((\ell = 2, m = 2)\) and \((\ell = 2, m =-2)\) ones, which are conjugates of each other. 
 The algorithm \ac{mb} currently only reconstructs this mode ---
 considering more modes will be needed in order to treat the effects of precession, which happens when the spins are not aligned. 
 
 
-\subsection{Parameters for a \ac{CBC} waveform} \label{sec:cbc-parameters}
+\section{Parameters for a \ac{CBC} waveform} \label{sec:cbc-parameters}
 
 The waveform we wrote explicitly depends on: 
 \begin{enumerate}
@@ -692,7 +692,7 @@ The waveform we wrote explicitly depends on:
 
 These are only some of the parameters which must be considered when discussing a \ac{CBC}. We will now discuss the full set of parameters which can be used to fully describe the binary system generating the waveform \cite[eq.\ 21]{breschiTtBajesBayesian2021}. 
 
-\paragraph{Arrival time and initial phase} \label{sec:arrival-time}
+\subsection{Arrival time and initial phase} \label{sec:arrival-time}
 
 The time at which any given waveform arrives at Earth is arbitrary, as is the global phase of the waveform. 
 In practice, one will typically analyze the output from a detector in batches, and in each of these the analysis will be performed in Fourier space. 
@@ -705,7 +705,7 @@ Therefore, it is relevant to see how the Fourier-domain waveform responds to a t
 %
 so a time shift corresponds to the addition of a linear term to the phase, while the initial phase can be directly moved from the time to the frequency domain. 
 
-\paragraph{Sky position and polarization} \label{sec:sky-pos-polar}
+\subsection{Sky position and polarization} \label{sec:sky-pos-polar}
 
 The wave will be coming from a sky position, which we can describe with respect to a given coordinate system through two angles; it is convenient to use right ascension \(\alpha \) and declination \(\delta \). 
 Also, the polarization of the gravitational waves can have an arbitrary angle with respect to the observation direction: we denote this angle as \(\psi \). 
@@ -749,7 +749,7 @@ The aforementioned expansion glosses over a technical issue: the three-dimension
 %
 where we reparametrized the wavevector \(\vec{k}\) through frequency \(f\) and direction \(\hat{n}\), and exploited the decomposition \(\dd[3]{k} = k^2 \dd{k} \dd[2]{\hat{n}}\).
 
-\paragraph{Masses and mass ratio}
+\subsection{Masses and mass ratio}
 
 The waveform to the lowest order we described only depends on the chirp mass \(\mathcal{M}_c\), but at higher order there also appears a dependence on the ratio of the two masses: \(q = m_1 / m_2 \).
 It is customary to fix one of the two masses to always be the largest, therefore constraining \(q \lesseqgtr 1\); we choose the convention \(q \geq 1\).
@@ -764,7 +764,7 @@ An alternative parametrization for the mass ratio \(q\) is the symmetric mass ra
 % because of scaling property of the waveforms: we conventionally work with respect to the dimensionless frequency \(Mf\) and the dimensionless time \(t / M\) in order to have one less parameter. 
 % If need be, we will refer to a ``conventional'' mass of \(M = 2.8 M_{\odot}\), but our results will be easily scalable to any \(M\). 
 
-\paragraph{Spin}
+\subsection{Spin}
 
 Compact objects can spin, and the spin of each of the two is a vector with three independent components. 
 These vectors \(\vec{S}_i\) have units of angular momentum, but they are typically rescaled as 
@@ -782,10 +782,17 @@ The qualitative effect of spin is due to both spin-orbit and spin-spin interacti
 
 In the simplest spin-aligned case, \(\vec{\chi}_i \propto \vec{L} \), the effect is to make the interaction less attractive (when the spins are aligned, \(\vec{\chi}_1 \cdot \vec{\chi}_2 > 0\)) or to make it more attractive in the alternate case. 
 
-The dynamics when the spins are not aligned are significantly more complicated, since the spins precess and give rise to modulations of the amplitude. 
+The largest contribution to the spin-orbit effect can be quantified with the effective spin parameter \cite[]{ligoscientificandvirgocollaborationGW170104Observation50SolarMass2017}
+%
+\begin{align}
+\chi _{\text{eff}} = \qty(\frac{m_1 \vec{\chi}_1 + m_2 \vec{\chi}_2 }{M}) \cdot \hat{L}
+\,.
+\end{align}
+
+The dynamics when the spins are not aligned are significantly more complicated, since the spins precess and give rise to modulations of the amplitude, although it is possible to define a parameter \(\chi _p\) encompassing most of the precession effect in that case as well \cite[]{schmidtModelsGravitationalWaveforms2015}. 
 Because of this, often models restrict themselves to the aligned-spin scenario. 
 
-\paragraph{Tidal deformability of neutron stars}
+\subsection{Tidal deformability of neutron stars}
 
 If our compact objects are extended, they might be able to deform. The astrophysically-motivated scenario we think of is that of neutron stars, but the following characterization could also apply to other exotic compact objects. For concreteness' sake, we will refer to \acsp{NS} only.
 
@@ -856,7 +863,7 @@ The parameter \(\widetilde{\Lambda}\), which depends on the tidal deformabilitie
 One would expect to see \(\Lambda = 0\) for black holes, and this is true in the nonspinning case; on the other hand, Kerr black holes can exhibit small but nonvanishing deformability. \textcite{letiecSpinningBlackHoles2021} recently showed that, for example, \acsp{BH} with dimensionless spins of the order \(\chi \sim 0.1\) can exhibit nonzero Love numbers on the order of \(k_\ell \sim \num{2e-3}\), around two orders of magnitude less than predicted \ac{NS} values. 
 The effect this will have on \ac{GW} emission is yet to be determined, but one can suspect it will be small.
 
-\paragraph{Eccentricity}
+\subsection{Eccentricity}
 
 A general binary system will orbit in an ellipse with eccentricity \(e \in [0, 1)\); the two semiaxes of the ellipse read \cite[eqs.\ 4.51]{maggioreGravitationalWavesVolume2007}
 %
@@ -913,7 +920,7 @@ This is the reason why eccentricity is often not considered in \ac{GW} modelling
 Eccentric binaries are by no means excluded by this line of argument; there are astrophysical contexts in which they might be generated with high eccentricities combined with already small radii, which would allow \(e > 0\) to be detectable even in the \ac{LIGO}-Virgo band.
 Eccentric binary \ac{GW} models do exist \cite{favataConstrainingOrbitalEccentricity2021}, although they do not reach the accuracy of circular ones, and ignoring eccentricities may lead to bias in parameter estimation.\footnote{A good resource on these, based on a paper by \textcite{favataGravitationalwaveMemoryEccentric2011}, is the ``sounds of spacetime'' website \href{Sounds of Spacetime}{https://www.soundsofspacetime.org/elliptical-binaries.html}, which also provides audio renditions of eccentric waveforms (at 1\ac{PN} order).}
 
-\paragraph{Summary}
+\subsection{Summary}
 
 The parameter vector \(\vec{\theta}\) describing a binary system can be divided into internal and external parameters as 
 %
@@ -1254,7 +1261,7 @@ This means that the final accuracy which can be reached is bounded by the accura
 Comparing the \ac{EOB} model currently used in the training of \ac{mb}, \texttt{TEOBResumS}, to numerical relativity simulations we get maximal values for the mismatch of \(\mathcal{F} \simeq \num{2.5e-3}\) \cite[fig.\ 1]{nagarTimedomainEffectiveonebodyGravitational2018}, while the bulk of the distribution lies in the \(\mathcal{F} \sim \num{e-4} \divisionsymbol \num{e-3}\) range.
 We shall discuss in section \ref{sec:accuracy} how this compares to the reconstruction errors by \ac{mb}.
 
-\subsection{Parameter inference: studying the signal}
+\section{Bayesian parameter inference} \label{sec:bayesian}
 
 Modern data analysis techniques for \ac{GW} signals must be Bayesian: we need to extract estimates for the parameters generating a signal of which we only have one measurement. 
 
@@ -1448,7 +1455,7 @@ The stopping condition in algorithm \ref{alg:nested-sampling} must be defined so
 
 Besides estimating the evidence, this algorithm provides us with a sampling of the posterior distribution as long as we are careful to weigh them appropriately, as outlined in the last line of algorithm \ref{alg:nested-sampling}.
 
-\section{Higher order waveforms}
+\section{Higher order waveforms} \label{sec:higher-order-waveforms}
 
 The treatment of \ac{GW} production in linear gravity discussed in section \ref{sec:compact-binaries-linear} is useful but incomplete: as equation \eqref{eq:energy-emission-estimate} shows, the systems emitting the most are \emph{relativistic} (\(v/c\) is large) and \emph{compact} (\(R_s / R\) is large). 
 This has been verified in practice by the fact by the binary systems we detected: mostly \acsp{BBH}, with some \acsp{BNS}.
@@ -1546,7 +1553,7 @@ This ellipticity comes from the tidal effect of the companion; it can be estimat
 %
 where \(d\) is the separation between the two stars, and we assume that their masses are the same. 
 
-The inter-body force induced by the quadrupolar deformation depends on the quadrupole moment like \cite[eqs.\ 5.219, 5.235]{maggioreGravitationalWavesVolume2007}
+The inter-body force induced by the deformation depends on the quadrupole moment like \cite[eqs.\ 5.219, 5.235]{maggioreGravitationalWavesVolume2007}
 %
 \begin{align}
 F ^{\text{induced}}_k \approx Q_{ij} \partial_{i} \partial_{j} \partial_{k} U^{\text{Newton}} \sim \frac{Q_{ij}}{m} \partial_{i} \partial_{j} F^{\text{Newton}}_k \sim \qty( \frac{r}{d})^3 \frac{r^2}{d^2} F^{\text{Newton}}_k

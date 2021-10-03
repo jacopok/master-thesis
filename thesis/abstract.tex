@@ -24,7 +24,29 @@ In this thesis, I develop a machine learning algorithm trained on frequency-doma
 \acused{mb}
 \acused{LIGO}
 
-The detection of a \ac{GW} signal from the \ac{BNS} merger GW170817 \cite{abbottGW170817ObservationGravitational2017} opened a new avenue for the direct study of neutron star properties, such as their masses, spins and equations of state.
+\paragraph{A brief history of GW astronomy}
+
+The existence of \acs{GW} was first postulated by Einstein in 1916 \cites{1916SPAW.......688E}{1918SPAW.......154E}, just one year after he had published the theory of \ac{GR} \cite[]{einsteinFeldgleichungenGravitation1915}. 
+For several decades it was debated whether they were even a true prediction of the theory or simply a gauge artifact \cite{kennefickTravelingSpeedThought2007}. 
+
+In the second half of the 20th century efforts started to create instruments which would be able to directly detect these waves. 
+The sources which, it was thought, would be easiest to detect were binaries of compact objects: \acp{BH} and \acp{NS}.
+
+It was known that these binary systems existed, and that their orbits shrunk thanks to \ac{GW} emission --- a pulsar in a binary system had been detected in the 1970s and the decay of its orbital period had been measured to be precisely compatible with the \ac{GR} prediction \cites{hulseDiscoveryPulsarBinary1975}{taylorNewTestGeneral1982}.
+Theoretical results indicated that they would emit a very loud signal when they finally merged, and that this signal would have a specific chirping shape. 
+
+On the 14th of September 2015 the first \ac{GW} signal from a \ac{BBH} system was detected \cite[]{ligoscientificcollaborationandvirgocollaborationObservationGravitationalWaves2016}. 
+Two years later, on the 17th of August 2017, the fist \ac{GW} signal from a \ac{BNS} merger \cite{abbottGW170817ObservationGravitational2017}
+was detected. 
+These events have been dubbed GW150914 and GW170817 --- these are their entries in what is now a growing, publically available\footnote{See \url{https://www.gw-openscience.org} for a list of events or \url{https://catalog.cardiffgravity.org/} for a graphical representation of their estimated parameters.} database of observations, containing several dozen signals from \acp{CBC}.
+
+The new field of \ac{GW} astronomy has already provided several interesting results, such as tests of strong-field gravity, an exploration of astrophysical populations of stellar-mass compact objects, and of their properties: masses, spins, and --- for \acp{NS} --- tidal deformabilities. 
+
+This, however, comes with several hard challenges in terms of, among other things, data analysis and signal modelling.
+Even with the best insulation available from the environment, \acp{GW} are so faint that they arrive buried in noise. 
+Clever data analysis strategies and a lot of computational power are needed to detect the presence, and even more so to study the properties of the system which generated them.
+
+\paragraph{Waveform generation}
 
 The study of an observed signal is done through Bayesian parameter estimation algorithms, which require the comparison of the experimental signal with several million \cite{lackeyEffectiveonebodyWaveformsBinary2017} simulated waveforms or more (see section \ref{sec:data-analysis}).
 Speed in the generation of simulated waveforms is, therefore, crucial.
@@ -39,15 +61,17 @@ There are three main strategies for the generation of these waveforms. In order 
 Both the \ac{EOB} and \ac{PN} formalisms can be complemented with a tidal term, which is relevant for \ac{BNS} mergers: neutron stars (as opposed to black holes) can be deformed by each other's gravitational field in a way which depends on the specifics of their equation of state (see section \ref{sec:cbc-parameters}). 
 
 Currently, only \ac{EOB} systems are accurate enough not to bias parameter estimation (see section \ref{sec:target-fidelity}).
-The evaluation times for \ac{EOB} waveforms are dependent on the duration of the waveforms: GW170817 lasted for about two minutes, and the generation of waveforms of this length takes on the order of $100\text{ms}$ with state-of-the-art systems, but as the noise in ground-based interferometers decreases we expect to be able to see a longer and longer section of the waveform, which might bring the evaluation times back above $1\text{s}$. 
+The evaluation times for \ac{EOB} waveforms are dependent on the duration of the waveforms: GW170817 lasted for about two minutes, and the generation of waveforms of this length takes on the order of $100\text{ms}$ with state-of-the-art \ac{EOB} systems, but as the noise in ground-based interferometers decreases we expect to be able to see a longer and longer section of the waveform, which might bring the evaluation times back above $1\text{s}$. 
 
 Also, the waveforms ought to be generated in the frequency domain, since that form is the one which is used in data analysis;
 EOB models, on the other hand, natively generate waveforms in the time domain. 
 
-The work in this thesis, \ac{mb}, is an attempt to make progress in this direction, by developing a machine learning system trained on the (Fourier transforms of the) \ac{EOB} waveforms. 
-This builds on the work of \textcite{schmidtMachineLearningGravitational2020}, who developed a similar system to generate Binary Black Hole merger waveforms in the time domain.
+\paragraph{The algorithm}
 
-The algorithm's basic components are as follows (see also the diagram in figure \ref{fig:flowchart}):
+The system developed in this thesis, \ac{mb}, is an attempt to make progress in this direction, by developing a machine learning system trained on the (Fourier transforms of the) \ac{EOB} waveforms for \ac{BNS}. 
+This builds on the work of \textcite{schmidtMachineLearningGravitational2020}, who developed a similar system to generate \ac{BBH} merger waveforms in the time domain.
+
+The algorithm's basic components are explained in detail in chapter \ref{chap:mlgw-bns} and summarized here (see also the diagram in figure \ref{fig:flowchart}):
 \begin{itemize}
     \item a training dataset is generated by considering uniformly distributed tuples of \ac{BNS} parameters in the allowed ranges and calculating the corresponding waveforms with the \ac{EOB} model \texttt{TEOBResumS} \cite[]{nagarTimedomainEffectiveonebodyGravitational2018};
     \item each waveform is approximately Fourier-transformed with a \ac{SPA} \cite[]{gambaFastFaithfulFrequencydomain2020} and decomposed into phase and amplitude;
@@ -69,5 +93,14 @@ This indicates that it is possible for this system to become a part of a gravita
 
 % Waveforms are needed for both parameter estimation and modelled signal searches
 Possible applications of the software developed in this work include modelled signal searches and parameter estimation for both current interferometers (such as LIGO and Virgo) and, with due improvements, for future ones such as Einstein Telescope.
+
+\paragraph{This thesis}
+
+This thesis starts with a discussion of the basics of gravitational wave theory in general (\ref{sec:linearized-gravity}) and in the context of a \ac{CBC} (\ref{sec:compact-binaries-linear}).
+We then discuss how a waveform from a \ac{CBC} should be parametrized in the context of parameter estimation (\ref{sec:cbc-parameters}), and the relevant data analysis methods (\ref{sec:data-analysis}, \ref{sec:bayesian}). 
+
+We give a brief rundown on the \ac{PN}, \ac{EOB} and \ac{NR} methods for the generation of waveforms in section \ref{sec:higher-order-waveforms}, and then in chapter \ref{chap:ml} we outline the main \ac{ML} methods needed for \ac{mb}: greedy downsampling (\ref{sec:downsampling}), \ac{PCA} (\ref{sec:principal-component-analysis}), \acp{NN} (\ref{sec:neural-network}). 
+
+Finally, chapter \ref{chap:mlgw-bns} outlines the internal workings of the \ac{mb} model. 
 
 \end{document}

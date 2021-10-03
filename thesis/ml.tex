@@ -1,7 +1,7 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
-\chapter{Machine Learning}
+\chapter{Machine learning methods} \label{chap:ml}
 
 \section{Supervised learning and optimization}
 
@@ -140,19 +140,19 @@ Therefore, we need \(\sim \SI{10}{MiB}\) of memory per stored waveform, and a hu
 
 The interpolation method choice is important: higher-order interpolants are slower but need less points.
 Here we use cubic splines, which have been found to be a good compromise for surrogate models \cite{lackeySurrogateModelAlignedspin2019}.
-As we shall see in section \ref{sec:evaluation-time}, the interpolation accounts for the most significant part of the overhead \ac{mb} exhibits over the 3.5PN TaylorF2 approximant it uses (roughly \SI{65}{\percent} of a \SI{40}{\percent} overhead) in the case of high numbers of points to interpolate. 
-This may seem like a reason to switch to a lower-order interpolation mechanism, but it is balanced by the fact that the lower number of points allows for a larger training dataset. 
+As we shall see in section \ref{sec:evaluation-time}, the interpolation often accounts for the most significant part of the evaluation time.
+% This may seem like a reason to switch to a lower-order interpolation mechanism, but it is balanced by the fact that the lower number of points allows for a much larger training dataset, and faster evaluations of the \ac{PCA} + \ac{NN} ensemble.
 
 Care must also be put into the choice of the tolerances, since they have a secondary, perhaps unexpected effect: the greedy downsampling algorithm implemented in \ac{mb} yields different numbers of downsampling points for amplitude and phase based on how many are needed in order to get the training dataset below the tolerance, therefore the combined amplitude+phase vector will have \(N _{\text{amp}} + N _{\text{phi}}\) components, where the numbers of points \(N _{\text{amp}}\) and \(N _{\text{phi}}\) depend on the tolerances \( \epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\). 
 
 % There is no natural relation between \(\epsilon _{\text{amp}}\) ad \(\epsilon _{\text{phi}}\): one measures a variation in the logarithm of the amplitude, the other a variation in angle. 
-Motivated by the possibility of writing a waveform as \(h = A e^{i \Phi } = e^{\log A + i \Phi }\), we set the tolerances for the amplitude and the phase \(\epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\) to be equal.
+Motivated by the possibility of writing a waveform as \(h = A e^{i \Phi } = e^{\log A + i \Phi }\), we set the tolerances for the log-amplitude and the phase \(\epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\) to be equal.
 As shown in figure \ref{fig:downsampling_npoints}, this results in more points for the phase than for the amplitude. 
 
 There is more to this choice than just selecting the error we are willing to accept:
 the vectors whose distances are computed when doing \ac{PCA} will have more components for amplitude or for phase, and this will affect the reconstruction error, biasing the reconstruction towards one or the other. 
 
-Heuristically, it was found to be good to tune the tolerances so that the number of points describing the phase is slightly larger than the ones describing the amplitude, since the phase errors are one to two orders of magnitude larger than the log-amplitude errors. 
+Heuristically, it is good to have set the tolerances so that the number of points describing the phase is slightly larger than the ones describing the amplitude, since the phase errors are one to two orders of magnitude larger than the log-amplitude errors. 
 
 \section{Principal Component Analysis} \label{sec:principal-component-analysis}
 

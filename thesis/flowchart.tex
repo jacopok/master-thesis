@@ -20,7 +20,8 @@
 \tikzstyle{arrow} = [ultra thick,->]
 
 % Define distances for bordering
-\def\blockdist{2.3}
+% \def\blockdist{2.3}
+\def\blockdist{2}
 \def\edgedist{2.5}
 
 \begin{tikzpicture}[node distance=2cm]
@@ -28,7 +29,7 @@
 \node (pn) [generator, right of=eob, xshift=2.5cm] {Post-Newtonian};
 \node (pred) [generator, right of=pn, xshift=2.5cm] {predicted waveform};
 
-\node (manage) [algo, below of=eob, yshift=-1cm] {\textbf{Management}
+\node (manage) [algo, below of=eob, yshift=-.7cm] {\textbf{Management}
 \begin{itemize}
     \addtolength{\itemindent}{-.5cm}
     \item phase unwrapping (\ref{sec:unwrapping})
@@ -80,7 +81,7 @@
 \end{itemize}
 };
 
-\node (params) [parameters, below of=nn2, yshift=-1cm] {user parameters \((q, \Lambda_1, \Lambda_2, \chi_1, \chi_2, M, D_L, \iota, t_0, \phi_0)\)};
+\node (params) [parameters, below of=nn2, yshift=-.7cm] {user parameters \((q, \Lambda_1, \Lambda_2, \chi_1, \chi_2, M, D_L, \iota, t_0, \phi_0)\)};
 
 \path (nn.south)+(0, -1cm) node (training) {\Large{Training}};
 \path (params.south)+(0, -1cm) node (prediction) {\Large{Prediction}};
