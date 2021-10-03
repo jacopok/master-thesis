@@ -20,6 +20,10 @@ In this thesis, I develop a machine learning algorithm trained on frequency-doma
 
 \section*{Introduction}
 
+% mark the some acronyms as used --- I only want the short form
+\acused{mb}
+\acused{LIGO}
+
 The detection of a \ac{GW} signal from the \ac{BNS} merger GW170817 \cite{abbottGW170817ObservationGravitational2017} opened a new avenue for the direct study of neutron star properties, such as their masses, spins and equations of state.
 
 The study of an observed signal is done through Bayesian parameter estimation algorithms, which require the comparison of the experimental signal with several million \cite{lackeyEffectiveonebodyWaveformsBinary2017} simulated waveforms or more (see section \ref{sec:data-analysis}).
@@ -27,19 +31,20 @@ Speed in the generation of simulated waveforms is, therefore, crucial.
 
 There are three main strategies for the generation of these waveforms. In order of (typically) decreasing evaluation time, as well as decreasing accuracy, they are:
 \begin{enumerate}
-    \item full \ac{NR} simulations: these are our most accurate possible avenue for the study of \ac{BNS} mergers, but they are so computationally expensive that it is reasonable to simulate at most a few tens of initial condition setups --- these are then used to validate the other methods (see section \ref{sec:nr});
-    \item \ac{EOB} simulations: these consist in constructing an effective Hamiltonian for a test particle as a proxy for the two-body system and simulating its evolution --- they can be calibrated by comparison to \ac{NR} simulations (see section \ref{sec:eob});
+    \item full \ac{NR} simulations: these are our most accurate possible avenue for the study of \ac{BNS} mergers, but they are so computationally expensive that it is currently only possible to simulate at most a few tens of initial condition setups --- these are then used to validate or inform the other methods (see section \ref{sec:nr});
+    \item \ac{EOB} simulations: these consist in constructing an effective Hamiltonian for a test particle moving in an effective metric as a proxy for the two-body system and simulating its evolution --- they can be calibrated by comparison to \ac{NR} simulations (see section \ref{sec:eob});
     \item \ac{PN} waveforms: these are analytical solutions to the equations of motion of the system, expanded up to a certain order in powers of $1/c^2$ (see section \ref{sec:post-newtonian}).
 \end{enumerate}
 
-The \ac{EOB} and \ac{PN} formalisms can be complemented with a tidal term, which is relevant for \ac{BNS} mergers: neutron stars (as opposed to black holes) can be deformed by each other's gravitational field in a way which depends on the specifics of their equation of state. 
+Both the \ac{EOB} and \ac{PN} formalisms can be complemented with a tidal term, which is relevant for \ac{BNS} mergers: neutron stars (as opposed to black holes) can be deformed by each other's gravitational field in a way which depends on the specifics of their equation of state (see section \ref{sec:cbc-parameters}). 
 
+Currently, only \ac{EOB} systems are accurate enough not to bias parameter estimation (see section \ref{sec:target-fidelity}).
 The evaluation times for \ac{EOB} waveforms are dependent on the duration of the waveforms: GW170817 lasted for about two minutes, and the generation of waveforms of this length takes on the order of $100\text{ms}$ with state-of-the-art systems, but as the noise in ground-based interferometers decreases we expect to be able to see a longer and longer section of the waveform, which might bring the evaluation times back above $1\text{s}$. 
 
 Also, the waveforms ought to be generated in the frequency domain, since that form is the one which is used in data analysis;
 EOB models, on the other hand, natively generate waveforms in the time domain. 
 
-The work in this thesis is an attempt to make progress in this direction, by developing a machine learning system trained on the (Fourier transforms of the) \ac{EOB} waveforms. 
+The work in this thesis, \ac{mb}, is an attempt to make progress in this direction, by developing a machine learning system trained on the (Fourier transforms of the) \ac{EOB} waveforms. 
 This builds on the work of \textcite{schmidtMachineLearningGravitational2020}, who developed a similar system to generate Binary Black Hole merger waveforms in the time domain.
 
 The algorithm's basic components are as follows (see also the diagram in figure \ref{fig:flowchart}):

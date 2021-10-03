@@ -9,11 +9,11 @@ Machine Learning is about having an algorithm improve through the use of \emph{t
 so that is it able to make predictions or decisions automatically, 
 without any specific outcome being explicitly programmed in.
 
-There are many kinds of problems this general approach can be used to solve,
-one of which is known as \emph{supervised learning}. 
+There are many kinds of problems this general approach can be used to solve; one broad class of these is classified as \emph{supervised learning}. 
 The idea is to start from a set of training data consisting of pairs \((x, y)\), 
 where \(x\) and \(y\) are typically high-dimensional objects, and to train a system so that 
 it is able to reconstruct \(y _{\text{new}}\) from a given \(x _{\text{new}}\) to within some tolerable margin of error.
+If \(y _{\text{new}}\) is a continuos variable this is called as \emph{regression}, while if it is discrete it is called \emph{classification}.
 
 % This is done by defining some suitable measure of the reconstruction error 
 Supervised learning differs from \emph{unsupervised} learning, in which data is provided without labels of any sort, and the algorithm must seek some sort of structure in it.
@@ -31,7 +31,7 @@ This allows us to compute some cost function \(C(\alpha ; \beta )\) --- the choi
 Then, we can use some optimization procedure to find 
 %
 \begin{align}
-\overline{\alpha} = \underset{\alpha }{\operatorname{argmax}}\  C(\alpha ; \beta )
+\overline{\alpha} = \underset{\alpha }{\operatorname{argmin}}\  C(\alpha ; \beta )
 \,.
 \end{align}
 
@@ -64,8 +64,8 @@ This is the case for ac{mb}, since we can generate data at will.
 If we denote the error on the validation data as \(C_V(\alpha ; \beta )\), the full procedure can then be schematically be written as 
 %
 \begin{align}
-\overline{\beta} = \underbrace{\underset{\beta }{\operatorname{argmax}}}_{\text{validation} } \  C_V \qty(
-    \underbrace{\underset{\alpha }{\operatorname{argmax}} \  C(\alpha ; \beta )}_{\text{training}} ; \ \beta )
+\overline{\beta} = \underbrace{\underset{\beta }{\operatorname{argmin}}}_{\text{validation} } \  C_V \qty(
+    \underbrace{\underset{\alpha }{\operatorname{argmin}} \  C(\alpha ; \beta )}_{\text{training}} ; \ \beta )
 \,.
 \end{align}
 
@@ -76,15 +76,94 @@ In particular, the algorithm used in \ac{mb} for training is discussed in sectio
 The procedure described here makes use of a training and a validation dataset, but typically also we want to have some objective measure of the quality of the fit.
 This cannot be provided by only using training and validation data information, since the parameters of the model depend on them: we need a third separate \emph{testing} dataset which does not inform the model in any way.\footnote{Confusingly,  \ac{ML} literature sometimes inverts the labels ``validation'' and ``testing'' --- we shall stick with the definitions given above.}
 
+
+\section{Greedy downsampling} \label{sec:downsampling}
+
+The residual waveforms generated with the \ac{EOB} / \ac{PN} models have on the order of a few times \num{e5} sampling points. 
+This is too large a number to effectively use \ac{PCA} on: as we will see, it requires writing a covariance matrix which would have \(\sim \num{e11}\) entries, way beyond the RAM of most computers. 
+
+Therefore, we need to start by applying a simple dimensionality reduction technique: downsampling, applied to the unwrapped phase and amplitude of waveforms (see section \ref{sec:unwrapping}) after the subtraction of the ``baseline'' \ac{PN} ones.
+
+Doing so on a uniform grid, however, is suboptimal: there is more detail to be captured in some areas than in others. 
+It is difficult to determine \emph{a priori} which areas will be more relevant than others, therefore \ac{mb} implements a greedy algorithm which selects a set of indices which optimize the reconstruction accuracy, inspired by \texttt{romspline}, which was introduced by
+\textcite{galleyFastEfficientEvaluation2016}.
+
+The algorithm is detailed as algorithm \ref{alg:greedy-downsampling}; it includes certain improvements over \texttt{romspline}. 
+First, it allows for a full training dataset as opposed to reconstruction of a single waveform. The points are greedily chosen until the error over the whole dataset is below the threshold.
+This allows us to be more confident of the fact that the indices are not capturing the specifics of a single waveform, but instead they are representative of the whole dataset.
+
+\begin{algorithm}
+\caption{Greedy downsampling algorithm. }\label{alg:greedy-downsampling}
+\begin{algorithmic}
+\Require \(x_i\), \(y_i^{(j)}\), tolerance \(\epsilon \).
+\Require ``Seed'' indices \(I\)
+\State Error \(e \gets \infty \)
+\While{\(e > \epsilon \)}
+\For{each \(j\)}
+\State \(I' \gets \emptyset\)
+\State \( e_j \gets 0\)
+\State \(y_{\text{rec}, i}^{(j)} \gets\) interpolation of \(x_I\), \(y_I^{(j)}\)
+\For{\(k_1, k_2\) successive pair in \(I\)}
+\State \(n \gets \operatorname{argmax}_{i \in [k_1 , k_2 ]} \ \abs{y _{\text{rec}, i}^{(j)} - y_{i}^{(j)}}\)
+\State \(e_j \gets \max \big( e_j, \abs{y _{\text{rec}, n}^{(j)} - y_{n}^{(j)}}\big)\)
+\If{\(\abs{y _{\text{rec}, n} - y_{n}^{(j)}} > \epsilon \)}
+\State \(I' \gets I' \cup n\)
+\EndIf
+\State \(I \gets I \cup I'\)
+\EndFor
+\State \(e \gets \min (e, e_j)\)
+\EndFor
+\EndWhile \\
+\Return indices \(I\)
+\end{algorithmic}
+\end{algorithm}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/downsampling_validation}
+\caption{Validation errors for downsampled waveforms. Downsampling indices are calculated by applying algorithm \ref{alg:greedy-downsampling} to a dataset of varying size, and the error is calculated by computing the maximum reconstruction error for each of \(N _{\text{val}} = 128\) waveforms. Note that ``average'' and ``maximum'' here refer to the difference between taking an average or a maximum over the \(N _{\text{val}}\)-long array of maximum reconstruction errors per validation waveform. The validation waveforms are stochastically generated each time, hence the slight up-ticks one can see at certain points --- still, the overall trend is downward.}
+\label{fig:downsampling_validation}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/downsampling_npoints}
+\caption{Size of the downsampling index array deriving from the application of algorithm \ref{alg:greedy-downsampling} to training datasets of varying sizes, with both tolerances set to \(\epsilon _{\text{amp}} =\epsilon _{\text{phi}} = \num{5e-7}\). }
+\label{fig:downsampling_npoints}
+\end{figure}
+
+Whether this is actually happening can be checked with a validation dataset: the validation errors are shown in figure \ref{fig:downsampling_validation} as the size of the training dataset increases.
+The number of indices found corresponding to a fixed tolerance increases with the size of the training dataset, as can be seen in figure \ref{fig:downsampling_npoints}. 
+
+The size of the training dataset is limited by memory availability, more so than computational complexity: each training waveform must be fully kept in memory, with its \(\sim \num{e6}\) floating point numbers, each needing 8 bytes of memory. 
+Therefore, we need \(\sim \SI{10}{MiB}\) of memory per stored waveform, and a hundred of them will take up \( \sim \SI{1}{GiB}\) of storage. 
+
+The interpolation method choice is important: higher-order interpolants are slower but need less points.
+Here we use cubic splines, which have been found to be a good compromise for surrogate models \cite{lackeySurrogateModelAlignedspin2019}.
+As we shall see in section \ref{sec:evaluation-time}, the interpolation accounts for the most significant part of the overhead \ac{mb} exhibits over the 3.5PN TaylorF2 approximant it uses (roughly \SI{65}{\percent} of a \SI{40}{\percent} overhead) in the case of high numbers of points to interpolate. 
+This may seem like a reason to switch to a lower-order interpolation mechanism, but it is balanced by the fact that the lower number of points allows for a larger training dataset. 
+
+Care must also be put into the choice of the tolerances, since they have a secondary, perhaps unexpected effect: the greedy downsampling algorithm implemented in \ac{mb} yields different numbers of downsampling points for amplitude and phase based on how many are needed in order to get the training dataset below the tolerance, therefore the combined amplitude+phase vector will have \(N _{\text{amp}} + N _{\text{phi}}\) components, where the numbers of points \(N _{\text{amp}}\) and \(N _{\text{phi}}\) depend on the tolerances \( \epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\). 
+
+% There is no natural relation between \(\epsilon _{\text{amp}}\) ad \(\epsilon _{\text{phi}}\): one measures a variation in the logarithm of the amplitude, the other a variation in angle. 
+Motivated by the possibility of writing a waveform as \(h = A e^{i \Phi } = e^{\log A + i \Phi }\), we set the tolerances for the amplitude and the phase \(\epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\) to be equal.
+As shown in figure \ref{fig:downsampling_npoints}, this results in more points for the phase than for the amplitude. 
+
+There is more to this choice than just selecting the error we are willing to accept:
+the vectors whose distances are computed when doing \ac{PCA} will have more components for amplitude or for phase, and this will affect the reconstruction error, biasing the reconstruction towards one or the other. 
+
+Heuristically, it was found to be good to tune the tolerances so that the number of points describing the phase is slightly larger than the ones describing the amplitude, since the phase errors are one to two orders of magnitude larger than the log-amplitude errors. 
+
 \section{Principal Component Analysis} \label{sec:principal-component-analysis}
 
-After downsampling, a waveform used by \acs{mb} is described by several hundred points.
+After downsampling, a waveform used by \acs{mb} is described by a few thousand points.
 It is convenient to reduce this number in order for the neural network to be faster.
 We are able to do so by making use of the fact that the components of the high-dimensional vector representing the waveform are correlated.
 
 The technique of \ac{PCA} is quite general,\footnote{This technique is quite old: it was developed in 1901 by Karl Pearson \cite[]{pearsonLIIILinesPlanes1901,manlyMultivariateStatisticalMethods2017}, but it started to see broad use once availability of computers became widespread.} so let us describe it in general terms, and then apply it to our specific problem.
 
-Dimensionality reduction algorithms such as \ac{PCA} may be considered as a kind of unsupervised learning, since they can allow for the detection of relevant features in high-dimensional datasets. Here we will not use it for this purpose though, it will be more of a pre-processing step. 
+Dimensionality reduction algorithms such as \ac{PCA} may be considered as a kind of unsupervised learning, since they can allow for the detection of relevant features in high-dimensional datasets.
+% Here we will not use it for this purpose though, it will be more of a pre-processing step. 
 
 \subsection{General method}
 
@@ -171,31 +250,24 @@ For the purpose of dimensionality reduction, however, we are not interested in t
 
 If we approach the problem by diagonalizing the covariance matrix \(C\), the computational complexity in the worst case scenario is \(\order{D^3}\), since it involves the diagonalization of a \(D \times D\) matrix.
 
-\subsection{PCA for waveforms}
+Once we have calculated \(V\) and \(\overline{x}\), then, dimensionality reduction and reconstruction are algebraic: 
+%
+\begin{align}
+x_i &\to V^{\top}(x_i - \overline{x}) = \widetilde{x}_i  \\
+\widetilde{x}_i &\to V \widetilde{x}_i + \overline{x} \approx x_i
+\,.
+\end{align}
 
-After downsampling and computing the residuals from the \ac{PN} waveform, we are left with a waveform described by a vector of a few hundred points for the amplitude and similarly for the phase. 
+The implementation used for the \ac{PCA} in \ac{mb} is the one provided by the \texttt{PCA\_model} class in \texttt{mlgw} \cite[]{schmidtMachineLearningGravitational2020}. 
 
-It would be possible to perform \ac{PCA} separately for these two vectors; however if we combine them into a single one we can exploit any existing correlation between the amplitude and phase residuals. 
-In the worst case scenario --- amplitude and phase residuals being completely uncorrelated --- this procedure will perform exactly like separating the \ac{PCA} into two. 
-So, we want to combine amplitude and phase residuals into a single vector. 
+% \ac{PCA} optimizes Euclidean distance, so the scaling of the amplitude and phase residuals becomes relevant. 
 
-A simple way to do so is to simply ``append'' one vector to the other, and therefore consider the waveform as a vector in \(\mathbb{R}^{D_A + D_\varphi }\). 
-There is an issue with this procedure: \ac{PCA} optimizes Euclidean distance, so the scaling of the amplitude and phase residuals becomes relevant. 
-Fortunately, this carries no physical meaning: because of the way we define the residuals \ref{sec:residuals}, it is equivalent to a change in the basis for the logarithm. 
+% Fortunately, this carries no physical meaning: because of the way we define the residuals \ref{sec:residuals}, it is equivalent to a change in the basis for the logarithm. 
 
-Heuristically, we want the typical scale of the phase residuals to roughly match that of the amplitude residuals. 
-This can be simply achieved by multiplying either part of the vector by a constant, which can be tuned in order to optimize the reconstruction error. 
+% Heuristically, we want the typical scale of the phase residuals to roughly match that of the amplitude residuals. 
+% This can be simply achieved by multiplying either part of the vector by a constant, which can be tuned in order to optimize the reconstruction error. 
 % It was found that, after using natural logarithms for the amplitude residuals, dividing the phase residuals by roughly \(200\) yields the best results.
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=.9\textwidth]{figures/PCA_vary_K}
-\caption{The reconstruction error is computed after projecting onto a \(K\)-dimensional subspace a number \(N_w=64\) waveforms. The parameters for the \ac{PCA} model are fitted with an independent, \(N _{\text{PCA}} = 128\) waveform dataset. A \ac{KDE} is performed for each set of corresponding log-fidelities, in order for the probability curve to look smoother.
-Here the \ac{EOB} waveforms are calculated with a \ac{SPA}. 
-A vertical dashed line indicates a ``desirable'' maximal reconstruction error, \(\mathcal{F} \sim \num{e-3}\), which roughly corresponds to the accuracy of the underlying \ac{EOB} model to \ac{NR} simulations.
-}
-\label{fig:PCA_vary_K}
-\end{figure}
 
 \section{Neural Networks} \label{sec:neural-network}
 
@@ -268,7 +340,7 @@ Therefore, we can improve the performance by having the network learn the distan
 \,,
 \end{align}
 %
-where \(\lambda _i\) are the eigenvalues corresponding to the principal components, while \(\kappa > 0\) is a hyperparameter.
+where \(\lambda _i\) are the eigenvalues corresponding to the principal components (fixed for the whole dataset), \(\kappa > 0\) is a hyperparameter, and \(\text{PC}_i\) denotes the \(i\)-th component of the reduced \ac{PCA} representation of a certain waveform.
 % The prior distribution for \(\kappa \) is a log-uniform one between \(\num{e-3}\) and \(1\). 
 
 \subsection{Backpropagation}
@@ -397,81 +469,5 @@ Once we are able to compute the expected improvement, the task is simple: we jus
 The one aspect still missing in the algorithm is how to estimate a probability distribution from a small set of samples, and how to calculate a new sample from it. 
 There are different ways to do so; the one implemented in the \ac{TPE} algorithm fits a gaussian mixture model to estimate \(\ell(\vec{x})\) and \(g(\vec{x})\) \cite[section 5]{bergstraMakingScienceModel2013}. 
 
-\section{Greedy downsampling} \label{sec:downsampling}
-
-The residual waveforms generated with the \ac{EOB} / \ac{PN} models have on the order of a few times \num{e5} sampling points. 
-This is too large a number to effectively use \ac{PCA} on: as we will see, it requires writing a covariance matrix which would have \(\sim \num{e11}\) entries, way beyond the RAM of most computers. 
-
-Therefore, we need to start by applying a simple dimensionality reduction technique: downsampling, applied to the unwrapped phase and amplitude of waveforms (see section \ref{sec:unwrapping}) after the subtraction of the ``baseline'' \ac{PN} ones.
-
-Doing so on a uniform grid, however, is suboptimal: there is more detail to be captured in some areas than in others. 
-It is difficult to determine \emph{a priori} which areas will be more relevant than others, therefore \ac{mb} implements a greedy algorithm which selects a set of indices which optimize the reconstruction accuracy, inspired by \texttt{romspline}, which was introduced by
-\textcite{galleyFastEfficientEvaluation2016}.
-
-The algorithm is detailed as algorithm \ref{alg:greedy-downsampling}; it includes certain improvements over \texttt{romspline}. 
-First, it allows for a full training dataset as opposed to reconstruction of a single waveform. The points are greedily chosen until the error over the whole dataset is below the threshold.
-This allows us to be more confident of the fact that the indices are not capturing the specifics of a single waveform, but instead they are representative of the whole dataset.
-
-\begin{algorithm}
-\caption{Greedy downsampling algorithm. }\label{alg:greedy-downsampling}
-\begin{algorithmic}
-\Require \(x_i\), \(y_i^{(j)}\), tolerance \(\epsilon \).
-\Require ``Seed'' indices \(I\)
-\State Error \(e \gets \infty \)
-\While{\(e > \epsilon \)}
-\For{each \(j\)}
-\State \(I' \gets \emptyset\)
-\State \( e_j \gets 0\)
-\State \(y_{\text{rec}, i}^{(j)} \gets\) interpolation of \(x_I\), \(y_I^{(j)}\)
-\For{\(k_1, k_2\) successive pair in \(I\)}
-\State \(n \gets \operatorname{argmax}_{i \in [k_1 , k_2 ]} \ \abs{y _{\text{rec}, i}^{(j)} - y_{i}^{(j)}}\)
-\State \(e_j \gets \max \big( e_j, \abs{y _{\text{rec}, n}^{(j)} - y_{n}^{(j)}}\big)\)
-\If{\(\abs{y _{\text{rec}, n} - y_{n}^{(j)}} > \epsilon \)}
-\State \(I' \gets I' \cup n\)
-\EndIf
-\State \(I \gets I \cup I'\)
-\EndFor
-\State \(e \gets \min (e, e_j)\)
-\EndFor
-\EndWhile \\
-\Return indices \(I\)
-\end{algorithmic}
-\end{algorithm}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figures/downsampling_validation}
-\caption{Validation errors for downsampled waveforms. Downsampling indices are calculated by applying algorithm \ref{alg:greedy-downsampling} to a dataset of varying size, and the error is calculated by computing the maximum reconstruction error for each of \(N _{\text{val}} = 128\) waveforms. Note that ``average'' and ``maximum'' here refer to the difference between taking an average or a maximum over the \(N _{\text{val}}\)-long array of maximum reconstruction errors per validation waveform. The validation waveforms are stochastically generated each time, hence the slight up-ticks one can see at certain points --- still, the overall trend is downward.}
-\label{fig:downsampling_validation}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figures/downsampling_npoints}
-\caption{Size of the downsampling index array deriving from the application of algorithm \ref{alg:greedy-downsampling} to training datasets of varying sizes, with both tolerances set to \(\epsilon _{\text{amp}} =\epsilon _{\text{phi}} = \num{5e-7}\). }
-\label{fig:downsampling_npoints}
-\end{figure}
-
-Whether this is actually happening can be checked with a validation dataset: the validation errors are shown in figure \ref{fig:downsampling_validation} as the size of the training dataset increases.
-The number of indices found corresponding to a fixed tolerance increases with the size of the training dataset, as can be seen in figure \ref{fig:downsampling_npoints}. 
-
-The size of the training dataset is limited by memory availability, more so than computational complexity: each training waveform must be fully kept in memory, with its \(\sim \num{e6}\) floating point numbers, each needing 8 bytes of memory. 
-Therefore, we need \(\sim \SI{10}{MiB}\) of memory per stored waveform, and a hundred of them will take up \( \sim \SI{1}{GiB}\) of storage. 
-
-The interpolation method choice is important: higher-order interpolants are slower but need less points.
-Here we use cubic splines, which have been found to be a good compromise for surrogate models \cite{lackeySurrogateModelAlignedspin2019}.
-As we shall see in section \ref{sec:evaluation-time}, the interpolation accounts for the most significant part of the overhead \ac{mb} exhibits over the 3.5PN TaylorF2 approximant it uses (roughly \SI{65}{\percent} of a \SI{40}{\percent} overhead) in the case of high numbers of points to interpolate. 
-This may seem like a reason to switch to a lower-order interpolation mechanism, but it is balanced by the fact that the lower number of points allows for a larger training dataset. 
-
-Care must also be put into the choice of the tolerances, since they have a secondary, perhaps unexpected effect: the greedy downsampling algorithm implemented in \ac{mb} yields different numbers of downsampling points for amplitude and phase based on how many are needed in order to get the training dataset below the tolerance, therefore the combined amplitude+phase vector will have \(N _{\text{amp}} + N _{\text{phi}}\) components, where the numbers of points \(N _{\text{amp}}\) and \(N _{\text{phi}}\) depend on the tolerances \( \epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\). 
-
-% There is no natural relation between \(\epsilon _{\text{amp}}\) ad \(\epsilon _{\text{phi}}\): one measures a variation in the logarithm of the amplitude, the other a variation in angle. 
-Motivated by the possibility of writing a waveform as \(h = A e^{i \Phi } = e^{\log A + i \Phi }\), we set the tolerances for the amplitude and the phase \(\epsilon _{\text{amp}}\) and \(\epsilon _{\text{phi}}\) to be equal.
-As shown in figure \ref{fig:downsampling_npoints}, this results in more points for the phase than for the amplitude. 
-
-There is more to this choice than just selecting the error we are willing to accept:
-the vectors whose distances are computed when doing \ac{PCA} will have more components for amplitude or for phase, and this will affect the reconstruction error, biasing the reconstruction towards one or the other. 
-
-Heuristically, it was found to be good to tune the tolerances so that the number of points describing the phase is slightly larger than the ones describing the amplitude, since the phase errors are one to two orders of magnitude larger than the log-amplitude errors. 
 
 \end{document}

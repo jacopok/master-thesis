@@ -122,6 +122,30 @@ A _{\text{rec}} (f; \theta ) &= \exp( \Delta A _{\text{rec}} (f; \theta )) A _{\
 
 Because of the subtraction of the linear term from the phase, the reconstructed waveform will be time-shifted by some small amount compared to the corresponding \ac{EOB} one. 
 
+\subsection{\ac{PCA} for waveforms}
+
+\subsection{PCA for waveforms}
+
+After downsampling and computing the residuals from the \ac{PN} waveform, we are left with a waveform described by a vector of a few thousand points for the amplitude and similarly for the phase. 
+
+It would be possible to perform \ac{PCA} (described in section \ref{sec:principal-component-analysis}) separately for these two vectors; however if we combine them into a single one we can exploit any existing correlation between the amplitude and phase residuals. 
+In the worst case scenario --- amplitude and phase residuals being completely uncorrelated --- this procedure will perform exactly like separating the \ac{PCA} into two. 
+So, we want to combine amplitude and phase residuals into a single vector. 
+
+A simple way to do so is to simply ``append'' one vector to the other, and therefore consider the waveform as a vector in \(\mathbb{R}^{D_A + D_\varphi }\). 
+
+The mismatches resulting from this procedure are shown in figure \ref{fig:PCA_vary_K}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.9\textwidth]{figures/PCA_vary_K}
+\caption{The reconstruction error is computed after projecting onto a \(K\)-dimensional subspace a number \(N_w=64\) waveforms. The parameters for the \ac{PCA} model are fitted with an independent, \(N _{\text{PCA}} = 128\) waveform dataset. A \ac{KDE} is performed for each set of corresponding log-fidelities, in order for the probability curve to look smoother.
+Here the \ac{EOB} waveforms are calculated with a \ac{SPA}. 
+A vertical dashed line indicates a ``desirable'' maximal reconstruction error, \(\mathcal{F} \sim \num{e-3}\), which roughly corresponds to the accuracy of the underlying \ac{EOB} model to \ac{NR} simulations.
+}
+\label{fig:PCA_vary_K}
+\end{figure}
+
 \subsection{Optimization}
 
 Tuning the hyperparameters with \texttt{optuna} as described in section \ref{sec:optuna} is the longest step in the preparation of a \ac{mb} model. 
