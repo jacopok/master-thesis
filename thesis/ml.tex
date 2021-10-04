@@ -423,7 +423,7 @@ Our network will depend on several hyperparameters, such as the number and size 
 
 This optimization is accomplished through a \ac{MOTPE}, as described in \textcite[]{ozakiMultiobjectiveTreestructuredParzen2020} and as implemented through the Optuna API \cite[]{akibaOptunaNextgenerationHyperparameter2019}.
 
-Here we will summarize the mechanism through which a single objective \ac{TPE} works, as originally described in \textcite[section 4]{bergstraAlgorithmsHyperParameterOptimization2011}, since
+Here we will summarize the mechanism through which a single objective \ac{TPE} works, as originally described by \textcite[section 4]{bergstraAlgorithmsHyperParameterOptimization2011}, since
 the generalization to the multi-objective case \cite[]{ozakiMultiobjectiveTreestructuredParzen2020} is rather mathematically involved but not too conceptually dissimilar from the single-objective case. 
 
 We can abstract away the neural network as a function \(f\) which, after being given a set of hyperparameters \(\vec{x}\), outputs a cost \(y\), which we want to minimize.

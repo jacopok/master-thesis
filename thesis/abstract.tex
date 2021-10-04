@@ -12,6 +12,8 @@ In this thesis, I develop a machine learning algorithm trained on frequency-doma
 
 \newpage
 
+\tableofcontents
+
 % \subsection*{Conventions and notation}
 
 % \(c=1\) for sure.
@@ -23,6 +25,7 @@ In this thesis, I develop a machine learning algorithm trained on frequency-doma
 % mark the some acronyms as used --- I only want the short form
 \acused{mb}
 \acused{LIGO}
+\acused{SI}
 
 \paragraph{A brief history of GW astronomy}
 
@@ -82,7 +85,7 @@ The algorithm's basic components are explained in detail in chapter \ref{chap:ml
 
 The resulting model must be evaluated in terms of both speed and accuracy.
 
-Regarding \textbf{speed}, the main bottleneck is the same for \ac{EOB} models: interpolating the waveform to a uniform frequency grid. 
+Regarding \textbf{speed}, the main bottleneck is the same as for \ac{EOB} models: interpolating the waveform to a uniform frequency grid. 
 Because of this, in standard benchmarks there is not a significant improvement (see section \ref{sec:evaluation-time}). 
 However, data analysis for future interferometers will need to make use of reduced-order modelling; in that context, realistic values for the  speedup are of an order of magnitude or more (see section \ref{sec:downsampled-evaluation}). 
 

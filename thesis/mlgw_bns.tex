@@ -13,19 +13,26 @@
 
 \newpage
 
-Let us start with an overview of the algorithm employed by \ac{mb} before getting into the technical details. 
+The main result of this thesis is the development of the surrogate model \ac{mb}, which is implemented as a \texttt{python} module. 
+Its main advantages over previous work such as \texttt{mlgw} \cite[]{schmidtMachineLearningGravitational2020} are that it natively works in the frequency domain, it is able to handle the very long waveforms which are needed for the study of \ac{BNS}, and it is able to reconstruct the dependence on five different parameters (as opposed to the three parameters in \texttt{mlgw}). 
+
+This chapter outlines the internal workings of \ac{mb}, as well as discussing its performance in terms of accuracy and speed.
+Let us start with an overview of the algorithm employed before getting into the technical details. 
 
 It is based on the use of two systems for the generation of a theoretical waveform from a \ac{CBC} in the frequency domain, one being faster but less accurate than the other.
-The ``fast'' system is the \ac{PN} model \texttt{TaylorF2}, as implemented in \texttt{bajes} \cite[]{breschiTtBajesBayesian2021}, while the ``slow'' system is the \ac{EOB} model \texttt{TEOBResumS}. 
+The ``fast'' system is the \ac{PN} model \texttt{TaylorF2}, as implemented in \texttt{bajes} \cite[]{breschiTtBajesBayesian2021}, while the ``slow'' system is the \ac{EOB} model \texttt{TEOBResumS} with a \ac{SPA}. 
 
-As we shall see shortly, a crucial feature of the ``fast'' system is the capability to generate waveforms in the frequency domain at select frequencies, without needing to perform a full Fourier transform from a time-domain waveform, and to do so yielding amplitude and phase separately .
+Note that the term ``slow'' is relative here: \texttt{TEOBResumS} is quite fast compared to the alternatives which accurately capture the dynamics up to merger, which makes it a good choice for the training of \ac{mb} since it allows for the quick generation of relatively large datasets.
+This also means that the margin of improvement for the 
+
+A crucial feature of the ``fast'' system is the capability to generate waveforms in the frequency domain at select frequencies, without needing to perform a full Fourier transform from a time-domain waveform, and to do so yielding amplitude and phase separately.
 This feature is shared by all \ac{PN} approximants, which base their Fourier-domain representations on the analytic \ac{SPA}.
 
 As illustrated in figure \ref{fig:flowchart}, the main idea is then to 
 \begin{enumerate}
     \item compute the residuals of the ``slow`` waveforms from the ``fast`` ones, and with these build a dataset;
     \item train a machine learning system on this dataset, so that it is able to reconstruct the map from the parameters \(\vec{\theta}\) to the residuals;
-    \item generate new waveforms by making a prediction for the residuals 
+    \item generate new waveforms by making a prediction for the residuals.
 \end{enumerate}
 
 If this task is accomplished with tolerable errors and with a fast enough execution time (shorter than the time taken by the ``slow'' generation method) we will have a working \emph{surrogate model}. 
@@ -161,9 +168,9 @@ Otherwise, the method \texttt{optimize\_hyper} for the \texttt{Model} class can 
 The following network parameters are varied during the optimization procedure:\footnote{Most of these are parameters in the initialization of an \texttt{MLPRegressor} from \texttt{scikit-learn} \cite{pedregosaScikitlearnMachineLearning2011}.}
 \begin{enumerate}
     \item the number of layers is varied between 2 and 4, and the sizes of each layer are separately varied between 0 and 100;
-    \item the activation function is varied between a \ac{ReLU} \(x \to \max{0, x}\), a hyperbolic tangent \(x 
+    \item the activation function is varied choosing among a \ac{ReLU} \(x \to \max(0, x)\), a hyperbolic tangent \(x 
 \to \tanh(x)\), and a logistic function \(x \to (1 + e^{-x})^{-1}\);
-    \item the L2 regularization term \(\alpha \) is varied with a log-uniform distribution in \([10^{-6}, 10^{-1}]\);
+    \item the L2 regularization term \(\alpha \) is varied with a log-uniform distribution in the range \([10^{-6}, 10^{-1}]\);
     \item the batch size for the stochastic optimization (see section \ref{sec:sgd}) is varied with a uniform distribution in \([150, 250]\);
     \item the optimization is stopped when the performance does not improve by \texttt{tol} for more than \texttt{n\_iter\_no\_change} iterations --- \texttt{tol} is varied with a log-uniform distribution in \([10^{-15}, 10^{-7}]\), while \texttt{n\_iter\_no\_change} is varied with an integer-valued log-uniform distribution in \([40, 100]\);
     \item the exponent for the \ac{PCA} eigenvalues multiplying the \ac{PCA} components for the training data is varied with a log-uniform distribution in \([10^{-3}, 1]\);
@@ -444,7 +451,9 @@ A surrogate such as \ac{mb} can be thought of as a plugin: it can improve the ev
 A full-scale test of the system in the context of parameter estimation should be performed, ideally combining it with one of the reduced-order modelling techniques discussed in section \ref{sec:reduced-order-modelling}.
 This would allow for a demonstration of its speed, as well as a validation of its accuracy.
 
-Currently, \ac{mb} only reconstructs the \((2, 2)\) mode of gravitational radiation: a path for improvement is the reconstruction of other modes, which would allow for a proper treatment of precessing \ac{BNS} systems (i.e.\ ones with arbitrary spin orientations). 
+The motivation behind \ac{mb} working natively in the frequency domain was given by the computational issues in the data analysis of \ac{BNS}, whose waveforms are in the sensitivity range of current detectors for a long time, but we expect such a frequency-domain model to be useful for \ac{BBH} as well. This generalization will be explored in the future.
+
+Currently, \ac{mb} only reconstructs the \((2, 2)\) mode of gravitational radiation: another path for improvement is the reconstruction of other modes, which would allow for a proper treatment of precessing systems (i.e.\ ones with arbitrary spin orientations). 
 
 Another aspect which could be optimized in view of future detectors relates to the low-frequency regime: there, the \ac{PN} approximation is quite accurate, as can be seen in figures \ref{fig:amp_residuals} and \ref{fig:phase_residuals}. 
 Thus, there is a point beyond which evaluating the \ac{EOB} model and computing its residuals from the \ac{PN} one is superfluous. 

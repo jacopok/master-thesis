@@ -691,7 +691,7 @@ This graphically shown in figure \ref{fig:waveform_length}.
 \label{fig:waveform_length}
 \end{figure}
 
-\subsection{Spherical harmonics decomposition} \label{sec:spherical-harmonics-decomposition}
+\subsection{Spin-weighted spherical harmonics decomposition} \label{sec:spherical-harmonics-decomposition}
 
 The waveform we described so far comes from the quadrupole of the mass distribution, but higher-order moments also generate \acp{GW}.
 In general, in units where \(G = c = 1\), one can write the waveform as \cite[eq.\ II.6]{ajithDataFormatsNumerical2011}
@@ -823,9 +823,9 @@ The largest contribution to the spin-orbit effect can be quantified with the eff
 The dynamics when the spins are not aligned are significantly more complicated, since the spins precess and give rise to modulations of the amplitude, although it is possible to define a parameter \(\chi _p\) encompassing most of the precession effect in that case as well \cite[]{schmidtModelsGravitationalWaveforms2015}. 
 Because of this, often models restrict themselves to the aligned-spin scenario. 
 
-\subsection{Tidal deformability of neutron stars}
+\subsection{Tidal interactions of neutron stars}
 
-If our compact objects are extended, they might be able to deform. The astrophysically-motivated scenario we think of is that of neutron stars, but the following characterization could also apply to other exotic compact objects. For concreteness' sake, we will refer to \acsp{NS} only.
+If our compact objects are extended, they can deform. The astrophysically-motivated scenario we think of is that of neutron stars, but the following characterization could also apply to other kinds of compact objects. For concreteness' sake, we will refer to \acsp{NS} only.
 
 The effect of tidal deformation on the inspiral is a complicated process, but we can try to capture its most significant part by limiting ourselves to the quadrupole order of the deformation of the star. 
 The discussion of this effect is clearest in the Newtonian context, but it can be also formalized in \ac{GR} \cite[section 14.4.1]{maggioreGravitationalWavesVolume2018}.
@@ -842,7 +842,7 @@ To linear order and neglecting any time dependence, we will have the relation
 
 % \todo[inline]{find better explanation for minus sign here and in def of tidal tensor}
 
-This parameter \(\lambda \) describes the deformability of the star; if it is smaller the star deforms less in response to tidal perturbations. 
+This parameter \(\lambda \) describes the ``polarizability'' of the star; if it is smaller the star deforms less in response to tidal perturbations. 
 In practice the parameter used is not \(\lambda \) itself but one of two common ways to rescale it: the \(\ell=2\) (quadrupole) \textbf{Love number} 
 %
 \begin{align}
@@ -850,7 +850,8 @@ k_2 = \frac{3}{2} \frac{G \lambda }{R^{5}}
 \,,
 \end{align}
 %
-where \(R\) is the radius of the deformed \ac{NS}, or the \textbf{tidal deformability} 
+where \(R\) is the radius of the deformed \ac{NS}, or the \textbf{tidal polarizability}\footnote{The name ``polarizability'' is descriptive of the physics --- the \acp{NS} are being polarized by an external field, enhancing their gravitational attraction, but often the less descriptive term ``tidal deformability'' is also used in the literature.}
+\cite[]{damourMeasurabilityTidalPolarizability2012}
 %
 \begin{align}
 \Lambda = \frac{2}{3} k_2 \qty(\frac{Rc^2}{Gm})^{5} 
@@ -858,7 +859,7 @@ where \(R\) is the radius of the deformed \ac{NS}, or the \textbf{tidal deformab
 \end{align}
 %
 where \(m\) is the mass of the deformed \ac{NS}. 
-The value of these parameters depends on the specific equation of state used in the model; \(k_2\) is typically of the order of \(10^{-1}\), and in the expression for \(\Lambda \) we have a fifth power of the \emph{compactness} \(\sigma = R c^2 / Gm\) of the \ac{NS} --- this is expected to be a small number, but larger than 3,\footnote{A limit on the maximum redshift of radiation from the surface of a \ac{NS} was calculated by \textcite{lindblomLimitsGravitationalRedshift1984} under the assumptions of causality and stability for the nuclear matter, which is equivalent to a compactness limit of \(\sigma \geq 2.83\) \cite{lattimerNeutronStarObservations2007}. } so its fifth power will be of order \(10^{3 \divisionsymbol 4}\). This means that the deformability \(\Lambda \) will typically be of the order \(10^{2 \divisionsymbol 3}\). 
+The value of these parameters depends on the specific equation of state used in the model; \(k_2\) is typically of the order of \(10^{-1}\), and in the expression for \(\Lambda \) we have a fifth power of the \emph{compactness} \(\sigma = R c^2 / Gm\) of the \ac{NS} --- this is expected to be a small number, but larger than 3,\footnote{A limit on the maximum redshift of radiation from the surface of a \ac{NS} was calculated by \textcite{lindblomLimitsGravitationalRedshift1984} under the assumptions of causality and stability for the nuclear matter, which is equivalent to a compactness limit of \(\sigma \geq 2.83\) \cite{lattimerNeutronStarObservations2007}. } so its fifth power will be of order \(10^{3 \divisionsymbol 4}\). This means that the polarizability \(\Lambda \) will typically be of the order \(10^{2 \divisionsymbol 3}\). 
 
 The Love number is useful since it is an expansion parameter for the gravitational field of the deformed \ac{NS}. This field has contributions from both its own quadrupole moment, which is due to the tidal deformation from the other star, and from the gravitational field of the other star itself, which we can expand in terms of the tidal field around the center of the deformed star: \(U _{\text{ext}} \approx - \mathcal{E}_{ij} x_{i} x_{j} / 2\). 
 
@@ -891,9 +892,9 @@ The meaning of \(\Lambda \) is less immediate ---  the first correction to the p
 \end{align}
 \end{subequations}
 
-The parameter \(\widetilde{\Lambda}\), which depends on the tidal deformabilities of the two stars \(\Lambda_{1, 2}\), is called the \emph{reduced tidal parameter}. 
+The parameter \(\widetilde{\Lambda}\), which depends on the tidal polarizabilities of the two stars \(\Lambda_{1, 2}\), is called the \emph{reduced tidal parameter}. 
 
-One would expect to see \(\Lambda = 0\) for black holes, and this is true in the nonspinning case; on the other hand, Kerr black holes can exhibit small but nonvanishing deformability. \textcite{letiecSpinningBlackHoles2021} recently showed that, for example, \acsp{BH} with dimensionless spins of the order \(\chi \sim 0.1\) can exhibit nonzero Love numbers on the order of \(k_\ell \sim \num{2e-3}\), around two orders of magnitude less than predicted \ac{NS} values. 
+One would expect to see \(\Lambda = 0\) for black holes, and this is true in the nonspinning case; on the other hand, Kerr black holes can exhibit small but nonvanishing Love tensors. \textcite{letiecSpinningBlackHoles2021} recently showed that, for example, \acsp{BH} with dimensionless spins of the order \(\chi \sim 0.1\) can exhibit nonzero Love numbers on the order of \(k_\ell \sim \num{2e-3}\), around two orders of magnitude less than predicted \ac{NS} values. 
 The effect this will have on \ac{GW} emission is yet to be determined, but one can suspect it will be small.
 
 \subsection{Eccentricity}
@@ -959,7 +960,7 @@ Eccentric binary \ac{GW} models do exist \cite{favataConstrainingOrbitalEccentri
 
 The parameter vector \(\vec{\theta}\) describing a binary system can be divided into internal and external parameters as 
 %
-\begin{align}
+\begin{align} \label{eq:parameter-decomposition}
 \vec{\theta} = (\underbrace{q, \vec{\chi}_1, \vec{\chi}_2, \Lambda_1, \Lambda_2,}_{\theta _{\text{int}}} \underbrace{M, D_L, \iota, \alpha, \delta, \psi, t_0, \phi_0 }_{\theta _{\text{ext}}})
 \,,
 \end{align}
@@ -1002,7 +1003,7 @@ Conventionally (as well as in \ac{mb}), the waveforms expressed in ``natural uni
 
 The amplitude of these is  \(\nu \)-dependent even in the Newtonian limit --- the division by \(\nu \) is convenient in the context of \ac{EOB} calculations. 
 
-When reconstructing a waveform, \ac{mb} will first compute \(\widetilde{h}_{NU} (fM)\), and then the \ac{SI} version as 
+When reconstructing a waveform, \ac{mb} will first compute \(\widetilde{h}_{NU} (fM)\), which only depends on the intrinsic parameters as defined in equation \eqref{eq:parameter-decomposition}, and then the \ac{SI} units version as 
 %
 \begin{align}
 \widetilde{h}(f) 
@@ -1014,7 +1015,7 @@ When reconstructing a waveform, \ac{mb} will first compute \(\widetilde{h}_{NU} 
 %
 where \(\mathtt{M}\) is the numeric value of the total mass, expressed in solar masses \(M_{\odot}\), and \(\mathtt{r}\) is the numeric value of the distance, expressed in \SI{}{Mpc}. 
 
-Restricting ourselves to the \((\ell=2, m=2)\) mode (as defined in section \ref{sec:spherical-harmonics-decomposition}) is equivalent to writing the Fourier-domain waveform as 
+Restricting ourselves to the \((\ell=2, m=2)\) mode (as defined in section \ref{sec:spherical-harmonics-decomposition}) is then equivalent\footnote{The normalization of the spin-weighted harmonics is irrelevant in this simplified approach: as long as we only consider one mode we can directly reconstruct \(h_{22} {}_{(-2)}Y_{22}\), without computing \(h_{22}\) independently.} to writing the Fourier-domain waveform in its two polarizations as 
 %
 \begin{subequations}
 \begin{align}
@@ -1504,7 +1505,7 @@ The stopping condition in algorithm \ref{alg:nested-sampling} must be defined so
 
 Besides estimating the evidence, this algorithm provides us with a sampling of the posterior distribution as long as we are careful to weigh them appropriately, as outlined in the last line of algorithm \ref{alg:nested-sampling}.
 
-\section{Higher order waveforms} \label{sec:higher-order-waveforms}
+\section{Waveforms for the high frequency regime} \label{sec:higher-order-waveforms}
 
 The treatment of \ac{GW} production in linear gravity discussed in section \ref{sec:compact-binaries-linear} is useful but incomplete: as equation \eqref{eq:energy-emission-estimate} shows, the systems emitting the most are \emph{relativistic} (\(v/c\) is large) and \emph{compact} (\(R_s / R\) is large). 
 This has been verified in practice by the fact by the binary systems we detected: mostly \acsp{BBH}, with some \acsp{BNS}.
@@ -1513,7 +1514,11 @@ The quadrupole approximation, as well as the linearization of gravity, breaks do
 
 In the following sections we will discuss the main strategies\footnote{One strategy which is not particularly relevant in this work but which is useful in other contexts is the gravitational self-force approach \cite{waldIntroductionGravitationalSelfForce2009}, in which one works in orders of \(m_1 / m_2\), by making successive corrections to geodesic motion in a fixed background. This is not applicable to neutron stars, whose mass ratios are never extreme, but it is useful to discuss extreme mass ratio inspirals.} used to model \ac{CBC} waveforms during all of their stages. 
 
-Qualitatively, a waveform from a \ac{CBC} involves a long \emph{inspiral} phase which terminates when the two compact bodies \emph{merge}, and finally a \emph{ringdown} phase in which the single body remaining exhibits damped vibrations.
+Qualitatively, a waveform from a \ac{CBC} involves a long \emph{inspiral} phase which terminates when the two compact bodies \emph{merge}, and finally a \emph{post-merger} phase in which the single body remaining exhibits damped vibrations.
+The frequencies associated to these phases are rising: as an order-of-magnitude estimate, the merger frequency is close to \(Mf = 0.02 \divisionsymbol 0.03\) \cite{bernuzziModelingDynamicsTidallyinteracting2015}, which corresponds to roughly \SI{1.5}{kHz} to \SI{2}{kHz} for a \ac{BNS} system with \(M = 2.8 M_{\odot}\). 
+
+The inspiral is associated to lower frequencies than these, while the post-merger is associated with higher ones.
+The high-frequency regime, including the late inspiral, the merger and the post-merger, is where the Newtonian approximation breaks down.
 
 \subsection{Post-Newtonian} \label{sec:post-newtonian}
 
@@ -1619,7 +1624,7 @@ F^{\text{induced}} \sim (v/c)^{10} F^{\text{Newton}}
 %
 and since the Newtonian order is the 0PN one tidal forces come in at 5PN order. 
 
-While this is a very high order, the dimensionless tidal deformability parameters \(\Lambda \) are numerically large: therefore, it can be useful to include higher-order tidal terms in a lower-order calculation. 
+While this is a very high order, the dimensionless tidal polarizability parameters \(\Lambda \) are numerically large: therefore, it can be useful to include higher-order tidal terms in a lower-order calculation. 
 
 The effect of spin-orbit interactions, on the other hand, comes about at 1.5PN order, while spin-spin interactions are a 2PN effect.
 
@@ -1739,6 +1744,7 @@ These \ac{EOB} models can reproduce \ac{NR} results quite well: for example, in 
 
 The \ac{EOB} models natively output time-domain waveforms, while as discussed in section \ref{sec:data-analysis} we need them in the frequency domain in order to perform data analysis. 
 \texttt{TEOBResumS} implements the \ac{SPA} in order to quickly output frequency-domain waveforms \cite[]{gambaFastFaithfulFrequencydomain2020}.
+
 
 % One must therefore find a way to move to the frequency domain. An option is to use a \ac{SPA} \cite{gambaFastFaithfulFrequencydomain2020}; this has been found to be quite successful in providing fast waveform evaluations even for low initial frequencies. 
 %as can be seen in figure \ref{fig:TEOBResumSPA_evaluation}. 
