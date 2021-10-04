@@ -515,7 +515,7 @@ h_{ij}^{TT}(t, \vec{x}) = \frac{2 G}{r} \Lambda_{ij,kl} \ddot{Q}_{kl}(t-r)
 The problem of quantifying the energy carried by gravitational radiation is thorny \cite[sec.\ 20.4]{misnerGravitation1973}: first of all, there is no universally valid way to split the perturbation from the background in the general case; also, at each point we can always apply the equivalence principle to recover flat spacetime up to first order. 
 It is impossible to construct a \emph{local}, gauge invariant stress-energy tensor \(T_{\mu \nu }^{GW}\) for \ac{GW} radiation: the limit of the energy density contained in any volume will always vanish as that volume goes to zero. 
 
-However, we \emph{can} define a tensor through an averaging procedure over many wavelengths and periods of the wave. There are different ways to do so, but a common one is the Landau-Lifshitz pseudotensor: 
+However, we \emph{can} define a pseudo-tensor through an averaging procedure over many wavelengths and periods of the wave. There are different ways to do so, but a common one is the Landau-Lifshitz pseudo-tensor: 
 %
 \begin{subequations}
 \begin{align}
@@ -537,7 +537,7 @@ Also, we can compute the energy flux passing through a surface a large distance 
 
 Dimensionally, \(Q \sim \int \dd[3]{y} \rho r^2\) has units of \SI{}{kg m^2}; so \(\dot{\ddot{Q}}\) has units of \(\SI{}{kg m^2 / s^3} = \SI{}{W}\).
 
-This means that the prefactor, which we wrote using \(c=1\), must really be \(G c^{n}/5\) with units of inverse power, which implies \(n = -5\).
+This means that the prefactor, which we wrote using \(c=1\), must really be \(G c^{n}/5\) for some \(n\) with units of inverse power: this implies \(n = -5\).
 Numerically, it is the inverse of \(5c^{5} / G \approx \SI{2e53}{W}\). 
 This means that in order for \ac{GW} emission to be efficient we must have a large value for \(\dot{\ddot{Q}}\): let us estimate it in terms of the typical size of the system, \(R\), of its typical velocity \(v = \Omega R\) and of its mass \(M\). 
 Each time derivative will roughly correspond to multiplication by a factor \(\Omega \), so \(\dot{\ddot{Q}} \sim \Omega^3 M R^2 = v^3 M / R\).
@@ -674,7 +674,7 @@ The final expressions for the Fourier-domain waveforms are equations \eqref{eq:s
 
 \paragraph{Waveform duration}
 
-Waveforms become quite long in the time domain as we reach lower initial frequencies: the duration of the waveform for an equal-mass \ac{BNS} with \(M \approx 2.8 M_{\odot}\) is typically \cite[eq.\ 4.21]{maggioreGravitationalWavesVolume2007}
+Waveforms become quite long in the time domain as we reach lower initial frequencies: the duration of the waveform for an equal-mass \ac{BNS} with total mass \(M = 2.8 M_{\odot}\) is typically \cite[eq.\ 4.21]{maggioreGravitationalWavesVolume2007}
 %
 \begin{align} \label{eq:waveform-duration}
 \text{duration} \approx \SI{3}{min} \qty(\frac{f_0 }{\SI{20}{Hz}})^{-8/3}
@@ -725,14 +725,14 @@ These are only some of the parameters which must be considered when discussing a
 
 The time at which any given waveform arrives at Earth is arbitrary, as is the global phase of the waveform. 
 In practice, one will typically analyze the output from a detector in batches, and in each of these the analysis will be performed in Fourier space. 
-Therefore, it is relevant to see how the Fourier-domain waveform responds to a time and phase shift: what is the transform of \(f(t-t_0 ) e^{i \varphi_0} \)? It comes out to be 
+Therefore, it is relevant to see how the Fourier-domain waveform responds to a time and phase shift: what is the transform of \(f(t-t_0 ) e^{i \varphi_0} \) in terms of the transform of \(f(t)\)? It comes out to be 
 %
 \begin{align}
 \int_{\mathbb{R}} f(t-t_0 ) e^{i \varphi_0 } e^{i \omega t} \dd{t}  = e^{i \omega t_0 + i \varphi_0} \underbrace{\int_{\mathbb{R}} f(t-t_0 ) e^{i \omega (t-t_0 )} \dd{(t-t_0 )}}_{\widetilde{f}(\omega )}
 \,,
 \end{align}
 %
-so a time shift corresponds to the addition of a linear term to the phase, while the initial phase can be directly moved from the time to the frequency domain. 
+so a time shift corresponds to the addition of a linear term to the phase, while the initial phase term can be directly moved from the time to the frequency domain. 
 
 \subsection{Sky position and polarization} \label{sec:sky-pos-polar}
 
@@ -1024,6 +1024,9 @@ Restricting ourselves to the \((\ell=2, m=2)\) mode (as defined in section \ref{
 \,.
 \end{align}
 \end{subequations}
+
+The dependence of \(M\), \(D_L\), and \(\iota\) is thus reconstructed algebraically, yielding the two \ac{GW} polarizations.
+The dependence on the other extrinsic parameters in equation \eqref{eq:parameter-decomposition}, on the other hand, is typically not reconstructed by the waveform model itself; they are considered together with the detector's response function (discussed in section \ref{sec:data-analysis}).
 
 \section{Interferometers and data analysis} \label{sec:data-analysis}
 
@@ -1508,17 +1511,17 @@ Besides estimating the evidence, this algorithm provides us with a sampling of t
 \section{Waveforms for the high frequency regime} \label{sec:higher-order-waveforms}
 
 The treatment of \ac{GW} production in linear gravity discussed in section \ref{sec:compact-binaries-linear} is useful but incomplete: as equation \eqref{eq:energy-emission-estimate} shows, the systems emitting the most are \emph{relativistic} (\(v/c\) is large) and \emph{compact} (\(R_s / R\) is large). 
-This has been verified in practice by the fact by the binary systems we detected: mostly \acsp{BBH}, with some \acsp{BNS}.
+This has been verified in practice by the binary systems we detected: mostly \acsp{BBH}, with some \acsp{BNS}.
 
 The quadrupole approximation, as well as the linearization of gravity, breaks down in the case we are interested in: what to do? 
 
 In the following sections we will discuss the main strategies\footnote{One strategy which is not particularly relevant in this work but which is useful in other contexts is the gravitational self-force approach \cite{waldIntroductionGravitationalSelfForce2009}, in which one works in orders of \(m_1 / m_2\), by making successive corrections to geodesic motion in a fixed background. This is not applicable to neutron stars, whose mass ratios are never extreme, but it is useful to discuss extreme mass ratio inspirals.} used to model \ac{CBC} waveforms during all of their stages. 
 
-Qualitatively, a waveform from a \ac{CBC} involves a long \emph{inspiral} phase which terminates when the two compact bodies \emph{merge}, and finally a \emph{post-merger} phase in which the single body remaining exhibits damped vibrations.
-The frequencies associated to these phases are rising: as an order-of-magnitude estimate, the merger frequency is close to \(Mf = 0.02 \divisionsymbol 0.03\) \cite{bernuzziModelingDynamicsTidallyinteracting2015}, which corresponds to roughly \SI{1.5}{kHz} to \SI{2}{kHz} for a \ac{BNS} system with \(M = 2.8 M_{\odot}\). 
+Qualitatively, a waveform from a \ac{CBC} involves a long \emph{inspiral} phase which terminates when the two compact bodies \emph{merge}, and finally a \emph{post-merger}, or \emph{ringdown} phase in which the single body remaining exhibits damped vibrations.
+The frequencies associated to these phases are rising: as an order-of-magnitude estimate, the merger frequency is close to \(Mf \approx 0.02 \divisionsymbol 0.03\) \cite{bernuzziModelingDynamicsTidallyinteracting2015}, which corresponds to \(f \approx \SI{1.5}{kHz} \divisionsymbol \SI{2}{kHz}\), for a \ac{BNS} system with \(M = 2.8 M_{\odot}\). 
 
-The inspiral is associated to lower frequencies than these, while the post-merger is associated with higher ones.
-The high-frequency regime, including the late inspiral, the merger and the post-merger, is where the Newtonian approximation breaks down.
+The inspiral is associated to lower frequencies than this threshold, while the post-merger is associated with higher ones.
+The high-frequency regime, including the late stages inspiral, the merger and the post-merger, is where the Newtonian approximation breaks down.
 
 \subsection{Post-Newtonian} \label{sec:post-newtonian}
 
