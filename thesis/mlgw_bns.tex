@@ -16,13 +16,13 @@
 The main result of this thesis is the development of the surrogate model \ac{mb}, which is implemented as a \texttt{python} module. 
 Its main advantages over previous work towards making \ac{ML} surrogates for gravitational waveforms, such as \texttt{mlgw} \cite[]{schmidtMachineLearningGravitational2020}, are that it natively works in the frequency domain, it is able to handle the very long waveforms which are needed for the study of \ac{BNS}, and it is able to reconstruct the dependence on five different parameters (as opposed to the three parameters in \texttt{mlgw}).
 
-This chapter outlines the internal workings of \ac{mb}, as well as discussing its performance in terms of accuracy and speed.
-Let us start with an overview of the algorithm employed before getting into the technical details. 
+This chapter outlines the internal workings of \ac{mb}, as well as discussing its performance in terms of accuracy and speed;
+let us start with an overview of the algorithm employed before getting into the technical details. 
 
 It is based on the use of two systems for the generation of a theoretical waveform from a \ac{CBC} in the frequency domain, one being faster but less accurate than the other.
 The ``fast'' system is the \ac{PN} model \texttt{TaylorF2}, as implemented in \texttt{bajes} \cite[]{breschiTtBajesBayesian2021}, while the ``slow'' system is the \ac{EOB} model \texttt{TEOBResumS} with a \ac{SPA}. 
 
-The term ``slow'' is used in a relative sense here: \texttt{TEOBResumS} is quite fast compared to other non-\ac{ML} models which accurately capture the dynamics of a \ac{BNS} system up to merger. 
+The term ``slow'' is used in a relative sense here: \texttt{TEOBResumS} is quite fast compared to other non-\ac{ML} models which accurately capture the dynamics of a \ac{BNS} system up to merger --- a category which does not include any \ac{PN} models.
 This makes it a good choice for the training of \ac{mb} since it allows for the quick generation of relatively large datasets, and it also means that the margin of improvement for \ac{mb} is rather thin.
 
 A crucial feature of the ``fast'' system is the capability to generate waveforms in the frequency domain at select frequencies, without needing to perform a full Fourier transform from a time-domain waveform, and to do so yielding amplitude and phase separately.
@@ -246,12 +246,12 @@ This is the procedure denoted as ``prediction'' in figure \ref{fig:flowchart}.
     \item The amplitude and phase are reconstructed from the residuals according to equations \eqref{eq:amplitude-phase-reconstruction}. \label{item:tf2}
     \item The amplitude and phase are resampled to the frequencies \(f_n\). \label{item:resample}
     \item The waveform is recombined as \(h = A e^{i \Phi }\). \label{item:recombine}
-    \item The waveform is rescaled according to \(M\) and \(D_L\), so that it is expressed in SI units (seconds). \label{item:rescale}
+    \item The waveform is rescaled according to \(M\) and \(D_L\), so that it is expressed in \ac{SI} units (seconds). \label{item:rescale}
     \item The two polarizations are recovered by multiplying \(h\) by their respective functions of \(\iota \) and a phase shift by \(\pi /2\) for \(h_ \times \). \label{item:polarizations}
 \end{enumerate}
 
 As we shall discuss in section \ref{sec:evaluation-time}, the second-slowest part of the reconstruction for a waveform is the inclusion of extrinsic parameters, in points \ref{item:rescale} and \ref{item:polarizations}. 
-Therefore, these have been sped up with just-in-time compilation with \texttt{numba} \cite{lamNumbaLLVMbasedPython2015}.
+Therefore, these have been sped up with just-in-time compilation provided by \texttt{numba} \cite{lamNumbaLLVMbasedPython2015}.
 
 \subsection{Evaluation time} \label{sec:evaluation-time}
 
@@ -455,7 +455,7 @@ This would allow for a demonstration of its speed, as well as a validation of it
 
 The motivation behind \ac{mb} working natively in the frequency domain was given by the computational issues in the data analysis of \ac{BNS}, whose waveforms are in the sensitivity range of current detectors for a long time, but we expect such a frequency-domain model to be useful for \ac{BBH} as well. This generalization will be explored in the future.
 
-Currently, \ac{mb} only reconstructs the \((2, 2)\) mode of gravitational radiation: another path for improvement is the reconstruction of other modes, which would allow for a proper treatment of precessing systems (i.e.\ ones with arbitrary spin orientations). 
+Currently, \ac{mb} only reconstructs the \((2, 2)\) mode of gravitational radiation (see section \ref{sec:spherical-harmonics-decomposition}): another path for improvement is the reconstruction of other modes, which would allow for a proper treatment of precessing systems (i.e.\ ones with arbitrary spin orientations). 
 
 Another aspect which could be optimized in view of future detectors relates to the low-frequency regime: there, the \ac{PN} approximation is quite accurate, as can be seen in figures \ref{fig:amp_residuals} and \ref{fig:phase_residuals}. 
 Thus, there is a point beyond which evaluating the \ac{EOB} model and computing its residuals from the \ac{PN} one is superfluous. 
