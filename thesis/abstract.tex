@@ -91,13 +91,15 @@ Regarding \textbf{speed}, the main bottleneck is the same as for \ac{EOB} models
 Because of this, in standard benchmarks there is not a significant improvement (see section \ref{sec:evaluation-time}). 
 However, data analysis for future interferometers will need to make use of reduced-order modelling; in that context, realistic values for the  speedup are of an order of magnitude or more (see section \ref{sec:downsampled-evaluation}). 
 
-Regarding \textbf{accuracy}, the model is able to reconstruct \ac{EOB} waveforms with five intrinsic parameters (the mass ratio \(q\), the two tidal deformabilities \(\Lambda_1\) and \(\Lambda_2 \), the two aligned spin components \(\chi_1 \) and \(\chi_2 \)) with a maximal unfaithfulness of the order of \(\mathcal{F} \simeq \num{2.5e-3}\) (see section \ref{sec:accuracy}).
-This is comparable to typical values of the unfaithfulness of EOB waveforms compared to \ac{NR} ones (\(\mathcal{F} \simeq \num{2.5e-3}\) \cite{nagarTimedomainEffectiveonebodyGravitational2018}), and is acceptable for the parameter-estimation needs of current detectors (see section \ref{sec:target-fidelity}).
+Regarding \textbf{accuracy}, the model is able to reconstruct \ac{EOB} waveforms with five intrinsic parameters (the mass ratio \(q\), the two tidal deformabilities \(\Lambda_1\) and \(\Lambda_2 \), the two aligned spin components \(\chi_1 \) and \(\chi_2 \)) with a maximal unfaithfulness of the order of \(\mathcal{F} \simeq \num{e-4}\) (see section \ref{sec:accuracy}) using less than 1000 training waveforms.
+This is lower than the typical values of the unfaithfulness of EOB waveforms compared to \ac{NR} ones (\(\mathcal{F} \simeq \num{2.5e-3}\) \cite{nagarTimedomainEffectiveonebodyGravitational2018}), and is acceptable for the parameter-estimation needs of current detectors (see section \ref{sec:target-fidelity}).
 
-This indicates that it is possible for this system to become a part of a gravitational wave data analysis pipeline, enabling a significant speedup at the cost a small, tolerable loss in accuracy.
+If more training data is used, the fidelity of \ac{mb} to its reference model steadily improves; with 50 thousand training waveforms it reaches \(\mathcal{F} \lesssim \num{e-6}\) (see figure \ref{fig:mismatches_by_n_train}). 
+
+This indicates that it is possible for this system to become a part of a gravitational wave data analysis pipeline for future interferometers such as \ac{ET}, enabling a significant speedup of an accurate underlying model at the cost of a negligible loss in accuracy. 
 
 % Waveforms are needed for both parameter estimation and modelled signal searches
-Possible applications of the software developed in this work include modelled signal searches and parameter estimation for both current interferometers (such as LIGO and Virgo) and, with due improvements, for future ones such as Einstein Telescope.
+% Possible applications of the software developed in this work include modelled signal searches and parameter estimation for both current interferometers (such as LIGO and Virgo) and, with due improvements, for future ones such as Einstein Telescope.
 
 \paragraph{This thesis}
 

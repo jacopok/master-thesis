@@ -69,6 +69,7 @@ def main():
     plt.legend()
 
     plt.savefig('characteristic_strains.pdf', dpi=150)
+
     plt.close()
     
     plt.plot(np.log(f_PSD), 4 * f_PSD * abs(hp)**2 /  L1_PSD, label='Livingston', lw=.5)
