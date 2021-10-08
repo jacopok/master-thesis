@@ -62,6 +62,13 @@
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"> 
    <dc:format>application/pdf</dc:format> 
+   <dc:title><rdf:Alt><rdf:li xml:lang="x-default">Machine Learning for Gravitational Waveforms from Binary Neutron Star mergers</rdf:li></rdf:Alt></dc:title>
+   <dc:creator><rdf:Seq><rdf:li>Jacopo</rdf:li></rdf:Seq></dc:creator>
+   <dc:language><rdf:Bag><rdf:li>en-US</rdf:li></rdf:Bag></dc:language>
+   <dc:description><rdf:Alt><rdf:li xml:lang="x-default">The analysis of interferometric data corresponding to the gravitational waves emitted in a binary neutron star merger requires the generation of numerous theoretical waveforms. In this thesis I develop a machine learning algorithm trained on frequency-domain waveforms generated through the effective one-body technique, which is able to reconstruct them accurately and with a speed improvement.</rdf:li></rdf:Alt></dc:description>
+   <dc:subject><rdf:Bag><rdf:li>machine learning</rdf:li>
+     <rdf:li>gravitational waves</rdf:li>
+     <rdf:li>neutron stars</rdf:li></rdf:Bag></dc:subject>
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:prism="http://prismstandard.org/namespaces/basic/2.2/"> 
   </rdf:Description> 
@@ -69,19 +76,19 @@
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:pdfaid="http://www.aiim.org/pdfa/ns/id/"> 
    <pdfaid:part>3</pdfaid:part> 
-   <pdfaid:conformance>B</pdfaid:conformance> 
+   <pdfaid:conformance>U</pdfaid:conformance> 
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/"> 
    <xmp:CreatorTool>LaTeX with hyperref</xmp:CreatorTool> 
-   <xmp:ModifyDate>2021-10-05T15:50:45+02:00</xmp:ModifyDate> 
-   <xmp:CreateDate>2021-10-05T15:50:45+02:00</xmp:CreateDate> 
-   <xmp:MetadataDate>2021-10-05T15:50:45+02:00</xmp:MetadataDate> 
+   <xmp:ModifyDate>2021-10-08T22:14:11+02:00</xmp:ModifyDate> 
+   <xmp:CreateDate>2021-10-08T22:14:11+02:00</xmp:CreateDate> 
+   <xmp:MetadataDate>2021-10-08T22:14:11+02:00</xmp:MetadataDate> 
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmpRights = "http://ns.adobe.com/xap/1.0/rights/"> 
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"> 
    <xmpMM:DocumentID>uuid:DF005B57-2A06-8753-7167-92D8CE935460</xmpMM:DocumentID> 
-   <xmpMM:InstanceID>uuid:8A1A1E94-C563-C33A-160B-03B0BC2BB678</xmpMM:InstanceID> 
+   <xmpMM:InstanceID>uuid:4613E58A-B1F2-63CF-3510-0620C83D2E6E</xmpMM:InstanceID> 
   </rdf:Description> 
  </rdf:RDF> 
 </x:xmpmeta> 

@@ -531,16 +531,16 @@ This pseudotensor can be used to describe the way in which, on large enough scal
 Also, we can compute the energy flux passing through a surface a large distance from the source: if we use the quadrupole formula \eqref{eq:quadrupole-formula} for the gravitational perturbation, we can give an expression for the emitted power in terms of the third derivatives of the quadrupole as \cite[eq.\ 3.98]{maggioreGravitationalWavesVolume2007} 
 %
 \begin{align} \label{eq:energy-emission-quadrupole}
-\dv{E}{t} = -\frac{G}{5} \expval{ \dot{\ddot{Q}}_{ij} \dot{\ddot{Q}}_{ij}}
+\dv{E}{t} = -\frac{G}{5} \expval{ \dv[3]{Q_{ij}}{t} \dv[3]{Q_{ij}}{t}}
 \,.
 \end{align}
 
-Dimensionally, \(Q \sim \int \dd[3]{y} \rho r^2\) has units of \SI{}{kg m^2}; so \(\dot{\ddot{Q}}\) has units of \(\SI{}{kg m^2 / s^3} = \SI{}{W}\).
+Dimensionally, \(Q \sim \int \dd[3]{y} \rho r^2\) has units of \SI{}{kg m^2}; so \(\dv*[3]{Q}{t}\) has units of \(\SI{}{kg m^2 / s^3} = \SI{}{W}\).
 
 This means that the prefactor, which we wrote using \(c=1\), must really be \(G c^{n}/5\) for some \(n\) with units of inverse power: this implies \(n = -5\).
 Numerically, it is the inverse of \(5c^{5} / G \approx \SI{2e53}{W}\). 
-This means that in order for \ac{GW} emission to be efficient we must have a large value for \(\dot{\ddot{Q}}\): let us estimate it in terms of the typical size of the system, \(R\), of its typical velocity \(v = \Omega R\) and of its mass \(M\). 
-Each time derivative will roughly correspond to multiplication by a factor \(\Omega \), so \(\dot{\ddot{Q}} \sim \Omega^3 M R^2 = v^3 M / R\).
+This means that in order for \ac{GW} emission to be efficient we must have a large value for \(\dv*[3]{Q}{t}\): let us estimate it in terms of the typical size of the system, \(R\), of its typical velocity \(v = \Omega R\) and of its mass \(M\). 
+Each time derivative will roughly correspond to multiplication by a factor \(\Omega \), so \(\dv*[3]{Q}{t} \sim \Omega^3 M R^2 = v^3 M / R\).
 
 The power can then be estimated as 
 %
@@ -920,7 +920,7 @@ In order to fully describe the \ac{GW} emission from a binary system we must the
 This can be found thanks to the quadrupole angular momentum emission formula, which is analogous to the energy emission one \eqref{eq:energy-emission-quadrupole} \cite[eq.\ 3.99]{maggioreGravitationalWavesVolume2007}:\footnote{The angular momentum emitted in this expression is considered to be both spin and orbital angular momentum.} 
 %
 \begin{align}
-\dv{L^{i}}{t} = - \frac{2G}{5c^{5}} \epsilon^{ikl} \expval{ \ddot{M}_{ka} \dot{\ddot{M}}_{la}} 
+\dv{L^{i}}{t} = - \frac{2G}{5c^{5}} \epsilon^{ikl} \expval{ \dv[2]{M_{ka}}{t} \dv[3]{M_{la}}{t}} 
 \,.
 \end{align}
 
