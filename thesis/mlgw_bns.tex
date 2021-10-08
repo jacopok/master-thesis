@@ -147,15 +147,16 @@ So, we want to combine amplitude and phase residuals into a single vector.
 
 A simple way to do so is to simply ``append'' one vector to the other, and therefore consider the waveform as a vector in \(\mathbb{R}^{D_A + D_\varphi }\). 
 
-The mismatches resulting from this procedure are shown in figure \ref{fig:PCA_vary_K}.
-Note that these are \ac{PCA} reconstructions of \emph{residuals}, so even if they were to do terribly they would be, as a baseline, as accurate as the underlying \ac{PN} model. 
-
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/PCA_vary_K}
 \caption{The reconstruction error is computed after projecting onto a \(K\)-dimensional subspace a number \(N_w=128\) of waveform residuals. The parameters for the \ac{PCA} model are fitted with an independent, \(N _{\text{PCA}} = 2048\) waveform dataset. A \ac{KDE} is performed for each set of corresponding log-fidelities.}
 \label{fig:PCA_vary_K}
 \end{figure}
+
+The mismatches resulting from projecting a waveform onto its first \(K\) principal components are shown in figure \ref{fig:PCA_vary_K}.
+Note that these are \ac{PCA} reconstructions of \emph{residuals}, so even if they were to do terribly they would be, as a baseline, as accurate as the underlying \ac{PN} model. 
+
 
 \subsection{Optimization} \label{sec:optimization}
 
