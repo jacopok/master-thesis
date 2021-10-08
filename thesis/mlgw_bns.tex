@@ -127,8 +127,8 @@ An arbitrary choice must be made for this normalization: since we know the low-f
 
 After the \ac{PCA}+\ac{NN} ensemble reconstructs the residuals, the waveform can be recovered as 
 %
-\begin{subequations}
-\begin{align}\label{eq:amplitude-phase-reconstruction}
+\begin{subequations}\label{eq:amplitude-phase-reconstruction}
+\begin{align}
 A _{\text{rec}} (f; \theta ) &= \exp( \Delta A _{\text{rec}} (f; \theta )) A _{\text{PN}}(f; \theta )  \\
 \Phi _{\text{rec}} (f; \theta ) &= \Phi _{\text{rec}}(f; \theta ) + \Phi _{\text{PN}}(f; \theta )
 \,.
@@ -172,10 +172,10 @@ The following network parameters are varied during the optimization procedure:\f
     \item the batch size for the stochastic optimization (see section \ref{sec:sgd}) is varied with a uniform distribution in \([150, 250]\);
     \item the optimization is stopped when the performance does not improve by \texttt{tol} for more than \texttt{n\_iter\_no\_change} iterations --- \texttt{tol} is varied with a log-uniform distribution in \([10^{-15}, 10^{-7}]\), while \texttt{n\_iter\_no\_change} is varied with an integer-valued log-uniform distribution in \([40, 100]\);
     \item the exponent for the \ac{PCA} eigenvalues multiplying the \ac{PCA} components for the training data is varied with a log-uniform distribution in \([10^{-3}, 1]\);
-    \item the training dataset \emph{size} \texttt{n\_train} can be varied with an integer-valued log-uniform distribution between 100 and the total data available.
+    \item the training dataset \emph{size} \texttt{n\_train} can be varied with an integer-valued log-uniform distribution between 100 and the total number of available waveforms.
 \end{enumerate}
 
-We do not optimize the \ac{PCA} parameter at this stage --- that part of the optimization is done independently, setting a cautiously high value of \(K_{\text{PCA}} = 40\) which, as discussed in section \ref{sec:principal-component-analysis}, is  enough to reconstruct waveforms with fidelity \(\mathcal{F} \lesssim 10^{-6}\). 
+We do not optimize the \ac{PCA} parameter at this stage --- that part of the optimization is done independently, setting a cautiously high value of \(K_{\text{PCA}} = 40\) which, as figure \ref{fig:PCA_vary_K} shows, is enough to reconstruct waveforms with fidelity \(\mathcal{F} \lesssim 10^{-8}\). 
 
 Varying the training dataset size may seem peculiar: should we not always train the network with all the data available? 
 If the dataset size is not too large this can work, but with larger datasets (say, larger than \(10^4\) waveforms) the training time for a single network can become quite long, on the order of several minutes. 
@@ -431,7 +431,7 @@ This would not a problem if we only needed to do it once, but exploring the high
 In order to make this computationally tractable, we let the training dataset size vary between iterations, so that some basic information about the ``good'' regions of the hyperparameter space can be learned quickly, and then updated in the large training dataset regime. 
 Adapting the hyperparameters to that regime, for example, typically involves increasing the \ac{NN} size. 
 
-Computing the mismatches shown in figure \ref{fig:mismatches_by_n_train} required some careful optimization, which is not implemented in the standard \texttt{pycbc} \cite[]{nitzGwastroPycbc2021} library function for calculating matches:\footnote{See the documentation at \url{https://pycbc.org/pycbc/latest/html/\_modules/pycbc/filter/matchedfilter.html\#match}.} the optimization over the arrival time in the definition of the optimal mismatch \eqref{eq:optimal-mismatch} is quite delicate if the waveforms are very close to each other, with the alignment being sensitive to single-microsecond shifts, well below the time differences of \(\sim \SI{244}{\micro s}\) corresponding to our sampling rate of \SI{4096}{Hz}. 
+Computing the mismatches shown in figure \ref{fig:mismatches_by_n_train} required some careful optimization, which is not implemented in the standard \texttt{pycbc} \cite[]{nitzGwastroPycbc2021} library function for calculating matches:\footnote{The function is \texttt{pycbc.filter.matchedfilter.match}; see the documentation at \url{https://pycbc.org/pycbc/latest/html/\_modules/pycbc/filter/matchedfilter.html\#match}.} the optimization over the arrival time in the definition of the optimal mismatch \eqref{eq:optimal-mismatch} is quite delicate if the waveforms are very close to each other, with the alignment being sensitive to single-microsecond shifts, well below the time differences of \(\sim \SI{244}{\micro s}\) corresponding to our sampling rate of \SI{4096}{Hz}. 
 The ``\texttt{subsample\_interpolation}'' option provided by the \texttt{match} function improves the situation somewhat, but even if we activate it mismatches below a few parts in \num{e-4} are not reliably computed. 
 This makes sense, as that function's intended use is data analysis, which currently does not require the computation of Wiener products to more than four significant digits.
 
@@ -441,9 +441,9 @@ While they are aligned during the generation of the dataset, the procedure is no
 Section \ref{sec:target-fidelity} discussed some order-of-magnitude estimates for the fidelity required for matched filtering and for parameter estimation: with a \ac{SNR} of the order of 1000, which \ac{ET} will probably reach for nearby \ac{NS} binaries, the estimated fidelity requirement is \(\mathcal{F} \lesssim \num{3e-6}\). 
 This requirement is already satisfied by \ac{mb} in terms of its fidelity to the underlying model. 
 
-The underlying model does not match the true physics of the \ac{BNS} merger up to this level, but we have shown that \ac{mb} will not constitute a bottleneck in terms of accuracy even in view of third-generation detectors such as \ac{ET}.
+The underlying model \texttt{TEOBResumS} is quite accurate, but it does not match the true physics of the \ac{BNS} merger up to this level; we have, however, shown that using \ac{mb} will not constitute a bottleneck in terms of accuracy even in view of third-generation detectors such as \ac{ET}.
 We chose to stop at 50 thousand training waveforms, but the performance of the model seems to steadily increase with the training dataset size: if one were to train it with half a million waveforms, we expect the mismatches to reach \(\mathcal{F} \lesssim \num{e-7}\).
-The computational complexity, however, would also decuple in this case: we expect to need about five hours to train such a network, and the generation of a million waveforms (half a million for the network, half a million for the \ac{PCA}) would take about a day if each takes \SI{100}{ms}. 
+The computational complexity, however, would also be multiplied by 10 in this case: we expect to need about five hours to train such a network, and the generation of a million waveforms (half a million for the network, half a million for the \ac{PCA}) would take about a day if each takes \SI{100}{ms}. 
 These would also take up a significant amount of memory: the 50 thousand waveform dataset already requires about \SI{1}{GiB} of memory.\footnote{We currently store the downsampled residuals for all training waveforms, in order to be able to quickly compute the validation error \eqref{eq:validation-error}; this might become suboptimal for huge datasets such as the ones we are considering here.}
 
 The current accuracy has, therefore, gotten close to the limits of what can be accomplished with a single laptop.
@@ -464,7 +464,7 @@ The current accuracy has, therefore, gotten close to the limits of what can be a
 
 % Figure \ref{fig:MLGW_BNS_reconstruction_varying_PSD} shows how the mismatches computed with the \ac{aLIGO} \ac{PSD} change if we use another one. 
 % Specifically, they are almost unchanged with the predicted \ac{ET} \ac{PSD}, while they are lower with a reference, unphysical constant noise \ac{PSD}.
-The mismatches in this section were all calculated assuming the \ac{aLIGO} \ac{PSD}, but the results are unchanged if we use the \ac{ET} predicted \ac{PSD}. 
+The mismatches shown in this section were all calculated assuming the \ac{aLIGO} \ac{PSD}, but the results are unchanged if we use the \ac{ET} predicted \ac{PSD}. 
 
 % Remove this bit?
 
@@ -473,7 +473,7 @@ The mismatches in this section were all calculated assuming the \ac{aLIGO} \ac{P
 % \textcite{cuocoEnhancingGravitationalwaveScience2020}
 
 In this work we developed the surrogate gravitational waveform model \ac{mb}.
-It natively works in the frequency domain, and it is able to generate five-parameter waveforms in only a few milliseconds if these do not need to be sampled at more than about \num{e4} points --- as can be seen in figure \ref{sec:downsampled-evaluation}, this represents a 15-fold improvement with respect to the reference frequency-domain model, \texttt{TEOBResumS} with a \ac{SPA}.
+It natively works in the frequency domain, and it is able to generate five-parameter waveforms in only a few milliseconds if these do not need to be sampled at more than about \num{e4} points --- as can be seen in figure \ref{sec:downsampled-evaluation}, this represents a 15-fold improvement with respect to the reference frequency-domain model, \texttt{TEOBResumS} with a \ac{SPA}, in this context.
 
 The fidelity of the reconstructed waveforms to the ones in the training dataset is, in the worst case, comparable to the intrinsic accuracy of the \ac{EOB} waveforms if we train the network with \(\sim 1000\) waveforms, and it steadily improves as the training dataset size increases.
 As figure \ref{fig:mismatches_by_n_train} shows, with datasets of fifty thousand waveforms we can reconstruct the waveforms up to typical mismatches of \(\mathcal{F} \lesssim \num{e-6}\), which would be acceptable even for third generation interferometers such as \ac{ET} (see section \ref{sec:target-fidelity}) if it was the fidelity compared to \ac{NR}.
@@ -488,10 +488,11 @@ A surrogate such as \ac{mb} can be thought of as a plugin: it can improve the ev
 The \ac{EOB} model used for the training of \ac{mb} so far can hardly be characterized as slow with its \SI{100}{ms}-scale baseline waveform generation time; an advantage of the \ac{ML} approach is that allows us to care less about the evaluation time of the model it uses for the training. 
 The system is built to handle different models for the training, but it is yet to be comprehensively tested with different ones than \texttt{TEOBResumS}.
 
-A full-scale test of the system in the context of parameter estimation should be performed, ideally combining it with one of the reduced-order modelling techniques discussed in section \ref{sec:reduced-order-modelling}.
+A full-scale test of \ac{mb} in the context of parameter estimation should be performed, ideally combining it with one of the reduced-order modelling techniques discussed in section \ref{sec:reduced-order-modelling}.
 This would allow for a demonstration of its speed, as well as a validation of its accuracy.
 
-The motivation behind \ac{mb} working natively in the frequency domain was given by the computational issues in the data analysis of \ac{BNS}, whose waveforms are in the sensitivity range of current detectors for a long time, but we expect such a frequency-domain model to be useful for \ac{BBH} as well. This generalization will be explored in the future.
+The motivation behind \ac{mb} working natively in the frequency domain was given by the computational issues in the data analysis of \ac{BNS}, whose waveforms are in the sensitivity range of current detectors for a long time, but we expect such a frequency-domain model to be useful for \ac{BBH} or \ac{NSBH} mergers as well.
+This generalization will be explored in the future.
 
 Currently, \ac{mb} only reconstructs the \((2, 2)\) mode of gravitational radiation (see section \ref{sec:spherical-harmonics-decomposition}): another path for improvement is the reconstruction of other modes, which would allow for a proper treatment of precessing systems (i.e.\ ones with arbitrary spin orientations). 
 
