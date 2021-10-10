@@ -17,7 +17,7 @@ def evolve(t, x, y, h_p, h_c):
     x_new = x * (1 + h_p * expon) + y * h_c * expon
     y_new = y * (1 - h_p * expon) + x * h_c * expon
     
-    return (x_new, y_new)
+    return (x_new.real, y_new.real)
     
 thetas = np.linspace(0, 2 * np.pi)
 
@@ -67,7 +67,7 @@ polarizations_sm = {
     'h_c': [0, size_sm, 1],
 }
 
-ts_sm = np.linspace(0, 4, num=50)
+ts_sm = np.linspace(0, 4, num=60)
 from tqdm import tqdm
 
 for pol, v in polarizations_sm.items():
@@ -96,6 +96,6 @@ for pol, v in polarizations_sm.items():
         plt.gca().set_axis_off()
 
         plt.tight_layout()
-        plt.savefig(f'small_polarizations/{pol}-{2*i+to_add}.png')
+        plt.savefig(f'small_polarizations/{pol}-{2*i+to_add}.png', transparent=True)
         plt.close()
 # %%
