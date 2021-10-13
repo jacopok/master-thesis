@@ -150,7 +150,7 @@ A simple way to do so is to simply ``append'' one vector to the other, and there
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/PCA_vary_K}
-\caption{The reconstruction error is computed after projecting onto a \(K\)-dimensional subspace a number \(N_w=128\) of waveform residuals. The parameters for the \ac{PCA} model are fitted with an independent, \(N _{\text{PCA}} = 2048\) waveform dataset. A \ac{KDE} is performed for each set of corresponding log-fidelities.}
+\caption{The reconstruction error is computed after projecting onto a \(K\)-dimensional subspace a number \(N_w=128\) of waveform residuals. The parameters for the \ac{PCA} model are fitted with an independent, \(N _{\text{PCA}} = 2048\) waveform dataset. A \ac{KDE} is performed for each set of corresponding log-fidelities. The waveforms used for the \ac{PCA} are downsampled, but the reconstruction errors are computed by interpolating them to the finer grid.}
 \label{fig:PCA_vary_K}
 \end{figure}
 
