@@ -86,7 +86,7 @@ If \(\epsilon = \pi \) this is equivalent to the \texttt{numpy} algorithm.
 The monotonicity and magnitude of the phase are not invariant: we can add a general linear term \(2 \pi f t_0 + \phi_0 \) to \(\phi \) by changing the initial phase and the coalescence time. 
 However, within the convention we are using (where the coalescence happens at the edge of the sample range) the phase of \(h(f)\) is indeed almost monotonic, such that \(\epsilon \sim 10^{-1}\) is typically a good choice.
 
-Since this implementation is custom-made it is also slightly faster: it takes \(\sim \SI{30}{ms}\) to unwrap a waveform with \(\sim \num{5e5}\) sampling points,  as opposed to the \(\sim \SI{40}{ms}\) needed for the \texttt{numpy} implementation. 
+Since this implementation is custom-made it is also slightly faster: it takes \(\sim \SI{30}{ms}\) to unwrap a waveform with \(\sim \num{5e5}\) sampling points,  as opposed to the \(\sim \SI{40}{ms}\) needed for the \texttt{numpy} implementation.
 
 \subsection{Residual calculation} \label{sec:residuals}
 

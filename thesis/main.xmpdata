@@ -1,5 +1,5 @@
-\Title{Machine Learning for Gravitational Waveforms from Binary Neutron Star mergers}
-\Author{Jacopo}
+\Title{Machine Learning Gravitational Waveforms for Binary Neutron Star mergers}
+\Author{Jacopo Tissino}
 \Language{en-US}
 \Subject{The analysis of interferometric data corresponding to the gravitational waves emitted in a binary neutron star merger requires the generation of numerous theoretical waveforms.
 In this thesis I develop a machine learning algorithm trained on frequency-domain waveforms generated through the effective one-body technique, which is able to reconstruct them accurately and with a speed improvement.}

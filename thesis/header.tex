@@ -1,4 +1,27 @@
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+
+% \renewcommand\mapstochar{\mathrel{\mathchoice%
+% {\rlap{\rule[.05ex]{.1ex}{1ex}}\mkern-.5mu}%
+% {\rlap{\rule[.05ex]{.1ex}{1ex}}\mkern-.5mu}%
+% {\rlap{\rule[.035ex]{.08ex}{.75ex}}\mkern-.5mu}%
+% {\rlap{\rule[.025ex]{.065ex}{.55ex}}\mkern-.5mu}%
+% }}
+
+% \renewcommand*\not{%
+% \mathrel{%
+%    \mathchoice%1
+%       {\rlap{$\displaystyle\mkern2.5mu\mathnormal{/}$}}%
+%       {\rlap{$\textstyle\mkern2.5mu\mathnormal{/}$}}%
+%       {\rlap{$\scriptstyle\mkern2.5mu\mathnormal{/}$}}%
+%       {\rlap{$\scriptscriptstyle\mkern2.5mu\mathnormal{/}$}}%
+% }}
+
+% \pdfminorversion=5
+% \pdfobjcompresslevel=0
+
+% \usepackage[a-3b]{pdfx}
+
 \usepackage{indentfirst}
 \usepackage{enumitem}
 \usepackage{datetime2}
@@ -24,26 +47,23 @@
 \usepackage{algpseudocode}
 
 \usepackage{textcomp}
-\usepackage[T1]{fontenc}
 \usepackage{multirow,bigdelim}
 \usepackage{float}
-\usepackage[caption = false]{subfig}
-\usepackage{longtable}
-\usepackage{listings}
+% \usepackage[caption = false]{subfig}
+% \usepackage{longtable}
+% \usepackage{listings}
 \usepackage{mathtools}
 \DeclareMathOperator{\tr}{Tr}
 \usepackage{commath}
-\usepackage{slashed}
-\usepackage{bbold}
+% \usepackage{slashed}
+% \usepackage{bbold}
 \usepackage{xcolor}
 \usepackage{physics}
-\newcommand{\lambdabar}{{\mkern0.75mu\mathchar '26\mkern -9.75mu\lambda}}
+% \newcommand{\lambdabar}{{\mkern0.75mu\mathchar '26\mkern -9.75mu\lambda}}
 \usepackage[right=4cm,left=2cm,top=3cm,bottom=3.0cm, marginparwidth=2.7cm, marginparsep=3mm]{geometry}
 \usepackage{mdframed}
-
-
 \usepackage{amsmath}
-\usepackage{amsfonts}
+% \usepackage{amsfonts}
 \usepackage{amssymb}
 
 % \numberwithin{equation}{section}
@@ -51,11 +71,11 @@
 
 % \usepackage[colorinlistoftodos]{todonotes}
 \PassOptionsToPackage{hyphens}{url}
-% \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
 % \usepackage[pdfa]{hyperref}
 \hypersetup{breaklinks=true}
-\hypersetup{colorlinks=true}
-\hypersetup{allcolors=blue}
+% \hypersetup{colorlinks=true}
+% \hypersetup{allcolors=blue}
 % \usepackage{colorprofiles}
 
 % \urlstyle{same}
@@ -63,7 +83,7 @@
 \sisetup{separate-uncertainty=true}
 % \DeclareSIUnit\parsec{pc}
 \usepackage{cancel}
-\usepackage{mathrsfs}
+% \usepackage{mathrsfs}
 \usepackage{marginnote}
 \renewcommand*{\marginnotevadjust}{-0.3cm}
 \renewcommand*{\marginfont}{\scriptsize}
@@ -73,7 +93,6 @@
 
 \usepackage[sc]{mathpazo}
 \linespread{1.05}         % Palladio needs more leading (space between lines)
-\usepackage[T1]{fontenc}
 
 \newcommand\mybox[1]{%
   \fbox{\begin{minipage}{0.9\textwidth}#1\end{minipage}}}
@@ -93,7 +112,6 @@
     \begin{minipage}{#1}{\vspace{-5mm}#2}\end{minipage}
    };
 \end{tikzpicture}\end{center}}
-
 
 \pagestyle{plain}
 
