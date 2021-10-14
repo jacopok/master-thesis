@@ -14,9 +14,9 @@ isbn=false,
 doi=false
 ]{biblatex}
 
-\title{Machine Learning Gravitational Waveforms for Binary Neutron Star mergers}
+\title{Machine Learning for Gravitational Waveforms from Binary Neutron Star mergers}
 \author{Jacopo Tissino \\ Advisors: Dr.\ Sebastiano Bernuzzi, Dr.\ Michela Mapelli}
-\date{2021-09-10}
+\date{2021-10-21}
 
 \addbibresource{../notes/Masters_thesis.bib}
 
@@ -42,17 +42,17 @@ doi=false
     \end{figure}
 \end{frame}
 
-\begin{frame}
-    \frametitle{MLGW\_BNS structure: training dataset generation}
-    \begin{itemize}
-    \item Greedy adaptive downsampling fit;
-    \item EOB waveform generation and downsampling;
-    \item residuals from PN waveforms: \(\Delta A = \log (A _{\text{EOB}}/ A _{\text{PN}})\) and \(\Delta \Phi = \Phi _{\text{EOB}} - \Phi _{\text{PN}}\);
-    \item PCA on the combined, downsampled, rescaled residuals;
-    \item a NN learns the map \(\theta \to PC_i \lambda_i^{\alpha}\);
-    \item the hyperparameters of the NN and \(\alpha \) are optimized case-by-case.
-    \end{itemize}
-\end{frame}
+% \begin{frame}
+%     \frametitle{MLGW\_BNS structure: training dataset generation}
+%     \begin{itemize}
+%     \item Greedy adaptive downsampling fit;
+%     \item EOB waveform generation and downsampling;
+%     \item residuals from PN waveforms: \(\Delta A = \log (A _{\text{EOB}}/ A _{\text{PN}})\) and \(\Delta \Phi = \Phi _{\text{EOB}} - \Phi _{\text{PN}}\);
+%     \item PCA on the combined, downsampled, rescaled residuals;
+%     \item a NN learns the map \(\theta \to PC_i \lambda_i^{\alpha}\);
+%     \item the hyperparameters of the NN and \(\alpha \) are optimized case-by-case.
+%     \end{itemize}
+% \end{frame}
 
 \begin{frame}
     \frametitle{Residuals: amplitude}
@@ -85,25 +85,16 @@ doi=false
     \frametitle{Hyperparameter optimization}
     \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/pareto-front-nonspinning}
+    \includegraphics[width=\textwidth]{figures/pareto-front}
     \label{fig:pareto-front-nonspinning}
     \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Fidelity: nonspinning case}
+    \frametitle{Fidelity}
     \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/mismatches_nonspinning}
-    \label{fig:mismatches_nonspinning}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Fidelity: spinning case}
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/mismatches_spinning}
+    \includegraphics[width=\textwidth]{figures/mismatches_by_n_train_ET}
     \end{figure}
 \end{frame}
 
@@ -125,81 +116,59 @@ doi=false
     \end{figure}
 \end{frame}
 
-
 \begin{frame}
-    \frametitle{Evaluation time: \(f_0 = \SI{20}{Hz}\)}
-    
+    \frametitle{Evaluation time, varying initial frequency.}    
     \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/evaluation_time_by_fsize}
-    \label{fig:evaluation_time_by_fsize}
+    \includegraphics[width=\textwidth]{figures/profiling_by_f0}
+    \label{fig:profiling_by_f0}
     \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Evaluation time: \(f_0 = \SI{20}{Hz}\)}
-    
+    \frametitle{Evaluation time, varying initial frequency.}    
     \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/overhead_evaluation}
-    \label{fig:overhead_evaluation}
+    \includegraphics[width=\textwidth]{figures/profiling_by_f0_ratios}
+    \label{fig:profiling_by_f0_ratios}
+    \end{figure}
+\end{frame}
+
+
+
+\begin{frame}
+    \frametitle{Evaluation time: \(f_0 = \SI{12}{Hz}\), downsampling.}    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/profiling_by_ds}
+    \label{fig:profiling_by_ds}
     \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Evaluation time: \(f_0 = \SI{20}{Hz}\)}
-    
+    \frametitle{Profiling the evaluation: \(\num{2e6}\) interpolation points}
     \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/teobresumspa_speedup}
-    \label{fig:teobresumspa_speedup}
+    \includegraphics[width=\textwidth]{figures/profile_12Hz_full}
+    \label{fig:profile_12Hz_full}
     \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Evaluation time: \(f_0 = \SI{10}{Hz}\)}    
+    \frametitle{Profiling the evaluation: \(\num{1.3e5}\) interpolation points}
     \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/evaluation_time_by_fsize_10hz}
-    \label{fig:evaluation_time_by_fsize}
+    \includegraphics[width=\textwidth]{figures/profile_12Hz_16downsampling}
+    \label{fig:profile_12Hz_16downsampling}
     \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Evaluation time: \(f_0 = \SI{10}{Hz}\)}
-    
+    \frametitle{Profiling the evaluation: \(\num{8e4}\) interpolation points}
     \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/overhead_evaluation_10hz}
-    \label{fig:overhead_evaluation}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Evaluation time: \(f_0 = \SI{10}{Hz}\)}
-    
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/teobresumspa_speedup_10hz}
-    \label{fig:teobresumspa_speedup}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Profiling the evaluation: \(\num{e4}\) interpolation points}
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/predict_profile_fast}
-    \label{fig:predict_profile_fast}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Profiling the evaluation: \(\num{e6}\) interpolation points}
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/predict_profile_slow}
-    \label{fig:predict_profile_slow}
+    \includegraphics[width=\textwidth]{figures/profile_12Hz_256downsampling}
+    \label{fig:profile_12Hz_256downsampling}
     \end{figure}
 \end{frame}
 
