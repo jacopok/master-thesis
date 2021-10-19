@@ -167,25 +167,6 @@ doi=false
     \end{figure}
 \end{frame}
 
-
-\begin{frame}
-    \frametitle{PCA mismatches}
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=.9\textwidth]{figures/mismatches_PCA}
-    \label{fig:mismatches_PCA}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Hyperparameter optimization}
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/pareto-front}
-    \label{fig:pareto-front-nonspinning}
-    \end{figure}
-\end{frame}
-
 \begin{frame}
     \frametitle{Fidelity}
     \begin{figure}[ht]
@@ -213,35 +194,6 @@ doi=false
 \end{frame}
 
 \begin{frame}
-    \frametitle{Evaluation time, varying initial frequency.}    
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/profiling_by_f0}
-    \label{fig:profiling_by_f0}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Evaluation time, varying initial frequency.}    
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/profiling_by_f0_ratios}
-    \label{fig:profiling_by_f0_ratios}
-    \end{figure}
-\end{frame}
-
-
-
-\begin{frame}
-    \frametitle{Evaluation time: \(f_0 = \SI{12}{Hz}\), downsampling.}    
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/profiling_by_ds}
-    \label{fig:profiling_by_ds}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
     \frametitle{Profiling the evaluation: \(\num{2e6}\) interpolation points}
     \begin{figure}[ht]
     \centering
@@ -260,6 +212,17 @@ doi=false
 \end{frame}
 
 \begin{frame}
+    \frametitle{Evaluation time: \(f_0 = \SI{12}{Hz}\), downsampling.}    
+    \begin{figure}[ht]
+    \centering
+    \vspace*{-.3cm}
+    \includegraphics[width=.95\textwidth]{figures/profiling_by_ds}
+    \label{fig:profiling_by_ds}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}
     \frametitle{Conclusions}
     \begin{itemize}
         \item \texttt{mlgw\_bns} is a surrogate model trained on effective one body waveforms;
@@ -269,6 +232,15 @@ doi=false
 \end{frame}
 
 \section{Backup slides}
+
+\begin{frame}
+    \frametitle{Stationary Phase Approximation}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/spa}
+    \label{fig:spa}
+    \end{figure}
+\end{frame}
 
 \begin{frame}
     \frametitle{Fourier transform issues}
@@ -308,6 +280,25 @@ doi=false
     \end{align}
 \end{frame}
 
+
+\begin{frame}
+    \frametitle{PCA mismatches}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=.9\textwidth]{figures/mismatches_PCA}
+    \label{fig:mismatches_PCA}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Hyperparameter optimization}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/pareto-front}
+    \label{fig:pareto-front-nonspinning}
+    \end{figure}
+\end{frame}
+
 \begin{frame}
     \frametitle{Fidelity requirements}
     For detection: with a mismatch \(\mathcal{F}\) we miss approximately a fraction 
@@ -335,6 +326,33 @@ doi=false
     \vspace*{-.25cm}
     \includegraphics[width=.95\textwidth]{figures/characteristic_strains}
     \label{fig:characteristic_strains}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fidelity compared to TF2}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/MLGW_BNS_vs_TF2}
+    \label{fig:MLGW_BNS_vs_TF2}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Evaluation time, varying initial frequency.}    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/profiling_by_f0}
+    \label{fig:profiling_by_f0}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Evaluation time, varying initial frequency.}    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/profiling_by_f0_ratios}
+    \label{fig:profiling_by_f0_ratios}
     \end{figure}
 \end{frame}
 
