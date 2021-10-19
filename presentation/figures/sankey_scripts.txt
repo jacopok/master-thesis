@@ -1,0 +1,30 @@
+Total time [266] Prediction
+Prediction [264] Interpolation
+Prediction [0.9] Neural network + PCA
+Prediction [0.6] Post-Newtonian waveform
+Prediction [0.5] Other
+
+Total time [119] Post-processing
+
+:Interpolation #f76560
+:Neural network + PCA #53eb4b
+:Post-processing #d4d4d4
+
+#########################
+
+Total time [3.5] Prediction
+Prediction [2] Interpolation
+Prediction [0.8] Neural network + PCA
+Prediction [0.5] Post-Newtonian waveform
+Prediction [0.2] Other
+
+Neural network + PCA [0.6] Neural network
+Neural network + PCA [0.2] PCA
+
+Total time [0.7] Post-processing
+
+:Interpolation #f76560
+:Neural network + PCA #53eb4b
+:Post-processing #d4d4d4
+
+To be used in https://sankeymatic.com/build/

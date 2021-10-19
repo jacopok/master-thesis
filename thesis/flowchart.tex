@@ -1,6 +1,6 @@
-% \documentclass[main.tex]{subfiles}
+\documentclass[main.tex]{subfiles}
 
-% \begin{document}
+\begin{document}
 % Define the layers to draw the diagram
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
@@ -32,8 +32,10 @@
 \node (manage) [algo, below of=eob, yshift=-.7cm] {\textbf{Management}
 \begin{itemize}
     \addtolength{\itemindent}{-.5cm}
-    \item phase unwrapping (\ref{sec:unwrapping})
-    \item residual calculation (\ref{sec:residuals})
+    \item phase unwrapping 
+    % (\ref{sec:unwrapping})
+    \item residual calculation 
+    % (\ref{sec:residuals})
 \end{itemize}
 };
 
@@ -41,16 +43,20 @@
 \\ 
 \begin{itemize}
     \addtolength{\itemindent}{-.5cm}
-    \item greedy downsampling (\ref{sec:downsampling})
-    \item PCA training (\ref{sec:principal-component-analysis})
+    \item greedy downsampling 
+    % (\ref{sec:downsampling})
+    \item PCA training 
+    % (\ref{sec:principal-component-analysis})
 \end{itemize}};
 
 \node (nn) [algo, below of=dimred, yshift=-1cm] {\textbf{Neural Network} 
 \\ 
 \begin{itemize}
     \addtolength{\itemindent}{-.5cm}
-    \item optimization (\ref{sec:optuna})
-    \item NN training (\ref{sec:neural-network})
+    \item optimization 
+    % (\ref{sec:optuna})
+    \item NN training 
+    % (\ref{sec:neural-network})
 \end{itemize}};
 
 \node (trainedpca) [trained, right of=dimred, xshift=2.5cm] {PCA};
@@ -117,4 +123,4 @@
 \end{tikzpicture}
 
 
-% \end{document}
+\end{document}

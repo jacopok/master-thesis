@@ -24,6 +24,8 @@ doi=false
 
 \frame{\titlepage}
 
+\section{Main presentation}
+
 \begin{frame}
     \frametitle{GW170817: the first BNS merger detection}
     \begin{columns}
@@ -36,11 +38,76 @@ doi=false
     Time-frequency representation of the chirping waveform
     (\cite[]{abbottGW170817ObservationGravitational2017}).
 
-    BNS waveforms are much longer than BBH ones: they only depend on \(t/M \) (or \(fM\)), where \(M = m_1 + m_2 \) is the total mass.
+    % BNS waveforms are much longer than BBH ones: they only depend on \(t/M \) (or \(fM\)), where \(M = m_1 + m_2 \) is the total mass.
     \end{column}
     \end{columns}
 \end{frame}
 
+\begin{frame}
+    \frametitle{BBH merger waveform}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/bbh}
+    \label{fig:bbh}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{BNS merger waveform}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/bns}
+    \label{fig:bns}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{The basics of GW data analysis}
+    The signal is modelled as \(s(t) = h_\theta (t) + n(t)\), where: 
+    \begin{itemize}
+        \item the noise \(n(t)\) is taken to be stationary, with zero mean, and Gaussian with power spectral density \(S_n(f)\);
+        \item the signal \(h_\theta (t)\) from a binary neutron star merger depends on: 
+        \begin{itemize}
+            \item intrinsic parameters: mass ratio \(q = m_1 / m_2 \), spins \(\vec{\chi}_{1}\) and \(\vec{\chi}_2\), tidal polarizabilities \(\Lambda_1\) and \(\Lambda_2 \);
+            \item extrinsic parameters: total mass \(M = m_1 + m_2 \), luminosity distance \(D_L\), inclination \(\iota \)\dots
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{The Wiener distance}
+    
+    The likelihood used in parameter estimation reads (\cite[]{maggioreGravitationalWavesVolume2007}): 
+    %
+    \begin{align}
+    \Lambda (s | \theta ) \propto \exp( (h_\theta | s) - \frac{1}{2} (h_\theta | h_\theta ))
+    \,,
+    \end{align}
+    %
+    where \((a | b)\) is the Wiener product: 
+    %
+    \begin{align}
+    (a | b) = 4 \Re \int_{0}^{\infty } \frac{\widetilde{a}^{*}(f) \widetilde{b} (f)}{S_n (f)} \dd{f}
+    \,.
+    \end{align}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Models and accuracy}
+    The main strategies for the generation of theoretical waveforms are: 
+    \begin{itemize}
+        \item numerical relativity;
+        \item effective one body;
+        \item post-Newtonian.
+    \end{itemize}
+    
+    Their accuracy is computed according to the \textbf{mismatch}
+    %
+    \begin{align}
+        \mathcal{F}[h_1, h_2 ] = 1 - \max_{t_0 , \phi_0 } \underbrace{\frac{(h_1 | h_2 (t_0, \phi_0 ))}{\sqrt{(h_1 | h_1 ) (h_2 | h_2 )}}}_{\cos \theta }
+        \,.
+    \end{align}
+\end{frame}
 
 \begin{frame}
     \frametitle{Amplitudes}
@@ -73,6 +140,16 @@ doi=false
 % \end{frame}
 
 \begin{frame}
+    \frametitle{\texttt{mlgw\_bns} structure}
+    \vspace*{-.3cm}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=.775\textwidth]{figures/flowchart}
+    \label{fig:flowchart}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
     \frametitle{Residuals: amplitude}
     \begin{figure}[ht]
     \centering
@@ -89,6 +166,7 @@ doi=false
     \label{fig:phase_residuals}
     \end{figure}
 \end{frame}
+
 
 \begin{frame}
     \frametitle{PCA mismatches}
@@ -167,28 +245,30 @@ doi=false
     \frametitle{Profiling the evaluation: \(\num{2e6}\) interpolation points}
     \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/profile_12Hz_full}
-    \label{fig:profile_12Hz_full}
+    \includegraphics[width=\textwidth]{figures/sankey_full}
+    \label{fig:sankey_full}
     \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Profiling the evaluation: \(\num{1.3e5}\) interpolation points}
+    \frametitle{Profiling the evaluation: \(\num{8e3}\) interpolation points}
     \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/profile_12Hz_16downsampling}
-    \label{fig:profile_12Hz_16downsampling}
+    \includegraphics[width=\textwidth]{figures/sankey_downsampled}
+    \label{fig:sankey_downsampled}
     \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Profiling the evaluation: \(\num{8e4}\) interpolation points}
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/profile_12Hz_256downsampling}
-    \label{fig:profile_12Hz_256downsampling}
-    \end{figure}
+    \frametitle{Conclusions}
+    \begin{itemize}
+        \item \texttt{mlgw\_bns} is a surrogate model trained on effective one body waveforms;
+        \item it is accurate (enough not to bias parameter estimation);
+        \item it is fast(er than the state-of-the-art model it is trained on).
+    \end{itemize}
 \end{frame}
+
+\section{Backup slides}
 
 \begin{frame}
     \frametitle{Fourier transform issues}
@@ -202,7 +282,6 @@ doi=false
 
 \begin{frame}
     \frametitle{Fourier transform issues}
-    
     \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/FFT-noise-highf}
@@ -212,7 +291,6 @@ doi=false
 
 \begin{frame}
     \frametitle{Fourier transform issues}
-    
     \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/FFT-noise-lowf}
@@ -220,18 +298,50 @@ doi=false
     \end{figure}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Natural units and quadrupolar approximation}
+    \begin{align}
+    \frac{\abs{\widetilde{h}(f)}}{M} &\approx \frac{1}{\pi^{2/3}} \sqrt{\frac{5}{24}} (Mf)^{-7/6} \frac{M}{r} \sqrt{\frac{m_1 m_2 }{M^2}} \\
+    \abs{h_{+}(f)} &= \frac{1 + \cos^2 \iota }{2} \abs{h (f)} \\
+    \abs{h_{ \times }(f)} &= \cos \iota  \abs{h (f)}
+    \,.
+    \end{align}
+\end{frame}
 
-
-% \begin{frame}
-%     \frametitle{}
+\begin{frame}
+    \frametitle{Fidelity requirements}
+    For detection: with a mismatch \(\mathcal{F}\) we miss approximately a fraction 
+    %
+    \begin{align}
+    1 - (1 - \mathcal{F})^3
+    \end{align}
+    %
+    of the signals. 
     
-% \end{frame}
+    For parameter estimation: in order for the modelling error to be at a \(1 \sigma \) level we need 
+    %
+    \begin{align}
+    \mathcal{F} \lesssim \frac{D}{2 \text{SNR}^2}
+    \,,
+    \end{align}
+    %
+    where \(D\) is the number of intrinsic parameters we estimate.
+\end{frame}
 
+\begin{frame}
+    \frametitle{Power Spectral densities and GW170817}
+    \begin{figure}[ht]
+    \centering
+    \vspace*{-.25cm}
+    \includegraphics[width=.95\textwidth]{figures/characteristic_strains}
+    \label{fig:characteristic_strains}
+    \end{figure}
+\end{frame}
 
-% \begin{frame}
-%     \frametitle{Bibliography}
-%     \printbibliography
-% \end{frame}
+\begin{frame}
+    \frametitle{Bibliography}
+    \printbibliography
+\end{frame}
 
 
 \end{document}
