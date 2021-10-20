@@ -4,6 +4,13 @@
 \usetheme{Rochester}
 % \usepackage[scaled]{helvet} % ss
 
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/14
+}
 \usepackage[
 backend=biber,
 style=authoryear,
@@ -15,7 +22,7 @@ doi=false
 ]{biblatex}
 
 \title{Machine Learning for Gravitational Waveforms from Binary Neutron Star mergers}
-\author{Jacopo Tissino \\ Advisors: Dr.\ Sebastiano Bernuzzi, Dr.\ Michela Mapelli}
+\author{Jacopo Tissino \\ Advisors: Prof.\ Sebastiano Bernuzzi, Prof.\ Michela Mapelli}
 \date{2021-10-21}
 
 \addbibresource{../notes/Masters_thesis.bib}
@@ -62,16 +69,39 @@ doi=false
 \end{frame}
 
 \begin{frame}
+    \frametitle{The science of neutron star mergers}
+    Measuring the properties of neutron star mergers allows us to explore:
+    \begin{itemize}
+        \item equations of state of dense, possibly exotic matter;
+        \item strong-field GR, as well as the speed of GWs;
+        \item multi-messenger astronomy: EM follow-up, neutrinos;
+        \item neutron star populations;
+        \item cosmology (BNS mergers are independent standard sirens);
+        \item \(r\)-process nucleosynthesis. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{The basics of GW data analysis}
-    The signal is modelled as \(s(t) = h_\theta (t) + n(t)\), where: 
+    The strain at the detector is modelled as \(s(t) = h_\theta (t) + n(t)\), where:
     \begin{itemize}
         \item the noise \(n(t)\) is taken to be stationary, with zero mean, and Gaussian with power spectral density \(S_n(f)\);
         \item the signal \(h_\theta (t)\) from a binary neutron star merger depends on: 
         \begin{itemize}
-            \item intrinsic parameters: mass ratio \(q = m_1 / m_2 \), spins \(\vec{\chi}_{1}\) and \(\vec{\chi}_2\), tidal polarizabilities \(\Lambda_1\) and \(\Lambda_2 \);
-            \item extrinsic parameters: total mass \(M = m_1 + m_2 \), luminosity distance \(D_L\), inclination \(\iota \)\dots
+            \item intrinsic parameters: total mass \(M = m_1 + m_2 \), mass ratio \(q = m_1 / m_2 \), spins \(\vec{\chi}_{1}\) and \(\vec{\chi}_2\), tidal polarizabilities \(\Lambda_1\) and \(\Lambda_2 \);
+            \item extrinsic parameters: luminosity distance \(D_L\), inclination \(\iota \)\dots
         \end{itemize}
     \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Tidal polarizability posterior for GW170817}   
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/GW170817_tidal}
+    \label{fig:GW170817_tidal}
+    \end{figure}
+    Figure from \cite{abbottGW170817ObservationGravitational2017}.
 \end{frame}
 
 \begin{frame}
@@ -118,14 +148,14 @@ doi=false
     \end{figure}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Phases}
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/native_phases}
-    \label{fig:native_phases}
-    \end{figure}
-\end{frame}
+% \begin{frame}
+%     \frametitle{Phases}
+%     \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=\textwidth]{figures/native_phases}
+%     \label{fig:native_phases}
+%     \end{figure}
+% \end{frame}
 
 % \begin{frame}
 %     \frametitle{MLGW\_BNS structure: training dataset generation}
@@ -150,6 +180,38 @@ doi=false
 \end{frame}
 
 \begin{frame}
+    \frametitle{Fidelity}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/mismatches_by_n_train_ET}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Evaluation time: \(f_0 = \SI{12}{Hz}\)}    
+    \begin{figure}[ht]
+    \centering
+    \vspace*{-.25cm}
+    \includegraphics[width=.95\textwidth]{figures/profiling_by_ds}
+    \label{fig:profiling_by_ds}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Summary}
+    \begin{itemize}
+        \item \texttt{mlgw\_bns} is a surrogate model trained on effective one body waveforms;
+        \item it is \textbf{accurate} (enough not to bias parameter estimation, at a level already sufficient for \(\text{SNR} = 1000\), compared to its training model);
+        \item it is \textbf{fast}(er than the state-of-the-art model it is trained on, if we use reduced order modelling);
+        \item it natively works in the \textbf{frequency domain};
+        % \item it can speed up parameter estimation for current detectors
+        \item it includes a dependence on \textbf{5 intrinsic parameters}, including the polarizabilities of neutron stars.
+    \end{itemize}
+\end{frame}
+
+\section{Backup slides}
+
+\begin{frame}
     \frametitle{Residuals: amplitude}
     \begin{figure}[ht]
     \centering
@@ -164,14 +226,6 @@ doi=false
     \centering
     \includegraphics[width=\textwidth]{figures/phase_residuals}
     \label{fig:phase_residuals}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Fidelity}
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/mismatches_by_n_train_ET}
     \end{figure}
 \end{frame}
 
@@ -194,15 +248,6 @@ doi=false
 \end{frame}
 
 \begin{frame}
-    \frametitle{Profiling the evaluation: \(\num{2e6}\) interpolation points}
-    \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/sankey_full}
-    \label{fig:sankey_full}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
     \frametitle{Profiling the evaluation: \(\num{8e3}\) interpolation points}
     \begin{figure}[ht]
     \centering
@@ -212,26 +257,13 @@ doi=false
 \end{frame}
 
 \begin{frame}
-    \frametitle{Evaluation time: \(f_0 = \SI{12}{Hz}\), downsampling.}    
+    \frametitle{Profiling the evaluation: \(\num{2e6}\) interpolation points}
     \begin{figure}[ht]
     \centering
-    \vspace*{-.3cm}
-    \includegraphics[width=.95\textwidth]{figures/profiling_by_ds}
-    \label{fig:profiling_by_ds}
+    \includegraphics[width=\textwidth]{figures/sankey_full}
+    \label{fig:sankey_full}
     \end{figure}
 \end{frame}
-
-
-\begin{frame}
-    \frametitle{Conclusions}
-    \begin{itemize}
-        \item \texttt{mlgw\_bns} is a surrogate model trained on effective one body waveforms;
-        \item it is accurate (enough not to bias parameter estimation);
-        \item it is fast(er than the state-of-the-art model it is trained on).
-    \end{itemize}
-\end{frame}
-
-\section{Backup slides}
 
 \begin{frame}
     \frametitle{Stationary Phase Approximation}
@@ -291,6 +323,18 @@ doi=false
 \end{frame}
 
 \begin{frame}
+    \frametitle{Technologies}
+    \texttt{mlgw\_bns} is implemented as a \texttt{python} package, and it makes use of 
+    \begin{itemize}
+        \item \texttt{scikit-learn} for the neural network;
+        \item \texttt{optuna} for the hyperparameter optimization;
+        \item parallelized generation of the training dataset;
+        \item \texttt{pytest} and \texttt{hypothesis} for automated testing;
+        \item \texttt{numba} for just-in-time compilation and acceleration.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
     \frametitle{Hyperparameter optimization}
     \begin{figure}[ht]
     \centering
@@ -317,6 +361,14 @@ doi=false
     \end{align}
     %
     where \(D\) is the number of intrinsic parameters we estimate.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Spin-weighted harmonics decomposition}
+    \begin{align}
+    h_+ + i h_\times = \frac{M}{r} \sum _{l=2}^{\infty } \sum _{m=-\ell}^{\ell} h_{\ell m} (t) {}_{(-2)}Y_{\ell m} (\iota, \varphi )
+    \,.
+    \end{align}
 \end{frame}
 
 \begin{frame}
